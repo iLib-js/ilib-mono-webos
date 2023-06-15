@@ -1,5 +1,5 @@
 /*
- * AppinfoFileType.js - Represents a collection of appinfo.json files
+ * JSONFileType.js - Represents a collection of json files
  *
  * Copyright (c) 2023 JEDLSoft
  *
@@ -30,7 +30,7 @@ var JsonFileType = function(project) {
     this.names = ["appinfo", "qcardinfo"];
 
     this.API = project.getAPI();
-    this.logger = this.API.getLogger("loctool.plugin.webOSAppinfoFileType");
+    this.logger = this.API.getLogger("loctool.plugin.webOSJSONFileType");
     this.extracted = this.API.newTranslationSet(project.getSourceLocale());
     this.newres = this.API.newTranslationSet(project.getSourceLocale());
     this.pseudo = this.API.newTranslationSet(project.getSourceLocale());
@@ -73,11 +73,11 @@ JsonFileType.prototype.getDefaultMapping = function() {
 var alreadyLoc = new RegExp(/(^|\/)([a-z][a-z])((\/[A-Z][a-z][a-z][a-z])?)(\/([A-Z][A-Z])?)?\//);
 
 /**
- * Return true if the given path is a appinfo.json file and is handled
+ * Return true if the given path is a appinfo.json or qcardinfo.json file and is handled
  * by the current file type.
  *
  * @param {String} pathName path to the file being questions
- * @returns {boolean} true if the path is a appinfo.json file, or false
+ * @returns {boolean} true if the path is a appinfo.json or qcardinfo.json file, or false
  * otherwise
  */
 JsonFileType.prototype.handles = function(pathName) {
