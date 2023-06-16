@@ -115,9 +115,8 @@ JsonFile.prototype.makeKey = function(source) {
 
 JsonFile.prototype.loadSchema = function(source) {
     var localizeProperties = {}, schemaFilePath;
-    var filename = path.basename(this.pathName, ".json");
-    var filedir= path.dirname(this.pathName);
-
+    var filename = path.basename(this.pathName || "", ".json");
+    var filedir= path.dirname(this.pathName || "");
 
     if (this.project.schema) {
         schemaFilePath = path.join(process.env.PWD, this.project.schema);
