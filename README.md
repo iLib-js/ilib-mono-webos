@@ -1,11 +1,27 @@
 # ilib-loctool-webos-json
 
-ilib-loctool-webos-json is a plugin for the loctool that
-allows it to read and localize json type of file. (`appinfo.json`, `qcardinfo.json`)
+ilib-loctool-webos-json is a plugin for the loctool that allows it to read and localize json type of file.   
+i.e. `appinfo.json`, `qcardinfo.json`   
 This plugin is optimized for webOS platform
 
 ## Release Notes
-
+v1.0.0
+* initial version
+* support `appinfo.json` and `qcardinfoinfo.json` file localization.  
+  * The plugin has the schema file for the `appinfo.json` file.
+  * The schema file of qcardinfo.json looks for the same location of file.
+  ~~~~
+    "settings": {
+        "mappings": {
+            "**/appinfo.json": {
+                "template": "[dir]/[resourceDir]/[localeDir]/[filename]"
+            },
+            "**/qcardinfo.json": {
+                "template": "[dir]/[resourceDir]/[localeDir]/[filename]"
+           }
+       }
+    }
+~~~~
 
 ## License
 

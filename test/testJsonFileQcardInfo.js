@@ -54,7 +54,7 @@ var sampleqcardinfo = {
 
 var ajft = new JsonFileType(p);
 
-module.exports.jsonfile = {
+module.exports.qcardjsonfile = {
     testJsonFileConstructor: function(test) {
         test.expect(1);
 
