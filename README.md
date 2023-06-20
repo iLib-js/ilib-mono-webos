@@ -6,8 +6,8 @@ This plugin is optimized for webOS platform
 
 ## Release Notes
 v1.0.0
-* Implement for webOS json file appinfo.json and qcardinfo.json file of localization.   
-  Most code is same as `ilib-loctool-webos-appinfo-json` plugin only making as general to expand feature for preparing to support additional json type of file in webOS.
+* Implement for webOS json file (appinfo.json and qcardinfo.json) of localization.  
+  Most code is same as [ilib-loctool-webos-appinfo-json](https://github.com/iLib-js/ilib-loctool-webos-appinfo-json) plugin only making as general to expand feature for preparing to support additional json type of file in webOS.
   * The plugin has the schema file for the `appinfo.json` file.
   * The schema file of qcardinfo.json looks for the same location of file.
   ~~~~
