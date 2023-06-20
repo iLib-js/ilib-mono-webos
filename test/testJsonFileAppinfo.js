@@ -1,5 +1,5 @@
 /*
- * testJsonFile.js - test the appinfo.json file type handler object.
+ * testJsonAppinfoFile.js - test the appinfo.json file type handler object.
  *
  * Copyright (c) 2023 JEDLSoft
  *

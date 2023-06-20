@@ -1,5 +1,5 @@
 /*
- * AppinfoFile.js - plugin to extract resources from a json code file
+ * JsonFile.js - plugin to extract resources from a json code file
  *
  * Copyright (c) 2023 JEDLSoft
  *
@@ -23,7 +23,7 @@ var Utils = require("loctool/lib/utils.js");
 var ResourceString = require("loctool/lib/ResourceString.js");
 
 /**
- * Create a new appinfo.json file with the given path name and within
+ * Create a new json file with the given path name and within
  * the given project.
  *
  * @param {Project} project the project object
@@ -186,7 +186,7 @@ JsonFile.prototype.parse = function(data) {
 };
 
 /**
- * Extract all the localizable strings from the appinfo.json file and add them to the
+ * Extract all the localizable strings from the json file and add them to the
  * project's translation set.
  */
 JsonFile.prototype.extract = function() {
@@ -205,16 +205,16 @@ JsonFile.prototype.extract = function() {
 };
 
 /**
- * Return the set of resources found in the current appinfo.json file.
+ * Return the set of resources found in the current json file.
  *
  * @returns {TranslationSet} The set of resources found in the
- * current appinfo.json file.
+ * current json file.
  */
 JsonFile.prototype.getTranslationSet = function() {
     return this.set;
 }
 
-// we don't localize or write appinfo.json source files
+// we don't localize or write json source files
 JsonFile.prototype.write = function() {};
 
 /**
@@ -383,8 +383,8 @@ JsonFile.prototype.localizeText = function(translations, locale) {
 }
 
 /**
-  * Localize the contents of this appinfo.json file and write out the
-  * localized appinfo.json file to a different file path.
+  * Localize the contents of this json file and write out the
+  * localized json file to a different file path.
   *
   * @param {TranslationSet} translations the current set of
   * translations

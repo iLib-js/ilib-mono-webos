@@ -18,6 +18,6 @@
 
 module.exports.files = [
     "testJsonFileType.js",
-    "testJsonFile.js",
+    "testJsonFileAppinfo.js",
     "testJsonFileQcardInfo.js"
 ];
