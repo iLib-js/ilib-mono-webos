@@ -35,7 +35,7 @@ var p = new CustomProject({
     },
     }, "./test/testfiles", {
     locales:["en-GB", "ko-KR"],
-    "jsonMap": {
+    jsonMap: {
         "mappings": {
             "**/qcardinfo.json": {
                 "template": "[dir]/[resourceDir]/[localeDir]/[filename]"
