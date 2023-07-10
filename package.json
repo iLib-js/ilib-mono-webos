@@ -1,0 +1,57 @@
+{
+    "name": "ilib-loctool-webos-json",
+    "version": "1.0.0",
+    "main": "JsonFileType.js",
+    "description": "json type of file handler plugin for webOS platform loctool",
+    "license": "Apache-2.0",
+    "keywords": [
+        "internationalization",
+        "i18n",
+        "localization",
+        "l10n",
+        "globalization",
+        "g11n",
+        "resources",
+        "json",
+        "translation"
+    ],
+    "author": {
+        "name": "Goun Lee",
+        "email": "goun.lee@lge.com"
+    },
+    "contributors": [
+        {
+            "name": "Goun Lee",
+            "email": "goun.lee@lge.com"
+        }
+    ],
+    "files": [
+        "README.md",
+        "LICENSE",
+        "JsonFileType.js",
+        "JsonFile.js",
+        "schema"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/iLib-js/ilib-loctool-webos-json.git"
+    },
+    "scripts": {
+        "dist": "npm pack",
+        "test": "node test/testSuite.js",
+        "debug": "node --inspect-brk test/testSuite.js",
+        "clean": "git clean -f -d *"
+    },
+    "engines": {
+        "node": ">=10.0.0"
+    },
+    "dependencies": {
+        "ilib": "^14.17.0"
+    },
+    "devDependencies": {
+        "assertextras": "^1.1.0",
+        "loctool": "2.21.0",
+        "micromatch": "^4.0.5",
+        "nodeunit": "^0.11.3"
+    }
+}
