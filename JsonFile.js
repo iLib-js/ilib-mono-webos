@@ -21,6 +21,7 @@ var fs = require("fs");
 var path = require("path");
 var Utils = require("loctool/lib/utils.js");
 var ResourceString = require("loctool/lib/ResourceString.js");
+var PseudoFactory = require("loctool/lib/PseudoFactory.js");
 
 /**
  * Create a new json file with the given path name and within
@@ -319,30 +320,48 @@ JsonFile.prototype.localizeText = function(translations, locale) {
             customInheritLocale = this.project.getLocaleInherit(locale);
             baseTranslation = key;
 
-            if (translated) {
-                baseTranslation = this._getBaseTranslation(locale, translations, tester);
-                if (baseTranslation !== translated.target) {
-                    output[property] = translated.target;
-                }
-
-            } else if (!translated && this.isloadCommonData){
-                var comonDataKey = ResourceString.hashKey(this.commonPrjName, locale, tester.getKey(), this.commonPrjType, tester.getFlavor());
-                translated = translations.getClean(comonDataKey);
+            if (PseudoFactory.isPseudoLocale(locale, this.project)){
+                output[property] = this.type.pseudos[locale].getString(key);
+            } else {
                 if (translated) {
                     baseTranslation = this._getBaseTranslation(locale, translations, tester);
                     if (baseTranslation !== translated.target) {
                         output[property] = translated.target;
                     }
-                } else if (!translated && customInheritLocale) {
+                } else if (!translated && this.isloadCommonData){
+                    var comonDataKey = ResourceString.hashKey(this.commonPrjName, locale, tester.getKey(), this.commonPrjType, tester.getFlavor());
+                    translated = translations.getClean(comonDataKey);
+                    if (translated) {
+                        baseTranslation = this._getBaseTranslation(locale, translations, tester);
+                        if (baseTranslation !== translated.target) {
+                            output[property] = translated.target;
+                        }
+                    } else if (!translated && customInheritLocale) {
+                        var hashkey2 = tester.hashKeyForTranslation(customInheritLocale);
+                        var alternativeKey2 = ResourceString.hashKey(tester.getProject(), customInheritLocale, tester.getKey(), "javascript", tester.getFlavor());
+                        var translated2 = translations.getClean(hashkey2) || translations.getClean(alternativeKey2);
+                        if (translated2) {
+                            baseTranslation = this._getBaseTranslation(locale, translations, tester);
+                            if (baseTranslation !== translated2.target) {
+                                output[property] = translated2.target;
+                            }
+                        } else {
+                            this.logger.trace("New string found: " + text);
+                            var r  = this._addnewResource(text, key, locale);
+                            this.type.newres.add(r);
+                        }
+                    } else {
+                        this.logger.trace("New string found: " + text);
+                        var r  = this._addnewResource(text, key, locale);
+                        this.type.newres.add(r);
+                    }
+                } else if(!translated && customInheritLocale) {
                     var hashkey2 = tester.hashKeyForTranslation(customInheritLocale);
                     var alternativeKey2 = ResourceString.hashKey(tester.getProject(), customInheritLocale, tester.getKey(), "javascript", tester.getFlavor());
                     var translated2 = translations.getClean(hashkey2) || translations.getClean(alternativeKey2);
-
                     if (translated2) {
-                        baseTranslation = this._getBaseTranslation(locale, translations, tester);
-                        if (baseTranslation !== translated2.target) {
-                            output[property] = translated2.target;
-                        }
+                        baseTranslation = translated2.target;
+                        output[property] = translated2.target;
                     } else {
                         this.logger.trace("New string found: " + text);
                         var r  = this._addnewResource(text, key, locale);
@@ -353,25 +372,7 @@ JsonFile.prototype.localizeText = function(translations, locale) {
                     var r  = this._addnewResource(text, key, locale);
                     this.type.newres.add(r);
                 }
-
-            } else if(!translated && customInheritLocale) {
-                var hashkey2 = tester.hashKeyForTranslation(customInheritLocale);
-                var alternativeKey2 = ResourceString.hashKey(tester.getProject(), customInheritLocale, tester.getKey(), "javascript", tester.getFlavor());
-                var translated2 = translations.getClean(hashkey2) || translations.getClean(alternativeKey2);
-
-                if (translated2) {
-                    baseTranslation = translated2.target;
-                    output[property] = translated2.target;
-                } else {
-                    this.logger.trace("New string found: " + text);
-                    var r  = this._addnewResource(text, key, locale);
-                    this.type.newres.add(r);
-                }
-            } else {
-                this.logger.trace("New string found: " + text);
-                var r  = this._addnewResource(text, key, locale);
-                this.type.newres.add(r);
-            }
+           }
         }
     }
 
