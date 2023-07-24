@@ -8,7 +8,6 @@ This plugin is optimized for webOS platform
 v1.1.0
 * Support the pseudo localization.
 
-
 v1.0.0
 * Implement for webOS json file (appinfo.json and qcardinfo.json) of localization.  
   Most of the code is the same as the [ilib-loctool-webos-appinfo-json](https://github.com/iLib-js/ilib-loctool-webos-appinfo-json) plugin.
