@@ -25,7 +25,7 @@ if (!JsonFileType) {
 var p = new CustomProject({
     id: "test",
     plugins: ["../."],
-    sourceLocale: "en-US"
+    sourceLocale: "en-KR"
 }, "./test/testfiles", {
     locales:["en-GB"]
 });
