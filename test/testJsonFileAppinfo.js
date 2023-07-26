@@ -28,7 +28,7 @@ if (!JsonFile) {
 var p = new CustomProject({
     id: "app",
     type: "webos-web",
-    sourceLocale: "en-US",
+    sourceLocale: "en-KR",
     schema: "./test/testfiles/appinfo.schema.json",
     resourceDirs: {
         "json": "localized_json"
@@ -331,7 +331,7 @@ module.exports.jsonfile = {
         var resource = new ResourceString({
             project: "app",
             source: "Photo &amp; Video",
-            sourceLocale: "en-US",
+            sourceLocale: "en-KR",
             key: "Photo &amp; Video",
             target: "사진 &amp; 동영상",
             targetLocale: "ko-KR",
@@ -363,7 +363,7 @@ module.exports.jsonfile = {
         var resource = new ResourceString({
             project: "app",
             source: "Photo &amp; Video",
-            sourceLocale: "en-US",
+            sourceLocale: "en-KR",
             key: "Photo &amp; Video",
             target: "사진 &amp; 동영상",
             targetLocale: "ko-KR",
@@ -391,7 +391,7 @@ module.exports.jsonfile = {
         var resource = new ResourceString({
             project: "app",
             source: "Photo &amp; Video",
-            sourceLocale: "en-US",
+            sourceLocale: "en-KR",
             key: "Photo &amp; Video",
             target: "사진 &amp; 동영상",
             targetLocale: "ko-KR",
@@ -402,7 +402,7 @@ module.exports.jsonfile = {
         var resource2 = new ResourceString({
             project: "app",
             source: "Photo &amp; Video",
-            sourceLocale: "en-US",
+            sourceLocale: "en-KR",
             key: "Photo &amp; Video",
             target: "사진 &amp; 동영상2",
             targetLocale: "ko-KR",
@@ -430,7 +430,7 @@ module.exports.jsonfile = {
         var resource2 = new ResourceString({
             project: "app",
             source: "Photo &amp; Video",
-            sourceLocale: "en-US",
+            sourceLocale: "en-KR",
             key: "Photo &amp; Video",
             target: "사진 &amp; 동영상2",
             targetLocale: "ko-KR",
@@ -465,7 +465,7 @@ module.exports.jsonfile = {
         translations.add(new ResourceString({
             project: "app",
             source: "Photo &amp; Video",
-            sourceLocale: "en-US",
+            sourceLocale: "en-KR",
             key: "Photo &amp; Video",
             target: "사진 &amp; 동영상",
             targetLocale: "ko-KR",
@@ -475,7 +475,7 @@ module.exports.jsonfile = {
         translations.add(new ResourceString({
             project: "app",
             source: "Photo &amp; Video@oled",
-            sourceLocale: "en-US",
+            sourceLocale: "en-KR",
             key: "Photo &amp; Video@oled",
             target: "사진 &amp; 동영상",
             targetLocale: "ko-KR",
@@ -792,7 +792,7 @@ module.exports.jsonfile = {
         var resource = new ResourceString({
             project: "app",
             source: "Live TV",
-            sourceLocale: "en-US",
+            sourceLocale: "en-KR",
             key: "Live TV",
             target: "(fr-FR) Live TV",
             targetLocale: "fr-FR",
@@ -803,7 +803,7 @@ module.exports.jsonfile = {
         var resource2 = new ResourceString({
             project: "app",
             source: "Live TV",
-            sourceLocale: "en-US",
+            sourceLocale: "en-KR",
             key: "Live TV",
             target: "(fr-CA) Live TV",
             targetLocale: "fr-CA",
@@ -837,7 +837,7 @@ module.exports.jsonfile = {
         var resource = new ResourceString({
             project: "app",
             source: "Live TV",
-            sourceLocale: "en-US",
+            sourceLocale: "en-KR",
             key: "Live TV",
             target: "(fr) Live TV",
             targetLocale: "fr-FR",
@@ -848,7 +848,7 @@ module.exports.jsonfile = {
         var resource2 = new ResourceString({
             project: "app",
             source: "Live TV",
-            sourceLocale: "en-US",
+            sourceLocale: "en-KR",
             key: "Live TV",
             target: "(fr) Live TV",
             targetLocale: "fr-CA",

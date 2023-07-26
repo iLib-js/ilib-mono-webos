@@ -28,7 +28,7 @@ if (!JsonFile) {
 var p = new CustomProject({
     id: "app",
     type: "webos-web",
-    sourceLocale: "en-US",
+    sourceLocale: "en-KR",
     schema: "./test/testfiles/qcardinfo.schema.json",
     resourceDirs: {
         "json": "localized_json"
@@ -293,7 +293,7 @@ module.exports.qcardjsonfile = {
         var resource = new ResourceString({
             project: "app",
             source: "Sports",
-            sourceLocale: "en-US",
+            sourceLocale: "en-KR",
             key: "Sports",
             target: "스포츠",
             targetLocale: "ko-KR",
@@ -325,7 +325,7 @@ module.exports.qcardjsonfile = {
         translations.add(new ResourceString({
             project: "app",
             source: "Sports",
-            sourceLocale: "en-US",
+            sourceLocale: "en-KR",
             key: "Sports",
             target: "스포츠",
             targetLocale: "ko-KR",
@@ -335,7 +335,7 @@ module.exports.qcardjsonfile = {
         translations.add(new ResourceString({
             project: "app",
             source: "All sports information in one place",
-            sourceLocale: "en-US",
+            sourceLocale: "en-KR",
             key: "All sports information in one place",
             target: "모든 스포츠 정보를 한눈에",
             targetLocale: "ko-KR",
@@ -652,7 +652,7 @@ module.exports.qcardjsonfile = {
         var resource = new ResourceString({
             project: "app",
             source: "Live TV",
-            sourceLocale: "en-US",
+            sourceLocale: "en-KR",
             key: "Live TV",
             target: "(fr-FR) Live TV",
             targetLocale: "fr-FR",
@@ -663,7 +663,7 @@ module.exports.qcardjsonfile = {
         var resource2 = new ResourceString({
             project: "app",
             source: "Live TV",
-            sourceLocale: "en-US",
+            sourceLocale: "en-KR",
             key: "Live TV",
             target: "(fr-CA) Live TV",
             targetLocale: "fr-CA",
@@ -697,7 +697,7 @@ module.exports.qcardjsonfile = {
         var resource = new ResourceString({
             project: "app",
             source: "Live TV",
-            sourceLocale: "en-US",
+            sourceLocale: "en-KR",
             key: "Live TV",
             target: "(fr) Live TV",
             targetLocale: "fr-FR",
@@ -708,7 +708,7 @@ module.exports.qcardjsonfile = {
         var resource2 = new ResourceString({
             project: "app",
             source: "Live TV",
-            sourceLocale: "en-US",
+            sourceLocale: "en-KR",
             key: "Live TV",
             target: "(fr) Live TV",
             targetLocale: "fr-CA",
