@@ -320,7 +320,9 @@ JsonFile.prototype.localizeText = function(translations, locale) {
             customInheritLocale = this.project.getLocaleInherit(locale);
             baseTranslation = key;
 
-            if (PseudoFactory.isPseudoLocale(locale, this.project)){
+            if (this.project.settings.allowPseudo &&
+                !(this.project.settings.allowPseudo[this.typs] === false) &&
+                PseudoFactory.isPseudoLocale(locale, this.project)){
                 output[property] = this.type.pseudos[locale].getString(key);
             } else {
                 if (translated) {
