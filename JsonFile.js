@@ -319,8 +319,12 @@ JsonFile.prototype.localizeText = function(translations, locale) {
             var translated = translations.getClean(hashkey) || translations.getClean(alternativeKey);
             customInheritLocale = this.project.getLocaleInherit(locale);
             baseTranslation = key;
-
-            if (PseudoFactory.isPseudoLocale(locale, this.project)){
+            
+            var typeValue = this.datatype.replace("x-", "");
+            if (((this.project.settings[typeValue] === undefined) ||
+                (this.project.settings[typeValue] &&
+                !(this.project.settings[typeValue].disablePseudo === true))) &&
+                PseudoFactory.isPseudoLocale(locale, this.project)){
                 output[property] = this.type.pseudos[locale].getString(key);
             } else {
                 if (translated) {
