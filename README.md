@@ -6,6 +6,7 @@ This plugin is optimized for webOS platform
 
 ## Release Notes
 v1.1.0
+* Updated dependencies. (loctool: 2.22.0)
 * Support the pseudo localization.
 * Added ability to disable pseudo-localization in plugin when a project's pseudo-localization is enabled.
     ~~~~
@@ -15,6 +16,7 @@ v1.1.0
             }
         }
     ~~~~
+
 v1.0.0
 * Implement for webOS json file (appinfo.json and qcardinfo.json) of localization.  
   Most of the code is the same as the [ilib-loctool-webos-appinfo-json](https://github.com/iLib-js/ilib-loctool-webos-appinfo-json) plugin.
