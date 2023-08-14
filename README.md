@@ -5,6 +5,10 @@ i.e. `appinfo.json`, `qcardinfo.json`
 This plugin is optimized for webOS platform
 
 ## Release Notes
+v1.1.1
+* Update to skip pseudo localizaton data the `--nopseudo` option is true. 
+  If not, it occurs an error when the pseudo locale is not defined on project.
+
 v1.1.0
 * Updated dependencies. (loctool: 2.22.0)
 * Support the pseudo localization.
