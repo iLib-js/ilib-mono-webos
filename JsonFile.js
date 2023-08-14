@@ -321,7 +321,7 @@ JsonFile.prototype.localizeText = function(translations, locale) {
             baseTranslation = key;
             
             var typeValue = this.datatype.replace("x-", "");
-            if (((this.project.settings[typeValue] === undefined) ||
+            if (!this.project.settings.nopseudo && ((this.project.settings[typeValue] === undefined) ||
                 (this.project.settings[typeValue] &&
                 !(this.project.settings[typeValue].disablePseudo === true))) &&
                 PseudoFactory.isPseudoLocale(locale, this.project)){
