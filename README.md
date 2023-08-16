@@ -6,8 +6,8 @@ This plugin is optimized for webOS platform
 
 ## Release Notes
 v1.1.1
-* Update to skip pseudo localizaton data the `--nopseudo` option is true. 
-  If not, it occurs an error when the pseudo locale is not defined on project.
+* Update to skip the pseudo localization process when the `--nopseudo` option is true.
+  If not, it occurs an error when the pseudo locale is not defined on the project.
 
 v1.1.0
 * Updated dependencies. (loctool: 2.22.0)
