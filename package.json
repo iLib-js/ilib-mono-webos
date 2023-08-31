@@ -30,7 +30,8 @@
         "LICENSE",
         "JsonFileType.js",
         "JsonFile.js",
-        "schema"
+        "schema",
+        "npm-shrinkwrap.json"
     ],
     "repository": {
         "type": "git",
