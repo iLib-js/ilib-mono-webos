@@ -1,6 +1,6 @@
 {
     "name": "ilib-loctool-webos-json",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "main": "JsonFileType.js",
     "description": "json type of file handler plugin for webOS platform loctool",
     "license": "Apache-2.0",
@@ -30,7 +30,8 @@
         "LICENSE",
         "JsonFileType.js",
         "JsonFile.js",
-        "schema"
+        "schema",
+        "npm-shrinkwrap.json"
     ],
     "repository": {
         "type": "git",
@@ -50,7 +51,7 @@
     },
     "devDependencies": {
         "assertextras": "^1.1.0",
-        "loctool": "2.22.0",
+        "loctool": "2.23.1",
         "micromatch": "^4.0.5",
         "nodeunit": "^0.11.3"
     }

@@ -5,6 +5,10 @@ i.e. `appinfo.json`, `qcardinfo.json`
 This plugin is optimized for webOS platform
 
 ## Release Notes
+v1.1.2
+* Updated dependencies. (loctool: 2.23.1)
+* Update to be included `npm-shrinkwrap.json` in the published files.
+
 v1.1.1
 * Update to skip the pseudo localization process when the `--nopseudo` option is true.
   If not, it occurs an error when the pseudo locale is not defined on the project.
