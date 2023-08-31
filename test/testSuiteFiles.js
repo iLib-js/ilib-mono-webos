@@ -1,7 +1,7 @@
 /*
  * testSuiteFiles.js - list the test files in this directory
  * 
- * Lopyright (c) 2023, JEDLSoft
+ * Copyright (c) 2023, JEDLSoft
 
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
