@@ -47,8 +47,10 @@
         "node": ">=10.0.0"
     },
     "dependencies": {
-        "loctool": "2.23.1",
         "micromatch": "^4.0.5"
+    },
+    "peerDependencies": {
+        "loctool": "2.23.1"
     },
     "devDependencies": {
         "assertextras": "^1.1.0",
