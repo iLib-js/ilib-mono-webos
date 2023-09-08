@@ -6,8 +6,8 @@ This plugin is optimized for webOS platform
 
 ## Release Notes
 v1.1.3
-* Moved `loctool` package to `peerDependencies` in `package.json`.
-* Moved `micromatch` packages to `dependencies` in `package.json` because these are actually used in codes.
+* Added `loctool` package to `peerDependencies` in `package.json` as well.
+* Moved `micromatch` package to `dependencies` in `package.json` because these are actually used in codes.
 * Removed `ilib` package to `dependencies` in `package.json` because it is not used in codes.
 
 v1.1.2
