@@ -5,6 +5,11 @@ i.e. `appinfo.json`, `qcardinfo.json`
 This plugin is optimized for webOS platform
 
 ## Release Notes
+v1.1.3
+* Added `loctool` package to `peerDependencies` in `package.json` as well.
+* Moved `micromatch` package to `dependencies` in `package.json` because these are actually used in codes.
+* Removed `ilib` package to `dependencies` in `package.json` because it is not used in codes.
+
 v1.1.2
 * Updated dependencies. (loctool: 2.23.1)
 * Update to be included `npm-shrinkwrap.json` in the published files.
