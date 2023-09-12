@@ -68,7 +68,7 @@ file for more details.
 * Updated dependencies. (loctool: 2.23.1)
 * Update to be included `npm-shrinkwrap.json` in the published files.
 
-v1.1.1
+### v1.1.1
 * Update to skip the pseudo localization process when the `--nopseudo` option is true.
   If not, it occurs an error when the pseudo locale is not defined on the project.
 
