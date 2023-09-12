@@ -24,15 +24,7 @@ Here's a example for schema file
 }
 ```
 #### configuration
-The plugin will look for the `mapping` property within the settings of your project.json file. The following settings are used within the json property:
-
- - template: a path template to use to generate the path to the translated output files. The template replaces strings in square brackets with special values, and keeps any characters intact that are not in square brackets. The default template, if not specified is "[dir]]/[resourceDir]/[localeDir]/[filename]". 
- Please check the all available template. [link](https://github.com/iLib-js/loctool/blob/development/lib/utils.js#L1893).    
- The plugin recognizes and replaces the following strings in template strings:
-   - [dir] the original directory where the matched source file came from. This is given as a directory that is relative to the root of the project.
-   - [filename] the file name of the matching file.
-   - [localeDir] the full locale where each portion of the locale is a directory in this order: [langage], [script], [region].
-   - [resourceDir] the root of the resource directory.
+The plugin will look for the json property within the settings of your project.json file. The following settings are used within the json property:
 ```json
 "settings": {
         "mappings": {
@@ -45,6 +37,14 @@ The plugin will look for the `mapping` property within the settings of your proj
        }
     }
 ```
+ - mappings: a mapping between file matchers and an object that gives info used to localize the files that match it. This allows different json files within the project to be processed with different schema. The matchers are a micromatch-style string, similar to the the includes and excludes section of a project.json file. The value of that mapping is an object that can contain the following property:
+   - template: a path template to use to generate the path to the translated output files. The template replaces strings in square brackets with special values, and keeps any characters intact that are not in square brackets. The default template, if not specified is "[dir]]/[resourceDir]/[localeDir]/[filename]".
+ Please check the all available template. [link](https://github.com/iLib-js/loctool/blob/development/lib/utils.js#L1893).    
+ The plugin recognizes and replaces the following strings in template strings:
+      - [dir] the original directory where the matched source file came from. This is given as a directory that is relative to the root of the project.
+      - [resourceDir] the root of the resource directory.
+      - [localeDir] the full locale where each portion of the locale is a directory in this order: [langage], [script], [region].
+      - [filename] the file name of the matching file.
 
 #### Sample
 The simple sample is provided in [ilib-loctool-samples](https://github.com/iLib-js/ilib-loctool-samples) repository.
