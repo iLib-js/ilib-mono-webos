@@ -8,8 +8,7 @@ This plugin is optimized for webOS platform
 
 #### schema
 For JSON file type localization, the schema file is needed. 
-The plugin contains a built-in version of the schema file for the appinfo.json file type. For other json file types such as qcardinfo.json, the plugin looks for the schema file in the same directory as the json file.  
-Here's a example for schema file
+The plugin contains a built-in version of the schema file for the appinfo.json file type. For other json file types such as qcardinfo.json, the plugin looks for the schema file in the same directory as the json file. Here's a example for schema file.
 ```json
 {
     "id": "QCardDescription",
