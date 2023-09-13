@@ -1,8 +1,7 @@
 # ilib-loctool-webos-json
 
 ilib-loctool-webos-json is a plugin for the loctool that allows it to read and localize json type of file.   
-i.e. `appinfo.json`, `qcardinfo.json`   
-This plugin is optimized for webOS platform
+e.g. `appinfo.json`, `qcardinfo.json`.  This plugin is optimized for webOS platform
 
 ### JSON FileType
 
@@ -23,9 +22,10 @@ The plugin contains a built-in version of the schema file for the appinfo.json f
 }
 ```
 #### configuration
-The plugin will look for the json property within the settings of your project.json file. The following settings are used within the json property:
+The plugin will look for the jsonMap property within the settings of your project.json file. The following settings are used within the jsonMap property:
 ```json
 "settings": {
+    "jsonMap": {
         "mappings": {
             "**/appinfo.json": {
                 "template": "[dir]/[resourceDir]/[localeDir]/[filename]"
@@ -33,12 +33,13 @@ The plugin will look for the json property within the settings of your project.j
             "**/qcardinfo.json": {
                 "template": "[dir]/[resourceDir]/[localeDir]/[filename]"
            }
-       }
+        }
     }
+}
 ```
  - mappings: a mapping between file matchers and an object that gives info used to localize the files that match it. This allows different json files within the project to be processed with different schema. The matchers are a micromatch-style string, similar to the the includes and excludes section of a project.json file. The value of that mapping is an object that can contain the following property:
-   - template: a path template to use to generate the path to the translated output files. The template replaces strings in square brackets with special values, and keeps any characters intact that are not in square brackets. The default template, if not specified is "[dir]]/[resourceDir]/[localeDir]/[filename]".
- Please check the all available template. [link](https://github.com/iLib-js/loctool/blob/development/lib/utils.js#L1893).    
+   - template: a path template to use to generate the path to the translated output files. The template replaces strings in square brackets with special values, and keeps any characters intact that are not in square brackets. The default template, if not specified is `[dir]]/[resourceDir]/[localeDir]/[filename]`.   
+ Please check the all available templates. [link](https://github.com/iLib-js/loctool/blob/development/lib/utils.js#L1893).    
  The plugin recognizes and replaces the following strings in template strings:
       - [dir] the original directory where the matched source file came from. This is given as a directory that is relative to the root of the project.
       - [resourceDir] the root of the resource directory.
@@ -48,7 +49,6 @@ The plugin will look for the json property within the settings of your project.j
 #### Sample
 The simple sample is provided in [ilib-loctool-samples](https://github.com/iLib-js/ilib-loctool-samples) repository.
 Please check the [webos-json](https://github.com/iLib-js/ilib-loctool-samples/tree/main/webos-json) sample to see how the JSON file type is localized.
-
 
 ## License
 
