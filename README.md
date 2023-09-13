@@ -1,7 +1,7 @@
 # ilib-loctool-webos-json
 
-ilib-loctool-webos-json is a plugin for the loctool that allows it to read and localize json type of file.   
-e.g. `appinfo.json`, `qcardinfo.json`.  This plugin is optimized for webOS platform
+ilib-loctool-webos-json is a plugin for the loctool that allows it to read and localize JSON type of file.   
+e.g. `appinfo.json`, `qcardinfo.json`. This plugin is optimized for the webOS platform.
 
 ### JSON FileType
 
