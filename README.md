@@ -47,7 +47,7 @@ The plugin will look for the jsonMap property within the settings of your projec
       - [filename] the file name of the matching file.
 
 #### Sample
-The simple sample is provided in [ilib-loctool-samples](https://github.com/iLib-js/ilib-loctool-samples) repository.
+The simple sample is provided in the [ilib-loctool-samples](https://github.com/iLib-js/ilib-loctool-samples) repository.
 Please check the [webos-json](https://github.com/iLib-js/ilib-loctool-samples/tree/main/webos-json) sample to see how the JSON file type is localized.
 
 ## License
