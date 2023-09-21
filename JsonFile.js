@@ -22,7 +22,7 @@ var path = require("path");
 var Utils = require("loctool/lib/utils.js");
 var ResourceString = require("loctool/lib/ResourceString.js");
 var PseudoFactory = require("loctool/lib/PseudoFactory.js");
-
+var Locale = require("ilib/lib/Locale");
 /**
  * Create a new json file with the given path name and within
  * the given project.
@@ -226,16 +226,15 @@ JsonFile.prototype.write = function() {};
  */
 JsonFile.prototype.getLocalizedPath = function(locale) {
     var mapping = this.mapping || this.type.getMappings(this.pathName || "") || this.type.getDefaultMapping();
-    
     var rootLocale = "en-US";
-    var splitLocale = locale.split("-");
+    var loc = new Locale(locale);
     this.baseLocale = Utils.isBaseLocale(locale);
     var resDir = this.project.getResourceDirs("json")[0] || ".";
-    var lo = locale;
+    var lo = loc.getSpec();
 
     if (this.baseLocale) {
         if (locale !== rootLocale) {
-            lo = splitLocale[0];
+            lo = loc.getLanguage();
         }
     }
     var path = this.API.utils.formatPath(mapping.template, {
@@ -383,7 +382,6 @@ JsonFile.prototype.localizeText = function(translations, locale) {
     if (output) {
         stringifyOuput = JSON.stringify(output, true, 4);
     }
-
     return stringifyOuput;
 }
 
