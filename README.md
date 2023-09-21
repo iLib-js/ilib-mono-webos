@@ -60,6 +60,7 @@ file for more details.
 ## Release Notes
 ### v1.1.4
 * Removed `npm-shrinkwrap.json`. It takes a bigger memory size than I expected on webOS. so I decided not to maintain the file here.
+* Updated to use ilib's Locale class for locale parsing.
 
 ### v1.1.3
 * Added `loctool` package to `peerDependencies` in `package.json` as well.
