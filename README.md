@@ -69,15 +69,15 @@ file for more details.
 
 ### v1.1.2
 * Updated dependencies. (loctool: 2.23.1)
-* Update to be included `npm-shrinkwrap.json` in the published files.
+* Updated to be included `npm-shrinkwrap.json` in the published files.
 
 ### v1.1.1
-* Update to skip the pseudo localization process when the `--nopseudo` option is true.
+* Updated to skip the pseudo localization process when the `--nopseudo` option is true.
   If not, it occurs an error when the pseudo locale is not defined on the project.
 
 ### v1.1.0
 * Updated dependencies. (loctool: 2.22.0)
-* Support the pseudo localization.
+* Supported the pseudo localization.
 * Added ability to disable pseudo-localization in plugin when a project's pseudo-localization is enabled.
     ~~~~
        "settings": {
@@ -88,7 +88,7 @@ file for more details.
     ~~~~
 
 ### v1.0.0
-* Implement for webOS json file (appinfo.json and qcardinfo.json) of localization.  
+* Implemented for webOS json file type (appinfo.json and qcardinfo.json) of localization.  
   Most of the code is the same as the [ilib-loctool-webos-appinfo-json](https://github.com/iLib-js/ilib-loctool-webos-appinfo-json) plugin.
   This plugin, however, expands upon the other plugin to support many different types of json files as used in webOS.
   * The plugin contains a built-in version of the schema file for the appinfo.json file type.
