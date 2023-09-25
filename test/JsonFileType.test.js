@@ -1,7 +1,7 @@
 /*
  * JsonFileType.test.js - test the json type of file template file type handler object.
  *
- * Copyright © 2023, JEDLSoft
+ * Copyright (c) 2023, JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ var p = new CustomProject({
     id: "test",
     plugins: ["../."],
     sourceLocale: "en-KR"
-}, "./test/testfiles", {
+    }, "./test/testfiles", {
     locales:["en-GB"]
 });
 describe("jsonfiletype", function() {
