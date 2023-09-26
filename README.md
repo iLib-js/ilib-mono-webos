@@ -58,6 +58,9 @@ This plugin is license under Apache2. See the [LICENSE](./LICENSE)
 file for more details.
 
 ## Release Notes
+### v1.1.5
+* Converted all the unit tests from `nodeunit` to `jest`.
+
 ### v1.1.4
 * Removed `npm-shrinkwrap.json`. It takes a bigger memory size than I expected on webOS. so I decided not to maintain the file here.
 * Updated to use ilib's Locale class for locale parsing.
