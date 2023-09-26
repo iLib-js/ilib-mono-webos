@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 if (!JsonFile) {
     var JsonFile = require("../JsonFile.js");
     var JsonFileType = require("../JsonFileType.js");
@@ -23,6 +24,7 @@ if (!JsonFile) {
     var TranslationSet =  require("loctool/lib/TranslationSet.js");
     var ResourceString =  require("loctool/lib/ResourceString.js");
 }
+
 var p = new CustomProject({
     id: "app",
     type: "webos-web",
@@ -41,6 +43,7 @@ var p = new CustomProject({
         }
     }
 });
+
 var sampleAppinfo = {
     "id": "com.palm.app.settings",
     "version": "4.0.1",
@@ -59,23 +62,29 @@ var sampleAppinfo2 = {
     "title": ["Settings"],
     "sysAssetsBasePath": "assets",
 }
+
 var ajft = new JsonFileType(p);
+
 describe("jsonfile", function() {
     test("JsonFileConstructor", function() {
         expect.assertions(1);
+
         var ajf = new JsonFile({project: p, type:ajft});
         expect(ajf).toBeTruthy();
     });
     test("JsonFileConstructorParams", function() {
         expect.assertions(1);
+
         var ajf = new JsonFile({
             project: p,
             type: ajft
         });
+
         expect(ajf).toBeTruthy();
     });
     test("JsonFileConstructorNoFile", function() {
         expect.assertions(1);
+
         var ajf = new JsonFile({
             project: p,
             pathName: undefined,
@@ -85,6 +94,7 @@ describe("jsonfile", function() {
     });
     test("JsonFileMakeKey", function() {
         expect.assertions(2);
+
         var ajf = new JsonFile({
             project: p,
             pathName: undefined,
@@ -95,6 +105,7 @@ describe("jsonfile", function() {
     });
     test("JsonFileParseSimpleGetByKey", function() {
         expect.assertions(5);
+
         var ajf = new JsonFile({
             project: p,
             pathName: undefined,
@@ -102,17 +113,21 @@ describe("jsonfile", function() {
         });
         expect(ajf).toBeTruthy();
         ajf.parse(sampleAppinfo);
+
         var set = ajf.getTranslationSet();
         expect(set).toBeTruthy();
+
         var r = set.getBy({
             reskey: "Settings"
         });
         expect(r).toBeTruthy();
+
         expect(r[0].getSource()).toBe("Settings");
         expect(r[0].getKey()).toBe("Settings");
     });
     test("JsonFileParseSimpleGetByKey2", function() {
         expect.assertions(3);
+
         var ajf = new JsonFile({
             project: p,
             pathName: undefined,
@@ -120,23 +135,31 @@ describe("jsonfile", function() {
         });
         expect(ajf).toBeTruthy();
         ajf.parse(sampleAppinfo2);
+
         var set = ajf.getTranslationSet();
         expect(set).toBeTruthy();
+
         ajf.extract();
+
         var set = ajf.getTranslationSet();
         expect(set.size()).toBe(1);
+
     });
     test("JsonFileParseMultipleWithKey", function() {
         expect.assertions(6);
+
         var ajf = new JsonFile({
             project: p,
             pathName: undefined,
             type: ajft
         });
         expect(ajf).toBeTruthy();
+
         ajf.parse('{"title":"Settings"}');
+
         var set = ajf.getTranslationSet();
         expect(set).toBeTruthy();
+
         var r = set.getBy({
             reskey: "Settings"
         });
@@ -147,20 +170,24 @@ describe("jsonfile", function() {
     });
     test("JsonFileExtractFile", function() {
         expect.assertions(8);
+
         var ajf = new JsonFile({
             project: p,
             pathName: "./appinfo.json",
             type: ajft
         });
         expect(ajf).toBeTruthy();
+
         // should read the file
         ajf.extract();
         var set = ajf.getTranslationSet();
         expect(set.size()).toBe(2);
+
         var r = set.getBySource("Settings");
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("Settings");
         expect(r.getKey()).toBe("Settings");
+
         var r = set.getBy({
             reskey: "Settings"
         });
@@ -170,40 +197,49 @@ describe("jsonfile", function() {
     });
         test("JsonFiledefaultPath", function() {
         expect.assertions(2);
+
         var ajf = new JsonFile({
             project: p,
             pathName: ".",
             type: ajft
         });
         expect(ajf).toBeTruthy();
+
         // should attempt to read the file and not fail
         ajf.extract();
+
         var set = ajf.getTranslationSet();
         expect(set.size()).toBe(0);
     });
     test("JsonFileExtractUndefinedFile", function() {
         expect.assertions(2);
+
         var ajf = new JsonFile({
             project: p,
             pathName: undefined,
             type: ajft
         });
         expect(ajf).toBeTruthy();
+
         // should attempt to read the file and not fail
         ajf.extract();
+
         var set = ajf.getTranslationSet();
         expect(set.size()).toBe(0);
     });
     test("JsonFileTest2", function() {
         expect.assertions(2);
+
         var ajf = new JsonFile({
             project: p,
             pathName: "./js/t2.js",
             type: ajft
         });
         expect(ajf).toBeTruthy();
+
         // should attempt to read the file and not fail
         ajf.extract();
+
         var set = ajf.getTranslationSet();
         expect(set.size()).toBe(0);
     });
@@ -224,6 +260,7 @@ describe("jsonfile", function() {
         });
         var set = ajf.getTranslationSet();
         expect(set).toBeTruthy();
+
         var r = set.getBySource("Settings");
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("Settings");
@@ -250,6 +287,7 @@ describe("jsonfile", function() {
         var set = ajf.getTranslationSet();
         expect(set).toBeTruthy();
         expect(set.size()).toBe(4);
+
         var r = set.getBySource("Settings@oled");
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("Settings@oled");
@@ -281,6 +319,7 @@ describe("jsonfile", function() {
             datatype: "javascript"
         })
         translations.add(resource);
+
         var actual = ajf.localizeText(translations, "ko-KR");
         var expected = '{\n    "title": "사진 &amp; 동영상"\n}';
         expect(actual).toBe(expected);
@@ -311,6 +350,7 @@ describe("jsonfile", function() {
             datatype: "x-json"
         })
         translations.add(resource);
+
         var actual = ajf.localizeText(translations, "ko-KR");
         var expected = '{\n    "title": "사진 &amp; 동영상"\n}';
         expect(actual).toBe(expected);
@@ -337,6 +377,7 @@ describe("jsonfile", function() {
             datatype: "x-json"
         })
         translations.add(resource);
+
         var resource2 = new ResourceString({
             project: "app",
             source: "Photo &amp; Video",
@@ -347,6 +388,7 @@ describe("jsonfile", function() {
             datatype: "javascript"
         })
         translations.add(resource2);
+
         var actual = ajf.localizeText(translations, "ko-KR");
         var expected = '{\n    "title": "사진 &amp; 동영상"\n}';
         expect(actual).toBe(expected);
@@ -373,6 +415,7 @@ describe("jsonfile", function() {
             datatype: "javascript"
         })
         translations.add(resource2);
+
         var actual = ajf.localizeText(translations, "ko-KR");
         var expected = '{\n    "title": "사진 &amp; 동영상2"\n}';
         expect(actual).toBe(expected);
@@ -395,6 +438,7 @@ describe("jsonfile", function() {
             "v8SnapshotFile": "snapshot_b"
         });
         var translations = new TranslationSet();
+
         translations.add(new ResourceString({
             project: "app",
             source: "Photo &amp; Video",
@@ -404,6 +448,7 @@ describe("jsonfile", function() {
             targetLocale: "ko-KR",
             datatype: "javascript"
         }));
+
         translations.add(new ResourceString({
             project: "app",
             source: "Photo &amp; Video@oled",
@@ -413,6 +458,7 @@ describe("jsonfile", function() {
             targetLocale: "ko-KR",
             datatype: "x-json"
         }));
+
         var actual = ajf.localizeText(translations, "ko-KR");
         var expected =
         '{\n    "title": "사진 &amp; 동영상",\n'+
@@ -441,6 +487,7 @@ describe("jsonfile", function() {
         "sl-SI","sq-AL","sq-ME","sr-Latn-ME","sr-Latn-RS","sv-FI","sv-SE","sw-Latn-KE","ta-IN",
         "te-IN","th-TH","tr-AM","tr-AZ","tr-CY","tr-TR","uk-UA","ur-IN","ur-PK","uz-Latn-UZ","vi-VN",
         "zh-Hans-CN","zh-Hans-MY","zh-Hans-SG","zh-Hant-HK","zh-Hant-TW"];
+
         var expected = [
             "test/testfiles/localized_json/af/appinfo.json",
             "test/testfiles/localized_json/am/appinfo.json",
@@ -636,6 +683,7 @@ describe("jsonfile", function() {
             "test/testfiles/localized_json/zh/Hant/HK/appinfo.json",
             "test/testfiles/localized_json/zh/Hant/TW/appinfo.json"
         ];
+
         for (var i=0; i<locales.length;i++) {
             jsrf = new JsonFile({
                 project: p,
@@ -650,6 +698,7 @@ describe("jsonfile", function() {
         expect.assertions(10);
         var locales = ["af-ZA","am-ET","ar-AE","ar-BH","ar-DJ","ar-DZ","ar-EG","ar-IQ",
         "ar-JO","ar-KW"];
+
         var expected = [
             "localized_json/af/appinfo.json",
             "localized_json/am/appinfo.json",
@@ -662,6 +711,7 @@ describe("jsonfile", function() {
             "localized_json/ar/JO/appinfo.json",
             "localized_json/ar/KW/appinfo.json",
         ];
+
         for (var i=0; i<locales.length;i++) {
             jsrf = new JsonFile({
                 project: p,
@@ -676,6 +726,7 @@ describe("jsonfile", function() {
         expect.assertions(10);
         var locales = ["af-ZA","am-ET","ar-AE","ar-BH","ar-DJ","ar-DZ","ar-EG","ar-IQ",
         "ar-JO","ar-KW"];
+
         var expected = [
             "test/testfiles/localized_json/af/appinfo.json",
             "test/testfiles/localized_json/am/appinfo.json",
@@ -688,6 +739,7 @@ describe("jsonfile", function() {
             "test/testfiles/localized_json/ar/JO/appinfo.json",
             "test/testfiles/localized_json/ar/KW/appinfo.json",
         ];
+
         for (var i=0; i<locales.length;i++) {
             jsrf = new JsonFile({
                 project: p,
@@ -720,6 +772,7 @@ describe("jsonfile", function() {
             datatype: "x-json"
         })
         translations.add(resource);
+
         var resource2 = new ResourceString({
             project: "app",
             source: "Live TV",
@@ -730,12 +783,14 @@ describe("jsonfile", function() {
             datatype: "x-json"
         })
         translations.add(resource2);
+
         var actual = ajf.localizeText(translations, "fr-FR");
         var expected = '{\n    "title": "(fr-FR) Live TV"\n}';
         expect(actual).toBe(expected);
         var actual2 = ajf.localizeText(translations, "fr-CA");
         var expected2 = '{\n    "title": "(fr-CA) Live TV"\n}';
         expect(actual2).toBe(expected2);
+
         expect(ajf.getLocalizedPath("fr-FR")).toBe("localized_json/fr/");
         expect(ajf.getLocalizedPath("fr-CA")).toBe("localized_json/fr/CA/");
     });
@@ -761,6 +816,7 @@ describe("jsonfile", function() {
             datatype: "x-json"
         })
         translations.add(resource);
+
         var resource2 = new ResourceString({
             project: "app",
             source: "Live TV",
@@ -771,12 +827,14 @@ describe("jsonfile", function() {
             datatype: "x-json"
         })
         translations.add(resource2);
+
         var actual = ajf.localizeText(translations, "fr-FR");
         var expected = '{\n    "title": "(fr) Live TV"\n}';
         expect(actual).toBe(expected);
         var actual2 = ajf.localizeText(translations, "fr-CA");
         var expected2 = '{}';
         expect(actual2).toBe(expected2);
+
         expect(ajf.getLocalizedPath("fr-FR")).toBe("localized_json/fr/");
     });
 });

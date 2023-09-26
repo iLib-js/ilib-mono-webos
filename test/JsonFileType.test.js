@@ -16,10 +16,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 if (!JsonFileType) {
     var JsonFileType = require("../JsonFileType.js");
     var CustomProject =  require("loctool/lib/CustomProject.js");
 }
+
 var p = new CustomProject({
     id: "test",
     plugins: ["../."],
@@ -27,6 +29,7 @@ var p = new CustomProject({
     }, "./test/testfiles", {
     locales:["en-GB"]
 });
+
 describe("jsonfiletype", function() {
     test("JsonFileTypeConstructor", function() {
         expect.assertions(1);
