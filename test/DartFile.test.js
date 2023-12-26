@@ -95,7 +95,7 @@ describe("dartfile", function() {
 
         expect(r[0].getSource()).toBe("This is a test");
         expect(r[0].getKey()).toBe("This is a test");
-    });/*
+    });
     test("DartFileParseSimpleGetBySource", function() {
         expect.assertions(5);
 
@@ -106,7 +106,7 @@ describe("dartfile", function() {
         });
         expect(d).toBeTruthy();
 
-        d.parse('rb.getString("This is a test")');
+        d.parse('translate("This is a test")');
 
         var set = d.getTranslationSet();
         expect(set).toBeTruthy();
@@ -126,7 +126,7 @@ describe("dartfile", function() {
         });
         expect(d).toBeTruthy();
 
-        d.parse('rb.getStringJS("This is a test")');
+        d.parse('translate("This is a test")');
 
         var set = d.getTranslationSet();
         expect(set).toBeTruthy();
@@ -135,7 +135,7 @@ describe("dartfile", function() {
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("This is a test");
         expect(r.getKey()).toBe("This is a test");
-    });
+    });/*
     test("DartFileParseSimpleSingleQuotes", function() {
         expect.assertions(5);
 
