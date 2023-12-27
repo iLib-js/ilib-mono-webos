@@ -72,8 +72,6 @@ var DartFileType = function(project) {
     }
 };
 
-var alreadyLocJS = new RegExp(/\.([a-z][a-z](-[A-Z][a-z][a-z][a-z])?(-[A-Z][A-Z](-[A-Z]+)?)?)\.js$/);
-
 /**
  * Return true if the given path is a Dart file and is handled
  * by the current file type.

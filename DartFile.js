@@ -136,8 +136,8 @@ DartFile.prototype.parse = function(data) {
     var comment, match, key;
 
     reTranslate.lastIndex = 0; // just to be safe
-    var result = reTranslate.exec(data);
     // e.g translate("hello")
+    var result = reTranslate.exec(data);
     while (result && result.length > 2 && result[1]) {
         // different matches for single and double quotes
         match = (result[1][0] === '"') ? result[2] : result[4];
@@ -175,7 +175,7 @@ DartFile.prototype.parse = function(data) {
     // just to be safe
     reI18nComment.lastIndex = 0;
     reTranslateWithKey.lastIndex = 0;
-    // e.g) translate("hello", key: "hello_key");
+    // e.g. translate("hello", key: "hello_key");
     result = reTranslateWithKey.exec(data);
     while (result && result.length > 5 && result[1] && result[6]) {
         // different matches for single and double quotes
@@ -212,8 +212,10 @@ DartFile.prototype.parse = function(data) {
         result = reTranslateWithKey.exec(data);
     }
 
-    reTranslateWithArg.lastIndex = 0; // just to be safe
-    //e.g) translate("{arg1} app cannot be deleted.", arg:{"arg1": "Settings"})
+    // just to be safe
+    reI18nComment.lastIndex = 0;
+    reTranslateWithArg.lastIndex = 0;
+    //e.g. translate("{arg1} app cannot be deleted.", arg:{"arg1": "Settings"})
     var result = reTranslateWithArg.exec(data);
     while (result && result.length > 2 && result[1]) {
         // different matches for single and double quotes
