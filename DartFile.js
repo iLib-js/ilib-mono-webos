@@ -117,12 +117,9 @@ translate("High", key: "home_connect_210") // will be supported for webos
 translate("{arg1} app cannot be deleted.", arg:{"arg1": "Settings"})
 translate("The lowest temperature is {arg1} and the highest temperature is {arg2}.", arg:{"arg1": 15, "arg2": 30})
 */
-var reTranslate = new RegExp(/translate?\s*\(\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\)/g);
+var reTranslate = new RegExp(/translate\s*\(\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\)/g);
 var reTranslateWithKey = new RegExp(/translate\s*\(\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\,\s*(key)\s*\:\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\)/g);
-
-var reGetStringSymbolKeyValuePattern = new RegExp(/(?:^\$|\W\$)L?\s*\(\s*{\s*(key|value)\:\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\,\s*(key|value)\:\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\}\s*\)/g);
-
-var reGetStringWithId = new RegExp(/\.getString(JS)?\s*\(\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*,\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\)/g);
+var reTranslateWithArg = new RegExp(/translate\s*\(\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\,\s*arg\s*\:\s*\{(.*)\}\)/g);
 
 var reI18nComment = new RegExp("//\\s*i18n\\s*:\\s*(.*)$");
 
@@ -135,14 +132,13 @@ DartFile.prototype.parse = function(data) {
     this.logger.debug("Extracting strings from " + this.pathName);
 
     data = DartFile.trimComments(data);
-
     this.resourceIndex = 0;
-
     var comment, match, key;
 
     reTranslate.lastIndex = 0; // just to be safe
     var result = reTranslate.exec(data);
-    while (result && result.length > 1 && result[2]) {
+    // e.g translate("hello")
+    while (result && result.length > 2 && result[1]) {
         // different matches for single and double quotes
         match = (result[1][0] === '"') ? result[2] : result[4];
 
@@ -171,25 +167,25 @@ DartFile.prototype.parse = function(data) {
             this.set.add(r);
         } else {
             this.logger.debug("Warning: Bogus empty string in get string call: ");
-            this.logger.debug("... " + data.substring(result.index, reGetString.lastIndex) + " ...");
+            this.logger.debug("... " + data.substring(result.index, reTranslate.lastIndex) + " ...");
         }
         result = reTranslate.exec(data);
     }
 
     // just to be safe
     reI18nComment.lastIndex = 0;
-    reGetStringWithId.lastIndex = 0;
-
-    result = reGetStringWithId.exec(data);
-    while (result && result.length > 2 && result[2] && result[7]) {
+    reTranslateWithKey.lastIndex = 0;
+    // e.g) translate("hello", key: "hello_key");
+    result = reTranslateWithKey.exec(data);
+    while (result && result.length > 5 && result[1] && result[6]) {
         // different matches for single and double quotes
-        match = (result[2][0] === '"') ? result[3] : result[5];
+        match = (result[1][0] === '"') ? result[2] : result[4];
         key = (result[7][0] === '"') ? result[8] : result[10];
 
         if (match && key && match.length && key.length) {
-            var last = data.indexOf('\n', reGetStringWithId.lastIndex);
+            var last = data.indexOf('\n', reTranslateWithKey.lastIndex);
             last = (last === -1) ? data.length : last;
-            var line = data.substring(reGetStringWithId.lastIndex, last);
+            var line = data.substring(reTranslateWithKey.lastIndex, last);
             var commentResult = reI18nComment.exec(line);
             comment = (commentResult && commentResult.length > 1) ? commentResult[1] : undefined;
 
@@ -201,6 +197,7 @@ DartFile.prototype.parse = function(data) {
                 key: this.makeKey(key),
                 sourceLocale: this.project.sourceLocale,
                 source: DartFile.unescapeString(match),
+                autoKey: true,
                 pathName: this.pathName,
                 state: "new",
                 comment: comment,
@@ -210,31 +207,29 @@ DartFile.prototype.parse = function(data) {
             this.set.add(r);
         } else {
             this.logger.debug("Warning: Bogus empty string in get string call: ");
-            this.logger.debug("... " + data.substring(result.index, reGetString.lastIndex) + " ...");
+            this.logger.debug("... " + data.substring(result.index, reTranslateWithKey.lastIndex) + " ...");
         }
-        result = reGetStringWithId.exec(data);
+        result = reTranslateWithKey.exec(data);
     }
 
-    // just to be safe
-    // In order to parse Enyo/Enact style. ex)$L("hello");
-    reI18nComment.lastIndex = 0;
-    reGetStringSymbol.lastIndex = 0; // just to be safe
-
-    var result = reGetStringSymbol.exec(data);
-    while (result && result.length > 1 && result[2]) {
+    reTranslateWithArg.lastIndex = 0; // just to be safe
+    //e.g) translate("{arg1} app cannot be deleted.", arg:{"arg1": "Settings"})
+    var result = reTranslateWithArg.exec(data);
+    while (result && result.length > 2 && result[1]) {
         // different matches for single and double quotes
-        match = (result[2][0] === '"') ? result[3] : result[5];
+        match = (result[1][0] === '"') ? result[2] : result[4];
 
         if (match && match.length) {
             this.logger.trace("Found string key: " + this.makeKey(match) + ", string: '" + match + "'");
 
-            var last = data.indexOf('\n', reGetStringSymbol.lastIndex);
+            var last = data.indexOf('\n', reTranslateWithArg.lastIndex);
             last = (last === -1) ? data.length : last;
-            var line = data.substring(reGetStringSymbol.lastIndex, last);
+            var line = data.substring(reTranslateWithArg.lastIndex, last);
             var commentResult = reI18nComment.exec(line);
             comment = (commentResult && commentResult.length > 1) ? commentResult[1] : undefined;
 
             var r = this.API.newResource({
+                resType: "string",
                 project: this.project.getProjectId(),
                 key: this.makeKey(match),
                 sourceLocale: this.project.sourceLocale,
@@ -243,61 +238,15 @@ DartFile.prototype.parse = function(data) {
                 pathName: this.pathName,
                 state: "new",
                 comment: comment,
-                datatype: "Dart",
+                datatype: this.type.datatype,
                 index: this.resourceIndex++
             });
             this.set.add(r);
         } else {
             this.logger.debug("Warning: Bogus empty string in get string call: ");
-            this.logger.debug("... " + data.substring(result.index, reGetStringSymbol.lastIndex) + " ...");
+            this.logger.debug("... " + data.substring(result.index, reTranslateWithArg.lastIndex) + " ...");
         }
-        result = reGetStringSymbol.exec(data);
-    }
-
-    // In order to parse Enyo/Enact style.    $L({key:'speaker_channel', value:'Channel'})
-    reI18nComment.lastIndex = 0;
-    reGetStringSymbolKeyValuePattern.lastIndex = 0; // just to be safe
-
-    var result = reGetStringSymbolKeyValuePattern.exec(data);
-    while (result && result.length > 1 && result[2]) {
-        // different matches for single and double quotes
-
-        if (result[1] === "key") {
-            key = (result[2][0] === '"') ? result[3] : result[5];
-            match = (result[8][0] === '"') ? result[9] : result[11];
-
-        } else if (result[7] === "key") {
-            key = (result[8][0] === '"') ? result[9] : result[11];
-            match = (result[2][0] === '"') ? result[3] : result[5];
-        }
-
-        if (match && match.length) {
-            this.logger.trace("Found string key: " + key + ", string: '" + match + "'");
-
-            var last = data.indexOf('\n', reGetStringSymbolKeyValuePattern.lastIndex);
-            last = (last === -1) ? data.length : last;
-            var line = data.substring(reGetStringSymbolKeyValuePattern.lastIndex, last);
-            var commentResult = reI18nComment.exec(line);
-            comment = (commentResult && commentResult.length > 1) ? commentResult[1] : undefined;
-
-            var r = this.API.newResource({
-                project: this.project.getProjectId(),
-                key: this.makeKey(key),
-                sourceLocale: this.project.sourceLocale,
-                source: DartFile.unescapeString(match),
-                autoKey: true,
-                pathName: this.pathName,
-                state: "new",
-                comment: comment,
-                datatype: "Dart",
-                index: this.resourceIndex++
-            });
-            this.set.add(r);
-        } else {
-            this.logger.debug("Warning: Bogus empty string in get string call: ");
-            this.logger.debug("... " + data.substring(result.index, reGetStringSymbolKeyValuePattern.lastIndex) + " ...");
-        }
-        result = reGetStringSymbolKeyValuePattern.exec(data);
+        result = reTranslateWithArg.exec(data);
     }
 };
 

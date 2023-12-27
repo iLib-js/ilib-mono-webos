@@ -64,7 +64,7 @@ describe("dartfile", function() {
     });
     test("DartFileMakeKey", function() {
         expect.assertions(2);
-        debugger;
+
         var d = new DartFile({
             project: p,
             pathName: undefined,
@@ -95,6 +95,34 @@ describe("dartfile", function() {
 
         expect(r[0].getSource()).toBe("This is a test");
         expect(r[0].getKey()).toBe("This is a test");
+    });
+    test("DartFileParseSimpleGetByKey2", function() {
+        expect.assertions(5);
+
+        var d = new DartFile({
+            project: p,
+            pathName: undefined,
+            type: dft
+        });
+        expect(d).toBeTruthy();
+
+        d.parse('switch (params) {\n'  +
+                '    case "a":\n' +
+                '       this.actionBtnTitle = translate(' +
+                '        "Save Bookmark"    );\n' +
+                ' break; \n'
+        );
+
+        var set = d.getTranslationSet();
+        expect(set).toBeTruthy();
+
+        var r = set.getBy({
+            reskey: "Save Bookmark"
+        });
+        expect(r).toBeTruthy();
+
+        expect(r[0].getSource()).toBe("Save Bookmark");
+        expect(r[0].getKey()).toBe("Save Bookmark");
     });
     test("DartFileParseSimpleGetBySource", function() {
         expect.assertions(5);
@@ -135,8 +163,8 @@ describe("dartfile", function() {
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("This is a test");
         expect(r.getKey()).toBe("This is a test");
-    });/*
-    test("DartFileParseSimpleSingleQuotes", function() {
+    });
+    test("DartFileParseTranslateWithKey", function() {
         expect.assertions(5);
 
         var d = new DartFile({
@@ -146,17 +174,17 @@ describe("dartfile", function() {
         });
         expect(d).toBeTruthy();
 
-        d.parse("$L('This is a test')");
+        d.parse('translate("High", key: "home_connect")');
 
         var set = d.getTranslationSet();
         expect(set).toBeTruthy();
 
-        var r = set.getBySource("This is a test");
+        var r = set.getBySource("High");
         expect(r).toBeTruthy();
-        expect(r.getSource()).toBe("This is a test");
-        expect(r.getKey()).toBe("This is a test");
+        expect(r.getSource()).toBe("High");
+        expect(r.getKey()).toBe("home_connect");
     });
-    test("DartFileParseSimpleSingleQuotesByKeyValue1", function() {
+    test("DartFileParseTranslateWithKey2", function() {
         expect.assertions(5);
 
         var d = new DartFile({
@@ -166,7 +194,7 @@ describe("dartfile", function() {
         });
         expect(d).toBeTruthy();
 
-        d.parse("$L({key:'speaker_channel', value:'Channel'})");
+        d.parse('translate(   "Channel",    key  : "speaker_channel"  )');
 
         var set = d.getTranslationSet();
         expect(set).toBeTruthy();
@@ -176,7 +204,7 @@ describe("dartfile", function() {
         expect(r.getSource()).toBe("Channel");
         expect(r.getKey()).toBe("speaker_channel");
     });
-    test("DartFileParseSimpleSingleQuotesByKeyValue2", function() {
+    test("DartFileParseTranslateWithKeySingleQuote", function() {
         expect.assertions(5);
 
         var d = new DartFile({
@@ -186,17 +214,17 @@ describe("dartfile", function() {
         });
         expect(d).toBeTruthy();
 
-        d.parse("$L({value:'Channel', key:'speaker_channel'})");
+        d.parse("translate('High', key: 'home_connect')");
 
         var set = d.getTranslationSet();
         expect(set).toBeTruthy();
 
-        var r = set.getBySource("Channel");
+        var r = set.getBySource("High");
         expect(r).toBeTruthy();
-        expect(r.getSource()).toBe("Channel");
-        expect(r.getKey()).toBe("speaker_channel");
+        expect(r.getSource()).toBe("High");
+        expect(r.getKey()).toBe("home_connect");
     });
-    test("DartFileParseSimpleSingleQuotesByKeyValue3", function() {
+    test("DartFileParseSimpleWithArg", function() {
         expect.assertions(5);
 
         var d = new DartFile({
@@ -206,17 +234,17 @@ describe("dartfile", function() {
         });
         expect(d).toBeTruthy();
 
-        d.parse("$L({key: 'speaker_channel', value: 'Channel'})");
+        d.parse('translate("{arg1} app cannot be deleted.", arg:{"arg1": "Settings"})');
 
         var set = d.getTranslationSet();
         expect(set).toBeTruthy();
 
-        var r = set.getBySource("Channel");
+        var r = set.getBySource("{arg1} app cannot be deleted.");
         expect(r).toBeTruthy();
-        expect(r.getSource()).toBe("Channel");
-        expect(r.getKey()).toBe("speaker_channel");
+        expect(r.getSource()).toBe("{arg1} app cannot be deleted.");
+        expect(r.getKey()).toBe("{arg1} app cannot be deleted.");
     });
-    test("DartFileParseSimpleSingleQuotesByKeyValue4", function() {
+    test("DartFileParseSimpleWithArgSingleQuote", function() {
         expect.assertions(5);
 
         var d = new DartFile({
@@ -226,17 +254,17 @@ describe("dartfile", function() {
         });
         expect(d).toBeTruthy();
 
-        d.parse("$L( { key:  'speaker_channel', value:   'Channel' } )");
+        d.parse("translate('{arg1} app cannot be deleted.', arg:{'arg1': 'Settings'})");
 
         var set = d.getTranslationSet();
         expect(set).toBeTruthy();
 
-        var r = set.getBySource("Channel");
+        var r = set.getBySource("{arg1} app cannot be deleted.");
         expect(r).toBeTruthy();
-        expect(r.getSource()).toBe("Channel");
-        expect(r.getKey()).toBe("speaker_channel");
+        expect(r.getSource()).toBe("{arg1} app cannot be deleted.");
+        expect(r.getKey()).toBe("{arg1} app cannot be deleted.");
     });
-    test("DartFileParseJSSimpleSingleQuotes", function() {
+    test("DartFileParseSimpleWithArg3", function() {
         expect.assertions(5);
 
         var d = new DartFile({
@@ -246,35 +274,15 @@ describe("dartfile", function() {
         });
         expect(d).toBeTruthy();
 
-        d.parse("RB.getStringJS('This is a test')");
+        d.parse('translate( " {arg1} app cannot be deleted. " , arg:{"arg1": "Settings"})');
 
         var set = d.getTranslationSet();
         expect(set).toBeTruthy();
 
-        var r = set.getBySource("This is a test");
+        var r = set.getBySource(" {arg1} app cannot be deleted. ");
         expect(r).toBeTruthy();
-        expect(r.getSource()).toBe("This is a test");
-        expect(r.getKey()).toBe("This is a test");
-    });
-    test("DartFileParseMoreComplexSingleQuotes", function() {
-        expect.assertions(5);
-
-        var d = new DartFile({
-            project: p,
-            pathName: undefined,
-            type: dft
-        });
-        expect(d).toBeTruthy();
-
-        d.parse("if (subcat == 'Has types') {title = RB.getString('Types of {topic}').format({topic: topic.attribute.name})}");
-
-        var set = d.getTranslationSet();
-        expect(set).toBeTruthy();
-
-        var r = set.getBySource("Types of {topic}");
-        expect(r).toBeTruthy();
-        expect(r.getSource()).toBe("Types of {topic}");
-        expect(r.getKey()).toBe("Types of {topic}");
+        expect(r.getSource()).toBe(" {arg1} app cannot be deleted. ");
+        expect(r.getKey()).toBe(" {arg1} app cannot be deleted. ");
     });
     test("DartFileParseSimpleIgnoreWhitespace", function() {
         expect.assertions(5);
@@ -286,7 +294,7 @@ describe("dartfile", function() {
         });
         expect(d).toBeTruthy();
 
-        d.parse('   rb.getString  (    \t "This is a test"    );  ');
+        d.parse('   translate  (    \t "This is a test"    );  ');
 
         var set = d.getTranslationSet();
         expect(set).toBeTruthy();
@@ -297,42 +305,23 @@ describe("dartfile", function() {
         expect(r.getKey()).toBe("This is a test");
     });
     test("DartFileParseSimpleIgnoreWhitespace2", function() {
-        expect.assertions(5);
+        expect.assertions(6);
 
         var d = new DartFile({
             project: p,
-            pathName: "./js/t1.js",
+            pathName: "./t1.dart",
             type: dft
         });
         expect(d).toBeTruthy();
         d.extract();
         var set = d.getTranslationSet();
         expect(set).toBeTruthy();
+        expect(set.size()).toBe(4);
 
-        var r = set.getBySource("Go to  'Settings > General > Channels > Channel Tuning & Settings > Transponder Edit' and add one.");
+        var r = set.getBySource("Save Bookmark");
         expect(r).toBeTruthy();
-        expect(r.getSource()).toBe("Go to  'Settings > General > Channels > Channel Tuning & Settings > Transponder Edit' and add one.");
-        expect(r.getKey()).toBe("Go to 'Settings > General > Channels > Channel Tuning & Settings > Transponder Edit' and add one.");
-    });
-    test("DartFileParseJSCompressWhitespaceInKey", function() {
-        expect.assertions(5);
-
-        var d = new DartFile({
-            project: p,
-            pathName: undefined,
-            type: dft
-        });
-        expect(d).toBeTruthy();
-
-        d.parse('RB.getStringJS("\t\t This \n \n is \n\t a    test")');
-
-        var set = d.getTranslationSet();
-        expect(set).toBeTruthy();
-
-        var r = set.getBySource("\t\t This \n \n is \n\t a    test");
-        expect(r).toBeTruthy();
-        expect(r.getSource()).toBe("\t\t This \n \n is \n\t a    test");
-        expect(r.getKey()).toBe(" This is a test");
+        expect(r.getSource()).toBe("Save Bookmark");
+        expect(r.getKey()).toBe("Save Bookmark");
     });
     test("DartFileParseSimpleRightSize", function() {
         expect.assertions(4);
@@ -347,7 +336,7 @@ describe("dartfile", function() {
         var set = d.getTranslationSet();
         expect(set.size()).toBe(0);
 
-        d.parse('RB.getString("This is a test")');
+        d.parse('translate("High", key: "home_connect")');
 
         expect(set).toBeTruthy();
 
@@ -363,7 +352,7 @@ describe("dartfile", function() {
         });
         expect(d).toBeTruthy();
 
-        d.parse('\tRB.getString("This is a test"); // i18n: this is a translator\'s comment\n\tfoo("This is not");');
+        d.parse('\ttranslate("This is a test"); // i18n: this is a translator\'s comment\n\tfoo("This is not");');
 
         var set = d.getTranslationSet();
         expect(set).toBeTruthy();
@@ -384,7 +373,7 @@ describe("dartfile", function() {
         });
         expect(d).toBeTruthy();
 
-        d.parse("\trb.getString('This is a test'); // i18n: this is a translator\'s comment\n\tfoo('This is not');");
+        d.parse("\ttranslate('This is a test'); // i18n: this is a translator\'s comment\n\tfoo('This is not');");
 
         var set = d.getTranslationSet();
         expect(set).toBeTruthy();
@@ -406,10 +395,8 @@ describe("dartfile", function() {
         expect(d).toBeTruthy();
 
         d.parse(
-            '    rb.getString(\'We\\\'ll notify you when {prefix}{last_name} accepts you as a friend!\').format({\n' +
-            '        prefix: detail.name_prefix,\n' +
-            '        last_name: detail.last_name\n' +
-            '    });'
+            '    translate(\'We\\\'ll notify you when {prefix}{last_name} accepts you as a friend!\')\n' +
+            '    );'
         );
 
         var set = d.getTranslationSet();
@@ -430,12 +417,7 @@ describe("dartfile", function() {
         });
         expect(d).toBeTruthy();
 
-        d.parse(
-            '    rb.getString("We\\"ll notify you when {prefix}{last_name} accepts you as a friend!").format({\n' +
-            '        prefix: detail.name_prefix,\n' +
-            '        last_name: detail.last_name\n' +
-            '    });'
-        );
+        d.parse('translate("We\\"ll notify you when {prefix}{last_name} accepts you as a friend!", arg: {"prefix": "Mr.", "last_name": "Lee"})');
 
         var set = d.getTranslationSet();
         expect(set).toBeTruthy();
@@ -455,7 +437,7 @@ describe("dartfile", function() {
         });
         expect(d).toBeTruthy();
 
-        d.parse('\trb.getString("This is a test", "foobar"); // i18n: this is a translator\'s comment\n\tfoo("This is not");');
+        d.parse('\ttranslate("This is a test", key: "foobar"); // i18n: this is a translator\'s comment\n\tfoo("This is not");');
 
         var set = d.getTranslationSet();
         expect(set).toBeTruthy();
@@ -478,7 +460,7 @@ describe("dartfile", function() {
         });
         expect(d).toBeTruthy();
 
-        d.parse('RB.getString("This is a test", "unique_id")');
+        d.parse('translate("This is a test", key:"unique_id")');
 
         var set = d.getTranslationSet();
         expect(set).toBeTruthy();
@@ -489,90 +471,6 @@ describe("dartfile", function() {
         expect(r).toBeTruthy();
         expect(r[0].getSource()).toBe("This is a test");
         expect(r[0].getKey()).toBe("unique_id");
-    });
-    test("DartFileParseJSWithKey", function() {
-        expect.assertions(5);
-
-        var d = new DartFile({
-            project: p,
-            pathName: undefined,
-            type: dft
-        });
-        expect(d).toBeTruthy();
-
-        d.parse('RB.getStringJS("This is a test", "unique_id")');
-
-        var set = d.getTranslationSet();
-        expect(set).toBeTruthy();
-
-        var r = set.getBy({
-            reskey: "unique_id"
-        });
-        expect(r).toBeTruthy();
-        expect(r[0].getSource()).toBe("This is a test");
-        expect(r[0].getKey()).toBe("unique_id");
-    });
-    test("DartFileParseWithKeySingleQuotes", function() {
-        expect.assertions(5);
-
-        var d = new DartFile({
-            project: p,
-            pathName: undefined,
-            type: dft
-        });
-        expect(d).toBeTruthy();
-
-        d.parse("RB.getString('This is a test', 'unique_id')");
-
-        var set = d.getTranslationSet();
-        expect(set).toBeTruthy();
-
-        var r = set.getBy({
-            reskey: "unique_id"
-        });
-        expect(r).toBeTruthy();
-        expect(r[0].getSource()).toBe("This is a test");
-        expect(r[0].getKey()).toBe("unique_id");
-    });
-    test("DartFileParseJSWithKeySingleQuotes", function() {
-        expect.assertions(5);
-
-        var d = new DartFile({
-            project: p,
-            pathName: undefined,
-            type: dft
-        });
-        expect(d).toBeTruthy();
-
-        d.parse("RB.getStringJS('This is a test', 'unique_id')");
-
-        var set = d.getTranslationSet();
-        expect(set).toBeTruthy();
-
-        var r = set.getBy({
-            reskey: "unique_id"
-        });
-        expect(r).toBeTruthy();
-        expect(r[0].getSource()).toBe("This is a test");
-        expect(r[0].getKey()).toBe("unique_id");
-    });
-    test("DartFileParseWithKeyCantGetBySource", function() {
-        expect.assertions(3);
-
-        var d = new DartFile({
-            project: p,
-            pathName: undefined,
-            type: dft
-        });
-        expect(d).toBeTruthy();
-
-        d.parse('RB.getString("This is a test", "unique_id")');
-
-        var set = d.getTranslationSet();
-        expect(set).toBeTruthy();
-
-        var r = set.getBySource("This is a test");
-        expect(!r).toBeTruthy();
     });
     test("DartFileParseMultiple", function() {
         expect.assertions(8);
@@ -584,7 +482,7 @@ describe("dartfile", function() {
         });
         expect(d).toBeTruthy();
 
-        d.parse('RB.getString("This is a test");\n\ta.parse("This is another test.");\n\t\tRB.getString("This is also a test");');
+        d.parse('translate("This is a test");\n\ta.parse("This is another test.");\n\t\ttranslate("This is also a test");');
 
         var set = d.getTranslationSet();
         expect(set).toBeTruthy();
@@ -609,7 +507,7 @@ describe("dartfile", function() {
         });
         expect(d).toBeTruthy();
 
-        d.parse('RB.getString("This is a test", "x");\n\ta.parse("This is another test.");\n\t\tRB.getString("This is a test", "y");');
+        d.parse('translate("This is a test", key:"x");\n\ta.parse("This is another test.");\n\t\ttranslate("This is a test", key: "y");');
 
         var set = d.getTranslationSet();
         expect(set).toBeTruthy();
@@ -619,7 +517,7 @@ describe("dartfile", function() {
         });
         expect(r).toBeTruthy();
         expect(r[0].getSource()).toBe("This is a test");
-        expect(!r[0].getAutoKey()).toBeTruthy();
+        expect(r[0].getAutoKey()).toBeTruthy();
         expect(r[0].getKey()).toBe("x");
 
         r = set.getBy({
@@ -627,7 +525,7 @@ describe("dartfile", function() {
         });
         expect(r).toBeTruthy();
         expect(r[0].getSource()).toBe("This is a test");
-        expect(!r[0].getAutoKey()).toBeTruthy();
+        expect(r[0].getAutoKey()).toBeTruthy();
         expect(r[0].getKey()).toBe("y");
     });
     test("DartFileParseMultipleSameLine", function() {
@@ -640,7 +538,7 @@ describe("dartfile", function() {
         });
         expect(d).toBeTruthy();
 
-        d.parse('RB.getString("This is a test"), RB.getString("This is a second test"), RB.getString("This is a third test")');
+        d.parse('translate("This is a test"), translate("This is a second test"), translate("This is a third test")');
 
         var set = d.getTranslationSet();
         expect(set).toBeTruthy();
@@ -672,7 +570,7 @@ describe("dartfile", function() {
         });
         expect(d).toBeTruthy();
 
-        d.parse('RB.getString("This is a test");   // i18n: foo\n\ta.parse("This is another test.");\n\t\tRB.getString("This is also a test");\t// i18n: bar');
+        d.parse('translate("This is a test");   // i18n: foo\n\ta.parse("This is another test.");\n\t\ttranslate("This is also a test");\t// i18n: bar');
 
         var set = d.getTranslationSet();
         expect(set).toBeTruthy();
@@ -699,7 +597,7 @@ describe("dartfile", function() {
         });
         expect(d).toBeTruthy();
 
-        d.parse('RB.getString("This is a test", "asdf");   // i18n: foo\n\ta.parse("This is another test.");\n\t\tRB.getString("This is also a test", "kdkdkd");\t// i18n: bar');
+        d.parse('translate("This is a test", key: "asdf");   // i18n: foo\n\ta.parse("This is another test.");\n\t\ttranslate("This is also a test", key:"kdkdkd");\t// i18n: bar');
 
         var set = d.getTranslationSet();
         expect(set).toBeTruthy();
@@ -730,7 +628,7 @@ describe("dartfile", function() {
         });
         expect(d).toBeTruthy();
 
-        d.parse('RB.getString("This is a test");\n\ta.parse("This is another test.");\n\t\tRB.getString("This is a test");');
+        d.parse('translate("This is a test");\n\ta.parse("This is another test.");\n\t\ttranslate("This is a test");');
 
         var set = d.getTranslationSet();
         expect(set).toBeTruthy();
@@ -743,7 +641,7 @@ describe("dartfile", function() {
         expect(set.size()).toBe(1);
     });
     test("DartFileParseDupsDifferingByKeyOnly", function() {
-        expect.assertions(8);
+        expect.assertions(5);
 
         var d = new DartFile({
             project: p,
@@ -752,15 +650,10 @@ describe("dartfile", function() {
         });
         expect(d).toBeTruthy();
 
-        d.parse('RB.getString("This is a test");\n\ta.parse("This is another test.");\n\t\tRB.getString("This is a test", "unique_id");');
+        d.parse('translate("This is a test");\n\ta.parse("This is another test.");\n\t\ttranslate("This is a test", key:"unique_id");');
 
         var set = d.getTranslationSet();
         expect(set).toBeTruthy();
-
-        var r = set.getBySource("This is a test");
-        expect(r).toBeTruthy();
-        expect(r.getSource()).toBe("This is a test");
-        expect(r.getKey()).toBe("This is a test");
 
         r = set.getBy({
             reskey: "unique_id"
@@ -779,7 +672,7 @@ describe("dartfile", function() {
         });
         expect(d).toBeTruthy();
 
-        d.parse('RB.getString("This is a test" + " and this isnt");');
+        d.parse('translate("This is a test" + " and this isnt");');
 
         var set = d.getTranslationSet();
 
@@ -795,7 +688,7 @@ describe("dartfile", function() {
         });
         expect(d).toBeTruthy();
 
-        d.parse('RB.getString("This is a test" + foobar);');
+        d.parse('translate("This is a test" + foobar);');
 
         var set = d.getTranslationSet();
         expect(set.size()).toBe(0);
@@ -810,7 +703,7 @@ describe("dartfile", function() {
         });
         expect(d).toBeTruthy();
 
-        d.parse('RB.getString(foobar);');
+        d.parse('translate(foobar);');
 
         var set = d.getTranslationSet();
         expect(set.size()).toBe(0);
@@ -825,7 +718,7 @@ describe("dartfile", function() {
         });
         expect(d).toBeTruthy();
 
-        d.parse('RB.getString();');
+        d.parse('translate();');
 
         var set = d.getTranslationSet();
         expect(set.size()).toBe(0);
@@ -840,26 +733,12 @@ describe("dartfile", function() {
         });
         expect(d).toBeTruthy();
 
-        d.parse('EPIRB.getString("This is a test");');
+        d.parse('EPIRB.translate("This is a test");');
 
         var set = d.getTranslationSet();
         expect(set.size()).toBe(1);
     });
-    test("DartFileParseSubobject", function() {
-        expect.assertions(2);
-
-        var d = new DartFile({
-            project: p,
-            pathName: undefined,
-            type: dft
-        });
-        expect(d).toBeTruthy();
-
-        d.parse('App.RB.getString("This is a test");');
-
-        var set = d.getTranslationSet();
-        expect(set.size()).toBe(1);
-    });
+    
     test("DartFileParsePunctuationBeforeRB", function() {
         expect.assertions(9);
 
@@ -874,7 +753,7 @@ describe("dartfile", function() {
             "        <%\n" +
             "        var listsOver4 = false;\n" +
             "        var seemoreLen = 0;\n" +
-            "        var subcats = [RB.getStringJS('Personal'), RB.getStringJS('Smart Watches')];\n" +
+            "        var subcats = [translate('Personal'), translate('Smart Watches')];\n" +
             "        _.each(subcats, function(subcat, j){\n" +
             "            var list = topic.attribute.kb_attribute_relationships[subcat] || [];\n" +
             "            if (list.length > 0) {\n" +
@@ -905,7 +784,7 @@ describe("dartfile", function() {
         });
         expect(d).toBeTruthy();
 
-        d.parse("var subcats = [RB.getStringJS(''), RB.getString(''), RB.getStringJS('', 'foo'), RB.getStringJS('foo', '')];\n");
+        d.parse("var subcats = [translate(''), translate(''), translate('', 'foo'), translate('foo', '')];\n");
 
         var set = d.getTranslationSet();
         expect(set).toBeTruthy();
@@ -917,7 +796,7 @@ describe("dartfile", function() {
 
         var d = new DartFile({
             project: p,
-            pathName: "./js/t1.js",
+            pathName: "./t1.dart",
             type: dft
         });
         expect(d).toBeTruthy();
@@ -925,19 +804,19 @@ describe("dartfile", function() {
         // should read the file
         d.extract();
         var set = d.getTranslationSet();
-        expect(set.size()).toBe(9);
+        expect(set.size()).toBe(4);
 
-        var r = set.getBySource("This is a test");
+        var r = set.getBySource("Save Bookmark");
         expect(r).toBeTruthy();
-        expect(r.getSource()).toBe("This is a test");
-        expect(r.getKey()).toBe("This is a test");
+        expect(r.getSource()).toBe("Save Bookmark");
+        expect(r.getKey()).toBe("Save Bookmark");
 
         var r = set.getBy({
-            reskey: "id1"
+            reskey: "Setting"
         });
         expect(r).toBeTruthy();
-        expect(r[0].getSource()).toBe("This is a test with a unique id");
-        expect(r[0].getKey()).toBe("id1");
+        expect(r[0].getSource()).toBe("Add Bookmark");
+        expect(r[0].getKey()).toBe("Setting");
     });
     test("DartFileExtractUndefinedFile", function() {
         expect.assertions(2);
@@ -960,7 +839,7 @@ describe("dartfile", function() {
 
         var d = new DartFile({
             project: p,
-            pathName: "./js/t2.js",
+            pathName: "./t2.dart",
             type: dft
         });
         expect(d).toBeTruthy();
@@ -969,8 +848,7 @@ describe("dartfile", function() {
         d.extract();
 
         var set = d.getTranslationSet();
-        expect(set.size()).toBe(11);
-
+        expect(set.size()).toBe(3);
 
         var r = set.getBySource("Track");
         expect(r).toBeTruthy();
@@ -987,7 +865,7 @@ describe("dartfile", function() {
         });
         expect(d).toBeTruthy();
 
-        d.parse('rb.getStringJS("This is a test")');
+        d.parse('translate("This is a test")');
         var set = d.getTranslationSet();
         expect(set).toBeTruthy();
 
@@ -995,7 +873,7 @@ describe("dartfile", function() {
         expect(r).toBeTruthy();
 
         var rb = new RegularPseudo({
-            type: "Dart"
+            type: "text"
         });
         var rs2 = r.generatePseudo("zxx-XX", rb);
         expect(rs2.getTarget()).toBe("[Ťĥíš íš à ţëšţ6543210]");
@@ -1010,7 +888,7 @@ describe("dartfile", function() {
         });
         expect(d).toBeTruthy();
 
-        d.parse('rb.getStringJS("This is a test")');
+        d.parse('translate("This is a test")');
         var set = d.getTranslationSet();
         expect(set).toBeTruthy();
 
@@ -1018,7 +896,7 @@ describe("dartfile", function() {
         expect(r).toBeTruthy();
 
         var rb = new RegularPseudo({
-            type: "Dart",
+            type: "text",
             targetLocale: "zxx-Hans-XX"
         });
         var rs2 = r.generatePseudo("zxx-Hans-XX", rb);
@@ -1034,7 +912,7 @@ describe("dartfile", function() {
         });
         expect(d).toBeTruthy();
 
-        d.parse('rb.getStringJS("This is a test")');
+        d.parse('translate("This is a test")');
         var set = d.getTranslationSet();
         expect(set).toBeTruthy();
 
@@ -1042,7 +920,7 @@ describe("dartfile", function() {
         expect(r).toBeTruthy();
 
         var rb = new RegularPseudo({
-            type: "Dart",
+            type: "text",
             targetLocale: "zxx-Cyrl-XX"
         });
         var rs2 = r.generatePseudo("zxx-Cyrl-XX", rb);
@@ -1058,7 +936,7 @@ describe("dartfile", function() {
         });
         expect(d).toBeTruthy();
 
-        d.parse('rb.getStringJS("This is a test")');
+        d.parse('translate("This is a test")');
         var set = d.getTranslationSet();
         expect(set).toBeTruthy();
 
@@ -1066,27 +944,10 @@ describe("dartfile", function() {
         expect(r).toBeTruthy();
 
         var rb = new RegularPseudo({
-            type: "Dart",
             targetLocale: "zxx-Hebr-XX"
         });
         var rs2 = r.generatePseudo("zxx-Hebr-XX", rb);
         expect(rs2.getTarget()).toBe('[טהִס ִס ַ טֶסט6543210]');
-    });
-    test("DartFileTest4", function() {
-        expect.assertions(2);
-
-        var d = new DartFile({
-            project: p,
-            pathName: "./js/t4.js",
-            type: dft
-        });
-        expect(d).toBeTruthy();
-
-        // should attempt to read the file and not fail
-        d.extract();
-
-        var set = d.getTranslationSet();
-        expect(set.size()).toBe(4);
     });
     test("DartFileNotParseComment", function() {
         expect.assertions(2);
@@ -1098,7 +959,7 @@ describe("dartfile", function() {
         });
         expect(d).toBeTruthy();
 
-        d.parse('// $L("This is a test"); // i18n: this is a translator\'s comment\n\tfoo("This is not");');
+        d.parse('// translate("This is a test"); // i18n: this is a translator\'s comment\n\tfoo("This is not");');
 
         var set = d.getTranslationSet();
         expect(set.size()).toBe(0);
@@ -1113,7 +974,7 @@ describe("dartfile", function() {
         });
         expect(d).toBeTruthy();
 
-        d.parse('$L("This is a test"); // i18n: this is a translator\'s comment\n\t$L("This is a test2");foo("This is not");');
+        d.parse('translate("This is a test"); // i18n: this is a translator\'s comment\n\ttranslate("This is a test2");foo("This is not");');
 
         var set = d.getTranslationSet();
         expect(set.size()).toBe(2);
@@ -1133,5 +994,5 @@ describe("dartfile", function() {
         expect(r[0].getSource()).toBe("This is a test2");
         expect(r[0].getKey()).toBe("This is a test2");
         expect(r[0].getComment()).toBe(undefined);
-    });*/
+    });
 });
