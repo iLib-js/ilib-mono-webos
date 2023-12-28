@@ -4,10 +4,12 @@ ilib-webos-loctool-dart is a plugin for the loctool that
 allows it to read and localize [Dart](https://docs.fileformat.com/programming/dart/) files. This plugin is optimized for the webOS platform.
 
 ### Dart FileType
-This plugin expects to be used [flutter_translate](https://pub.dev/packages/flutter_translate) library.  
+This plugin expects the code use the [flutter_translate](https://pub.dev/packages/flutter_translate) library.  
+
 However, it has some different behavior on webOS.   
 This is because we are using the `flutter_translate` library with some modifications to meet the needs of webOS.   
-**The key of translation() must not be split by dot(.) symbol.** because webOS localization is plain-text based (not text-IDased)  
+**The key of translation() must not be split by dot(.) symbol.**   
+because webOS localization is plain-text based (not text-IDased).  
 The localization tool doesn't generate resources in nested JSON format except for the plurals case.
 
 It extracts string usages used in the examples below by considering them as strings that need to be translated.
