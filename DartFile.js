@@ -119,8 +119,8 @@ translate("The lowest temperature is {arg1} and the highest temperature is {arg2
 */
 var reTranslate = new RegExp(/translate\s*\(\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\)/g);
 var reTranslateWithKey = new RegExp(/translate\s*\(\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\,\s*(key)\s*\:\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\)/g);
-var reTranslateWithArg = new RegExp(/translate\s*\(\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\,\s*arg\s*\:\s*\{(.*)\}\)/g);
-
+var reTranslateWithArg = new RegExp(/translate\s*\(\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\,\s*args\s*\:\s*\{(.*)\}\)/g);
+var reTranslatePlural = new RegExp(/translatePlural\s*\(\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\,\s*(.*)\)/g);
 var reI18nComment = new RegExp("//\\s*i18n\\s*:\\s*(.*)$");
 
 /**
@@ -249,6 +249,43 @@ DartFile.prototype.parse = function(data) {
             this.logger.debug("... " + data.substring(result.index, reTranslateWithArg.lastIndex) + " ...");
         }
         result = reTranslateWithArg.exec(data);
+    }
+
+    reTranslatePlural.lastIndex = 0; // just to be safe
+    // e.g translatePlural('plural.demo', _counter)
+    var result = reTranslatePlural.exec(data);
+    while (result && result.length > 2 && result[1]) {
+        // different matches for single and double quotes
+        match = (result[1][0] === '"') ? result[2] : result[4];
+
+        if (match && match.length) {
+            this.logger.trace("Found string key: " + this.makeKey(match) + ", string: '" + match + "'");
+
+            var last = data.indexOf('\n', reTranslatePlural.lastIndex);
+            last = (last === -1) ? data.length : last;
+            var line = data.substring(reTranslatePlural.lastIndex, last);
+            var commentResult = reI18nComment.exec(line);
+            comment = (commentResult && commentResult.length > 1) ? commentResult[1] : undefined;
+
+            var r = this.API.newResource({
+                resType: "string",
+                project: this.project.getProjectId(),
+                key: this.makeKey(match),
+                sourceLocale: this.project.sourceLocale,
+                source: DartFile.unescapeString(match),
+                autoKey: true,
+                pathName: this.pathName,
+                state: "new",
+                comment: comment,
+                datatype: this.type.datatype,
+                index: this.resourceIndex++
+            });
+            this.set.add(r);
+        } else {
+            this.logger.debug("Warning: Bogus empty string in get string call: ");
+            this.logger.debug("... " + data.substring(result.index, reTranslatePlural.lastIndex) + " ...");
+        }
+        result = reTranslatePlural.exec(data);
     }
 };
 

@@ -234,7 +234,7 @@ describe("dartfile", function() {
         });
         expect(d).toBeTruthy();
 
-        d.parse('translate("{arg1} app cannot be deleted.", arg:{"arg1": "Settings"})');
+        d.parse('translate("{arg1} app cannot be deleted.", args:{"arg1": "Settings"})');
 
         var set = d.getTranslationSet();
         expect(set).toBeTruthy();
@@ -254,7 +254,7 @@ describe("dartfile", function() {
         });
         expect(d).toBeTruthy();
 
-        d.parse("translate('{arg1} app cannot be deleted.', arg:{'arg1': 'Settings'})");
+        d.parse("translate('{arg1} app cannot be deleted.', args:{'arg1': 'Settings'})");
 
         var set = d.getTranslationSet();
         expect(set).toBeTruthy();
@@ -274,7 +274,7 @@ describe("dartfile", function() {
         });
         expect(d).toBeTruthy();
 
-        d.parse('translate( " {arg1} app cannot be deleted. " , arg:{"arg1": "Settings"})');
+        d.parse('translate( " {arg1} app cannot be deleted. " , args:{"arg1": "Settings"})');
 
         var set = d.getTranslationSet();
         expect(set).toBeTruthy();
@@ -417,7 +417,7 @@ describe("dartfile", function() {
         });
         expect(d).toBeTruthy();
 
-        d.parse('translate("We\\"ll notify you when {prefix}{last_name} accepts you as a friend!", arg: {"prefix": "Mr.", "last_name": "Lee"})');
+        d.parse('translate("We\\"ll notify you when {prefix}{last_name} accepts you as a friend!", args: {"prefix": "Mr.", "last_name": "Lee"})');
 
         var set = d.getTranslationSet();
         expect(set).toBeTruthy();
@@ -791,6 +791,50 @@ describe("dartfile", function() {
 
         expect(set.size()).toBe(0);
     });
+    test("DartFileParseTranslatePlural", function() {
+        expect.assertions(6);
+
+        var d = new DartFile({
+            project: p,
+            pathName: undefined,
+            type: dft
+        });
+        expect(d).toBeTruthy();
+
+        d.parse('translatePlural("plural test", _counter)');
+
+        var set = d.getTranslationSet();
+        expect(set).toBeTruthy();
+
+        var r = set.getBySource("plural test");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("plural test");
+        expect(r.getKey()).toBe("plural test");
+
+        expect(set.size()).toBe(1);
+    });
+    test("DartFileParseTranslatePluralSingleQuote", function() {
+        expect.assertions(6);
+
+        var d = new DartFile({
+            project: p,
+            pathName: undefined,
+            type: dft
+        });
+        expect(d).toBeTruthy();
+
+        d.parse("translatePlural('plural test', _counter)");
+
+        var set = d.getTranslationSet();
+        expect(set).toBeTruthy();
+
+        var r = set.getBySource("plural test");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("plural test");
+        expect(r.getKey()).toBe("plural test");
+
+        expect(set.size()).toBe(1);
+    });
     test("DartFileExtractFile", function() {
         expect.assertions(8);
 
@@ -835,7 +879,7 @@ describe("dartfile", function() {
         expect(set.size()).toBe(0);
     });
     test("DartFileTest2", function() {
-        expect.assertions(5);
+        expect.assertions(8);
 
         var d = new DartFile({
             project: p,
@@ -844,16 +888,47 @@ describe("dartfile", function() {
         });
         expect(d).toBeTruthy();
 
-        // should attempt to read the file and not fail
         d.extract();
 
         var set = d.getTranslationSet();
-        expect(set.size()).toBe(3);
+        expect(set.size()).toBe(4);
 
         var r = set.getBySource("Track");
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("Track");
         expect(r.getKey()).toBe("music_track");
+
+        var r = set.getBy({
+            reskey: "1#At least 1 letter|#At least {num} letters"
+        });
+        expect(r).toBeTruthy();
+        expect(r[0].getSource()).toBe("1#At least 1 letter|#At least {num} letters");
+        expect(r[0].getKey()).toBe("1#At least 1 letter|#At least {num} letters");
+    });
+    test("DartFileTest3", function() {
+        expect.assertions(8);
+
+        var d = new DartFile({
+            project: p,
+            pathName: "./t3.dart",
+            type: dft
+        });
+        expect(d).toBeTruthy();
+
+        d.extract();
+
+        var set = d.getTranslationSet();
+        expect(set.size()).toBe(3);
+
+        var r = set.getBySource("WOWCAST ({arg1})");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("WOWCAST ({arg1})");
+        expect(r.getKey()).toBe("WOWCAST ({arg1})");
+
+        var r = set.getBySource("GO TO {arg1}");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("GO TO {arg1}");
+        expect(r.getKey()).toBe("GO TO {arg1}");
     });
     test("DartPseudoLocalization1", function() {
         expect.assertions(4);
