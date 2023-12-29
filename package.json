@@ -1,0 +1,60 @@
+{
+    "name": "ilib-loctool-webos-dart",
+    "version": "1.0.0",
+    "main": "./DartFileType.js",
+    "description": "A loctool plugin that knows how to process JS files",
+    "license": "Apache-2.0",
+    "keywords": [
+        "internationalization",
+        "i18n",
+        "localization",
+        "l10n",
+        "globalization",
+        "g11n",
+        "strings",
+        "resources",
+        "locale",
+        "translation",
+        "dart"
+    ],
+    "author": {
+        "name": "Goun Lee",
+        "email": "goun.lee@lge.com"
+    },
+    "contributors": [
+        {
+            "name": "Goun Lee",
+            "email": "goun.lee@lge.com"
+        }
+    ],
+    "files": [
+        "README.md",
+        "LICENSE",
+        "DartFileType.js",
+        "DartFileTypeFile.js"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/iLib-js/ilib-loctool-webos-dart.git"
+    },
+    "scripts": {
+        "dist": "npm pack",
+        "test": "jest",
+        "test:watch": "jest --watch",
+        "debug": "node --inspect-brk node_modules/.bin/jest -i",
+        "clean": "git clean -f -d *"
+    },
+    "engines": {
+        "node": ">=10.0.0"
+    },
+    "dependencies": {
+        "ilib-loctool-webos-json-resource": "1.5.8"
+    },
+    "peerDependencies": {
+        "loctool": "2.23.1"
+    },
+    "devDependencies": {
+        "jest": "^29.7.0",
+        "loctool": "2.23.1"
+    }
+}
