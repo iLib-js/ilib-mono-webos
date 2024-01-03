@@ -52,7 +52,7 @@ Please check the [webos-json](https://github.com/iLib-js/ilib-loctool-samples/tr
 
 ## License
 
-Copyright (c) 2019-2023, JEDLSoft
+Copyright (c) 2019-2024, JEDLSoft
 
 This plugin is license under Apache2. See the [LICENSE](./LICENSE)
 file for more details.
