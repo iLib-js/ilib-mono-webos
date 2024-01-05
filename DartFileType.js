@@ -25,8 +25,8 @@ var Utils = require("loctool/lib/utils.js")
 var ResourceString = require("loctool/lib/ResourceString.js");
 
 var DartFileType = function(project) {
-    this.type = "dart";
-    this.datatype = "dart";
+    this.type = "x-dart";
+    this.datatype = "x-dart";
     this.resourceType = "json";
     this.extensions = [".dart"];
     this.isloadCommonData = false;
@@ -186,14 +186,14 @@ DartFileType.prototype.write = function(translations, locales) {
                     if (!translated && this.isloadCommonData) {
                         var manipulateKey = ResourceString.hashKey(this.commonPrjName, locale, res.getKey(), this.commonPrjType, res.getFlavor());
                         db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
-                            if (translated && (baseTranslation !== translated.getTarget())){
+                            if (translated){
                                 this._addResource(resFileType, translated, res, locale);
                             } else if(!translated && customInheritLocale){
                                 db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(customInheritLocale), function(err, translated) {
                                     if (!translated) {
                                         var manipulateKey = ResourceString.hashKey(this.commonPrjName, customInheritLocale, res.getKey(), this.commonPrjType, res.getFlavor());
                                         db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
-                                            if (translated && (baseTranslation !== translated.getTarget())) {
+                                            if (translated) {
                                                 this._addResource(resFileType, translated, res, locale);
                                             } else {
                                                 var newres = res.clone();
@@ -206,7 +206,7 @@ DartFileType.prototype.write = function(translations, locales) {
                                             }
                                         }.bind(this))
 
-                                    } else if (translated && (baseTranslation !== translated.getTarget())){
+                                    } else if (translated){
                                         this._addResource(resFileType, translated, res, locale);
                                     } else {
                                         var newres = res.clone();
@@ -230,7 +230,7 @@ DartFileType.prototype.write = function(translations, locales) {
                         }.bind(this));
                     } else if (!translated && customInheritLocale){
                         db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(customInheritLocale), function(err, translated) {
-                            if (translated && (baseTranslation != translated.getTarget())) {
+                            if (translated) {
                                 this._addResource(resFileType, translated, res, locale);
                             } else {
                                 var newres = res.clone();
@@ -242,6 +242,9 @@ DartFileType.prototype.write = function(translations, locales) {
                                 this.logger.trace("No translation for " + res.reskey + " to " + locale);
                             }
                         }.bind(this));
+                    } else if (!translated && (baseTranslation !== res.getSource())) {
+                        // todo. add basetranslation
+
                     } else if (!translated || ( this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getSource()) &&
                         this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getKey()))) {
                         if (r) {
@@ -265,14 +268,9 @@ DartFileType.prototype.write = function(translations, locales) {
                             r = r.clone();
                             r.reskey = res.reskey;
                         }
-                        
-                        if (baseTranslation != r.getTarget()) {
-                            file = resFileType.getResourceFile(locale);
-                            file.addResource(r);
-                            this.logger.trace("Added " + r.reskey + " to " + file.pathName);
-                        } else {
-                            this.logger.trace("Same translation as base translation for " + res.reskey + " to " + locale);
-                        }
+                        file = resFileType.getResourceFile(locale);
+                        file.addResource(r);
+                        this.logger.trace("Added " + r.reskey + " to " + file.pathName);
                     }
                 }.bind(this));
             }.bind(this));
