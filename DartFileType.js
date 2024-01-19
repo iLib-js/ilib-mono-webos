@@ -19,11 +19,10 @@
 
 var fs = require("fs");
 var path = require("path");
+var mm = require("micromatch");
 var Locale = require("ilib/lib/Locale.js");
 var Utils = require("loctool/lib/utils.js")
-var mm = require("micromatch");
 var ResourceString = require("loctool/lib/ResourceString.js");
-
 var DartFile = require("./DartFile.js");
 var DartResourceFileType = require("ilib-loctool-webos-json-resource");
 
@@ -73,12 +72,10 @@ var DartFileType = function(project) {
     if (Object.keys(project.localeMap).length > 0){
         Utils.setBaseLocale(project.localeMap);
     }
-    //this.baseLocale = Utils.isBaseLocale(this.locale.getSpec());
 };
 
 var defaultMappings = {
     "**/*.dart": {
-        "type": "dart",
         "template": "[dir]/assets/i18n/[localeUnder].json"
     }
 }
@@ -136,7 +133,6 @@ DartFileType.prototype.name = function() {
  * @returns {String} the localized path name
  */
 DartFileType.prototype.getLocalizedPath = function(mapping, pathname, locale) {
-    //var rootLocale = "en-US";
     var template = mapping && mapping.template;
     if (!template) {
         template = defaultMappings["**/*.dart"].template;
@@ -146,17 +142,13 @@ DartFileType.prototype.getLocalizedPath = function(mapping, pathname, locale) {
     var lo = loc.getSpec();
 
     if (isBaseLocale) {
-        //if (locale !== rootLocale) {
-            lo = loc.getLanguage();
-        //}
+        lo = loc.getLanguage();
     }
 
     var path = Utils.formatPath(template, {
         locale: lo
     });
 
-    // the file under en/US directory, it has to be located in the resource root
-    //path = path.replace(/en\/([^A-Z])/, "$1");
     return path;
 };
 
@@ -174,7 +166,6 @@ DartFileType.prototype._addResource = function(resFileType, translated, res, loc
     resource.datatype = res.getDataType();
     resource.setTargetLocale(locale);
     resource.pathName = res.getPath();
-    //file = resFileType.getResourceFile(locale);
     file = resFileType.getResourceFile(locale, this.getLocalizedPath(res.mapping, res.getPath(), locale))
     file.addResource(resource);
 }
@@ -195,7 +186,6 @@ DartFileType.prototype.write = function(translations, locales) {
     // and then let them write themselves out
 
     var resFileType = this.project.getResourceFileType(this.resourceType);
-    var mode = this.project.settings.mode;
     var customInheritLocale;
     var res, file,
         resources = this.extracted.getAll(),
