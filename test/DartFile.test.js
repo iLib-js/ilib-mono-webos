@@ -37,8 +37,10 @@ var dft = new DartFileType(p);
 describe("dartfile", function() {
     test("DartFileConstructor", function() {
         expect.assertions(1);
-
-        var d = new DartFile({project: p});
+        var d = new DartFile({
+            project: p,
+            type: dft
+        });
         expect(d).toBeTruthy();
     });
     test("DartFileConstructorParams", function() {
