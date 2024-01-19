@@ -101,7 +101,6 @@ DartFileType.prototype.getMapping = function(pathName) {
     return match && mappings[match];
 }
 
-
 /**
  * Return true if the given path is a Dart file and is handled
  * by the current file type.
