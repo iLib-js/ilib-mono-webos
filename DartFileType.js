@@ -136,29 +136,27 @@ DartFileType.prototype.name = function() {
  * @returns {String} the localized path name
  */
 DartFileType.prototype.getLocalizedPath = function(mapping, pathname, locale) {
-    var rootLocale = "en-US";
+    //var rootLocale = "en-US";
     var template = mapping && mapping.template;
     if (!template) {
         template = defaultMappings["**/*.dart"].template;
     }
     var isBaseLocale = Utils.isBaseLocale(locale);
     var loc = new Locale(locale);
-    var lo = locale.getSpec();
-    
+    var lo = loc.getSpec();
+
     if (isBaseLocale) {
-        if (locale !== rootLocale) {
+        //if (locale !== rootLocale) {
             lo = loc.getLanguage();
-        }
+        //}
     }
 
-    var path = this.API.utils.fonrmatPath(mappingData.template, {
-        sourcepath: filename,
-        resourceDir: pathname,
+    var path = Utils.formatPath(template, {
         locale: lo
     });
 
     // the file under en/US directory, it has to be located in the resource root
-    path = path.replace(/en\/([^A-Z])/, "$1");
+    //path = path.replace(/en\/([^A-Z])/, "$1");
     return path;
 };
 
