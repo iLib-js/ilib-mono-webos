@@ -148,10 +148,8 @@ DartFileType.prototype.getLocalizedPath = function(mapping, pathname, locale) {
     var path = Utils.formatPath(template, {
         locale: lo
     });
-
     return path;
 };
-
 
 DartFileType.prototype._addResource = function(resFileType, translated, res, locale) {
     var file;
