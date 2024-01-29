@@ -1,7 +1,7 @@
 /*
  * DartFileType.js - Represents a collection of Dart files
  *
- * Copyright (c) 2023, JEDLSoft
+ * Copyright (c) 2023-2024, JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,10 +19,12 @@
 
 var fs = require("fs");
 var path = require("path");
-var DartFile = require("./DartFile.js");
-var DartResourceFileType = require("ilib-loctool-webos-json-resource");
+var mm = require("micromatch");
+var Locale = require("ilib/lib/Locale.js");
 var Utils = require("loctool/lib/utils.js")
 var ResourceString = require("loctool/lib/ResourceString.js");
+var DartFile = require("./DartFile.js");
+var DartResourceFileType = require("ilib-loctool-webos-json-resource");
 
 var DartFileType = function(project) {
     this.type = "x-dart";
@@ -72,6 +74,33 @@ var DartFileType = function(project) {
     }
 };
 
+var defaultMappings = {
+    "**/*.dart": {
+        "template": "[dir]/assets/i18n/[localeUnder].json"
+    }
+}
+
+/**
+ * Return the mapping corresponding to this path.
+ * @param {String} pathName the path to check
+ * @returns {Object} the mapping object corresponding to the
+ * path or undefined if none of the mappings match
+ */
+DartFileType.prototype.getMapping = function(pathName) {
+    if (typeof(pathName) === "undefined") {
+        return undefined;
+    }
+    var dartSettings = this.project.settings.dart;
+    var mappings = (dartSettings && dartSettings.mappings) ? dartSettings.mappings : defaultMappings;
+    var patterns = Object.keys(mappings);
+
+    var match = patterns.find(function(pattern) {
+        return mm.isMatch(pathName, pattern);
+    });
+
+    return match && mappings[match];
+}
+
 /**
  * Return true if the given path is a Dart file and is handled
  * by the current file type.
@@ -94,6 +123,33 @@ DartFileType.prototype.name = function() {
     return "Dart File Type";
 };
 
+/**
+ * Return the location on disk where the version of this file localized
+ * for the given locale should be written.
+ * @param {String} template template for the output file
+ * @param {String} pathname path to the source file
+ * @param {String} locale the locale spec for the target locale
+ * @returns {String} the localized path name
+ */
+DartFileType.prototype.getLocalizedPath = function(mapping, pathname, locale) {
+    var template = mapping && mapping.template;
+    if (!template) {
+        template = defaultMappings["**/*.dart"].template;
+    }
+    var isBaseLocale = Utils.isBaseLocale(locale);
+    var loc = new Locale(locale);
+    var lo = loc.getSpec();
+
+    if (isBaseLocale) {
+        lo = loc.getLanguage();
+    }
+
+    var path = Utils.formatPath(template, {
+        locale: lo
+    });
+    return path;
+};
+
 DartFileType.prototype._addResource = function(resFileType, translated, res, locale) {
     var file;
 
@@ -106,7 +162,8 @@ DartFileType.prototype._addResource = function(resFileType, translated, res, loc
     resource.project = res.getProject();
     resource.datatype = res.getDataType();
     resource.setTargetLocale(locale);
-    file = resFileType.getResourceFile(locale);
+    resource.pathName = res.getPath();
+    file = resFileType.getResourceFile(locale, this.getLocalizedPath(res.mapping, res.getPath(), locale))
     file.addResource(resource);
 }
 
@@ -126,7 +183,6 @@ DartFileType.prototype.write = function(translations, locales) {
     // and then let them write themselves out
 
     var resFileType = this.project.getResourceFileType(this.resourceType);
-    var mode = this.project.settings.mode;
     var customInheritLocale;
     var res, file,
         resources = this.extracted.getAll(),
@@ -225,16 +281,7 @@ DartFileType.prototype.write = function(translations, locales) {
                         this.newres.add(newres);
                         this.logger.trace("No translation for " + res.reskey + " to " + locale);
                     } else {
-                        if (res.reskey != r.reskey) {
-                            // if reskeys don't match, we matched on cleaned string.
-                            //so we need to overwrite reskey of the translated resource to match
-                            r = r.clone();
-                            r.reskey = res.reskey;
-                        }
-
-                        file = resFileType.getResourceFile(locale);
-                        file.addResource(r);
-                        this.logger.trace("Added " + r.reskey + " to " + file.pathName);
+                        this._addResource(resFileType, translated, res, locale);
                     }
                 }.bind(this));
                 } else {
@@ -253,16 +300,7 @@ DartFileType.prototype.write = function(translations, locales) {
                             this.newres.add(newres);
                             this.logger.trace("No translation for " + res.reskey + " to " + locale);
                         } else {
-                            if (res.reskey != r.reskey) {
-                                // if reskeys don't match, we matched on cleaned string.
-                                //so we need to overwrite reskey of the translated resource to match
-                                r = r.clone();
-                                r.reskey = res.reskey;
-                            }
-
-                            file = resFileType.getResourceFile(locale);
-                            file.addResource(r);
-                            this.logger.trace("Added " + r.reskey + " to " + file.pathName);
+                            this._addResource(resFileType, translated, res, locale);
                         }
                     }
                 }.bind(this));
