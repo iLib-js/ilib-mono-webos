@@ -24,7 +24,7 @@ var Locale = require("ilib/lib/Locale.js");
 var Utils = require("loctool/lib/utils.js")
 var ResourceString = require("loctool/lib/ResourceString.js");
 var DartFile = require("./DartFile.js");
-var DartResourceFileType = require("ilib-loctool-webos-json-resource");
+var JsonResourceFileType = require("ilib-loctool-webos-json-resource");
 
 var DartFileType = function(project) {
     this.type = "x-dart";
@@ -387,7 +387,7 @@ DartFileType.prototype.getResourceTypes = function() {
  * need resource files
  */
 DartFileType.prototype.getResourceFileType = function() {
-    return DartResourceFileType;
+    return JsonResourceFileType;
 };
 
 /**
