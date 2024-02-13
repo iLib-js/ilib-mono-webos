@@ -10,7 +10,7 @@ However, it has some different behavior on webOS.
 This is because we are using the `flutter_translate` library with some modifications to meet the needs of webOS.   
 **The key of translation() must not be split by dot(.) symbol.**   
 because webOS localization is plain-text based (not text-IDased).  
-The localization tool doesn't generate resources in nested JSON format except for the plurals case.
+The localization tool doesn't generate resources in nested JSON format except for the case of the plural.
 
 It extracts string usages used in the examples below by considering them as strings that need to be translated.
 
@@ -30,12 +30,12 @@ Please check the [webos-dart](https://github.com/iLib-js/ilib-loctool-samples/tr
 
 ## License
 
-Copyright (c) 2023, JEDLSoft
+Copyright (c) 2023-2024, JEDLSoft
 
 This plugin is license under Apache2. See the [LICENSE](./LICENSE)
 file for more details.
 
 ## Release Notes
 
-### v1.1.0
+### v1.0.0
 * initial version

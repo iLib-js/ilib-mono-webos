@@ -1,7 +1,7 @@
 /*
  * DartFile.js - plugin to extract resources from a Dart source code file
  *
- * Copyright (c) 2023, JEDLSoft
+ * Copyright (c) 2023-2024, JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,6 +36,7 @@ var DartFile = function(props) {
     this.API = props.project.getAPI();
     this.logger = this.API.getLogger("loctool.plugin.webOSJSFile");
     this.set = this.API.newTranslationSet(this.project ? this.project.sourceLocale : "zxx-XX");
+    this.mapping = this.type.getMapping(this.pathName);
 };
 
 /**
@@ -164,6 +165,8 @@ DartFile.prototype.parse = function(data) {
                 datatype: this.type.datatype,
                 index: this.resourceIndex++
             });
+            // for use later when we write out resources
+            r.mapping = this.mapping;
             this.set.add(r);
         } else {
             this.logger.debug("Warning: Bogus empty string in get string call: ");
@@ -204,6 +207,8 @@ DartFile.prototype.parse = function(data) {
                 datatype: this.type.datatype,
                 index: this.resourceIndex++
             });
+            // for use later when we write out resources
+            r.mapping = this.mapping;
             this.set.add(r);
         } else {
             this.logger.debug("Warning: Bogus empty string in get string call: ");
@@ -243,6 +248,8 @@ DartFile.prototype.parse = function(data) {
                 datatype: this.type.datatype,
                 index: this.resourceIndex++
             });
+            // for use later when we write out resources
+            r.mapping = this.mapping;
             this.set.add(r);
         } else {
             this.logger.debug("Warning: Bogus empty string in get string call: ");
@@ -280,6 +287,8 @@ DartFile.prototype.parse = function(data) {
                 datatype: this.type.datatype,
                 index: this.resourceIndex++
             });
+            // for use later when we write out resources
+            r.mapping = this.mapping;
             this.set.add(r);
         } else {
             this.logger.debug("Warning: Bogus empty string in get string call: ");
