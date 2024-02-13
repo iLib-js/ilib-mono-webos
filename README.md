@@ -37,5 +37,8 @@ file for more details.
 
 ## Release Notes
 
+### v1.0.1
+* Fixed the filename in the `package.json` to publish files correctly.
+
 ### v1.0.0
 * initial version
