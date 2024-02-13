@@ -1,6 +1,6 @@
 {
     "name": "ilib-loctool-webos-json",
-    "version": "1.1.4",
+    "version": "1.1.5",
     "main": "JsonFileType.js",
     "description": "json type of file handler plugin for webOS platform loctool",
     "license": "Apache-2.0",
@@ -38,23 +38,23 @@
     },
     "scripts": {
         "dist": "npm pack",
-        "test": "node test/testSuite.js",
-        "debug": "node --inspect-brk test/testSuite.js",
+        "test": "jest",
+        "test:watch": "jest --watch",
+        "debug": "node --inspect-brk node_modules/.bin/jest -i",
         "clean": "git clean -f -d *"
     },
     "engines": {
         "node": ">=10.0.0"
     },
     "dependencies": {
-        "ilib": "^14.18.0",
+        "ilib": "^14.19.0",
         "micromatch": "^4.0.5"
     },
     "peerDependencies": {
-        "loctool": "2.23.1"
+        "loctool": "2.24.0"
     },
     "devDependencies": {
-        "assertextras": "^1.1.0",
-        "loctool": "2.23.1",
-        "nodeunit": "^0.11.3"
+        "jest": "^26.6.3",
+        "loctool": "2.24.0"
     }
 }

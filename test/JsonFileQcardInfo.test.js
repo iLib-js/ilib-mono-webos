@@ -1,5 +1,5 @@
 /*
- * testJsonFileQcardInfo.js - test the qcardinfo.json file type handler object.
+ * JsonFileQcardInfo.test.js - test the qcardinfo.json file type handler object.
  *
  * Copyright (c) 2023 JEDLSoft
  *
@@ -32,7 +32,7 @@ var p = new CustomProject({
     schema: "./test/testfiles/qcardinfo.schema.json",
     resourceDirs: {
         "json": "localized_json"
-    },
+    }
     }, "./test/testfiles", {
     locales:["en-GB", "ko-KR"],
     jsonMap: {
@@ -54,185 +54,171 @@ var sampleqcardinfo = {
 
 var ajft = new JsonFileType(p);
 
-module.exports.qcardjsonfile = {
-    testJsonFileConstructor: function(test) {
-        test.expect(1);
+describe("qcardjsonfile", function() {
+    test("JsonFileConstructor", function() {
+        expect.assertions(1);
 
         var ajf = new JsonFile({project: p, type:ajft});
-        test.ok(ajf);
-        test.done();
-    },
-    testJsonFileConstructorParams: function(test) {
-        test.expect(1);
+        expect(ajf).toBeTruthy();
+    });
+    test("JsonFileConstructorParams", function() {
+        expect.assertions(1);
 
         var ajf = new JsonFile({
             project: p,
             type: ajft
         });
 
-        test.ok(ajf);
-        test.done();
-    },
-    testJsonFileConstructorNoFile: function(test) {
-        test.expect(1);
-
-        var ajf = new JsonFile({
-            project: p,
-            pathName: undefined,
-            type: ajft
-        });
-        test.ok(ajf);
-        test.done();
-    },
-    testJsonFileMakeKey: function(test) {
-        test.expect(2);
+        expect(ajf).toBeTruthy();
+    });
+    test("JsonFileConstructorNoFile", function() {
+        expect.assertions(1);
 
         var ajf = new JsonFile({
             project: p,
             pathName: undefined,
             type: ajft
         });
-        test.ok(ajf);
-        test.equal(ajf.makeKey("title"), "title");
-        test.done();
-    },
-    testJsonFileParseSimpleGetByKey: function(test) {
-        test.expect(5);
+        expect(ajf).toBeTruthy();
+    });
+    test("JsonFileMakeKey", function() {
+        expect.assertions(2);
 
         var ajf = new JsonFile({
             project: p,
             pathName: undefined,
             type: ajft
         });
-        test.ok(ajf);
+        expect(ajf).toBeTruthy();
+        expect(ajf.makeKey("title")).toBe("title");
+    });
+    test("JsonFileParseSimpleGetByKey", function() {
+        expect.assertions(5);
+
+        var ajf = new JsonFile({
+            project: p,
+            pathName: undefined,
+            type: ajft
+        });
+        expect(ajf).toBeTruthy();
         ajf.parse(sampleqcardinfo);
 
         var set = ajf.getTranslationSet();
-        test.ok(set);
+        expect(set).toBeTruthy();
 
         var r = set.getBy({
             reskey: "Sports"
         });
-        test.ok(r);
+        expect(r).toBeTruthy();
 
-        test.equal(r[0].getSource(), "Sports");
-        test.equal(r[0].getKey(), "Sports");
-
-        test.done();
-    },
-    testJsonFileParseMultipleWithKey: function(test) {
-        test.expect(6);
+        expect(r[0].getSource()).toBe("Sports");
+        expect(r[0].getKey()).toBe("Sports");
+    });
+    test("JsonFileParseMultipleWithKey", function() {
+        expect.assertions(6);
 
         var ajf = new JsonFile({
             project: p,
             pathName: undefined,
             type: ajft
         });
-        test.ok(ajf);
+        expect(ajf).toBeTruthy();
 
         ajf.parse('{"title":"Sports"}');
 
         var set = ajf.getTranslationSet();
-        test.ok(set);
+        expect(set).toBeTruthy();
 
         var r = set.getBy({
             reskey: "Sports"
         });
-        test.ok(r);
-        test.equal(r[0].getSource(), "Sports");
-        test.ok(r[0].getAutoKey());
-        test.equal(r[0].getKey(), "Sports");
-
-        test.done();
-    },
-    testJsonFileExtractFile: function(test) {
-        test.expect(8);
+        expect(r).toBeTruthy();
+        expect(r[0].getSource()).toBe("Sports");
+        expect(r[0].getAutoKey()).toBeTruthy();
+        expect(r[0].getKey()).toBe("Sports");
+    });
+    test("JsonFileExtractFile", function() {
+        expect.assertions(8);
 
         var ajf = new JsonFile({
             project: p,
             pathName: "./qcardinfo.json",
             type: ajft
         });
-        test.ok(ajf);
+        expect(ajf).toBeTruthy();
 
         // should read the file
         ajf.extract();
         var set = ajf.getTranslationSet();
-        test.equal(set.size(), 2);
+        expect(set.size()).toBe(2);
 
         var r = set.getBySource("Sports");
-        test.ok(r);
-        test.equal(r.getSource(), "Sports");
-        test.equal(r.getKey(), "Sports");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("Sports");
+        expect(r.getKey()).toBe("Sports");
 
         var r = set.getBy({
             reskey: "Sports"
         });
-        test.ok(r);
-        test.equal(r[0].getSource(), "Sports");
-        test.equal(r[0].getKey(), "Sports");
-
-        test.done();
-    },
-        testJsonFiledefaultPath: function(test) {
-        test.expect(2);
+        expect(r).toBeTruthy();
+        expect(r[0].getSource()).toBe("Sports");
+        expect(r[0].getKey()).toBe("Sports");
+    });
+        test("JsonFiledefaultPath", function() {
+        expect.assertions(2);
 
         var ajf = new JsonFile({
             project: p,
             pathName: ".",
             type: ajft
         });
-        test.ok(ajf);
+        expect(ajf).toBeTruthy();
 
         // should attempt to read the file and not fail
         ajf.extract();
 
         var set = ajf.getTranslationSet();
-        test.equal(set.size(), 0);
-
-        test.done();
-    },
-    testJsonFileExtractUndefinedFile: function(test) {
-        test.expect(2);
+        expect(set.size()).toBe(0);
+    });
+    test("JsonFileExtractUndefinedFile", function() {
+        expect.assertions(2);
 
         var ajf = new JsonFile({
             project: p,
             pathName: undefined,
             type: ajft
         });
-        test.ok(ajf);
+        expect(ajf).toBeTruthy();
 
         // should attempt to read the file and not fail
         ajf.extract();
 
         var set = ajf.getTranslationSet();
-        test.equal(set.size(), 0);
-        test.done();
-    },
-    testJsonFileTest2: function(test) {
-        test.expect(2);
+        expect(set.size()).toBe(0);
+    });
+    test("JsonFileTest2", function() {
+        expect.assertions(2);
 
         var ajf = new JsonFile({
             project: p,
             pathName: "./js/t2.js",
             type: ajft
         });
-        test.ok(ajf);
+        expect(ajf).toBeTruthy();
 
         // should attempt to read the file and not fail
         ajf.extract();
 
         var set = ajf.getTranslationSet();
-        test.equal(set.size(), 0);
-        test.done();
-    },
-    testJsonParse: function (test) {
-        test.expect(5);
+        expect(set.size()).toBe(0);
+    });
+    test("testJsonParse", function() {
+        expect.assertions(5);
         var ajf = new JsonFile({
             project: p,
             type: ajft
         });
-        test.ok(ajf);
+        expect(ajf).toBeTruthy();
         ajf.parse({
             "id": "app",
             "title": "Sports",
@@ -241,22 +227,20 @@ module.exports.qcardjsonfile = {
             "icon": "$sqcard_icon.png"
         });
         var set = ajf.getTranslationSet();
-        test.ok(set);
+        expect(set).toBeTruthy();
 
         var r = set.getBySource("Sports");
-        test.ok(r);
-        test.equal(r.getSource(), "Sports");
-        test.equal(r.getKey(), "Sports");
-
-        test.done();
-    },
-    testJsonParseMultiple: function (test) {
-        test.expect(6);
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("Sports");
+        expect(r.getKey()).toBe("Sports");
+    });
+    test("testJsonParseMultiple", function() {
+        expect.assertions(6);
         var ajf = new JsonFile({
             project: p,
             type: ajft
         });
-        test.ok(ajf);
+        expect(ajf).toBeTruthy();
         ajf.parse({
             "id": "app",
             "title": "Sports",
@@ -265,23 +249,22 @@ module.exports.qcardjsonfile = {
             "icon": "$sqcard_icon.png"
         });
         var set = ajf.getTranslationSet();
-        test.ok(set);
-        test.equal(set.size(), 2);
+        expect(set).toBeTruthy();
+        expect(set.size()).toBe(2);
 
         var r = set.getBySource("All sports information in one place");
-        test.ok(r);
-        test.equal(r.getSource(), "All sports information in one place");
-        test.equal(r.getKey(), "All sports information in one place");
-        test.done();
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("All sports information in one place");
+        expect(r.getKey()).toBe("All sports information in one place");
 
-    },
-    testJsonLocalzeText: function(test) {
-        test.expect(2);
+    });
+    test("JsonLocalzeText", function() {
+        expect.assertions(2);
         var ajf = new JsonFile({
             project: p,
             type: ajft
         });
-        test.ok(ajf);
+        expect(ajf).toBeTruthy();
         ajf.parse({
             "id": "app",
             "title": "Sports",
@@ -303,16 +286,15 @@ module.exports.qcardjsonfile = {
 
         var actual = ajf.localizeText(translations, "ko-KR");
         var expected = '{\n    "title": "스포츠"\n}';
-        test.equal(actual, expected);
-        test.done();
-    },
-    testJsonLocalzeTextMultiple: function(test) {
-        test.expect(2);
+        expect(actual).toBe(expected);
+    });
+    test("JsonLocalzeTextMultiple", function() {
+        expect.assertions(2);
         var ajf = new JsonFile({
             project: p,
             type: ajft
         });
-        test.ok(ajf);
+        expect(ajf).toBeTruthy();
         ajf.parse({
             "id": "app",
             "title": "Sports",
@@ -347,11 +329,10 @@ module.exports.qcardjsonfile = {
         '{\n    "title": "스포츠",\n'+
         '    "description": "모든 스포츠 정보를 한눈에"\n'+
         '}'
-        test.equal(actual, expected);
-        test.done();
-    },
-    testJSONResourceFileGetResourceFilePaths: function(test) {
-        test.expect(193);
+        expect(actual).toBe(expected);
+    });
+    test("JSONResourceFileGetResourceFilePaths", function() {
+        expect.assertions(193);
         var locales = ["af-ZA","am-ET","ar-AE","ar-BH","ar-DJ","ar-DZ","ar-EG","ar-IQ",
         "ar-JO","ar-KW","ar-LB","ar-LY","ar-MA","ar-MR","ar-OM","ar-QA","ar-SA","ar-SD",
         "ar-SY","ar-TN","ar-YE","as-IN","az-Latn-AZ","bg-BG","bn-IN","bs-Latn-BA","bs-Latn-ME",
@@ -575,12 +556,11 @@ module.exports.qcardjsonfile = {
                 type: ajft,
                 locale: locales[i]
             });
-            test.equal(jsrf.getLocalizedPath(locales[i]), expected[i]);
+            expect(jsrf.getLocalizedPath(locales[i])).toBe(expected[i]);
         }
-        test.done();
-    },
-    testJSONResourceFileGetResourceFilePathsSimple: function(test) {
-        test.expect(10);
+    });
+    test("JSONResourceFileGetResourceFilePathsSimple", function() {
+        expect.assertions(10);
         var locales = ["af-ZA","am-ET","ar-AE","ar-BH","ar-DJ","ar-DZ","ar-EG","ar-IQ",
         "ar-JO","ar-KW"];
 
@@ -604,12 +584,11 @@ module.exports.qcardjsonfile = {
                 type: ajft,
                 locale: locales[i]
             });
-            test.equal(jsrf.getLocalizedPath(locales[i]), expected[i]);
+            expect(jsrf.getLocalizedPath(locales[i])).toBe(expected[i]);
         }
-        test.done();
-    },
-    testJSONResourceFileGetResourceFullFilePathsSimple: function(test) {
-        test.expect(10);
+    });
+    test("JSONResourceFileGetResourceFullFilePathsSimple", function() {
+        expect.assertions(10);
         var locales = ["af-ZA","am-ET","ar-AE","ar-BH","ar-DJ","ar-DZ","ar-EG","ar-IQ",
         "ar-JO","ar-KW"];
 
@@ -633,17 +612,16 @@ module.exports.qcardjsonfile = {
                 type: ajft,
                 locale: locales[i]
             });
-            test.equal(jsrf.getfullLocalizedPath(locales[i]), expected[i]);
+            expect(jsrf.getfullLocalizedPath(locales[i])).toBe(expected[i]);
         }
-        test.done();
-    },
-    testJSONResourceFileGetResourceFilePathsWithTranslations: function(test) {
-        test.expect(5);
+    });
+    test("JSONResourceFileGetResourceFilePathsWithTranslations", function() {
+        expect.assertions(5);
         var ajf = new JsonFile({
             project: p,
             type: ajft
         });
-        test.ok(ajf);
+        expect(ajf).toBeTruthy();
         ajf.parse({
             "id": "app",
             "title": "Live TV",
@@ -673,22 +651,21 @@ module.exports.qcardjsonfile = {
 
         var actual = ajf.localizeText(translations, "fr-FR");
         var expected = '{\n    "title": "(fr-FR) Live TV"\n}';
-        test.equal(actual, expected);
+        expect(actual).toBe(expected);
         var actual2 = ajf.localizeText(translations, "fr-CA");
         var expected2 = '{\n    "title": "(fr-CA) Live TV"\n}';
-        test.equal(actual2, expected2);
+        expect(actual2).toBe(expected2);
 
-        test.equal(ajf.getLocalizedPath("fr-FR"), "localized_json/fr/");
-        test.equal(ajf.getLocalizedPath("fr-CA"), "localized_json/fr/CA/");
-        test.done();
-    },
-    testJsonLocalzeTextWithBaseTranslations: function(test) {
-        test.expect(4);
+        expect(ajf.getLocalizedPath("fr-FR")).toBe("localized_json/fr/");
+        expect(ajf.getLocalizedPath("fr-CA")).toBe("localized_json/fr/CA/");
+    });
+    test("JsonLocalzeTextWithBaseTranslations", function() {
+        expect.assertions(4);
         var ajf = new JsonFile({
             project: p,
             type: ajft
         });
-        test.ok(ajf);
+        expect(ajf).toBeTruthy();
         ajf.parse({
             "id": "app",
             "title": "Live TV",
@@ -718,12 +695,11 @@ module.exports.qcardjsonfile = {
 
         var actual = ajf.localizeText(translations, "fr-FR");
         var expected = '{\n    "title": "(fr) Live TV"\n}';
-        test.equal(actual, expected);
+        expect(actual).toBe(expected);
         var actual2 = ajf.localizeText(translations, "fr-CA");
         var expected2 = '{}';
-        test.equal(actual2, expected2);
+        expect(actual2).toBe(expected2);
 
-        test.equal(ajf.getLocalizedPath("fr-FR"), "localized_json/fr/");
-        test.done();
-    }
-};
+        expect(ajf.getLocalizedPath("fr-FR")).toBe("localized_json/fr/");
+    });
+});
