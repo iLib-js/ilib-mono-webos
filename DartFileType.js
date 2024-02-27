@@ -132,6 +132,10 @@ DartFileType.prototype.name = function() {
  * @returns {String} the localized path name
  */
 DartFileType.prototype.getLocalizedPath = function(mapping, pathname, locale) {
+    if (!mapping) {
+        mapping = this.getMapping(pathname);
+    }
+
     var template = mapping && mapping.template;
     if (!template) {
         template = defaultMappings["**/*.dart"].template;
@@ -318,7 +322,7 @@ DartFileType.prototype.write = function(translations, locales) {
     for (var i = 0; i < resources.length; i++) {
         res = resources[i];
         if (res.getTargetLocale() !== this.project.sourceLocale && res.getSource() !== res.getTarget()) {
-            file = resFileType.getResourceFile(res.getTargetLocale());
+            file = resFileType.getResourceFile(res.getTargetLocale(), this.getLocalizedPath(res.mapping, res.getPath(), res.getTargetLocale()))
             file.addResource(res);
             this.logger.trace("Added " + res.reskey + " to " + file.pathName);
         }
