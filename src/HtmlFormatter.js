@@ -43,31 +43,41 @@ class HtmlFormatter extends Formatter {
      * @param {Result} result the result to format
      * @returns {String} the formatted result
      */
+    completeFile(resultList) {
+        console.log("!");
+        let header = '<!DOCTYPE html>\n' +
+                     '<html>\n' +
+                     '<head>\n' +
+                     '<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">\n' +
+                     '<title>Lint Result</title>\n' +
+                     '</head>\n' +
+                     '<body>\n';
+        let end = '</body>\n' +
+                  '</html>\n';
+        return header + resultList + end;
+    }
     format(result) {
-        if (!result) return "";
-        let output = "";
-        const startColor = (result.severity === "error" ? "\u001B[91m" : "\u001B[33m");
-        output += `${result.pathName}${typeof(result.lineNumber) === "number" ? ('(' + result.lineNumber + ')') : ""}:
-  ${startColor}${result.description}\u001B[0m\n`;
-        if (result.id) {
-            output += `  Key: ${result.id}\n`;
-        }
-        if (result.source) {
-            output += `  Source: ${result.source}\n`;
-        }
-        output += `  ${result.highlight}
-  Auto-fix: ${result.fix === undefined ? "unavailable" : result.fix.applied ? "\u001b[92mapplied" : "\u001B[91mnot applied"}\u001B[0m
-  Rule (${result.rule.getName()}): ${result.rule.getDescription()}
-`;
+        console.log("-------------------------------------");
 
-        // output ascii terminal escape sequences
-        output = output.replace(/<e\d><\/e\d>/g, "\u001B[91m \u001B[0m");
-        output = output.replace(/<e\d>/g, "\u001B[91m");
-        output = output.replace(/<\/e\d>/g, "\u001B[0m");
-        if (typeof(result.rule.getLink) === 'function' && result.rule.getLink()) {
-            output += `  More info: ${result.rule.getLink()}\n`;
-        }
-        return output;
+        let levelTextColor = (result.severity === "error") ? "color:red;" : "color:Burlywood;";
+        let trtdText = '<tr><td style="text-align:left">';
+        let autofix = (result.fix === undefined) ? "unavilable" : result.fix.applied
+        let htmlText = '<table cellpadding="0" cellspacing="0" class="display">\n' +
+                       ' <thead>\n' +
+                       ' <tr><th style=' + levelTextColor + "text-align:left;font-size:22px; width=180px;>" + "["+result.severity + "]"+ "</th><th style='text-align:left'></th></tr>\n" +
+                       ' <tr><td style="text-align:left">filepath</td><td style="color:Cadetblue">' + result.pathName + "</td></tr>\n" +
+                       ' <tr><td style="color:red; text-align:left">Descriptions</td><td style="color:red;" >' + result.description + "</td></tr>\n" +
+                       trtdText + "key" + "</td><td>" + result.source +  "</td></tr>\n" +
+                       trtdText + "source" + "</td><td>" + result.id +  "</td></tr>\n" +
+                       trtdText + "target" + "</td><td>" + result.highlight + "</td></tr>\n" +
+                       trtdText + result.rule.getName() + "</td><td>" + result.rule.getDescription() + "</td></tr>\n" +
+                       trtdText + "More info" + "</td><td>" + result.rule.getLink() + "</td></tr>\n" +
+                       trtdText + "Auto-fix" + "</td><td>"  + autofix + "</td></tr>\n" +
+                       '<thead>\n' +
+                       '<table>\n' +
+                       '<br>\n';
+
+        return htmlText;
     }
 }
 
