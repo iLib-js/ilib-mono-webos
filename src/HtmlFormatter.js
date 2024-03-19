@@ -44,39 +44,83 @@ class HtmlFormatter extends Formatter {
      * @returns {String} the formatted result
      */
     completeFile(resultList) {
-        console.log("!");
         let header = '<!DOCTYPE html>\n' +
                      '<html>\n' +
                      '<head>\n' +
-                     '<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">\n' +
-                     '<title>Lint Result</title>\n' +
+                     '<title>ilib-lint Result for webOS Apps</title>\n' +
                      '</head>\n' +
                      '<body>\n';
         let end = '</body>\n' +
                   '</html>\n';
         return header + resultList + end;
     }
-    format(result) {
-        console.log("-------------------------------------");
+    executeSummary(prjName, totaltime, fileStats, resultStats, score) {
+        const fmt = new Intl.NumberFormat("en-US", {
+            maxFractionDigits: 2
+        });
 
-        let levelTextColor = (result.severity === "error") ? "color:red;" : "color:Burlywood;";
-        let trtdText = '<tr><td style="text-align:left">';
-        let autofix = (result.fix === undefined) ? "unavilable" : result.fix.applied
-        let htmlText = '<table cellpadding="0" cellspacing="0" class="display">\n' +
-                       ' <thead>\n' +
-                       ' <tr><th style=' + levelTextColor + "text-align:left;font-size:22px; width=180px;>" + "["+result.severity + "]"+ "</th><th style='text-align:left'></th></tr>\n" +
-                       ' <tr><td style="text-align:left">filepath</td><td style="color:Cadetblue">' + result.pathName + "</td></tr>\n" +
-                       ' <tr><td style="color:red; text-align:left">Descriptions</td><td style="color:red;" >' + result.description + "</td></tr>\n" +
-                       trtdText + "key" + "</td><td>" + result.source +  "</td></tr>\n" +
-                       trtdText + "source" + "</td><td>" + result.id +  "</td></tr>\n" +
-                       trtdText + "target" + "</td><td>" + result.highlight + "</td></tr>\n" +
-                       trtdText + result.rule.getName() + "</td><td>" + result.rule.getDescription() + "</td></tr>\n" +
-                       trtdText + "More info" + "</td><td>" + result.rule.getLink() + "</td></tr>\n" +
-                       trtdText + "Auto-fix" + "</td><td>"  + autofix + "</td></tr>\n" +
+        let summaryTable = '<p style="color:#714AFF;text-align:left;font-size:30px;font-weight:bold" width=300px;> [' + prjName + '] Sumarry</p>\n'+
+                           '<table>\n' +
+                           '<thead>\n' +
+                           '<tr><td style="font-size:20px">Total Elapse Time</td>\n' +
+                           '<td style="font-size:20px;color:green;font-weight:bold">' + totaltime + 'seconds</td></tr>\n' +
+                           '<tr><td></td><td></td>\n' +
+                           '<td width=150px;>Average over</td>\n' +
+                           '<td width=150px;>Average over</td>\n' +
+                           '<td width=150px;>Average over</td>\n' +
+                           '</tr><tr>\n'  +
+                           '<td></td><td>Total</td>\n' +
+                           '<td>' + fileStats.files +  ' Files</td>\n' +
+                           '<td>' + fileStats.modules + ' Modules</td>\n' +
+                           '<td>' + fileStats.lines + ' Lines</td></tr>\n' +
+                           '<tr>\n' +
+                           '<td style="font-size:20px">Errors:</td>\n' +
+                           '<td style="font-size:20px;color:red">' + resultStats.errors + '</td>\n' +
+                           '<td>' + fmt.format(resultStats.errors/fileStats.files).padEnd(15, ' ') + '</td>\n' +
+                           '<td>' + fmt.format(resultStats.errors/fileStats.modules).padEnd(15, ' ') + '</td>\n' +
+                           '<td>' + fmt.format(resultStats.errors/fileStats.lines).padEnd(15, ' ') + '</td>\n' +
+                           '</tr><tr>\n' +
+                           '<td style="font-size:20px">Warnings:</td>\n' +
+                           '<td style="font-size:20px;color:orange">' + resultStats.warnings + '</td>\n' +
+                           '<td>' + fmt.format(resultStats.warnings/fileStats.files).padEnd(15, ' ') + '</td>\n' +
+                           '<td>' + fmt.format(resultStats.warnings/fileStats.modules).padEnd(15, ' ') + '</td>\n' +
+                           '<td>' + fmt.format(resultStats.warnings/fileStats.lines).padEnd(15, ' ') + '</td>\n' +
+                           '</tr><tr>\n' +
+                           '<td>Suggestions:</td>\n' +
+                           '<td>' + resultStats.suggestions + '</td>\n' +
+                           '<td>' + fmt.format(resultStats.suggestions/fileStats.files).padEnd(15, ' ') + '</td>\n' +
+                           '<td>' + fmt.format(resultStats.suggestions/fileStats.modules).padEnd(15, ' ') + '</td>\n' +
+                           '<td>' + fmt.format(resultStats.suggestions/fileStats.lines).padEnd(15, ' ') + '</td>\n' +
+                           '</tr><tr>\n' +
+                           '<td>I18N Score(0-100)</td>\n' +
+                           '<td>' + fmt.format(score) + '</td>\n' +
+                           '</tr>\n' +
+                           '</thead>\n' +
+                           '</table>\n' +
+                           '<br/>\n' +
+                           '<hr align="left" width="1100px"/>\n' +
+                           '<p style="color:#714AFF;text-align:left;font-size:30px;font-weight:bold" width=320px; >Detailed Information</p>\n';
+        return summaryTable;
+    }
+
+    format(result) {
+        let levelTextColor = (result.severity === "error") ? "color:red;" : "color:orange;";
+        let autofix = (result.fix === undefined) ? "unavilable" : result.fix.applied;
+
+        let htmlText = '<table>\n' +
+                       '<thead>\n' +
+                       '<tr><th style=' + levelTextColor + "text-align:left;font-size:22px; width=280px;>" + "["+result.severity + "]"+ "</th><th style='text-align:left'></th></tr>\n" +
+                       '<tr><td style="text-align:left;color:Cadetblue;font-weight:bold">filepath</td><td style="color:Cadetblue;font-weight:bold">' + result.pathName + "</td></tr>\n" +
+                       '<tr><td style="color:red; text-align:left">Descriptions</td><td style="color:red;" >' + result.description + "</td></tr>\n" +
+                       '<tr><td>key' + "</td><td>" + result.source +  "</td></tr>\n" +
+                       '<tr><td>source' + "</td><td>" + result.id +  "</td></tr>\n" +
+                       '<tr><td>target' + "</td><td>" + result.highlight + "</td></tr>\n" +
+                       '<tr><td>' + result.rule.getName() + "</td><td>" + result.rule.getDescription() + "</td></tr>\n" +
+                       '<tr><td>More info' + "</td><td><a href=" + result.rule.getLink() + ">" + result.rule.getLink() + "</td></tr>\n" +
+                       '<tr><td>Auto-fix' + "</td><td>"  + autofix + "</td></tr>\n" +
                        '<thead>\n' +
                        '<table>\n' +
                        '<br>\n';
-
         return htmlText;
     }
 }
