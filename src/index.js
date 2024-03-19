@@ -28,24 +28,17 @@ class webOSPlugin extends Plugin {
 
     /** @override */
     init() {
-        //console.log("PythonPlugin.init() called");
+        //console.log("webOSPlugin.init() called");
     }
 
     /** @override */
     getRules() {
-        //console.log("PythonPlugin.getRules() called");
+        //console.log("webOSPlugin.getRules() called");
         //return [ FStringMatchRule, FStringNumberedRule, LegacyMatchRule ];
     }
 
     /** @override */
     getRuleSets() {
-        return {
-            "python": {
-                "resource-python-fstrings-match": true,
-                "resource-python-fstrings-numbered": true,
-                "resource-python-legacy-match": true
-            }
-        };
     }
 
     getFormatters() {
