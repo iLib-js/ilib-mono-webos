@@ -32,7 +32,7 @@ class HtmlFormatter extends Formatter {
      */
     constructor(options) {
         super(options);
-        this.name = "html-console-formatter";
+        this.name = "html-formatter";
         this.description = "Formats results for an Html file with colors.";
     }
 
