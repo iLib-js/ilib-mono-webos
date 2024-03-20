@@ -54,7 +54,7 @@ class HtmlFormatter extends Formatter {
                   '</html>\n';
         return header + resultList + end;
     }
-    executeSummary(prjName, totaltime, fileStats, resultStats, score) {
+    writeSummaryToFile(prjName, totaltime, fileStats, resultStats, score) {
         const fmt = new Intl.NumberFormat("en-US", {
             maxFractionDigits: 2
         });
