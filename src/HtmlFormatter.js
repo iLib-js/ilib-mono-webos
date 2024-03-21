@@ -35,34 +35,15 @@ class HtmlFormatter extends Formatter {
         this.name = "html-formatter";
         this.description = "Formats results for an Html file with colors.";
     }
-
-    /**
-     * Format the given result with the current formatter and return the
-     * formatted string.
-     *
-     * @param {Result} result the result to format
-     * @returns {String} the formatted result
-     */
-    completeFile(resultList) {
-        let header = '<!DOCTYPE html>\n' +
-                     '<html>\n' +
-                     '<head>\n' +
-                     '<title>ilib-lint Result for webOS Apps</title>\n' +
-                     '</head>\n' +
-                     '<body>\n';
-        let end = '</body>\n' +
-                  '</html>\n';
-        return header + resultList + end;
-    }
-    writeSummaryToFile(prjName, totaltime, fileStats, resultStats, score) {
+    _formatSummary(prjName, totaltime, fileStats, resultStats, score) {
         const fmt = new Intl.NumberFormat("en-US", {
             maxFractionDigits: 2
         });
 
-        let summaryTable = '<p style="color:#714AFF;text-align:left;font-size:30px;font-weight:bold" width=300px;> [' + prjName + '] Sumarry</p>\n'+
+        let summaryTable = '<p style="color:#714AFF;text-align:left;font-size:30px;font-weight:bold" width=300px;> [' + prjName + '] Summary</p>\n'+
                            '<table>\n' +
                            '<thead>\n' +
-                           '<tr><td style="font-size:20px">Total Elapse Time</td>\n' +
+                           '<tr><td style="font-size:20px">Total Elapsed Time</td>\n' +
                            '<td style="font-size:20px;color:green;font-weight:bold">' + totaltime + 'seconds</td></tr>\n' +
                            '<tr><td></td><td></td>\n' +
                            '<td width=150px;>Average over</td>\n' +
@@ -102,10 +83,42 @@ class HtmlFormatter extends Formatter {
                            '<p style="color:#714AFF;text-align:left;font-size:30px;font-weight:bold" width=320px; >Detailed Information</p>\n';
         return summaryTable;
     }
+    _formatHeader() {
+        let header = '<!DOCTYPE html>\n' +
+                     '<html>\n' +
+                     '<head>\n' +
+                     '<title>ilib-lint Result for webOS Apps</title>\n' +
+                     '</head>\n' +
+                     '<body>\n';
+        return header;
+    }
+    _formatFooter(){
+        let end = '</body>\n' +
+                  '</html>\n';
+        return end;
+    }
+    _formatResult(results, errorsOnly) {
+        let resultAll = '';
+        if (results) {
+            results.forEach(result => {
+                resultAll += this.format(result, errorsOnly);
+            })
+        }
+        return resultAll;
+    }
+    /**
+     * Format the given result with the current formatter and return the
+     * formatted string.
+     *
+     * @param {Result} result the result to format
+     * @returns {String} the formatted result
+     */
+    format(result, errorsOnly){
+        if (errorsOnly && result.severity !== "error") return "";
 
-    format(result) {
         let levelTextColor = (result.severity === "error") ? "color:red;" : "color:orange;";
-        let autofix = (result.fix === undefined) ? "unavilable" : result.fix.applied;
+        let autofix = (result.fix === undefined) ? "unavailable" : result.fix.applied;
+        let targetText = result.highlight.replaceAll(/<e\d>/g, '<span style="color:red">').replaceAll(/<\/e\d>/g, '</span>');
 
         let htmlText = '<table>\n' +
                        '<thead>\n' +
@@ -114,7 +127,7 @@ class HtmlFormatter extends Formatter {
                        '<tr><td style="color:red; text-align:left">Descriptions</td><td style="color:red;" >' + result.description + "</td></tr>\n" +
                        '<tr><td>key' + "</td><td>" + result.source +  "</td></tr>\n" +
                        '<tr><td>source' + "</td><td>" + result.id +  "</td></tr>\n" +
-                       '<tr><td>target' + "</td><td>" + result.highlight + "</td></tr>\n" +
+                       '<tr><td>target' + "</td><td>" + targetText + "</td></tr>\n" +
                        '<tr><td>' + result.rule.getName() + "</td><td>" + result.rule.getDescription() + "</td></tr>\n" +
                        '<tr><td>More info' + "</td><td><a href=" + result.rule.getLink() + ">" + result.rule.getLink() + "</td></tr>\n" +
                        '<tr><td>Auto-fix' + "</td><td>"  + autofix + "</td></tr>\n" +
@@ -122,6 +135,28 @@ class HtmlFormatter extends Formatter {
                        '<table>\n' +
                        '<br>\n';
         return htmlText;
+    }
+
+    formatOutput(options) {
+        let prjName, totalTime, fileStats, score, resultStats, results, errorsOnly;
+
+        if (options) {
+            prjName = options.name;
+            totalTime = options.time;
+            fileStats = options.fileStats;
+            resultStats = options.resultStats;
+            results = options.results;
+            score = options.score;
+            errorsOnly = options.errorOnly;
+        }
+
+        let completeOutput= '';
+        completeOutput += this._formatHeader();
+        completeOutput += this._formatSummary(prjName, totalTime, fileStats, resultStats, score);
+        completeOutput += this._formatResult(results, errorsOnly);
+        completeOutput += this._formatFooter();
+
+        return completeOutput;
     }
 }
 
