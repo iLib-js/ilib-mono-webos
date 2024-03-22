@@ -17,7 +17,6 @@
  * limitations under the License.
  */
 import log4js from 'log4js';
-
 import { Formatter, Result } from 'ilib-lint-common';
 
 var logger = log4js.getLogger("ilib-lint.formatters.HtmlFormatter");
@@ -33,7 +32,7 @@ class HtmlFormatter extends Formatter {
     constructor(options) {
         super(options);
         this.name = "html-formatter";
-        this.description = "Formats results for an Html file with colors.";
+        this.description = "Formats results for an html file with colors.";
     }
     _formatSummary(prjName, totaltime, fileStats, resultStats, score) {
         const fmt = new Intl.NumberFormat("en-US", {
@@ -122,15 +121,15 @@ class HtmlFormatter extends Formatter {
 
         let htmlText = '<table>\n' +
                        '<thead>\n' +
-                       '<tr><th style=' + levelTextColor + "text-align:left;font-size:22px; width=280px;>" + "["+result.severity + "]"+ "</th><th style='text-align:left'></th></tr>\n" +
+                       '<tr><th style=' + levelTextColor + 'text-align:left;font-size:22px; width=280px;>[' + result.severity + ']</th><th style="text-align:left"></th></tr>\n' +
                        '<tr><td style="text-align:left;color:Cadetblue;font-weight:bold">filepath</td><td style="color:Cadetblue;font-weight:bold">' + result.pathName + "</td></tr>\n" +
-                       '<tr><td style="color:red; text-align:left">Descriptions</td><td style="color:red;" >' + result.description + "</td></tr>\n" +
-                       '<tr><td>key' + "</td><td>" + result.source +  "</td></tr>\n" +
-                       '<tr><td>source' + "</td><td>" + result.id +  "</td></tr>\n" +
-                       '<tr><td>target' + "</td><td>" + targetText + "</td></tr>\n" +
-                       '<tr><td>' + result.rule.getName() + "</td><td>" + result.rule.getDescription() + "</td></tr>\n" +
-                       '<tr><td>More info' + "</td><td><a href=" + result.rule.getLink() + ">" + result.rule.getLink() + "</td></tr>\n" +
-                       '<tr><td>Auto-fix' + "</td><td>"  + autofix + "</td></tr>\n" +
+                       '<tr><td style="color:red; text-align:left">Descriptions</td><td style="color:red;">' + result.description + "</td></tr>\n" +
+                       '<tr><td>key</td><td>' + result.source + '</td></tr>\n' +
+                       '<tr><td>source</td><td>' + result.id + '</td></tr>\n' +
+                       '<tr><td>target</td><td>' + targetText + '</td></tr>\n' +
+                       '<tr><td>' + result.rule.getName() + '</td><td>' + result.rule.getDescription() + '</td></tr>\n' +
+                       '<tr><td>More info</td><td><a href=' + result.rule.getLink() + '>' + result.rule.getLink() + '</td></tr>\n' +
+                       '<tr><td>Auto-fix</td><td>' + autofix + '</td></tr>\n' +
                        '<thead>\n' +
                        '<table>\n' +
                        '<br>\n';
