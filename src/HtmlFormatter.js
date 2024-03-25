@@ -32,8 +32,11 @@ class HtmlFormatter extends Formatter {
     constructor(options) {
         super(options);
         this.name = "html-formatter";
-        this.description = "Formats results for an html file with colors.";
+        this.description = "Formats results as an html file with colors.";
     }
+    /**
+     * @private
+     */
     _formatSummary(prjName, totaltime, fileStats, resultStats, score) {
         const fmt = new Intl.NumberFormat("en-US", {
             maxFractionDigits: 2
@@ -82,6 +85,9 @@ class HtmlFormatter extends Formatter {
                            '<p style="color:#714AFF;text-align:left;font-size:30px;font-weight:bold" width=320px; >Detailed Information</p>\n';
         return summaryTable;
     }
+    /**
+     * @private
+     */
     _formatHeader() {
         let header = '<!DOCTYPE html>\n' +
                      '<html>\n' +
@@ -91,11 +97,17 @@ class HtmlFormatter extends Formatter {
                      '<body>\n';
         return header;
     }
+    /**
+     * @private
+     */
     _formatFooter(){
         let end = '</body>\n' +
                   '</html>\n';
         return end;
     }
+    /**
+     * @private
+     */
     _formatResult(results, errorsOnly) {
         let resultAll = '';
         if (results) {
@@ -109,8 +121,9 @@ class HtmlFormatter extends Formatter {
      * Format the given result with the current formatter and return the
      * formatted string.
      *
-     * @param {Result} result the result to format
-     * @returns {String} the formatted result
+     * @param {Result} result the result to formatted
+     * @param {boolean} [errorOnly] true, if only errors are displayed
+     * @returns {String} the formatted result with a complete html form
      */
     format(result, errorsOnly){
         if (errorsOnly && result.severity !== "error") return "";
@@ -135,7 +148,12 @@ class HtmlFormatter extends Formatter {
                        '<br>\n';
         return htmlText;
     }
-
+    /**
+     * Provide the Information that the method can use to format the output
+     *
+     * @param {Object} [options] the options that needs for fomatter
+     * @returns {String} the formatted result
+     */
     formatOutput(options) {
         let prjName, totalTime, fileStats, score, resultStats, results, errorsOnly;
 

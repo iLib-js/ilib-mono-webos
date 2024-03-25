@@ -27,4 +27,4 @@ file for more details.
 
 ## Release Notes
 ### v1.0.0
-- Implemnt the HtmoFormatter to write the output into a html file.
+- Implement the HtmlFormatter to write the output into a html file.
