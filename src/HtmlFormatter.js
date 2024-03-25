@@ -164,7 +164,7 @@ class HtmlFormatter extends Formatter {
             resultStats = options.resultStats;
             results = options.results;
             score = options.score;
-            errorsOnly = options.errorOnly;
+            errorsOnly = options.errorsOnly;
         }
 
         let completeOutput= '';
