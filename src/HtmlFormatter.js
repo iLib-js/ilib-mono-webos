@@ -41,48 +41,51 @@ class HtmlFormatter extends Formatter {
         const fmt = new Intl.NumberFormat("en-US", {
             maxFractionDigits: 2
         });
-
+        let borderStyle = "border-bottom:2px solid #ddd;";
         let summaryTable = '<p style="color:#714AFF;text-align:left;font-size:30px;font-weight:bold" width=300px;> [' + prjName + '] Summary</p>\n'+
                            '<table>\n' +
                            '<thead>\n' +
-                           '<tr><td style="font-size:20px">Total Elapsed Time</td>\n' +
+                           '<tr><td style="font-size:20px">Total Elapsed Time : </td>\n' +
                            '<td style="font-size:20px;color:green;font-weight:bold">' + totaltime + 'seconds</td></tr>\n' +
                            '<tr><td></td><td></td>\n' +
-                           '<td width=150px;>Average over</td>\n' +
-                           '<td width=150px;>Average over</td>\n' +
-                           '<td width=150px;>Average over</td>\n' +
+                           '<td style="'+ borderStyle + '"width=150px;>Average over</td>\n' +
+                           '<td style="'+ borderStyle + '"width=150px;>Average over</td>\n' +
+                           '<td style="'+ borderStyle + '"width=150px;>Average over</td>\n' +
                            '</tr><tr>\n'  +
-                           '<td></td><td>Total</td>\n' +
-                           '<td>' + fileStats.files +  ' Files</td>\n' +
-                           '<td>' + fileStats.modules + ' Modules</td>\n' +
-                           '<td>' + fileStats.lines + ' Lines</td></tr>\n' +
+                           '<td></td><td style="' + borderStyle + '">Total</td>\n' +
+                           '<td style="'+ borderStyle +'">' + fileStats.files +  ' Files</td>\n' +
+                           '<td style="'+ borderStyle +'">' + fileStats.modules + ' Modules</td>\n' +
+                           '<td style="'+ borderStyle +'">' + fileStats.lines + ' Lines</td></tr>\n' +
                            '<tr>\n' +
-                           '<td style="font-size:20px">Errors:</td>\n' +
-                           '<td style="font-size:20px;color:red">' + resultStats.errors + '</td>\n' +
-                           '<td>' + fmt.format(resultStats.errors/fileStats.files).padEnd(15, ' ') + '</td>\n' +
-                           '<td>' + fmt.format(resultStats.errors/fileStats.modules).padEnd(15, ' ') + '</td>\n' +
-                           '<td>' + fmt.format(resultStats.errors/fileStats.lines).padEnd(15, ' ') + '</td>\n' +
+                           '<td style="' + borderStyle + 'font-size:20px">Errors:</td>\n' +
+                           '<td style="' + borderStyle + 'font-weight:bold;font-size:20px;color:red">' + resultStats.errors + '</td>\n' +
+                           '<td style="'+ borderStyle +'">' + fmt.format(resultStats.errors/fileStats.files).padEnd(15, ' ') + '</td>\n' +
+                           '<td style="'+ borderStyle +'">' + fmt.format(resultStats.errors/fileStats.modules).padEnd(15, ' ') + '</td>\n' +
+                           '<td style="'+ borderStyle +'">' + fmt.format(resultStats.errors/fileStats.lines).padEnd(15, ' ') + '</td>\n' +
                            '</tr><tr>\n' +
-                           '<td style="font-size:20px">Warnings:</td>\n' +
-                           '<td style="font-size:20px;color:orange">' + resultStats.warnings + '</td>\n' +
-                           '<td>' + fmt.format(resultStats.warnings/fileStats.files).padEnd(15, ' ') + '</td>\n' +
-                           '<td>' + fmt.format(resultStats.warnings/fileStats.modules).padEnd(15, ' ') + '</td>\n' +
-                           '<td>' + fmt.format(resultStats.warnings/fileStats.lines).padEnd(15, ' ') + '</td>\n' +
+                           '<td style="' + borderStyle + 'font-size:20px">Warnings:</td>\n' +
+                           '<td style="' + borderStyle + 'font-weight:bold;font-size:20px;color:orange">' + resultStats.warnings + '</td>\n' +
+                           '<td style="'+ borderStyle +'">' + fmt.format(resultStats.warnings/fileStats.files).padEnd(15, ' ') + '</td>\n' +
+                           '<td style="'+ borderStyle +'">' + fmt.format(resultStats.warnings/fileStats.modules).padEnd(15, ' ') + '</td>\n' +
+                           '<td style="'+ borderStyle +'">' + fmt.format(resultStats.warnings/fileStats.lines).padEnd(15, ' ') + '</td>\n' +
                            '</tr><tr>\n' +
                            '<td>Suggestions:</td>\n' +
-                           '<td>' + resultStats.suggestions + '</td>\n' +
-                           '<td>' + fmt.format(resultStats.suggestions/fileStats.files).padEnd(15, ' ') + '</td>\n' +
-                           '<td>' + fmt.format(resultStats.suggestions/fileStats.modules).padEnd(15, ' ') + '</td>\n' +
-                           '<td>' + fmt.format(resultStats.suggestions/fileStats.lines).padEnd(15, ' ') + '</td>\n' +
+                           '<td style="'+ borderStyle +'">' + resultStats.suggestions + '</td>\n' +
+                           '<td style="'+ borderStyle +'">' + fmt.format(resultStats.suggestions/fileStats.files).padEnd(15, ' ') + '</td>\n' +
+                           '<td style="'+ borderStyle +'">' + fmt.format(resultStats.suggestions/fileStats.modules).padEnd(15, ' ') + '</td>\n' +
+                           '<td style="'+ borderStyle +'">' + fmt.format(resultStats.suggestions/fileStats.lines).padEnd(15, ' ') + '</td>\n' +
                            '</tr><tr>\n' +
-                           '<td>I18N Score(0-100)</td>\n' +
-                           '<td>' + fmt.format(score) + '</td>\n' +
+                           '<td style="' + borderStyle + '">I18N Score(0-100)</td>\n' +
+                           '<td style="'+ borderStyle +'">' + fmt.format(score) + '</td>\n' +
+                           '<td style="'+ borderStyle +'"></td>\n' +
+                           '<td style="'+ borderStyle +'"></td>\n' +
+                           '<td style="'+ borderStyle +'"></td>\n' +
                            '</tr>\n' +
                            '</thead>\n' +
                            '</table>\n' +
                            '<br/>\n' +
                            '<hr align="left" width="1100px"/>\n' +
-                           '<p style="color:#714AFF;text-align:left;font-size:30px;font-weight:bold" width=320px; >Detailed Information</p>\n';
+                           '<p style="color:#714AFF;text-align:left;font-size:30px;font-weight:bold" width=320px;>Detailed Information</p>\n';
         return summaryTable;
     }
     /**
@@ -128,21 +131,21 @@ class HtmlFormatter extends Formatter {
     format(result, errorsOnly){
         if (errorsOnly && result.severity !== "error") return "";
 
-        let levelTextColor = (result.severity === "error") ? "color:red;" : "color:orange;";
+        let levelTextColor = (result.severity === "error") ? "color:white;black;background-color:maroon;" : "color:white;background-color:orange;";
         let autofix = (result.fix === undefined) ? "unavailable" : result.fix.applied;
         let targetText = result.highlight.replaceAll(/<e\d>/g, '<span style="color:red">').replaceAll(/<\/e\d>/g, '</span>');
-
+        let cellBackground = "background:#eee;border-bottom:1px solid #ccc;border-top:1px solid #fff;"
         let htmlText = '<table>\n' +
                        '<thead>\n' +
-                       '<tr><th style=' + levelTextColor + 'text-align:left;font-size:22px; width=280px;>[' + result.severity + ']</th><th style="text-align:left"></th></tr>\n' +
-                       '<tr><td style="text-align:left;color:Cadetblue;font-weight:bold">filepath</td><td style="color:Cadetblue;font-weight:bold">' + result.pathName + "</td></tr>\n" +
-                       '<tr><td style="color:red; text-align:left">Descriptions</td><td style="color:red;">' + result.description + "</td></tr>\n" +
-                       '<tr><td>key</td><td>' + result.source + '</td></tr>\n' +
-                       '<tr><td>source</td><td>' + result.id + '</td></tr>\n' +
-                       '<tr><td>target</td><td>' + targetText + '</td></tr>\n' +
-                       '<tr><td>' + result.rule.getName() + '</td><td>' + result.rule.getDescription() + '</td></tr>\n' +
-                       '<tr><td>More info</td><td><a href=' + result.rule.getLink() + '>' + result.rule.getLink() + '</td></tr>\n' +
-                       '<tr><td>Auto-fix</td><td>' + autofix + '</td></tr>\n' +
+                       '<tr><th colspan="2" style=padding-left:8px;' + levelTextColor + 'text-align:left;font-size:22px; width=280px;>[' + result.severity + ']</th><th style="text-align:left"></th></tr>\n' +
+                       '<tr><td style="padding-left:8px;'+ cellBackground+ 'text-align:left;color:Cadetblue;font-weight:bold">filepath</td><td style="' + cellBackground + 'padding-left:8px;padding-right:30px;color:Cadetblue;font-weight:bold">' + result.pathName + "</td></tr>\n" +
+                       '<tr><td style="padding-left:8px;'+ cellBackground+ 'color:red; text-align:left">Descriptions</td><td style="' + cellBackground+ 'padding-left:8px;color:red;">' + result.description + "</td></tr>\n" +
+                       '<tr><td style="padding-left:8px;' + cellBackground + '">key</td><td style="'+ cellBackground + 'padding-left:8px;padding-right:30px">' + result.source + '</td></tr>\n' +
+                       '<tr><td style="padding-left:8px;'+ cellBackground + '">source</td><td style="'+ cellBackground+ 'padding-left:8px;padding-right:30px">' + result.id + '</td></tr>\n' +
+                       '<tr><td style="padding-left:8px;' + cellBackground + '">target</td><td style="'+ cellBackground + 'padding-left:8px;padding-right:30px">' + targetText + '</td></tr>\n' +
+                       '<tr><td style="padding-left:8px;'+ cellBackground + 'padding-right:20px">' + result.rule.getName() + '</td><td style="'+ cellBackground + 'padding-left:8px;padding-right:30px">' + result.rule.getDescription() + '</td></tr>\n' +
+                       '<tr><td style="padding-left:8px;'+ cellBackground + '">More info</td><td style="'+ cellBackground+ 'padding-left:8px;"><a href=' + result.rule.getLink() + '>' + result.rule.getLink() + '</td></tr>\n' +
+                       '<tr><td style="padding-left:8px;' + cellBackground+ '">Auto-fix</td><td style="' + cellBackground + 'padding-left:8px;">' + autofix + '</td></tr>\n' +
                        '<thead>\n' +
                        '<table>\n' +
                        '<br>\n';
