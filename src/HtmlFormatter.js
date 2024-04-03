@@ -133,7 +133,7 @@ class HtmlFormatter extends Formatter {
 
         let levelTextColor = (result.severity === "error") ? "color:white;black;background-color:maroon;" : "color:white;background-color:orange;";
         let autofix = (result.fix === undefined) ? "unavailable" : result.fix.applied;
-        let targetText = result.highlight.replaceAll(/<e\d>/g, '<span style="color:red">').replaceAll(/<\/e\d>/g, '</span>');
+        let targetText = (result.highlight !== undefined) ? result.highlight.replaceAll(/<e\d>/g, '<span style="color:red">').replaceAll(/<\/e\d>/g, '</span>') : "";
         let cellBackground = "background:#eee;border-bottom:1px solid #ccc;border-top:1px solid #fff;"
         let htmlText = '<table>\n' +
                        '<thead>\n' +
