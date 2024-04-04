@@ -96,6 +96,7 @@ class HtmlFormatter extends Formatter {
                      '<html>\n' +
                      '<head>\n' +
                      '<title>ilib-lint Result for webOS Apps</title>\n' +
+                     '<meta charset="UTF-8">\n' +
                      '</head>\n' +
                      '<body>\n';
         return header;
