@@ -3,6 +3,14 @@
     "version": "1.0.0",
     "main": "./src/index.js",
     "type": "module",
+    "exports": {
+        ".": {
+            "default": {
+                "default": "./src/index.js"
+            }
+        },
+        "./package.json":  "./package.json"
+    },
     "description": "ilib-lint plugin to support webOS Platform",
     "files": [
         "src",
