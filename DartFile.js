@@ -1,4 +1,4 @@
-/*aa
+/*
  * DartFile.js - plugin to extract resources from a Dart source code file
  *
  * Copyright (c) 2023-2024, JEDLSoft
