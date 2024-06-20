@@ -908,7 +908,7 @@ describe("dartfile", function() {
         expect(r[0].getKey()).toBe("1#At least 1 letter|#At least {num} letters");
     });
     test("DartFileTest3", function() {
-        expect.assertions(8);
+        expect.assertions(14);
 
         var d = new DartFile({
             project: p,
@@ -920,7 +920,7 @@ describe("dartfile", function() {
         d.extract();
 
         var set = d.getTranslationSet();
-        expect(set.size()).toBe(3);
+        expect(set.size()).toBe(4);
 
         var r = set.getBySource("WOWCAST ({arg1})");
         expect(r).toBeTruthy();
@@ -931,6 +931,16 @@ describe("dartfile", function() {
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("GO TO {arg1}");
         expect(r.getKey()).toBe("GO TO {arg1}");
+
+        var r = set.getBySource("Add ({arg1} card)");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("Add ({arg1} card)");
+        expect(r.getKey()).toBe("Add ({arg1} card)");
+
+        var r = set.getBySource("{appName} app cannot be deleted.");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("{appName} app cannot be deleted.");
+        expect(r.getKey()).toBe("{appName} app cannot be deleted.");
     });
     test("DartPseudoLocalization1", function() {
         expect.assertions(4);

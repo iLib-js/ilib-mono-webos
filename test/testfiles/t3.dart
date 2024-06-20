@@ -10,3 +10,8 @@ staticString home_298(arg1) =>
   static String home_327(arg1) =>
       rtlCode +
       translate('Add ({arg1} card)', args: {"arg1": arg1}) + emptyString;
+
+translate(
+  '{appName} app cannot be deleted.',
+    args: {'appName': 'Settings'}
+    ),
