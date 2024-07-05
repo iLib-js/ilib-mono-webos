@@ -10,3 +10,15 @@ staticString home_298(arg1) =>
   static String home_327(arg1) =>
       rtlCode +
       translate('Add ({arg1} card)', args: {"arg1": arg1}) + emptyString;
+
+Text(
+    translate(
+        '{appName} app cannot be deleted.',
+        args: {'appName': 'Settings'}
+    ),
+    style: Style.textStyle),
+Text(
+    translate(
+        'The lowest temp is {arg1} and the highest temp is {arg2}.',
+        args: {'arg1': 15, 'arg2': 30}                 ),
+    style: Style.textStyle),
