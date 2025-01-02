@@ -1,0 +1,10 @@
+############ Common ############
+
+# Dependencie
+node_modules/
+
+# Editors
+.vscode
+
+# Turbo
+.turbo/
