@@ -35,7 +35,7 @@
     ],
     "repository": {
         "type": "git",
-        "url": "https://github.com/iLib-js/ilib-mono.git"
+        "url": "git@github.com:iLib-js/ilib-mono-webos.git"
     },
     "scripts": {
         "dist": "npm pack",
