@@ -51,7 +51,8 @@ do
     # discover default branch name
     BRANCH=$(git remote show "$REMOTE" | grep 'HEAD branch' | cut -d' ' -f5)
     echo "Discovered default branch $BRANCH"
-    git fetch "$REMOTE" "$BRANCH"
+    #git fetch "$REMOTE" "$BRANCH"
+    git fetch "$REMOTE" "main"
 
     # add subtree for the remote in folder packages/repo
     
