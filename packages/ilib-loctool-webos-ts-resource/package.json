@@ -1,0 +1,63 @@
+{
+    "name": "ilib-loctool-webos-ts-resource",
+    "version": "1.5.4",
+    "main": "./TSResourceFileType.js",
+    "description": "A loctool plugin that knows how to process ts resource files",
+    "license": "Apache-2.0",
+    "keywords": [
+        "internationalization",
+        "i18n",
+        "localization",
+        "l10n",
+        "globalization",
+        "g11n",
+        "strings",
+        "resources",
+        "locale",
+        "translation",
+        "qml",
+        "ts"
+    ],
+    "author": {
+        "name": "Goun Lee",
+        "email": "goun.lee@lge.com"
+    },
+    "contributors": [
+        {
+            "name": "Goun Lee",
+            "email": "goun.lee@lge.com"
+        }
+    ],
+    "files": [
+        "README.md",
+        "LICENSE",
+        "TSResourceFileType.js",
+        "TSResourceFile.js"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/iLib-js/ilib-loctool-webos-ts-resource.git"
+    },
+    "scripts": {
+        "dist": "npm pack",
+        "test": "jest",
+        "test:watch": "jest --watch",
+        "debug": "node --inspect-brk node_modules/.bin/jest -i",
+        "clean": "git clean -f -d *"
+    },
+    "engines": {
+        "node": ">=10.0.0"
+    },
+    "dependencies": {
+        "ilib": "^14.19.0",
+        "pretty-data": "^0.40.0",
+        "xml-js": "^1.6.11"
+    },
+    "peerDependencies": {
+        "loctool": "2.24.0"
+    },
+    "devDependencies": {
+        "jest": "^26.6.3",
+        "loctool": "2.24.0"
+    }
+}
