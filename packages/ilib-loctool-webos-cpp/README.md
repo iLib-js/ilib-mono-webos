@@ -15,7 +15,7 @@ Please check the [webos-cpp](https://github.com/iLib-js/ilib-loctool-samples/tre
 
 ## License
 
-Copyright (c) 2019-2024, JEDLSoft
+Copyright (c) 2019-2025, JEDLSoft
 
 This plugin is license under Apache2. See the [LICENSE](./LICENSE)
 file for more details.
