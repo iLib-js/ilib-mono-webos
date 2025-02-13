@@ -48,7 +48,7 @@
         "node": ">=10.0.0"
     },
     "dependencies": {
-        "ilib-loctool-webos-ts-resource": "1.5.4"
+        "ilib-loctool-webos-ts-resource": "workspace:^"
     },
     "peerDependencies": {
         "loctool": "2.24.0"
