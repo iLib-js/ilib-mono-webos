@@ -111,7 +111,7 @@ importers:
   packages/ilib-loctool-webos-json-resource:
     dependencies:
       ilib:
-        specifier: ^14.19.0
+        specifier: ^14.20.0
         version: 14.20.0
     devDependencies:
       jest:
