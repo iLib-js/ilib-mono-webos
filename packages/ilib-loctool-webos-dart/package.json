@@ -47,7 +47,7 @@
         "node": ">=10.0.0"
     },
     "dependencies": {
-        "ilib-loctool-webos-json-resource": "workspace:^"
+        "ilib-loctool-webos-json-resource": "workspace:*"
     },
     "peerDependencies": {
         "loctool": "2.24.0"
