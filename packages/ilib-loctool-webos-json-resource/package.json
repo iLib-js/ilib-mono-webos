@@ -40,7 +40,6 @@
         "url": "git@github.com:iLib-js/ilib-mono-webos.git"
     },
     "scripts": {
-        "dist": "npm pack",
         "test": "jest",
         "test:watch": "jest --watch",
         "debug": "node --inspect-brk node_modules/.bin/jest -i",
