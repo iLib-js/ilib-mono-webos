@@ -36,10 +36,9 @@
     ],
     "repository": {
         "type": "git",
-        "url": "https://github.com/iLib-js/ilib-loctool-webos-cpp.git"
+        "url": "git@github.com:iLib-js/ilib-mono-webos.git"
     },
     "scripts": {
-        "dist": "npm pack",
         "test": "jest",
         "test:watch": "jest --watch",
         "debug": "node --inspect-brk node_modules/.bin/jest -i",
@@ -49,7 +48,7 @@
         "node": ">=10.0.0"
     },
     "dependencies": {
-        "ilib-loctool-webos-json-resource": "1.6.1"
+        "ilib-loctool-webos-json-resource": "workspace:*"
     },
     "peerDependencies": {
         "loctool": "2.24.0"

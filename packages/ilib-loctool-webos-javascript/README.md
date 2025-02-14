@@ -28,4 +28,4 @@ file for more details.
 
 ## Release Notes
 
-See [CHANGELOG.md](./CHANGELOG.md)
+See the [CHANGELOG.md](./CHANGELOG.md) file.
