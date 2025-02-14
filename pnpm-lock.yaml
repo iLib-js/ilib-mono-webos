@@ -43,7 +43,7 @@ importers:
   packages/ilib-loctool-webos-c:
     dependencies:
       ilib-loctool-webos-json-resource:
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../ilib-loctool-webos-json-resource
     devDependencies:
       jest:
@@ -56,7 +56,7 @@ importers:
   packages/ilib-loctool-webos-cpp:
     dependencies:
       ilib-loctool-webos-json-resource:
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../ilib-loctool-webos-json-resource
     devDependencies:
       jest:
@@ -69,7 +69,7 @@ importers:
   packages/ilib-loctool-webos-dart:
     dependencies:
       ilib-loctool-webos-json-resource:
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../ilib-loctool-webos-json-resource
     devDependencies:
       jest:
@@ -82,7 +82,7 @@ importers:
   packages/ilib-loctool-webos-javascript:
     dependencies:
       ilib-loctool-webos-json-resource:
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../ilib-loctool-webos-json-resource
     devDependencies:
       jest:
@@ -124,7 +124,7 @@ importers:
   packages/ilib-loctool-webos-qml:
     dependencies:
       ilib-loctool-webos-ts-resource:
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../ilib-loctool-webos-ts-resource
     devDependencies:
       jest:
