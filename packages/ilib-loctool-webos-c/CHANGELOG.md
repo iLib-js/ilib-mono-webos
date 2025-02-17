@@ -1,5 +1,13 @@
 # ilib-loctool-webos-c
 
+## 1.7.5
+
+### Patch Changes
+
+- 079439a: Updated dependencies. (loctool: 2.28.1)
+- Updated dependencies [079439a]
+  - ilib-loctool-webos-json-resource@1.7.1
+
 ## 1.7.4
 
 - Updated dependencies. (loctool: 2.24.0)
@@ -22,13 +30,13 @@
 
 - Updated dependencies. (loctool: 2.22.0)
 - Added ability to disable pseudo-localization in plugin when a project's pseudo-localization is enabled.
-    ~~~~
-       "settings": {
-            "c": {
-                "disablePseudo": true
-            }
-        }
-    ~~~~
+  ```
+     "settings": {
+          "c": {
+              "disablePseudo": true
+          }
+      }
+  ```
 
 ## 1.6.0
 
@@ -64,35 +72,35 @@
 - Updated dependencies. (loctool: 2.20.0)
 - Added ability to define custom locale inheritance.
   - e.g. en-AU inherits translations from en-GB
-    ~~~~
+    ```
        "settings": {
             "localeInherit": {
                 "en-AU": "en-GB"
             }
         }
-    ~~~~
+    ```
 - Added ability to use common locale data.
   - App's xliff data has a higher priority, if there's no matched string there, then loctool checks data in the commonXliff directory.
-    ~~~~
+    ```
        "settings": {
             "webos": {
                 "commonXliff": "./common"
             }
         }
-    ~~~~
+    ```
 
 ## 1.2.0
 
 - Updated dependencies. (loctool: 2.18.0)
 - Updated to support loctool's generate mode.
 - Added ability to override language default locale.
-    ~~~~
-       "settings": {
-            "localeMap": {
-                "es-CO": "es"
-            }
-        }
-    ~~~~
+  ```
+     "settings": {
+          "localeMap": {
+              "es-CO": "es"
+          }
+      }
+  ```
 
 ## 1.1.7
 

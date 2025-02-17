@@ -1,5 +1,14 @@
 # ilib-loctool-webos-javascript
 
+## 1.10.7
+
+### Patch Changes
+
+- 079439a: Updated dependencies. (loctool: 2.28.1)
+- 96e8bf4: Update dependencies. (loctool: 2.28.1)
+- Updated dependencies [079439a]
+  - ilib-loctool-webos-json-resource@1.7.1
+
 ## 1.10.6
 
 - Updated dependencies. (loctool: 2.24.0)
@@ -31,13 +40,13 @@
 
 - Updated dependencies. (loctool: 2.22.0)
 - Added ability to disable pseudo-localization in plugin when a project's pseudo-localization is enabled.
-    ~~~~
-       "settings": {
-            "javascript": {
-                "disablePseudo": true
-            }
-        }
-    ~~~~
+  ```
+     "settings": {
+          "javascript": {
+              "disablePseudo": true
+          }
+      }
+  ```
 
 ## 1.9.0
 
@@ -71,35 +80,35 @@
 
 - Updated dependencies. (loctool: 2.20.0)
 - Added ability to define custom locale inheritance.
-    ~~~~
-       "settings": {
-            "localeInherit": {
-                "en-AU": "en-GB"
-            }
-        }
-    ~~~~
+  ```
+     "settings": {
+          "localeInherit": {
+              "en-AU": "en-GB"
+          }
+      }
+  ```
 - Added ability to use common locale data.
   - App's xliff data has a higher priority, if there's no matched string there, then loctool checks data in the commonXliff directory.
-    ~~~~
+    ```
        "settings": {
             "webos": {
                 "commonXliff": "./common"
             }
         }
-    ~~~~
+    ```
 - Fixed an issue where multi-space could not be properly parsed in key-value use cases.
 
 ## 1.5.0
 
 - Updated dependencies. (loctool: 2.18.0)
 - Added ability to override language default locale.
-    ~~~~
-       "settings": {
-            "localeMap": {
-                "es-CO": "es"
-            }
-        }
-    ~~~~
+  ```
+     "settings": {
+          "localeMap": {
+              "es-CO": "es"
+          }
+      }
+  ```
 - Updated generate mode to use loctool's new public method.
 
 ## 1.4.7

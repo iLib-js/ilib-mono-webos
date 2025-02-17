@@ -1,5 +1,11 @@
 # ilib-loctool-webos-json-resource
 
+## 1.7.1
+
+### Patch Changes
+
+- 079439a: Updated dependencies. (loctool: 2.28.1)
+
 ## 1.7.0
 
 - Updated to generate the plural pseudo data for the DartFileType correctly.
@@ -81,8 +87,8 @@
 
 - Updated dependencies. (loctool: 2.17.0)
 - Removed source and target comparison code when generating resources.
-  -  en(en-US) (source: Programme, target: Channel)
-  -  en/GB (source: Programme, target: Programme)
+  - en(en-US) (source: Programme, target: Channel)
+  - en/GB (source: Programme, target: Programme)
 
 ## 1.3.10
 
@@ -139,16 +145,16 @@
 ## 1.2.0
 
 - Supported various resourceOutput file name. It can be specified according to project type.
-    - If the project type is c or cpp program, it should be written in project configuration.
-        ~~~~json
-        "settings": {
-            "locales": ["en-US", "ko-KR", "zh-Hans-CN"],
-            "resourceFileNames": {
-                "c": "cstrings.json",
-                "cpp": "cppstrings.json"
-            }
+  - If the project type is c or cpp program, it should be written in project configuration.
+    ```json
+    "settings": {
+        "locales": ["en-US", "ko-KR", "zh-Hans-CN"],
+        "resourceFileNames": {
+            "c": "cstrings.json",
+            "cpp": "cppstrings.json"
         }
-        ~~~~
+    }
+    ```
 
 ## 1.1.1
 
@@ -157,5 +163,5 @@
 ## 1.1.0
 
 - Generated `ilibmanifest.json` file.
-    - Updated code to generate `ilibmanifest.json` file not to load unnecessary locale directories.
-      It's implemented in projectClose()
+  - Updated code to generate `ilibmanifest.json` file not to load unnecessary locale directories.
+    It's implemented in projectClose()
