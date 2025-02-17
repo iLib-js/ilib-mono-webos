@@ -38,7 +38,6 @@
         "url": "git@github.com:iLib-js/ilib-mono-webos.git"
     },
     "scripts": {
-        "dist": "npm pack",
         "test": "jest",
         "test:watch": "jest --watch",
         "debug": "node --inspect-brk node_modules/.bin/jest -i",
@@ -48,13 +47,13 @@
         "node": ">=10.0.0"
     },
     "dependencies": {
-        "ilib-loctool-webos-json-resource": "1.6.1"
+        "ilib-loctool-webos-json-resource": "workspace:*"
     },
     "peerDependencies": {
         "loctool": "2.24.0"
     },
     "devDependencies": {
-        "jest": "^26.6.3",
-        "loctool": "2.24.0"
+        "jest": "^29.7.0",
+        "loctool": "2.28.1"
     }
 }
