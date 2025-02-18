@@ -1,5 +1,13 @@
 # ilib-loctool-webos-qml
 
+## 1.7.6
+
+### Patch Changes
+
+- 079439a: Updated dependencies. (loctool: 2.28.1)
+- Updated dependencies [079439a]
+  - ilib-loctool-webos-ts-resource@1.5.5
+
 ## 1.7.5
 
 - Fixed newline issues where resources of source string containing '\n' were not generated
@@ -27,13 +35,13 @@
 - Updated dependencies. (loctool: 2.22.0)
 - Updated to use first argument of `qsTranslate()` as a context value instead of file name.
 - Added ability to disable pseudo-localization in plugin when a project's pseudo-localization is enabled.
-    ~~~~
-       "settings": {
-            "json": {
-                "disablePseudo": true
-            }
-        }
-    ~~~~
+  ```
+     "settings": {
+          "json": {
+              "disablePseudo": true
+          }
+      }
+  ```
 
 ## 1.6.0
 
@@ -59,22 +67,22 @@
 - Updated dependencies. (loctool: 2.20.0)
 - Added ability to define custom locale inheritance.
   - e.g. en-AU inherits translations from en-GB
-    ~~~~
+    ```
        "settings": {
             "localeInherit": {
                 "en-AU": "en-GB"
             }
         }
-    ~~~~
+    ```
 - Added ability to use common locale data.
   - App's xliff data has a higher priority, if there's no matched string there, then loctool checks data in the commonXliff directory.
-    ~~~~
+    ```
        "settings": {
             "webos": {
                 "commonXliff": "./common"
             }
         }
-    ~~~~
+    ```
 
 ## 1.3.7
 

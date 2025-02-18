@@ -1,5 +1,11 @@
 # ilib-loctool-webos-ts-resource
 
+## 1.5.5
+
+### Patch Changes
+
+- 079439a: Updated dependencies. (loctool: 2.28.1)
+
 ## 1.5.4
 
 - Updated dependencies. (loctool: 2.24.0)
@@ -45,13 +51,13 @@
 
 - Updated dependencies. (loctool: 2.18.0)
 - Added ability to override language default locale.
-    ~~~~
-       "settings": {
-            "localeMap": {
-                "es-CO": "es"
-            }
-        }
-    ~~~~
+  ```
+     "settings": {
+          "localeMap": {
+              "es-CO": "es"
+          }
+      }
+  ```
 
 ## 1.2.10
 
@@ -109,17 +115,17 @@
 
 - Implemented to generate [TS](https://doc.qt.io/qt-5/linguist-ts-file-format.html) style resource file.
   Here's simple output example.
-   ~~~~
-   <?xml version="1.0" encoding="utf-8"?>
-   <!DOCTYPE TS>
-   <TS version="2.1" language="ko-KR" sourcelanguage="en-US">
-   <context>
-    <name>Intro</name>
-       <message>
-           <location filename="Intro.qml"></location>
-           <source>Hello!</source>
-           <translation>안녕</translation>
-       </message>
-   </context>
-   </TS
-   ~~~~
+  ```
+  <?xml version="1.0" encoding="utf-8"?>
+  <!DOCTYPE TS>
+  <TS version="2.1" language="ko-KR" sourcelanguage="en-US">
+  <context>
+   <name>Intro</name>
+      <message>
+          <location filename="Intro.qml"></location>
+          <source>Hello!</source>
+          <translation>안녕</translation>
+      </message>
+  </context>
+  </TS
+  ```

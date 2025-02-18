@@ -1,5 +1,11 @@
 # ilib-loctool-webos-json
 
+## 1.1.6
+
+### Patch Changes
+
+- 079439a: Updated dependencies. (loctool: 2.28.1)
+
 ## 1.1.5
 
 - Updated dependencies. (loctool: 2.24.0)
@@ -31,13 +37,13 @@
 - Updated dependencies. (loctool: 2.22.0)
 - Supported the pseudo localization.
 - Added ability to disable pseudo-localization in plugin when a project's pseudo-localization is enabled.
-    ~~~~
-       "settings": {
-            "json": {
-                "disablePseudo": true
-            }
-        }
-    ~~~~
+  ```
+     "settings": {
+          "json": {
+              "disablePseudo": true
+          }
+      }
+  ```
 
 ## 1.0.0
 
@@ -46,7 +52,7 @@
   This plugin, however, expands upon the other plugin to support many different types of json files as used in webOS.
   - The plugin contains a built-in version of the schema file for the appinfo.json file type.
   - For other json file types such as qcardinfo.json, the plugin looks for the schema file in the same directory as the json file.
-  ~~~~
+  ```
     "settings": {
         "mappings": {
             "**/appinfo.json": {
@@ -57,4 +63,4 @@
            }
        }
     }
-  ~~~~
+  ```

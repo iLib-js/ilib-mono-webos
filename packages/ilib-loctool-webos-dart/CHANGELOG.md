@@ -1,5 +1,13 @@
 # ilib-loctool-webos-dart
 
+## 1.1.1
+
+### Patch Changes
+
+- 079439a: Updated dependencies. (loctool: 2.28.1)
+- Updated dependencies [079439a]
+  - ilib-loctool-webos-json-resource@1.7.1
+
 ## 1.1.0
 
 - Fixed to generate the pseudo localization data correctly.
