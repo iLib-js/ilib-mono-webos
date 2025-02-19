@@ -79,6 +79,36 @@ importers:
         specifier: 2.28.1
         version: 2.28.1
 
+  packages/ilib-loctool-webos-dist:
+    dependencies:
+      ilib-loctool-webos-c:
+        specifier: workspace:*
+        version: link:../ilib-loctool-webos-c
+      ilib-loctool-webos-cpp:
+        specifier: workspace:*
+        version: link:../ilib-loctool-webos-cpp
+      ilib-loctool-webos-dart:
+        specifier: workspace:*
+        version: link:../ilib-loctool-webos-dart
+      ilib-loctool-webos-javascript:
+        specifier: workspace:*
+        version: link:../ilib-loctool-webos-javascript
+      ilib-loctool-webos-json:
+        specifier: workspace:*
+        version: link:../ilib-loctool-webos-json
+      ilib-loctool-webos-json-resource:
+        specifier: workspace:*
+        version: link:../ilib-loctool-webos-json-resource
+      ilib-loctool-webos-qml:
+        specifier: workspace:*
+        version: link:../ilib-loctool-webos-qml
+      ilib-loctool-webos-ts-resource:
+        specifier: workspace:*
+        version: link:../ilib-loctool-webos-ts-resource
+      loctool:
+        specifier: 2.24.0
+        version: 2.24.0
+
   packages/ilib-loctool-webos-javascript:
     dependencies:
       ilib-loctool-webos-json-resource:
@@ -952,6 +982,10 @@ packages:
     resolution: {integrity: sha512-8QmQKqEASLd5nx0U1B1okLElbUuuttJ/AnYmRXbbbGDWh6uS208EjD4Xqq/I9wK7u0v6O08XhTWnt5XtEbR6Dg==}
     engines: {node: '>= 0.4'}
 
+  denque@2.1.0:
+    resolution: {integrity: sha512-HVQE3AAb/pxF8fQAoiqpvg9i3evqug3hoiwakOyZAwJm+6vZehbkYXZ0l4JxS+I3QxM97v5aaRNhj8v5oBhekw==}
+    engines: {node: '>=0.10'}
+
   detect-indent@6.1.0:
     resolution: {integrity: sha512-reYkTUJAZb9gUuZ2RvVCNhVHdg62RHnJ7WJl8ftMi4diZ6NWlciOzQN88pUhSELEwflJht4oQDv0F0BMlwaYtA==}
     engines: {node: '>=8'}
@@ -1147,6 +1181,9 @@ packages:
   functions-have-names@1.2.3:
     resolution: {integrity: sha512-xckBUXyTIqT97tq2x2AMb+g163b5JFysYk0x4qxNFwbfQkmNZoiRHb6sPzI9/QV33WeuvVYBUIiD4NzNIyqaRQ==}
 
+  generate-function@2.3.1:
+    resolution: {integrity: sha512-eeB5GfMNeevm/GRYq20ShmsaGcmI81kIX2K9XQx5miC8KdHaC6Jm0qQ8ZNeGOi7wYB8OsdxKs+Y2oVuTFuVwKQ==}
+
   gensync@1.0.0-beta.2:
     resolution: {integrity: sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg==}
     engines: {node: '>=6.9.0'}
@@ -1285,6 +1322,10 @@ packages:
     resolution: {integrity: sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==}
     engines: {node: '>=0.10.0'}
 
+  iconv-lite@0.6.3:
+    resolution: {integrity: sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==}
+    engines: {node: '>=0.10.0'}
+
   ignore@5.3.2:
     resolution: {integrity: sha512-hsBTNUqQTDwkWtcdYI2i06Y/nUBEsNEDJKjWdigLvegy8kDuJAS8uRlpkkcQpyEXL0Z/pjDy5HBmMjRCJ2gq+g==}
     engines: {node: '>= 4'}
@@ -1311,6 +1352,9 @@ packages:
   ilib-tools-common@1.13.0:
     resolution: {integrity: sha512-cdWwCE8b7vhjP3bvfb8J5USSZh7V84tVg3286paRm29rueYCv1UJGk7+VeiT8035iW+bQmSqK+uGrmuTpUL5zQ==}
     engines: {node: '>=10.0.0'}
+
+  ilib-tree-node@1.3.2:
+    resolution: {integrity: sha512-Dbg9rIOhd8TazHFwk3lFA0Gi6+fe3+YSqiuMRT46D7fomjf429vwzRzbHJB4uMyk8+bEsFUdQV23dbNvjkIdgw==}
 
   ilib-tree-node@2.0.1:
     resolution: {integrity: sha512-K+aNZfbThYR7LyvRtR4nVzfUxxUNKd3YbH6hQpsw8IGgCiFU27WkWJCB+s9A565f/xHT/sFbKqRKT/K3EBTPzA==}
@@ -1464,6 +1508,9 @@ packages:
   is-plain-obj@2.1.0:
     resolution: {integrity: sha512-YWnfyRwxL/+SsrWYfOpUtz5b3YD+nyfkHvjbcanzk8zgyO4ASD67uVMRt8k5bM4lLMDnXfriRhOpemw+NfT1eA==}
     engines: {node: '>=8'}
+
+  is-property@1.0.2:
+    resolution: {integrity: sha512-Ks/IoX00TtClbGQr4TWXemAnktAQvYB7HzcCxDGqEZU6oCmb2INHuOoKxbtR+HFkmYWBKv/dOZtGRiAjDhj92g==}
 
   is-regex@1.2.1:
     resolution: {integrity: sha512-MjYsKHO5O7mCsmRGxWcLWheFqN9DJ/2TmngvjKXihe6efViPqc274+Fx/4fYj/r03+ESvBdTXK0V6tA3rgez1g==}
@@ -1761,6 +1808,11 @@ packages:
     resolution: {integrity: sha512-t7hw9pI+WvuwNJXwk5zVHpyhIqzg2qTlklJOf0mVxGSbe3Fp2VieZcduNYjaLDoy6p9uGpQEGWG87WpMKlNq8g==}
     engines: {node: '>=8'}
 
+  loctool@2.24.0:
+    resolution: {integrity: sha512-jEWtFOsU2J5y95lyDYXg2NVrf+UDQXKRQm9oRyBx4vp/8iEDcJ3pUfPdK2iUHWthOZe5/MdUjinCI8XKgXG9Yw==}
+    engines: {node: '>=10.0.0'}
+    hasBin: true
+
   loctool@2.28.1:
     resolution: {integrity: sha512-ux7cQz8WZkp+4759aFJxdiQtBzjGGACXIL+KkgyIS8nd89UQuvJ8XqyvpLWSVDXOry3SUF6vVQFyN5tNY2mRSA==}
     engines: {node: '>=10.0.0'}
@@ -1786,6 +1838,9 @@ packages:
     resolution: {integrity: sha512-1somDdy9sChrr9/f4UlzhdaGfDR2c/SaD2a4T7qEkG4jTS57/B3qmnjLYePwQ8cqWnUHZI0iAKxMBpCZICiZ2g==}
     engines: {node: '>=8.0'}
 
+  long@5.3.1:
+    resolution: {integrity: sha512-ka87Jz3gcx/I7Hal94xaN2tZEOPoUOEVftkQqZx2EeQRN7LGdfLlI3FvZ+7WDplm+vK2Urx9ULrvSowtdCieng==}
+
   longest-streak@2.0.4:
     resolution: {integrity: sha512-vM6rUVCVUJJt33bnmHiZEvr7wPT78ztX7rojL+LW51bHtLh6HTjx84LA5W4+oa6aKEJA7jJu5LR6vQRBpA5DVg==}
 
@@ -1794,6 +1849,14 @@ packages:
 
   lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
+
+  lru-cache@7.18.3:
+    resolution: {integrity: sha512-jumlc0BIUrS3qJGgIkWZsyfAM7NCWiBcCDhnd+3NNM5KbBmLTgHVfWBcg6W+rLUsIpzpERPsvwUP7CckAQSOoA==}
+    engines: {node: '>=12'}
+
+  lru-cache@8.0.5:
+    resolution: {integrity: sha512-MhWWlVnuab1RG5/zMRRcVGXZLCXrZTgfwMikgzCegsPnG62yDQo5JnqKkrK4jO5iKqDAZGItAqN5CtKBCBWRUA==}
+    engines: {node: '>=16.14'}
 
   make-dir@4.0.0:
     resolution: {integrity: sha512-hXdUTZYIVOt1Ex//jAQi+wTZZpUpwBj/0QsOzqegb3rGMMeJiSEu5xLHnYfBrRV4RH2+OCSOO95Is/7x1WJ4bw==}
@@ -1853,6 +1916,9 @@ packages:
     resolution: {integrity: sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==}
     engines: {node: '>= 8'}
 
+  message-accumulator@2.2.3:
+    resolution: {integrity: sha512-CemTV+KOsU8vrHrXrOAu5JF/gMNxhR9AHY+1ZmS+oTUcvgxBQy/Rcu6Qz9ckNZVk4S2R+u+TMumFxT33PkAh8w==}
+
   message-accumulator@3.0.2:
     resolution: {integrity: sha512-JOoBZEq1J1msT2GaDhHZYrQW51MJuXrjEdOjQAweQBKEOq3E64Uc+/41z3wmtzHUD0MnhiZxoLP0G43g4DUsLQ==}
 
@@ -1884,6 +1950,14 @@ packages:
 
   ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
+
+  mysql2@3.5.2:
+    resolution: {integrity: sha512-cptobmhYkYeTBIFp2c0piw2+gElpioga1rUw5UidHvo8yaHijMZoo8A3zyBVoo/K71f7ZFvrShA9iMIy9dCzCA==}
+    engines: {node: '>= 8.0'}
+
+  named-placeholders@1.1.3:
+    resolution: {integrity: sha512-eLoBxg6wE/rZkJPhU/xRX1WTpkFEwDJEN96oxFrTsqBdbT5ec295Q+CoHrL9IT0DipqKhmGcaZmwOt8OON5x1w==}
+    engines: {node: '>=12.0.0'}
 
   natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
@@ -2212,6 +2286,9 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
+  seq-queue@0.0.5:
+    resolution: {integrity: sha512-hr3Wtp/GZIc/6DAGPDcV4/9WoZhjrkXsi5B/07QgX8tsdc6ilr7BFM6PM6rbdAX1kFSDYeZGLipIZZKyQP0O5Q==}
+
   set-function-length@1.2.2:
     resolution: {integrity: sha512-pgRc4hJ4/sNjWCSS9AmnS40x3bNMDTknHgL5UaMBTMyJnU90EgWh1Rz+MC9eFu4BuN/UwZjKQuY/1v3rM7HMfg==}
     engines: {node: '>= 0.4'}
@@ -2309,6 +2386,10 @@ packages:
 
   sprintf-js@1.0.3:
     resolution: {integrity: sha512-D9cPgkvLlV3t3IzL0D0YLvGA9Ahk4PcvVwUbN0dSGr1aP0Nrt4AEnTUbuGvquEC0mA64Gqt1fzirlRs5ibXx8g==}
+
+  sqlstring@2.3.3:
+    resolution: {integrity: sha512-qC9iz2FlN7DQl3+wjwn3802RTyjCx7sDvfQEXchwa6CWOx07/WVfh91gBmQ9fahw8snwGEWU3xGzOt4tFyHLxg==}
+    engines: {node: '>= 0.6'}
 
   stack-utils@2.0.6:
     resolution: {integrity: sha512-XlkWvfIm6RmsWtNJx+uqtKLS8eqFbxUg0ZzLXqY0caEy9l7hruX8IpiDnjsLavoBgqCCR71TqWO8MaXYheJ3RQ==}
@@ -3782,6 +3863,8 @@ snapshots:
       has-property-descriptors: 1.0.2
       object-keys: 1.1.1
 
+  denque@2.1.0: {}
+
   detect-indent@6.1.0: {}
 
   detect-newline@3.1.0: {}
@@ -4028,6 +4111,10 @@ snapshots:
 
   functions-have-names@1.2.3: {}
 
+  generate-function@2.3.1:
+    dependencies:
+      is-property: 1.0.2
+
   gensync@1.0.0-beta.2: {}
 
   get-caller-file@2.0.5: {}
@@ -4195,6 +4282,10 @@ snapshots:
     dependencies:
       safer-buffer: 2.1.2
 
+  iconv-lite@0.6.3:
+    dependencies:
+      safer-buffer: 2.1.2
+
   ignore@5.3.2: {}
 
   ilib-common@1.1.6:
@@ -4229,6 +4320,8 @@ snapshots:
       ilib-xliff: 1.2.2
       intl-messageformat: 10.7.15
       micromatch: 4.0.8
+
+  ilib-tree-node@1.3.2: {}
 
   ilib-tree-node@2.0.1: {}
 
@@ -4371,6 +4464,8 @@ snapshots:
   is-obj@1.0.1: {}
 
   is-plain-obj@2.1.0: {}
+
+  is-property@1.0.2: {}
 
   is-regex@1.2.1:
     dependencies:
@@ -4890,6 +4985,36 @@ snapshots:
     dependencies:
       p-locate: 4.1.0
 
+  loctool@2.24.0:
+    dependencies:
+      build-gradle-reader: 1.0.0
+      cldr-segmentation: 2.2.1
+      he: 1.2.0
+      html-parser: 0.11.0
+      ilib: 14.21.0
+      ilib-tree-node: 1.3.2
+      js-stl: 0.0.6
+      js-yaml: 4.1.0
+      log4js: 6.9.1
+      message-accumulator: 2.2.3
+      micromatch: 4.0.8
+      mysql2: 3.5.2
+      opencc-js: 1.0.5
+      readline-sync: 1.4.10
+      rehype-raw: 5.1.0
+      remark-frontmatter: 2.0.0
+      remark-highlight.js: 6.0.0
+      remark-parse: 8.0.3
+      remark-rehype: 8.1.0
+      remark-stringify: 8.1.1
+      unified: 9.2.2
+      unist-builder: 2.0.3
+      unist-util-filter: 2.0.3
+      util.promisify: 1.1.3
+      xml-js: 1.6.11
+    transitivePeerDependencies:
+      - supports-color
+
   loctool@2.28.1:
     dependencies:
       '@formatjs/intl': 2.10.15
@@ -4943,6 +5068,8 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  long@5.3.1: {}
+
   longest-streak@2.0.4: {}
 
   lowlight@1.20.0:
@@ -4953,6 +5080,10 @@ snapshots:
   lru-cache@5.1.1:
     dependencies:
       yallist: 3.1.1
+
+  lru-cache@7.18.3: {}
+
+  lru-cache@8.0.5: {}
 
   make-dir@4.0.0:
     dependencies:
@@ -5015,6 +5146,10 @@ snapshots:
 
   merge2@1.4.1: {}
 
+  message-accumulator@2.2.3:
+    dependencies:
+      ilib-tree-node: 1.3.2
+
   message-accumulator@3.0.2:
     dependencies:
       ilib-tree-node: 2.0.1
@@ -5039,6 +5174,21 @@ snapshots:
   mri@1.2.0: {}
 
   ms@2.1.3: {}
+
+  mysql2@3.5.2:
+    dependencies:
+      denque: 2.1.0
+      generate-function: 2.3.1
+      iconv-lite: 0.6.3
+      long: 5.3.1
+      lru-cache: 8.0.5
+      named-placeholders: 1.1.3
+      seq-queue: 0.0.5
+      sqlstring: 2.3.3
+
+  named-placeholders@1.1.3:
+    dependencies:
+      lru-cache: 7.18.3
 
   natural-compare@1.4.0: {}
 
@@ -5384,6 +5534,8 @@ snapshots:
 
   semver@7.6.3: {}
 
+  seq-queue@0.0.5: {}
+
   set-function-length@1.2.2:
     dependencies:
       define-data-property: 1.1.4
@@ -5487,6 +5639,8 @@ snapshots:
   spdx-license-ids@3.0.20: {}
 
   sprintf-js@1.0.3: {}
+
+  sqlstring@2.3.3: {}
 
   stack-utils@2.0.6:
     dependencies:
