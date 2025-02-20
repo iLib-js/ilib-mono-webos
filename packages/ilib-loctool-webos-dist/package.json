@@ -1,0 +1,40 @@
+{
+    "name": "ilib-loctool-webos-dist",
+    "version": "1.16.1",
+    "description": "Full-featured build environment for webOS localization",
+    "main": "index.js",
+    "license": "Apache-2.0",
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:iLib-js/ilib-mono-webos.git"
+    },
+    "author": {
+        "name": "Goun Lee",
+        "email": "goun.lee@lge.com"
+    },
+    "keywords": [
+        "internationalization",
+        "i18n",
+        "localization",
+        "l10n",
+        "globalization",
+        "g11n",
+        "strings",
+        "resources",
+        "locale",
+        "translation",
+        "webOS",
+        "loctool"
+    ],
+    "dependencies": {
+        "ilib-loctool-webos-c": "workspace:*",
+        "ilib-loctool-webos-cpp": "workspace:*",
+        "ilib-loctool-webos-dart": "workspace:*",
+        "ilib-loctool-webos-javascript": "workspace:*",
+        "ilib-loctool-webos-json": "workspace:*",
+        "ilib-loctool-webos-json-resource": "workspace:*",
+        "ilib-loctool-webos-qml": "workspace:*",
+        "ilib-loctool-webos-ts-resource": "workspace:*",
+        "loctool": "2.24.0"
+    }
+}
