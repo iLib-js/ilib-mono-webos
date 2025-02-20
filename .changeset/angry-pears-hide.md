@@ -2,7 +2,7 @@
 "ilib-loctool-webos-dist": minor
 ---
 
-- Updated fixed loctool and plugins version
+- Updated fixed loctool and plugins version. (loctool: 2.28.1)
 - **Fixes in plugins**
     - webos-json-resource
         - Updated to generate the plural pseudo data for the DartFileType correctly.
