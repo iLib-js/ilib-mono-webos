@@ -28,8 +28,8 @@ jobs:
               uses: browser-actions/setup-chrome@v1
             - name: Install dependencies
               run: pnpm install --frozen-lockfile
-            - name: Run affected tests
-              run: pnpm test:ci:affected
+            - name: Affected packages test and coverage
+              run: pnpm coverage:ci:affected
               env:
                   # temporary workaround for `Failed to resolve base ref 'main' from GitHub Actions event`:
                   # manually set PR base commit ref
