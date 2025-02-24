@@ -35,3 +35,25 @@ jobs:
                   # manually set PR base commit ref
                   # per https://github.com/vercel/turborepo/issues/9320#issuecomment-2499219314
                   TURBO_SCM_BASE: ${{ github.event.pull_request.base.sha }}
+            - name: Merge coverage reports
+              run: |
+                echo "Merging coverage reports"
+                node scripts/merge-coverage.js
+            - name: Jest Code Coverage Comment
+              uses: MishaKav/jest-coverage-comment@main
+              with:
+                multiple-files: |
+                  ilib-loctool-webos-javascript, ./packages/loctool-webos-javascript/coverage/coverage-summary.json
+                title: Jest Code Coverage
+                coverage-path: ./coverage.txt
+                coverage-title: Code Coverage for changed files
+                create-new-comment: false
+                report-only-changed-files: true
+                multiple-junitxml-files: |
+                  ilib-loctool-webos-javascript, ./packages/ilib-loctool-webos-javascriptn/junit.xml
+            - name: Upload coverage report
+              uses: actions/upload-artifact@v4
+              with:
+                name: code-coverage
+                path: ./packages/*/coverage/
+                retention-days: 3
