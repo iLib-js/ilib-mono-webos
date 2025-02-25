@@ -131,7 +131,7 @@ var reI18nComment = new RegExp("//\\s*i18n\\s*:\\s*(.*)$");
  */
 JavaScriptFile.prototype.parse = function(data) {
     this.logger.debug("Extracting strings from " + this.pathName);
-
+	console.log("test test test");
     data = JavaScriptFile.trimComments(data);
 
     this.resourceIndex = 0;
