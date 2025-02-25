@@ -29,7 +29,7 @@ jobs:
             - name: Install dependencies
               run: pnpm install --frozen-lockfile
             - name: Affected packages test and coverage
-              run: pnpm coverage:ci:affected
+              run: pnpm coverage
               env:
                   # temporary workaround for `Failed to resolve base ref 'main' from GitHub Actions event`:
                   # manually set PR base commit ref
