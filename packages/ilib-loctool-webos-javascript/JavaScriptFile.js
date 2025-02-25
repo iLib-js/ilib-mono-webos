@@ -48,7 +48,6 @@ var JavaScriptFile = function(props) {
  */
 JavaScriptFile.unescapeString = function(string) {
     var unescaped = string;
-    console.log("!");
     unescaped = unescaped.
         replace(/^\\\\/, "\\").             // unescape backslashes
         replace(/([^\\])\\\\/g, "$1\\").
