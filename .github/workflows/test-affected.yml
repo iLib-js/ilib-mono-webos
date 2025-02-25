@@ -43,14 +43,14 @@ jobs:
               uses: MishaKav/jest-coverage-comment@main
               with:
                 multiple-files: |
-                  ilib-loctool-webos-javascript, ./packages/loctool-webos-javascript/coverage/coverage-summary.json
+                  ilib-loctool-webos-javascript, ./packages/ilib-loctool-webos-javascript/coverage/coverage-summary.json
                 title: Jest Code Coverage
                 coverage-path: ./coverage.txt
                 coverage-title: Code Coverage for changed files
                 create-new-comment: false
                 report-only-changed-files: true
                 multiple-junitxml-files: |
-                  ilib-loctool-webos-javascript, ./packages/ilib-loctool-webos-javascriptn/junit.xml
+                  ilib-loctool-webos-javascript, ./packages/ilib-loctool-webos-javascript/junit.xml
             - name: Upload coverage report
               uses: actions/upload-artifact@v4
               with:
