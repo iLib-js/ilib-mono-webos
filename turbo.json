@@ -9,10 +9,6 @@
         "dependsOn": ["build", "test", "^coverage"],
         "outputs": ["coverage/**", "coverage.txt", "junit.xml"]
       },
-      "doc": {
-        "dependsOn": ["^doc"],
-        "outputs": ["docs/**"]
-      },
       "test": {
         "dependsOn": ["build", "^test"]
       }
