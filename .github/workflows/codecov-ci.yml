@@ -13,7 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        package: [ilib-loctool-webos-javascript, ilib-loctool-webos-c] # 각 패키지 이름을 나열합니다.
+        package: [ilib-loctool-webos-javascript] # 각 패키지 이름을 나열합니다.
+        node-version: [20]
 
     steps:
             - name: Checkout code
@@ -41,7 +42,8 @@ jobs:
                   # manually set PR base commit ref
                   # per https://github.com/vercel/turborepo/issues/9320#issuecomment-2499219314
                   TURBO_SCM_BASE: ${{ github.event.pull_request.base.sha }}
-            - name: Coverage 
-              run: |
-                cd ${{ matrix.package }}
-                bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }}
+            - name: Upload coverage to Codecov
+              uses: codecov/codecov-action@v5
+              with:
+                 token: ${{ secrets.CODECOV_TOKEN }}
+
