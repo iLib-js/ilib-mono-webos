@@ -9,17 +9,6 @@ jobs:
         strategy:
             matrix:
                 node-version: [20]
-                package: [
-                  ilib-loctool-webos-javascript,
-                  ilib-loctool-webos-c,
-                  ilib-loctool-webos-cpp
-                  ilib-loctool-webos-dart
-                  ilib-loctool-webos-qml
-                  ilib-loctool-webos-json
-                  ilib-loctool-webos-json-resource
-                  ilib-loctool-webos-ts-resource
-                  ilib-lint-webos
-                ]
 
         steps:
             - name: Checkout code
