@@ -13,7 +13,16 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        package: [ilib-loctool-webos-javascript] # 각 패키지 이름을 나열합니다.
+        package: [ilib-loctool-webos-javascript,
+                  ilib-loctool-webos-c,
+                  ilib-loctool-webos-cpp,
+                  ilib-loctool-webos-dart,
+                  ilib-loctool-webos-json,
+                  ilib-loctool-webos-json-resource
+                  ilib-loctool-webos-qml,
+                  ilib-loctool-webos-ts-resource
+                  ilib-lint-webos
+        ]
         node-version: [20]
 
     steps:
