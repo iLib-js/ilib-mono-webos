@@ -68,9 +68,15 @@ importers:
 
   packages/ilib-loctool-webos-dart:
     dependencies:
+      ilib:
+        specifier: ^14.21.0
+        version: 14.21.0
       ilib-loctool-webos-json-resource:
         specifier: workspace:*
         version: link:../ilib-loctool-webos-json-resource
+      micromatch:
+        specifier: ^4.0.8
+        version: 4.0.8
     devDependencies:
       jest:
         specifier: ^29.7.0

@@ -5,9 +5,9 @@
         "dependsOn": ["^build"],
         "outputs": ["lib/**"]
       },
-      "doc": {
-        "dependsOn": ["^doc"],
-        "outputs": ["docs/**"]
+      "coverage": {
+        "dependsOn": ["build", "test", "^coverage"],
+        "outputs": ["coverage/**", "coverage.txt", "junit.xml"]
       },
       "test": {
         "dependsOn": ["build", "^test"]

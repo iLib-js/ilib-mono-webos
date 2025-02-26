@@ -12,6 +12,9 @@
     "test:all:force": "turbo test --force",
     "test:ci": "turbo test --concurrency=5",
     "test:ci:affected": "pnpm test:ci --affected",
+    "coverage": "turbo coverage",
+    "coverage:affected": "turbo coverage --affected",
+    "coverage:ci:affected": "turbo coverage --concurrency=5 --affected",
     "doc": "turbo doc",
     "release": "pnpm build && pnpm changeset publish"
   },
