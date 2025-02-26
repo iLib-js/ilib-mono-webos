@@ -5,6 +5,7 @@ const config = {
         "html",
         "lcov",
         "text",
+        "json"
     ],
 }
 
