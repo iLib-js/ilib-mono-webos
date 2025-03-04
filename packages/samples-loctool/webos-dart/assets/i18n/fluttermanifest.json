@@ -1,0 +1,14 @@
+{
+    "files": [
+        "en.json",
+        "es.json",
+        "es_ES.json",
+        "fr.json",
+        "fr_FR.json",
+        "ja.json",
+        "ko.json",
+        "sl.json"
+    ],
+    "l10n_timestamp": "1741066842084",
+    "generated": true
+}

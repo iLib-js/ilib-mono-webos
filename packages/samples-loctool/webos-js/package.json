@@ -15,7 +15,8 @@
         "test-generate": "node test/testResources.js; node test/testResourceGenerate.js",
         "test:all": "npm-run-all clean loc sample-test",
         "test-generate:all": "npm-run-all clean loc-generate test-generate",
-        "sampleAppTest": "pnpm test:all test-generate:all"
+        "sampleAppTest": "pnpm test:all test-generate:all",
+        "cleanOutput": "rm -rf *.xliff resources"
     },
     "dependencies": {
         "ilib": "^14.21.0",
