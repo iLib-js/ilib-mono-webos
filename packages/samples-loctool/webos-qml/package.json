@@ -2,7 +2,7 @@
     "private": true,
     "name": "sample-webos-qml",
     "description": "Sample localization project",
-    "repository": "git@github.com:iLib-js/ilib-loctool-samples.git",
+    "repository": "git@github.com:iLib-js/ilib-mono-webos.git",
     "license": "Apache-2.0",
     "version": "1.0.0",
     "scripts": {
