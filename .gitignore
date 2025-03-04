@@ -11,3 +11,7 @@ node_modules/
 
 # Code coverage
 coverage/
+
+# Samples
+resources/
+testfiles/
