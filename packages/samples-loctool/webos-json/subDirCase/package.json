@@ -1,4 +1,5 @@
 {
+    "private": true,
     "name": "sample-webos-json-subdir",
     "description": "Sample localization project",
     "repository": "git@github.com:iLib-js/ilib-loctool-samples.git",
