@@ -31,6 +31,7 @@ Plugins are optimized for the webOS platform.
 * ilib-loctool-webos-dart: [Dart](https://docs.fileformat.com/programming/dart/) filetype handler.
 * ilib-lint-webos: provides the ability to parse webOS xliff files and provides rules to check.
 * ilib-loctool-webos-dist: for the purpose of distribution for webOS platform.
+* samples-loctool: sample apps written for each app type to validate the webOS loctool plugins.
 
 ## License
 This project is licensed under the Apache 2.0 License. See the [LICENSE](./LICENSE) file for details.

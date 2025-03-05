@@ -189,15 +189,6 @@ importers:
         specifier: 2.28.1
         version: 2.28.1
 
-  packages/samples-lint:
-    dependencies:
-      ilib-lint:
-        specifier: ^2.7.2
-        version: 2.7.2
-      ilib-lint-webos:
-        specifier: workspace:*
-        version: link:../ilib-lint-webos
-
   packages/samples-loctool/webos-c:
     dependencies:
       ilib-loctool-webos-c:
@@ -845,10 +836,6 @@ packages:
     resolution: {integrity: sha512-HGyxoOTYUyCM6stUe6EJgnd4EoewAI7zMdfqO+kGjnlZmBDz/cR5pf8r/cR4Wq60sL/p0IkcjUEEPwS3GFrIyw==}
     engines: {node: '>=8'}
 
-  array.prototype.map@1.0.8:
-    resolution: {integrity: sha512-YocPM7bYYu2hXGxWpb5vwZ8cMeudNHYtYBcUDY4Z1GWa53qcnQMWSl25jeBHNzitjl9HW2AWW4ro/S/nftUaOQ==}
-    engines: {node: '>= 0.4'}
-
   array.prototype.reduce@1.0.7:
     resolution: {integrity: sha512-mzmiUCVwtiD4lgxYP8g7IYy8El8p2CSMePvIbTS7gchKir/L1fgJrk0yDKmAX6mnRQFKNADYIk8nNlTris5H1Q==}
     engines: {node: '>= 0.4'}
@@ -1188,9 +1175,6 @@ packages:
     resolution: {integrity: sha512-Zf5H2Kxt2xjTvbJvP2ZWLEICxA6j+hAmMzIlypy4xcBg1vKVnx89Wy0GbS+kf5cwCVFFzdCFh2XSCFNULS6csw==}
     engines: {node: '>= 0.4'}
 
-  es-get-iterator@1.1.3:
-    resolution: {integrity: sha512-sPZmqHBe6JIiTfN5q2pEi//TwxmAFHwj/XEuYjTuse78i8KxaqMTTzxPoFKuzRpDpTJ+0NAbpfenkmH2rePtuw==}
-
   es-object-atoms@1.0.0:
     resolution: {integrity: sha512-MZ4iQ6JwHOBQjahnjwaC1ZtIBH+2ohjamzAO3oaHcXYup7qxjF2fixyH+Q71voWHeOkI2q/TnJao/KfXYIZWbw==}
     engines: {node: '>= 0.4'}
@@ -1478,25 +1462,8 @@ packages:
     resolution: {integrity: sha512-WiNVrKpwdPn1sEqGYXs4DXZBqSTrEAzBWKQKVuoGz+Uh7ru0gvBJUtbm3WLlKEN9elQj0AFTBI3XHG/LOKnaqA==}
     engines: {node: '>=14.0.0'}
 
-  ilib-lint@2.7.2:
-    resolution: {integrity: sha512-WTCjLML8+9/0sLZ8WnSK9iovxlBehf6lWhC2eqh5kqY3mIEmWwqKFZAAq6/D7mtBrVYD2GBYokQ3uSiQkXem8Q==}
-    engines: {node: '>=14.0.0'}
-    hasBin: true
-
-  ilib-loader@1.3.5:
-    resolution: {integrity: sha512-EeEb652VmB6aAO5nvth3bIHyAapgukxn/7Zyf0mCEhGNCLMv3b6IqbXCRZVrztrgzu/fTLdQKQtq4pO+6ImOCg==}
-
   ilib-locale@1.2.4:
     resolution: {integrity: sha512-3ZIOw45MAmL+uQ1CTt7A/eVOd5wEYlmTWPnQC/GFmGaIxbGvgSD9AuIX1HiFltYQXIBlQWl0yTFf/1yPtfW3ng==}
-
-  ilib-localedata@1.5.2:
-    resolution: {integrity: sha512-qDAOOKFYYguLPT+kj2sVCk97tgPAZztQbmvtUdhHGkWEZX7nm7G97MumaDToATy3N8iccfEO8l0KVxVOTxAEcA==}
-
-  ilib-localeinfo@1.1.0:
-    resolution: {integrity: sha512-F77DV01lWANKqEw1QxEqYNO3Jj3H30kkYMGinMWoCIF18Kb/Gc/aJaaENWlS9kfZkbvfXthcBL7kuswMY+Hjdg==}
-
-  ilib-localematcher@1.3.1:
-    resolution: {integrity: sha512-sDqSdYfAouyGH9OPKPuXk2Lyb4+HU3Gz05bLTJ5fn3FRn/IzG5sUQjSrhfmQAsklQ6WLlJE3nL5wbpV0fpX8Lw==}
 
   ilib-po@1.1.0:
     resolution: {integrity: sha512-XeIBBbo4YH9I6ltc/d5x9j3CyUHVVmDA632ESKk816fWoHWRcY9p8JhKMrYk3HWW/pLgJVWSa5O9bPJu2nw6GQ==}
@@ -1556,10 +1523,6 @@ packages:
 
   is-alphanumerical@1.0.4:
     resolution: {integrity: sha512-UzoZUr+XfVz3t3v4KyGEniVL9BDRoQtY7tOyrRybkVNjDFWyo1yhXNGrrBTQxp3ib9BLAWs7k2YKBQsFRkZG9A==}
-
-  is-arguments@1.2.0:
-    resolution: {integrity: sha512-7bVbi0huj/wrIAOzb8U1aszg9kdi3KN/CyU19CTI7tAoZYEZoL9yCDXpbXN+uPsuWnP02cyug1gleqq+TU+YCA==}
-    engines: {node: '>= 0.4'}
 
   is-array-buffer@3.0.5:
     resolution: {integrity: sha512-DDfANUiiG2wC1qawP66qlTugJeL5HyzMpfr8lLK+jMQirGzNod0B12cFB/9q838Ru27sBwfw78/rdoU7RERz6A==}
@@ -1746,12 +1709,6 @@ packages:
   istanbul-reports@3.1.7:
     resolution: {integrity: sha512-BewmUXImeuRk2YY0PVbxgKAysvhRPUQE0h5QRM++nVWyubKGV0l8qQ5op8+B2DOmwSe63Jivj0BjkPQVf8fP5g==}
     engines: {node: '>=8'}
-
-  iterate-iterator@1.0.2:
-    resolution: {integrity: sha512-t91HubM4ZDQ70M9wqp+pcNpu8OyJ9UAtXntT/Bcsvp5tZMnz9vRa+IunKXeI8AnfZMTv0jNuVEmGeLSMjVvfPw==}
-
-  iterate-value@1.0.2:
-    resolution: {integrity: sha512-A6fMAio4D2ot2r/TYzr4yUWrmwNdsN5xL7+HUiyACE4DXm+q8HtPcnFTp+NnW3k4N05tZ7FVYFFb2CR13NxyHQ==}
 
   jest-changed-files@29.7.0:
     resolution: {integrity: sha512-fEArFiwf1BpQ+4bXSprcDc3/x4HSzL4al2tozwVpDFpsxALjLYdyiIK4e5Vz66GQJIbXJ82+35PtysofptNX2w==}
@@ -2152,9 +2109,6 @@ packages:
   opencc-js@1.0.5:
     resolution: {integrity: sha512-LD+1SoNnZdlRwtYTjnQdFrSVCAaYpuDqL5CkmOaHOkKoKh7mFxUicLTRVNLU5C+Jmi1vXQ3QL4jWdgSaa4sKjg==}
 
-  options-parser@0.4.0:
-    resolution: {integrity: sha512-KZTzRU3jlv9DVWakQGacYJN3GBP6KY6bb5Gh+QWy88ayADNCj5ql8a4604jBnorQ/bsVja4zjy8q0W8v+71gyg==}
-
   os-tmpdir@1.0.2:
     resolution: {integrity: sha512-D2FR03Vir7FIu45XBY20mTb+/ZSWB00sjU9jdQXt83gDrI4Ztz5Fs7/yy74g2N5SVQY4xY1qDr4rNddwYRVX0g==}
     engines: {node: '>=0.10.0'}
@@ -2273,10 +2227,6 @@ packages:
   pretty-format@29.7.0:
     resolution: {integrity: sha512-Pdlw/oPxN+aXdmM9R00JVC9WVFoCLTKJvDVLgmJ+qAffBMxsV85l/Lu7sNx4zSzPyoL2euImuEwHhOXdEgNFZQ==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-
-  promise.allsettled@1.0.7:
-    resolution: {integrity: sha512-hezvKvQQmsFkOdrZfYxUxkyxl8mgFQeT259Ajj9PXdbg9VzBCWrItOev72JyWxkCD5VSSqAeHmlN3tWx4DlmsA==}
-    engines: {node: '>= 0.4'}
 
   prompts@2.4.2:
     resolution: {integrity: sha512-NxNv/kLguCA7p3jE8oL2aEBsrJWgAakBpgmgK6lpPWV+WuOmY6r2/zbAVnP+T8bQlA0nzHXSJSJW0Hq7ylaD2Q==}
@@ -2523,10 +2473,6 @@ packages:
 
   state-toggle@1.0.3:
     resolution: {integrity: sha512-d/5Z4/2iiCnHw6Xzghyhb+GcmF89bxwgXG60wjIiZaxnymbyOmI8Hk4VqHXiVVp6u2ysaskFfXg3ekCj4WNftQ==}
-
-  stop-iteration-iterator@1.1.0:
-    resolution: {integrity: sha512-eLoXW/DHyl62zxY4SCaIgnRhuMr6ri4juEYARS8E6sCEqzKpOiE521Ucofdx+KnDZl5xmvGYaaKCk5FEOxJCoQ==}
-    engines: {node: '>= 0.4'}
 
   stream-connect@1.0.2:
     resolution: {integrity: sha512-68Kl+79cE0RGKemKkhxTSg8+6AGrqBt+cbZAXevg2iJ6Y3zX4JhA/sZeGzLpxW9cXhmqAcE7KnJCisUmIUfnFQ==}
@@ -3670,16 +3616,6 @@ snapshots:
 
   array-union@2.1.0: {}
 
-  array.prototype.map@1.0.8:
-    dependencies:
-      call-bind: 1.0.8
-      call-bound: 1.0.3
-      define-properties: 1.2.1
-      es-abstract: 1.23.6
-      es-array-method-boxes-properly: 1.0.0
-      es-object-atoms: 1.0.0
-      is-string: 1.1.1
-
   array.prototype.reduce@1.0.7:
     dependencies:
       call-bind: 1.0.8
@@ -4112,18 +4048,6 @@ snapshots:
 
   es-errors@1.3.0: {}
 
-  es-get-iterator@1.1.3:
-    dependencies:
-      call-bind: 1.0.8
-      get-intrinsic: 1.2.6
-      has-symbols: 1.1.0
-      is-arguments: 1.2.0
-      is-map: 2.0.3
-      is-set: 2.0.3
-      is-string: 1.1.1
-      isarray: 2.0.5
-      stop-iteration-iterator: 1.1.0
-
   es-object-atoms@1.0.0:
     dependencies:
       es-errors: 1.3.0
@@ -4444,59 +4368,9 @@ snapshots:
 
   ilib-lint-common@3.1.2: {}
 
-  ilib-lint@2.7.2:
-    dependencies:
-      '@formatjs/intl': 2.10.15
-      ilib-common: 1.1.6
-      ilib-lint-common: 3.1.2
-      ilib-locale: 1.2.4
-      ilib-localeinfo: 1.1.0
-      ilib-tools-common: 1.13.0
-      intl-messageformat: 10.7.15
-      json5: 2.2.3
-      log4js: 6.9.1
-      micromatch: 4.0.8
-      options-parser: 0.4.0
-      xml-js: 1.6.11
-    transitivePeerDependencies:
-      - supports-color
-      - typescript
-
-  ilib-loader@1.3.5:
-    dependencies:
-      '@log4js-node/log4js-api': 1.0.2
-      ilib-common: 1.1.6
-      ilib-env: 1.4.1
-      promise.allsettled: 1.0.7
-
   ilib-locale@1.2.4:
     dependencies:
       ilib-env: 1.4.1
-
-  ilib-localedata@1.5.2:
-    dependencies:
-      '@log4js-node/log4js-api': 1.0.2
-      ilib-common: 1.1.6
-      ilib-env: 1.4.1
-      ilib-loader: 1.3.5
-      ilib-locale: 1.2.4
-      ilib-localematcher: 1.3.1
-      json5: 2.2.3
-
-  ilib-localeinfo@1.1.0:
-    dependencies:
-      '@log4js-node/log4js-api': 1.0.2
-      ilib-common: 1.1.6
-      ilib-env: 1.4.1
-      ilib-locale: 1.2.4
-      ilib-localedata: 1.5.2
-      ilib-localematcher: 1.3.1
-      json5: 2.2.3
-
-  ilib-localematcher@1.3.1:
-    dependencies:
-      ilib-common: 1.1.6
-      ilib-locale: 1.2.4
 
   ilib-po@1.1.0:
     dependencies:
@@ -4572,11 +4446,6 @@ snapshots:
     dependencies:
       is-alphabetical: 1.0.4
       is-decimal: 1.0.4
-
-  is-arguments@1.2.0:
-    dependencies:
-      call-bound: 1.0.3
-      has-tostringtag: 1.0.2
 
   is-array-buffer@3.0.5:
     dependencies:
@@ -4758,13 +4627,6 @@ snapshots:
     dependencies:
       html-escaper: 2.0.2
       istanbul-lib-report: 3.0.1
-
-  iterate-iterator@1.0.2: {}
-
-  iterate-value@1.0.2:
-    dependencies:
-      es-get-iterator: 1.1.3
-      iterate-iterator: 1.0.2
 
   jest-changed-files@29.7.0:
     dependencies:
@@ -5415,8 +5277,6 @@ snapshots:
 
   opencc-js@1.0.5: {}
 
-  options-parser@0.4.0: {}
-
   os-tmpdir@1.0.2: {}
 
   outdent@0.5.0: {}
@@ -5509,15 +5369,6 @@ snapshots:
       '@jest/schemas': 29.6.3
       ansi-styles: 5.2.0
       react-is: 18.3.1
-
-  promise.allsettled@1.0.7:
-    dependencies:
-      array.prototype.map: 1.0.8
-      call-bind: 1.0.8
-      define-properties: 1.2.1
-      es-abstract: 1.23.6
-      get-intrinsic: 1.2.6
-      iterate-value: 1.0.2
 
   prompts@2.4.2:
     dependencies:
@@ -5797,11 +5648,6 @@ snapshots:
       escape-string-regexp: 2.0.0
 
   state-toggle@1.0.3: {}
-
-  stop-iteration-iterator@1.1.0:
-    dependencies:
-      es-errors: 1.3.0
-      internal-slot: 1.1.0
 
   stream-connect@1.0.2:
     dependencies:
