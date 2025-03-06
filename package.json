@@ -17,7 +17,7 @@
     "coverage:ci:affected": "turbo coverage --concurrency=5 --affected",
     "doc": "turbo doc",
     "release": "pnpm build && pnpm changeset publish",
-    "sampleAppTest": "turbo sampleAppTest",
+    "testSampleApp": "turbo testSampleApp",
     "cleanOutput": "turbo cleanOutput"
   },
   "license": "Apache-2.0",

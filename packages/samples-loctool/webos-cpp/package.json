@@ -11,9 +11,9 @@
         "loc-generate": "loctool generate -2 -x xliffs --projectType custom --sourceLocale en-KR --resourceFileTypes json=webos-json-resource --resourceFileNames json=cppstrings.json --plugins webos-cpp -l en-AU,en-GB,ko-KR,es-CO,es-ES,fr-CA,fr-FR,ko-KR --localeMap es-CO:es,fr-CA:fr --localeInherit en-AU:en-GB --projectId sample-webos-cpp",
         "loc-generate-debug": "node --inspect-brk node_modules/loctool/loctool.js generate -2 -x xliffs --projectType custom --sourceLocale en-KR --resourceFileTypes json=webos-json-resource --plugins webos-cpp -l en-AU,en-GB,ko-KR,es-CO,es-ES,ko-KR --localeMap es-CO:es,fr-CA:fr --localeInherit en-AU:en-GB --projectId sample-webos-cpp",
         "clean": "rm -rf *.xliff resources",
-        "sample-test": "node test/testResources.js",
-        "test:all": "npm-run-all clean loc sample-test",
-        "sampleAppTest": "pnpm test:all",
+        "run-test": "node test/testResources.js",
+        "execute-all": "npm-run-all clean loc run-test",
+        "testSampleApp": "pnpm execute-all",
         "cleanOutput": "rm -rf *.xliff resources"
     },
     "dependencies": {

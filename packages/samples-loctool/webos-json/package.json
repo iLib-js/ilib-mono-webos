@@ -9,9 +9,9 @@
         "loc": "loctool -2 --xliffStyle custom --localeMap es-CO:es --localeInherit en-AU:en-GB --pseudo",
         "debug": "node --inspect-brk node_modules/loctool/loctool.js -2 --xliffStyle custom --localeMap es-CO:es --localeInherit en-AU:en-GB",
         "clean": "rm -rf *.xliff resources",
-        "sample-test": "node test/testResources.js",
-        "test:all": "npm-run-all clean loc sample-test",
-        "sampleAppTest": "pnpm test:all",
+        "run-test": "node test/testResources.js",
+        "execute-all": "npm-run-all clean loc run-test",
+        "testSampleApp": "pnpm execute-all",
         "cleanOutput": "rm -rf *.xliff resources"
     },
     "dependencies": {
