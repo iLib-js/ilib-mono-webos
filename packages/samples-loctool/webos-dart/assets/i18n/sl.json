@@ -1,9 +1,0 @@
-{
-    "1#At least 1 letter|#At least {num} letters": {
-        "one": "Vsaj {num} znak",
-        "two": "Vsaj {num} znaka",
-        "few": "Vsaj {num} znake",
-        "other": "Vsaj {num} znakov"
-    },
-    "Search_all": "Iskanje"
-}
