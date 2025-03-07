@@ -11,6 +11,12 @@
       },
       "test": {
         "dependsOn": ["build", "^test"]
+      },
+      "testSampleApp": {
+        "dependsOn": []
+      },
+      "cleanOutput": {
+        "dependsOn": []
       }
     }
   }

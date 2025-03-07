@@ -1,0 +1,14 @@
+{
+    "App List": "Lista de Aplicaciones",
+    "App Rating": "Clasificación de Aplicación",
+    "Back button": "Botón regresar",
+    "Delete All": "Eliminar Todo",
+    "OK": "Aceptar",
+    "Search_all": "Buscar",
+    "plural.demo": {
+        "zero": "Por favor, comience a presionar el botón 'más'.",
+        "one": "Has pulsado el botón una vez.",
+        "two": "Has pulsado el botón dos veces.",
+        "other": "Ha pulsado el botón {num} veces."
+    }
+}

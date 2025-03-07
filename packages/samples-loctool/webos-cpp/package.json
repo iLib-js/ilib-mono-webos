@@ -1,0 +1,27 @@
+{
+    "private": true,
+    "name": "sample-webos-cpp",
+    "description": "Sample localization project",
+    "repository": "git@github.com:iLib-js/ilib-mono-webos.git",
+    "license": "Apache-2.0",
+    "version": "1.0.0",
+    "scripts": {
+        "loc": "loctool -2 --xliffStyle custom --localeMap es-CO:es,fr-CA:fr --localeInherit en-AU:en-GB",
+        "debug": "node --inspect-brk node_modules/loctool/loctool.js -2 --xliffStyle custom --localeMap es-CO:es,fr-CA:fr --localeInherit en-AU:en-GB",
+        "loc-generate": "loctool generate -2 -x xliffs --projectType custom --sourceLocale en-KR --resourceFileTypes json=webos-json-resource --resourceFileNames json=cppstrings.json --plugins webos-cpp -l en-AU,en-GB,ko-KR,es-CO,es-ES,fr-CA,fr-FR,ko-KR --localeMap es-CO:es,fr-CA:fr --localeInherit en-AU:en-GB --projectId sample-webos-cpp",
+        "loc-generate-debug": "node --inspect-brk node_modules/loctool/loctool.js generate -2 -x xliffs --projectType custom --sourceLocale en-KR --resourceFileTypes json=webos-json-resource --plugins webos-cpp -l en-AU,en-GB,ko-KR,es-CO,es-ES,ko-KR --localeMap es-CO:es,fr-CA:fr --localeInherit en-AU:en-GB --projectId sample-webos-cpp",
+        "clean": "rm -rf *.xliff resources",
+        "run-test": "node test/testResources.js",
+        "execute-all": "npm-run-all clean loc run-test",
+        "testSampleApp": "pnpm execute-all",
+        "cleanOutput": "rm -rf *.xliff resources"
+    },
+    "dependencies": {
+        "ilib-loctool-webos-cpp": "workspace:*",
+        "ilib-loctool-webos-json-resource": "workspace:*",
+        "loctool": "^2.28.1"
+    },
+    "devDependencies": {
+        "npm-run-all": "^4.1.5"
+    }
+}
