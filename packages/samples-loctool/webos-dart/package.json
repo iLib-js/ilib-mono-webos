@@ -12,7 +12,7 @@
         "run-test": "node test/testResources.js",
         "execute-all": "npm-run-all clean loc run-test",
         "testSampleApp": "pnpm execute-all",
-        "cleanOutput": "rm -rf sample-webos-*.xliff resources"
+        "cleanOutput": "rm -rf sample-webos-*.xliff assets resources"
     },
     "dependencies": {
         "ilib-loctool-webos-dart": "workspace:*",
