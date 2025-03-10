@@ -8,8 +8,8 @@
     "scripts": {
         "loc": "loctool -2 --xliffStyle custom --localeMap es-CO:es,fr-CA:fr --localeInherit en-AU:en-GB --pseudo --localizeOnly",
         "debug": "node --inspect-brk node_modules/loctool/loctool.js -2 --xliffStyle custom --localeMap es-CO:es,fr-CA:fr --localeInherit en-AU:en-GB --pseudo --localizeOnly",
-        "loc-generate": "loctool generate -2 -x xliffs --xliffStyle custom --projectType webos-dart --projectId sample-webos-dart --sourceLocale en-KR --resourceDirs json=assets/i18n --resourceFileTypes json=webos-json-resource --plugins webos-dart -l en-US,es-CO,es-ES,fr-CA,fr-FR,ja-JP,ko-KR,sl-SI --localeMap es-CO:es,fr-CA:fr --localeInherit en-AU:en-GB --pseudo --localizeOnly",
-        "loc-generate-debug": "node --inspect-brk node_modules/loctool/loctool.js generate -2 -x xliffs --xliffStyle custom --projectType webos-dart --projectId sample-webos-dart --sourceLocale en-KR --resourceDirs json=assets/i18n --resourceFileTypes json=webos-json-resource --plugins webos-dart -l en-US,es-CO,es-ES,fr-CA,fr-FR,ja-JP,ko-KR,sl-SI --localeMap es-CO:es,fr-CA:fr --localeInherit en-AU:en-GB --pseudo --localizeOnly",
+        "loc-generate": "loctool generate -2 -x xliffs --xliffStyle custom --projectType webos-dart --projectId sample-webos-dart --sourceLocale en-KR --resourceDirs json=assets/i18n --resourceFileTypes json=webos-json-resource --plugins webos-dart,webos-json -l en-US,es-CO,es-ES,fr-CA,fr-FR,ja-JP,ko-KR,sl-SI --localeMap es-CO:es,fr-CA:fr --localeInherit en-AU:en-GB --pseudo --localizeOnly",
+        "loc-generate-debug": "node --inspect-brk node_modules/loctool/loctool.js generate -2 -x xliffs --xliffStyle custom --projectType webos-dart --projectId sample-webos-dart --sourceLocale en-KR --resourceDirs json=assets/i18n --resourceFileTypes json=webos-json-resource --plugins webos-dart,webos-json -l en-US,es-CO,es-ES,fr-CA,fr-FR,ja-JP,ko-KR,sl-SI --localeMap es-CO:es,fr-CA:fr --localeInherit en-AU:en-GB --pseudo --localizeOnly",
         "clean": "rm -rf *.xliff assets resources",
         "run-test": "node test/testResources.js",
         "run-test-generate": "node test/testResourcesGenerate.js",

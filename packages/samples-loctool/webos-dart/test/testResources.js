@@ -1,7 +1,7 @@
 /*
  * testResources.js - test file to verify generated resources.
  *
- * Copyright © 2024 JEDLSoft
+ * Copyright © 2024-2025 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@
 var fs = require("fs");
 var path = require("path");
 var defaultRSPath = path.join(process.cwd(), "assets/i18n");
+var appinfoRSPath = path.join(process.cwd(), "resources");
 
 function logResults(testname, expected, actual) {
     if (expected === actual) {
@@ -28,9 +29,14 @@ function logResults(testname, expected, actual) {
     }
 }
 
-function loadJSON(filepath){
+function loadJSON(filepath, type){
     var loaddata = {};
-    var fullPath = path.join(defaultRSPath, filepath);
+    var fullPath = '';
+    if (type === 'appinfo') {
+        fullPath = path.join(appinfoRSPath, filepath);
+    } else {
+        fullPath = path.join(defaultRSPath, filepath);
+    }
     if (fs.existsSync(fullPath)) {
         data = fs.readFileSync(fullPath, "utf-8");
         loaddata = JSON.parse(data);
@@ -54,6 +60,7 @@ console.log("\n***** `Run testResources.js` file *****");
 
 function testkoKR(){
     var loadData = loadJSON("ko.json");
+    var loadDataAppinfoData = loadJSON("ko/appinfo.json", "appinfo");
     var result1 = loadData["App List"];
     var result2 = loadData["App Rating"];
     var result3 = loadData["Back button"];
@@ -67,6 +74,10 @@ function testkoKR(){
     logResults(arguments.callee.name, "모두 삭제", result4);
     logResults(arguments.callee.name, "통합 검색", result5);
     logResults(arguments.callee.name, "{appName}앱은 삭제될 수 없습니다.", result6);
+
+    // appinfo
+    var result7 = loadDataAppinfoData["title"];
+    logResults(arguments.callee.name, "현재 방송", result7);
 }
 
 function testfrCA(){

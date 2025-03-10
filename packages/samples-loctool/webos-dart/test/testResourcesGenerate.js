@@ -28,9 +28,10 @@ function logResults(testname, expected, actual) {
     }
 }
 
-function loadJSON(filepath){
+function loadJSON(filepath, type){
     var loaddata = {};
     var fullPath = path.join(defaultRSPath, filepath);
+
     if (fs.existsSync(fullPath)) {
         data = fs.readFileSync(fullPath, "utf-8");
         loaddata = JSON.parse(data);
@@ -50,7 +51,7 @@ function isExistKey(filepath, key){
     return false;
 }
 
-console.log("\n***** `Run testResources.js` file *****");
+console.log("\n***** `Run testResourcesGenerate.js` file *****");
 
 function testkoKR(){
     var loadData = loadJSON("ko.json");
