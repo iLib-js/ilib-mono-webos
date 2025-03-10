@@ -1,14 +1,20 @@
 coverage:
   status:
+    patch:
+      default: yes
+      target: auto
+      threshold: 0
+      base: auto
     project:
       default:
         # basic
-        # target: auto
-        target: 0
+        default: yes
+        target: auto
         threshold: 0
         # advanced settings
         informational: false
         only_pulls: true
+
 comment:                  #this is a top-level key
   layout: " diff, flags, files"
   behavior: default

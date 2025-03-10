@@ -43,7 +43,6 @@ jobs:
                   # manually set PR base commit ref
                   # per https://github.com/vercel/turborepo/issues/9320#issuecomment-2499219314
                   TURBO_SCM_BASE: ${{ github.event.pull_request.base.sha }}
-              continue-on-error: true
             - name: Upload coverage to Codecov
               uses: codecov/codecov-action@v5
               with:
