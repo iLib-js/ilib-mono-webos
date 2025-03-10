@@ -5,6 +5,9 @@ coverage:
       target: auto
       threshold: 0
       base: auto
+      branches:
+        - main
+      if_ci_failed: ignore
     project:
       default:
         # basic
