@@ -1,14 +1,14 @@
 coverage:
   status:
     patch:
-      default: yes
+      default: off
       target: auto
       threshold: 0
       base: auto
       branches:
         - main
-      layout: "condensed_header, condensed_files, condensed_footer" # 레이아웃 설정
-      hide_project_coverage: TRUE # 프로젝트 커버리지 숨기
+      layout: "condensed_header, condensed_files, condensed_footer"
+      hide_project_coverage: TRUE
     project:
       default:
         # basic
