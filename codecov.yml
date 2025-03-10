@@ -7,7 +7,8 @@ coverage:
       base: auto
       branches:
         - main
-      if_ci_failed: ignore
+      layout: "condensed_header, condensed_files, condensed_footer" # 레이아웃 설정
+      hide_project_coverage: TRUE # 프로젝트 커버리지 숨기
     project:
       default:
         # basic
