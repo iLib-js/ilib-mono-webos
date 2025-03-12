@@ -1,0 +1,196 @@
+<?xml version="1.0"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="en-KR" trgLang="ko-KR">
+ <file id="sample-B_f1" original="sample-B">
+  <group id="sample-B_g1" name="javascript">
+   <unit id="sample-B_1">
+    <segment>
+     <source>{%1} hour(s)</source>
+     <target>{%1} 시간</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_2">
+    <segment>
+     <source>{%1} min(s)</source>
+     <target>{%1} 분</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_23">
+    <notes>
+     <note>popup text - {Device} :Devive Name</note>
+    </notes>
+    <segment>
+     <source>[{Device}] cannot connect to your TV. Please make sure the device is turned on, set to the pairing mode, and try again.</source>
+     <target>[{Device}]와(과) 연결할 수 없습니다. 연결할 기기의 전원이 켜져 있고, 페어링 모드로 설정했는지 확인 후 다시 시도해 주세요.</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_35">
+    <notes>
+     <note>help string</note>
+    </notes>
+    <segment>
+     <source>You can set the specialized functions of {label}.</source>
+     <target>{label}의 특화 기능을 설정할 수 있습니다.</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_39">
+    <segment>
+     <source>• If you can't hear sound through the device, make sure it is working and connected properly.</source>
+     <target>• 작동이 되지 않으면 오디오 기기의 상태를 확인하거나 연결이 되어 있는지 확인해 주세요.</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_99">
+    <segment>
+     <source>Suitable for children ages 2-7.</source>
+     <target>2~7세 어린이가 시청하기에 적합합니다.</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_125">
+    <segment>
+     <source>If the image isn't clear, select another pattern until the picture improves.</source>
+     <target>3D 화면 패턴을 변경하면 3D 화질이 향상될 수 있습니다.</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_213">
+    <segment>
+     <source>Display list of B&amp;O Wireless Speakers that can be connected to your TV.</source>
+     <target>Display list of B&amp;O Wireless Speakers that can be connected to your TV.</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_273">
+    <segment>
+     <source>HDMI {port1} and HDMI {port2} ports support ULTRA HD Deep Color.</source>
+     <target>HDMI {port1}, HDMI {port2} 단자는 UHD Deep Color를 지원하며, 이 기능을 켜거나 끌 수 있습니다.</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_294">
+    <notes>
+     <note>body text</note>
+    </notes>
+    <segment>
+     <source>You can launch the Instant Game Response by setting HDMI ULTRA HD Deep Color "On".</source>
+     <target>HDMI UHD Deep Color를 '켜짐'으로 설정해야 게임 최적화 모드를 실행할 수 있습니다.</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_371">
+    <segment>
+     <source>Your TV needs to be connected to the network to automatically set your LG Services Country. Do you want to go to Network Settings now to check the connection?</source>
+     <target>LG 서비스 국가를 자동으로 설정하려면 네트워크에 연결해야 합니다. '네트워크 설정'으로 이동해 연결 상태를 확인하시겠습니까?</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_426">
+    <segment>
+     <source>If you turn off 'Quick Start+', you will not be able to turn on your TV with Remote Free Control. Would you like to continue?</source>
+     <target>TV 빨리 켜기 기능을 끄면 원거리 음성인식으로 TV를 켤 수 없습니다. 계속하시겠습니까?</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_3511">
+    <segment>
+     <source>If you change the mode to {modeName}, Game Optimizer will be turned off.</source>
+     <target>{modeName}(으)로 변경하면 게임 맞춤 기능이 꺼집니다.</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_3512">
+    <segment>
+     <source>'Game Optimizer' mode needs to be set in order to use the game related feature.</source>
+     <target>게임 관련 기능을 사용하려면 '게임 맞춤' 모드로 설정되어야 합니다.</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_3515">
+    <segment>
+     <source>Go to 'Sound > Sound Out' or 'Sound > Advanced Settings > Digital Sound Output' to change the setting.</source>
+     <target>설정 변경은 '음향 > 소리 듣기' 혹은 '음향 > 사용자 고급 설정 > 디지털 음향 내보내기'에서 가능합니다.</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_3530">
+    <segment>
+     <source>Set the current curvature mode 'Off' to omit its value from the curvature button on the remote control.</source>
+     <target>해당 곡률 모드가 '사용 안 함'으로 설정되면, 리모컨의 곡률 조정 설정에서도 제외됩니다.</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_3538">
+    <segment>
+     <source>* Note that this feature is not available when 'Audio Guidance' is on.</source>
+     <target>* 단, '음성으로 메뉴 읽어주기'가 켜져 있으면 이 기능을 사용할 수 없습니다.</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_3582">
+    <segment>
+     <source>To change Sound Out setting from 'Bluetooth device + TV Speakers', you need to connect Bluetooth device again.</source>
+     <target>'블루투스 기기 + TV 스피커'에서 출력 스피커를 변경할 경우, 블루투스 기기 재연결이 필요합니다.</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_3590">
+    <segment>
+     <source>You cannot set the Energy Saving Step when 'OLED Care > Care Picture Settings' is enabled.</source>
+     <target>'올레드 케어 > 케어 화면 설정' 사용 중에는 절전 단계를 설정할 수 없습니다.</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_3592">
+    <segment>
+     <source>This switches the screen softly without interruptions when other contents with different FPS (Frame Per Second) are played in external devices supporting QMS.</source>
+     <target>QMS를 지원하는 외부 기기에서 초당 프레임수(FPS, Frame Per Second)가 다른 콘텐츠가 재생될 때 화면 끊김 없이 부드럽게 전환해 줍니다.</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_3593">
+    <segment>
+     <source>Picture quality processing such as 'Noise Reduction' and 'Trumotion' may not be applied when inputting HDMI PC signals.</source>
+     <target>HDMI PC 신호를 입력할 때 '노이즈 제거', '빠른 화면 맞춤' 등의 화질 처리가 적용되지 않을 수도 있습니다.</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_3605">
+    <segment>
+     <source>Select Mode({mode})</source>
+     <target>모드 선택({mode})</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_3629">
+    <segment>
+     <source>* Connect a Sound Bar supporting {lgHarmony}, or for users with different levels of hearing impairment, go to 'General > Accessibility > Enjoy TV Sound Together > HDMI(ARC) Device' and set the HDMI(ARC) Device.</source>
+     <target>* {lgHarmony} 지원하는 사운드 바를 연결하거나, 청력이 다른 사용자의 경우 '일반 > 접근성 > TV 소리 함께 듣기 > HDMI(ARC) 기기'를 설정하면 사용할 수 있습니다.</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_3631">
+    <segment>
+     <source>'Personalized Picture Wizard' can be set based on the your preference determined by an analysis of image quality attributes such as brightness, color and contrast using AI deep learning technology.</source>
+     <target>AI 딥러닝 기술을 활용해 좋아하는 밝기, 색, 명암 등 화질을 분석해 화면 모드를 '맞춤 화면'으로 설정할 수 있습니다.</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_3695">
+    <segment>
+     <source>- It is recommended to place the Zero Connect Box within {%1} m from the bottom, {%2} m from the front, and {%3} m from the side of the TV screen.</source>
+     <target>- TV 화면과의 거리는 하단 약 {%1}m, 정면 약 {%2}m, 측면 약 {%3}m 이내를 권장합니다.</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_3729">
+    <segment>
+     <source>"Hi, I need help!"</source>
+     <target>"하이 , 도와줘"</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_3730">
+    <segment>
+     <source>* Professional settings allow you to fine-tune the expression of a variety of mastering contents.</source>
+     <target>* 전문가용 설정을 통해 여러 마스터링 콘텐츠의 표현력을 세부 조절할 수 있습니다.</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_3804">
+    <segment>
+     <source>Captions will automatically switch to a position that may not interfere with your viewing when set to 'auto'.</source>
+     <target>'자동'으로 설정하면, 시청에 방해되지 않는 위치로 자동 변경됩니다.</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_75">
+    <segment>
+     <source>Note: The account created from the www.lg.com website does not link with LG SmartThinQ app nor %1 app from the TV.</source>
+     <target>www.lg.com에서 만든 계정은 LG SmartThinQ 모바일 앱이나 TV 내 %1 앱에서 연동해 사용할 수 없습니다.</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_82" name="alert_ageLimit">
+    <segment>
+     <source>You must be at least [age] years old to proceed.</source>
+     <target>계속 진행하려면 [age]세 이상이어야 합니다.</target>
+    </segment>
+   </unit>
+  </group>
+ </file>
+</xliff>
