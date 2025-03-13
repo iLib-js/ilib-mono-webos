@@ -1,8 +1,10 @@
 {
-    "name": "ilib-webos-sample",
+    "private": true,
+    "name": "lint-webos-sample",
     "version": "1.0.0",
     "main": "./src/index.js",
     "description": "Sample application that demostrates how to use the ilib-lint tool with python strings",
+    "license": "Apache-2.0",
     "keywords": [
         "internationalization",
         "i18n",
@@ -10,16 +12,9 @@
         "l10n",
         "globalization",
         "g11n",
-        "date",
-        "time",
-        "format",
         "locale",
-        "translation"
+        "lint"
     ],
-    "homepage": "https://github.com/iLib-js/ilib-sample",
-    "bugs": "https://github.com/iLib-js/ilib-sample/issues",
-    "email": "marketing@translationcircle.com",
-    "license": "Apache-2.0",
     "author": {
         "name": "Edwin Hoogerbeets",
         "web": "http://www.translationcircle.com/",
@@ -35,17 +30,12 @@
             "email": "goun.lee@lge.com"
         }
     ],
-    "files": [
-        "src",
-        "README.md",
-        "LICENSE"
-    ],
     "engines": {
         "node": ">=16.11.0"
     },
     "repository": {
         "type": "git",
-        "url": "git@github.com:iLib-js/iLib-sample.git"
+        "url": "git@github.com:iLib-js/ilib-mono-webos.git"
     },
     "scripts": {
         "lint": "ilib-lint -c ilib-lint-config.json -f html-formatter -o webos-result.html",
