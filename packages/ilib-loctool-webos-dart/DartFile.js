@@ -115,7 +115,8 @@ DartFile.prototype.makeKey = function(source) {
 /*
 translate("High")
 translate("High", key: "home_connect_210") // will be supported for webos
-translate("{arg1} app cannot be deleted.", arg:{"arg1": "Settings"}) or translate("The lowest temp is {arg1}", args: <int>{"arg1": 15}),
+translate("{arg1} app cannot be deleted.", arg:{"arg1": "Settings"})
+translate("The lowest temp is {arg1}", args: <String, int>{"arg1": 15})
 translate("The lowest temperature is {arg1} and the highest temperature is {arg2}.", arg:{"arg1": 15, "arg2": 30})
 */
 var reTranslate = new RegExp(/translate\s*\(\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\)/g);
