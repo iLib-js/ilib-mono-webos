@@ -14,3 +14,5 @@ translate(
   '{appName} app cannot be deleted.',
     args: {'appName': 'Settings'}
     ),
+
+translate('The first option is {arg1}.', args: <String, String>{'arg1': 'music'});

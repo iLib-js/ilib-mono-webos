@@ -46,6 +46,12 @@
         <target>{appName}앱은 삭제될 수 없습니다.</target>
         </segment>
       </unit>
+      <unit id="6">
+        <segment>
+        <source>The first option is {arg1}.</source>
+        <target>첫 번째 옵션은 {arg1} 입니다.</target>
+        </segment>
+      </unit>
     </group>
   </file>
 </xliff>
