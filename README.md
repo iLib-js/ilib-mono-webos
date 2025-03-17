@@ -32,6 +32,7 @@ Plugins are optimized for the webOS platform.
 * ilib-lint-webos: provides the ability to parse webOS xliff files and provides rules to check.
 * ilib-loctool-webos-dist: for the purpose of distribution for webOS platform.
 * samples-loctool: sample apps written for each app type to validate the webOS loctool plugins.
+* samples-lint: sample app to validate the webOS lint plugin.
 
 ## License
 This project is licensed under the Apache 2.0 License. See the [LICENSE](./LICENSE) file for details.
