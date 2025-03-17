@@ -68,6 +68,12 @@
           <target>최고</target>
         </segment>
       </unit>
+      <unit id="12">
+        <segment>
+          <source>TV On Screen</source>
+          <target>TV 켜짐 화면</target>
+        </segment>
+      </unit>
     </group>
   </file>
 </xliff>

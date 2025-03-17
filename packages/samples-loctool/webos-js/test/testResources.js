@@ -1,7 +1,7 @@
 /*
  * testResources.js - test file to verify generated resources.
  *
- * Copyright © 2022-2023 JEDLSoft
+ * Copyright © 2022-2023, 2025 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,10 +51,12 @@ function testkoKR(){
     var result1 = rb.getString("TV Name : ").toString();
     var result2 = rb.getString("Time Settings").toString();
     var result3 = rb.getString("High", "volumeModeHigh").toString();
+    var result4 = rb.getString("TV On Screen").toString();
 
     logResults(arguments.callee.name, "TV Name :", result1);
     logResults(arguments.callee.name, "[App] 시간 설정", result2);
     logResults(arguments.callee.name, "높음", result3);
+    logResults(arguments.callee.name, "TV 켜짐 화면", result4);
 }
 
 function testkoUS(){
@@ -64,6 +66,24 @@ function testkoUS(){
     });
     var result1 = rb.getString("Antenna NEXTGEN TV").toString();
     logResults(arguments.callee.name, "안테나 NEXTGEN TV", result1);    
+}
+
+function testkoTW(){
+    var rb = new ResBundle({
+        locale: "ko-TW",
+        basePath : defaultRSPath
+    });
+
+    var result1 = rb.getString("TV Name : ").toString();
+    var result2 = rb.getString("Time Settings").toString();
+    var result3 = rb.getString("High", "volumeModeHigh").toString();
+    var result4 = rb.getString("TV On Screen").toString();
+
+    logResults(arguments.callee.name, "TV Name :", result1);
+    logResults(arguments.callee.name, "[App] 시간 설정", result2);
+    logResults(arguments.callee.name, "높음", result3);
+    // from ko-TW.xliff
+    logResults(arguments.callee.name, "기기 켜짐 화면", result4);
 }
 
 function testenUS(){
@@ -203,6 +223,7 @@ function testasIN(){
 
 testkoKR();
 testkoUS();
+testkoTW();
 testenUS();
 testenAU();
 testenGB();
