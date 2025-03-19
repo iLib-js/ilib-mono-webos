@@ -20,5 +20,5 @@ translate('The first option is {arg1}.', args: <String, String>{'arg1': 'music'}
 
 static String sn_home_0016(tvModel) => translate(
         'Exclusive features for {%TV_model} are all gathered here.',
-        args: {'%TV_model': tvModel},    // not extracted
+        args: {'%TV_model': tvModel},
       );
