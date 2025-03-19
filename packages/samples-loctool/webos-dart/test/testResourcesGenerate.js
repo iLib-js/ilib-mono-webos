@@ -1,7 +1,7 @@
 /*
  * testResources.js - test file to verify generated resources.
  *
- * Copyright © 2024-2025 JEDLSoft
+ * Copyright © 2025 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@
 var fs = require("fs");
 var path = require("path");
 var defaultRSPath = path.join(process.cwd(), "assets/i18n");
-var appinfoRSPath = path.join(process.cwd(), "resources");
 
 function logResults(testname, expected, actual) {
     if (expected === actual) {
@@ -31,12 +30,8 @@ function logResults(testname, expected, actual) {
 
 function loadJSON(filepath, type){
     var loaddata = {};
-    var fullPath = '';
-    if (type === 'appinfo') {
-        fullPath = path.join(appinfoRSPath, filepath);
-    } else {
-        fullPath = path.join(defaultRSPath, filepath);
-    }
+    var fullPath = path.join(defaultRSPath, filepath);
+
     if (fs.existsSync(fullPath)) {
         data = fs.readFileSync(fullPath, "utf-8");
         loaddata = JSON.parse(data);
@@ -56,27 +51,24 @@ function isExistKey(filepath, key){
     return false;
 }
 
-console.log("\n***** `Run testResources.js` file *****");
+console.log("\n***** `Run testResourcesGenerate.js` file *****");
 
 function testkoKR(){
     var loadData = loadJSON("ko.json");
-    var loadDataAppinfoData = loadJSON("ko/appinfo.json", "appinfo");
     var result1 = loadData["App List"];
     var result2 = loadData["App Rating"];
     var result3 = loadData["Back button"];
     var result4 = loadData["Delete All"];
     var result5 = loadData["Search_all"];
     var result6 = loadData["{appName} app cannot be deleted."];
-                  
+    var result7 = loadData["Live TV"];
+
     logResults(arguments.callee.name, "앱 목록", result1);
     logResults(arguments.callee.name, "앱 등급", result2);
     logResults(arguments.callee.name, "이전 버튼", result3);
     logResults(arguments.callee.name, "모두 삭제", result4);
     logResults(arguments.callee.name, "통합 검색", result5);
     logResults(arguments.callee.name, "{appName}앱은 삭제될 수 없습니다.", result6);
-
-    // appinfo
-    var result7 = loadDataAppinfoData["title"];
     logResults(arguments.callee.name, "현재 방송", result7);
 }
 
@@ -117,7 +109,6 @@ function testesCO(){
     var result3 = loadData["Back button"];
     var result4 = loadData["Delete All"];
     var result5 = loadData["Search_all"];
-    var result6 = loadData["OK"];
     var result7 = loadData["plural.demo"];
 
     logResults(arguments.callee.name, "Lista de Aplicaciones", result1);
@@ -125,7 +116,6 @@ function testesCO(){
     logResults(arguments.callee.name, "Botón regresar", result3);
     logResults(arguments.callee.name, "Eliminar Todo", result4);
     logResults(arguments.callee.name, "Buscar", result5);
-    logResults(arguments.callee.name, "Aceptar", result6);
     logResults(arguments.callee.name, "Has pulsado el botón una vez.", result7.one);
     logResults(arguments.callee.name, "Has pulsado el botón dos veces.", result7.two);
     logResults(arguments.callee.name, "Ha pulsado el botón {num} veces.", result7.other);
@@ -138,14 +128,12 @@ function testesES(){
     var result3 = loadData["Back button"];
     var result4 = loadData["Delete All"];
     var result5 = loadData["Search_all"];
-    var result6 = loadData["OK"];
 
     logResults(arguments.callee.name, "Lista de aplicaciones", result1);
     logResults(arguments.callee.name, "Clasificación de la aplicación", result2);
     logResults(arguments.callee.name, "Botón atrás", result3);
     logResults(arguments.callee.name, "Eliminar todo", result4);
     logResults(arguments.callee.name, "Búsqueda", result5);
-    logResults(arguments.callee.name, "OK", result6);
 }
 
 function testenUS(){
@@ -172,12 +160,14 @@ function testjaJP(){
     var result3 = loadData["Back button"];
     var result4 = loadData["Delete All"];
     var result5 = loadData["Search_all"];
+    var result6 = loadData["Time"];
 
     logResults(arguments.callee.name, "アプリリスト", result1);
     logResults(arguments.callee.name, "アプリの評価", result2);
     logResults(arguments.callee.name, "[戻る]ボタン", result3);
     logResults(arguments.callee.name, "すべて削除", result4);
     logResults(arguments.callee.name, "検索", result5);
+    logResults(arguments.callee.name, "時刻", result6);
 }
 
 function testslSI(){

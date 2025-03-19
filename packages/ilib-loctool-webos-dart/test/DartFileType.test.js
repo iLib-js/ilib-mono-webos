@@ -1,7 +1,7 @@
 /*
  * DartFileType.test.js - test the Dart file type handler object.
  *
- * Copyright (c) 2023 JEDLSoft
+ * Copyright (c) 2023, 2025 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,15 @@ var p = new CustomProject({
     id: "app",
     plugins: ["../."],
     sourceLocale: "en-US"
+}, "./testfiles", {
+    locales:["en-GB"]
+});
+
+var p2 = new CustomProject({
+    id: "app",
+    plugins: ["../."],
+    sourceLocale: "en-US",
+    mode: "generate",
 }, "./testfiles", {
     locales:["en-GB"]
 });
@@ -61,5 +70,12 @@ describe("Dartfiletype", function() {
         expect(dft).toBeTruthy();
 
         expect(!dft.handles("foodart")).toBeTruthy();
+    });
+    test("DartFileMode", function() {
+        expect.assertions(2);
+
+        var dft = new DartFileType(p2);
+        expect(dft).toBeTruthy();
+        expect(dft.project.options.mode).toBe("generate");
     });
 });
