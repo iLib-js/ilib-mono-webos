@@ -1,7 +1,7 @@
 {
     "name": "sample-webos-js",
     "id": "sample-webos-js",
-    "projectType": "custom",
+    "projectType": "webos-js",
     "sourceLocale": "en-KR",
     "pseudoLocale":  {
         "zxx-XX": "debug",

@@ -1,0 +1,235 @@
+<?xml version="1.0"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="en-KR" trgLang="am-ET">
+ <file id="sample-B_f1" original="sample-B">
+  <group id="sample-B_g1" name="javascript">
+   <unit id="sample-B_1">
+    <segment>
+     <source>{%1} hour(s)</source>
+     <target>{%1} ሰዓት(ታት)</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_2">
+    <segment>
+     <source>{%1} min(s)</source>
+     <target>{%1} ደቂቃ(ዎች)</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_3">
+    <segment>
+     <source>{%1} hour(s) {%2} min(s)</source>
+     <target>{%1} ሰዓት(ታት) ከ {%2} ደቂቃ(ዎች)</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_4">
+    <segment>
+     <source>USB {portNum}: {vendorName}</source>
+     <target>USB {portNum}: {vendorName}</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_28">
+    <segment>
+     <source>Loading...</source>
+     <target>በመጫን ላይ...</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_53">
+    <segment>
+     <source>Wired Connection (Ethernet)</source>
+     <target>የገመድ ግንኙነት (Ethernet)</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_76">
+    <segment>
+     <source>Select your remote's cursor speed and appearance.</source>
+     <target>የሪሞትዎን ጠቋሚ ፍጥነት እና ትልቀት ያስተካክሉ።</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_368">
+    <segment>
+     <source>IPv6 (Automatic)</source>
+     <target>IPv6 (ራስሰር)</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_374">
+    <segment>
+     <source>Note:&lt;br>1. If your TV is turned on while Clear Panel Noise is in progress, it will stop the process and you have to start over.&lt;br>2. While processing, a white line may appear in the screen. This is normal when clearing your screen.</source>
+     <target>ማስታወሻ፦&lt;br>1. Clear Panel Noise በሥራ ሂደት ላይ እያለ የእርስዎ TV በርቶ ከሆነ፣ ሂደቱን ያቆማል እንዲሁም እንደገና ከመጀመሪያው መጀመር አለብዎት።&lt;br>2. በሂደት ላይ እያለ፣ በማያ ገጹ ላይ ነጭ መስመር ብቅ ሊል ይችላል። ይህ የእርስዎን ማያ ገጽ በማጽዳት ወቅት ጤናማ ነገር ነው።</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_385">
+    <notes>
+     <note>R means Right</note>
+    </notes>
+    <segment>
+     <source>{label} : R{value}</source>
+     <target>{label} : ቀ{value}</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_396">
+    <segment>
+     <source>Set TV locks for ratings based on children’s ages.</source>
+     <target>የቴሌቪዥን መሸንጎሪያዎችን የህጻናትን እድሜ መሠረት ላደረገ ደረጃ አሰጣጥ አዘጋጅ።</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_400">
+    <segment>
+     <source>Select TV's language settings.</source>
+     <target>የቴሌቪዥን/ኖች የቋንቋ ቅንጅቶች ምረጥ።</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_569">
+    <segment>
+     <source>You can select up to {n} languages</source>
+     <target>እስከ {n} የሚደርሱ ቋንቋዎችን መምረጥ ይችላሉ</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_590">
+    <segment>
+     <source>You can use your Magic Remote to determine the room’s acoustics and optimize your TV’s sound quality based on the results.</source>
+     <target>MAGIC REMOTE በመጠቀም የክፍሉን የድምጽ ማስተጋባት አና በውጤቶቹ መሰረት የቲቪዎን የድምጽ ጥራት ማሰተካከል እና መቆጣጠር ይችላሉ፡፡ </target>
+    </segment>
+   </unit>
+   <unit id="sample-B_592">
+    <segment>
+     <source> (User)</source>
+     <target> (ተጠቃሚ)</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_760">
+    <segment>
+     <source>DNS (Manual)</source>
+     <target>DNS (በእጅ የሚሰራ)</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_806">
+    <segment>
+     <source>HDMI{port1} port support UHD Deep Color.</source>
+     <target>HDMI{port1 የ ULTRA HD Deep Color የሚደግፍ።</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_1034">
+    <segment>
+     <source>Please accept the request on your {devicename} now.</source>
+     <target>እባክዎ {devicename} ላይ ያለው ጥያቄ ይቀበሉ።</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_1156">
+    <notes>
+     <note>this string for software update</note>
+    </notes>
+    <segment>
+     <source>Update in progress...({n}%)</source>
+     <target>ዝማኔ በሂደት ላይ…({n}%)</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_1189">
+    <segment>
+     <source>No Signal Power Off (15Min)</source>
+     <target>ምንም የኃይል ማጥፊያ ሲግናል የለም (15ደቂቃ)</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_2142">
+    <segment>
+     <source>[{deviceName}] will be deleted.</source>
+     <target>[{deviceName}] ይሰረዛል።</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_1864">
+    <segment>
+     <source>Note:&lt;br>1. If your TV is turned on while Pixel Refresher is in progress, it will stop the process and you have to start over.&lt;br>2. While processing, a white line may appear in the screen. This is normal when clearing your screen.</source>
+     <target>ማስታወሻ፦&lt;br>1. የፒክሰል አዳሽ በሂደት ላይ ሳለ TVዎ በርቶ ከሆነ፤ ሂደቱን ስለሚያስቆመው እንደገና መጀመር ይኖርብዎታል።&lt;br>2. በሂደቱ ጊዜ በማያ ገጹ ላይ ነጭ መስመር ሊታይ ይችላል። ማያ ሰሌዳዎን በማጥራት ጊዜ ይህ ደንብ ነው።</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_2386">
+    <segment>
+     <source>Enjoy content from the connected devices using the Photo &amp; Video and the Music app in TV.</source>
+     <target>ፎቶ እና ቪድዮ እና በቲቪ ውስጥ ያለው የሙዚቃ መተግበሪ በመጠቀም ይዘትን ከተገናኙ መሳሪያዎች ይደሰቱ።</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_2810">
+    <segment>
+     <source>Left Surround ({n})</source>
+     <target>ግራ አከባቢ ({n})</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_2879">
+    <segment>
+     <source>(Default Password: "{variable}")</source>
+     <target>(ነባር የይለፍ ቃል: "{variable}")</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_2945">
+    <segment>
+     <source>Time &amp; Timer</source>
+     <target>ሰዓት እና ሰዓት መቆጠሪያ</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_2965">
+    <segment>
+     <source>Expert (Dark space, night)</source>
+     <target>ከፍተኛ (ጨለማ ቦታ፣ ማታ)</target>
+    </segment>
+   </unit>
+    <unit id="sample-B_2983">
+    <segment>
+     <source>HDR videos show objects very vividly as if they’re real.</source>
+     <target>HDR ቪዲዮዎች እቃዎችን በጣም እውን እንደሆኑ አድርገው ቁልጭ አድርገው ያሳያሉ።</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_3022">
+    <segment>
+     <source>Signal Level(%)</source>
+     <target>የሲግናል ደረጃ(%)</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_3050">
+    <segment>
+     <source>To use this feature, change the 'Color Upgrade' menu to 'User Selection'.</source>
+     <target>ይህን ተግባር ለመጠቀም፣ የ 'የቀለም ደረጃ መጨመር' ማውጫን ወደ 'የተጠቃሚ ምርጫ' ይለውጡ።</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_3106">
+    <segment>
+     <source>Choose one from 'Simultaneous Sound Out' and 'Surround Effect'.</source>
+     <target>አንድ ከ 'በአንድ ጊዜ ድምጽ ማንበብ' እና 'ከባቢ ድምፅ' ይምረጡ።</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_3120">
+    <segment>
+     <source>Right {n}</source>
+     <target>ቀኝ {n}</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_3203">
+    <segment>
+     <source>Note:&lt;br>1. If your TV is turned on while Pixel Cleaning is in progress, it will stop the process and you have to start over.&lt;br>2. While processing, a white line may appear in the screen. This is normal when clearing your screen.</source>
+     <target>ማስታወሻ፡&lt;br>1. የፒክሰል ማጥራት በሂደት ላይ ሳለ TVዎ በርቶ ከሆነ፤ ሂደቱን ስለሚያስቆመው እንደገና መጀመር ይኖርብዎታል።&lt;br>2. በሂደቱ ጊዜ በማያ ገጹ ላይ ነጭ መስመር ሊታይ ይችላል። ማያ ሰሌዳዎን በማጥራት ወቅት ይህ መደበኛ ነው።</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_3495" name="basic">
+    <segment>
+     <source>Standard</source>
+     <target>መደበኛ</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_3724">
+    <segment>
+     <source>If you don’t consent to the {eula}, your personal information will not be collected.</source>
+     <target>ከ{eula} ጋር ካልተሰማሙ፣ የእርስዎ የግል መረጃ አይሰበሰብም።</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_3808">
+    <segment>
+     <source>{%1} hour {%2} min(s)</source>
+     <target>{%1} ሰአት ከ {%2} ደቂቃ(ዎች)</target>
+    </segment>
+   </unit>
+   <unit id="sample-B_3800">
+    <segment>
+     <source>[{deviceName}] is connected.</source>
+     <target>[{deviceName}] ተገናኝቷል።</target>
+    </segment>
+   </unit>
+  </group>
+ </file>
+</xliff>

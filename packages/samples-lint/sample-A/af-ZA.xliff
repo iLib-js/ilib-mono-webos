@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="en-KR" trgLang="af-ZA">
+ <file id="sample-A_f1" original="sample-A">
+  <group id="sample-A_g1" name="javascript">
+   <unit id="sample-A_1">
+    <segment>
+     <source>Please set your PIN code from 'Menu > PIN Code'.</source>
+     <target>Stel asseblief u PIN-kode vanaf “Kieslys > PIN-kode”.</target>
+    </segment>
+   </unit>
+  </group>
+ </file>
+</xliff>
