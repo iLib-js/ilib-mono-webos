@@ -52,6 +52,15 @@
         <target>첫 번째 옵션은 {arg1} 입니다.</target>
         </segment>
       </unit>
+      <unit id="676">
+        <notes>
+          <note>notes</note>
+        </notes>
+        <segment>
+          <source>Exclusive features for {%TV_model} are all gathered here.</source>
+          <target>{%TV_model}에서만 제공하는 유용한 기능들이 모여 있어요.</target>
+        </segment>
+      </unit>
     </group>
   </file>
 </xliff>

@@ -121,7 +121,7 @@ translate("The lowest temperature is {arg1} and the highest temperature is {arg2
 */
 var reTranslate = new RegExp(/translate\s*\(\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\)/g);
 var reTranslateWithKey = new RegExp(/translate\s*\(\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\,\s*(key)\s*\:\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\)/g);
-var reTranslateWithArg = new RegExp(/translate\s*\(\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\,\s*args\s*\:\s*(\<.*\>)?\s*\{(.*)\}\s*\)/g);
+var reTranslateWithArg = new RegExp(/translate\s*\(\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\,\s*args\s*\:/g);
 var reTranslatePlural = new RegExp(/translatePlural\s*\(\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\,\s*(.*)\)/g);
 var reI18nComment = new RegExp("//\\s*i18n\\s*:\\s*(.*)$");
 
