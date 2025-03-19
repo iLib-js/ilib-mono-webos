@@ -67,6 +67,8 @@ function testkoKR(){
     var result4 = loadData["Delete All"];
     var result5 = loadData["Search_all"];
     var result6 = loadData["{appName} app cannot be deleted."];
+    var result7 = loadData["The first option is {arg1}."];
+    var result8 = loadData["Exclusive features for {%TV_model} are all gathered here."];
                   
     logResults(arguments.callee.name, "앱 목록", result1);
     logResults(arguments.callee.name, "앱 등급", result2);
@@ -74,6 +76,8 @@ function testkoKR(){
     logResults(arguments.callee.name, "모두 삭제", result4);
     logResults(arguments.callee.name, "통합 검색", result5);
     logResults(arguments.callee.name, "{appName}앱은 삭제될 수 없습니다.", result6);
+    logResults(arguments.callee.name, "첫 번째 옵션은 {arg1} 입니다.", result7);
+    logResults(arguments.callee.name, "{%TV_model}에서만 제공하는 유용한 기능들이 모여 있어요.", result8);
 
     // appinfo
     var result7 = loadDataAppinfoData["title"];
