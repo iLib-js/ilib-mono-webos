@@ -1,0 +1,9 @@
+# sample-webos-dart
+
+## 1.0.1
+
+### Patch Changes
+
+- ea52d77: Add a test file for generate mode.
+- Updated dependencies [ea52d77]
+  - ilib-loctool-webos-dart@1.2.0

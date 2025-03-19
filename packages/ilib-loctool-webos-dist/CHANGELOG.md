@@ -1,5 +1,12 @@
 # ilib-loctool-webos-dist
 
+## 1.17.1
+
+### Patch Changes
+
+- Updated dependencies [ea52d77]
+  - ilib-loctool-webos-dart@1.2.0
+
 ## 1.17.0
 
 ### Minor Changes
