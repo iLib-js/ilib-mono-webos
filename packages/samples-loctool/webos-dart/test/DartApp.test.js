@@ -27,6 +27,8 @@ describe('test the localization result of webos-dart app', () => {
     const localeInherit = '--localeInherit en-AU:en-GB';
     const localeMap = '--localeMap es-CO:es,fr-CA:fr';
 
+    let filePath, jsonData;
+
     beforeAll(async() => {
       await new Promise((resolve, reject) => {
         exec(`npm run clean; loctool ${generalOptions} ${localeMap} ${localeInherit}`, (error, stdout, stderr) => {
@@ -39,13 +41,13 @@ describe('test the localization result of webos-dart app', () => {
     });
     test("dartsample_test_ko_KR", function() {
         expect.assertions(7);
-        let filePath = path.join(resourcePath, 'ko.json');
-        let jsonData;
+        filePath = path.join(resourcePath, 'ko.json');
+        jsonData;
 
         if (isValidPath(filePath)) {
           jsonData = loadData(filePath);
         }
-        debugger;
+
         expect(jsonData).toBeTruthy();
         expect(jsonData["App List"]).toBe("앱 목록");
         expect(jsonData["App Rating"]).toBe("앱 등급");
@@ -56,8 +58,8 @@ describe('test the localization result of webos-dart app', () => {
     });
     test("dartsample_test_fr_CA", function() {
       expect.assertions(6);
-      let filePath = path.join(resourcePath, 'fr.json');
-      let jsonData;
+      filePath = path.join(resourcePath, 'fr.json');
+      jsonData;
 
       if (isValidPath(filePath)) {
         jsonData = loadData(filePath);
@@ -72,8 +74,8 @@ describe('test the localization result of webos-dart app', () => {
   });
   test("dartsample_test_fr_FR", function() {
     expect.assertions(6);
-    let filePath = path.join(resourcePath, 'fr_FR.json');
-    let jsonData;
+    filePath = path.join(resourcePath, 'fr_FR.json');
+    jsonData;
 
     if (isValidPath(filePath)) {
       jsonData = loadData(filePath);
@@ -87,8 +89,8 @@ describe('test the localization result of webos-dart app', () => {
   });
   test("dartsample_test_es_CO", function() {
     expect.assertions(10);
-    let filePath = path.join(resourcePath, 'es.json');
-    let jsonData;
+    filePath = path.join(resourcePath, 'es.json');
+    jsonData;
 
     if (isValidPath(filePath)) {
       jsonData = loadData(filePath);
@@ -106,8 +108,8 @@ describe('test the localization result of webos-dart app', () => {
   });
   test("dartsample_test_es_ES", function() {
     expect.assertions(7);
-    let filePath = path.join(resourcePath, 'es_ES.json');
-    let jsonData;
+    filePath = path.join(resourcePath, 'es_ES.json');
+    jsonData;
 
     if (isValidPath(filePath)) {
       jsonData = loadData(filePath);
@@ -122,8 +124,8 @@ describe('test the localization result of webos-dart app', () => {
   });
   test("dartsample_test_en_US", function() {
     expect.assertions(7);
-    let filePath = path.join(resourcePath, 'en.json');
-    let jsonData;
+    filePath = path.join(resourcePath, 'en.json');
+    jsonData;
 
     if (isValidPath(filePath)) {
       jsonData = loadData(filePath);
@@ -138,8 +140,8 @@ describe('test the localization result of webos-dart app', () => {
   });
   test("dartsample_test_ja_JP", function() {
     expect.assertions(6);
-    let filePath = path.join(resourcePath, 'ja.json');
-    let jsonData;
+    filePath = path.join(resourcePath, 'ja.json');
+    jsonData;
 
     if (isValidPath(filePath)) {
       jsonData = loadData(filePath);
@@ -153,8 +155,8 @@ describe('test the localization result of webos-dart app', () => {
   });
   test("dartsample_test_sl_SI", function() {
     expect.assertions(6);
-    let filePath = path.join(resourcePath, 'sl.json');
-    let jsonData;
+    filePath = path.join(resourcePath, 'sl.json');
+    jsonData;
 
     if (isValidPath(filePath)) {
       jsonData = loadData(filePath);
