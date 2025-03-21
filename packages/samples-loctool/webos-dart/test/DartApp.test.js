@@ -1,5 +1,5 @@
 /*
- * dartaapp.test.js - test the localization result of webos-dart app.
+ * DartApp.test.js - test the localization result of webos-dart app.
  *
  * Copyright (c) 2025, JEDLSoft
  *
@@ -19,7 +19,7 @@
 
 const { exec } = require('child_process');
 const path = require('path');
-const { isValidPath, loadData } = require('../../utils.js');
+const { isValidPath, loadData } = require('../../Utils.js');
 
 describe('test the localization result of webos-dart app', () => {
     const resourcePath = 'assets/i18n';
