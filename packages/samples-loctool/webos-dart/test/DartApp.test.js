@@ -22,13 +22,14 @@ const path = require('path');
 const { isValidPath, loadData } = require('../../utils.js');
 
 describe('test the localization result of webos-dart app', () => {
-    let resourcePath = 'assets/i18n';
+    const resourcePath = 'assets/i18n';
     const generalOptions = '-2 --xliffStyle custom --pseudo --localizeOnly';
     const localeInherit = '--localeInherit en-AU:en-GB';
     const localeMap = '--localeMap es-CO:es,fr-CA:fr';
+
     beforeAll(async() => {
       await new Promise((resolve, reject) => {
-        exec(`loctool ${generalOptions} ${localeMap} ${localeInherit}`, (error, stdout, stderr) => {
+        exec(`npm run clean; loctool ${generalOptions} ${localeMap} ${localeInherit}`, (error, stdout, stderr) => {
           if (error) {
             return reject(error);
           }
