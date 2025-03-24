@@ -31,22 +31,17 @@ describe('test the localization result of webos-dart app', () => {
 
     let filePath, jsonData;
 
-    beforeEach(async() => {
+    beforeAll(async() => {
       await new Promise((resolve, reject) => {
         exec(`npm run clean; loctool generate ${generalOptions} ${generateModeOptions} ${localeMap} ${localeInherit}  ${locales}`, (error, stdout, stderr) => {
           if (error) {
-            console.log("<<<< 1 >>>>")
             return reject(error);
           }
           resolve(stdout);
-          console.log("<<<< 2 >>>>")
         });
-        console.log("<<<< 3 >>>>")
       });
-      console.log("<<<< 4 >>>>")
     });
     test("dartsample_generate_test_ko_KR", function() {
-      console.log("<<<< 7 >>>>")
         expect.assertions(8);
         filePath = path.join(resourcePath, 'ko.json');
         jsonData;
