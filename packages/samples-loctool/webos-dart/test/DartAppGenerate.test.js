@@ -40,7 +40,7 @@ describe('test the localization result of webos-dart app', () => {
           resolve(stdout);
         });
       });
-    });
+    }, 10000);
     test("dartsample_generate_test_ko_KR", function() {
         expect.assertions(8);
         filePath = path.join(resourcePath, 'ko.json');
