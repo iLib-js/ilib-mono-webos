@@ -1,7 +1,7 @@
 /*
  * DartFileType.js - Represents a collection of Dart files
  *
- * Copyright (c) 2023-2024, JEDLSoft
+ * Copyright (c) 2023-2025, JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -187,6 +187,7 @@ DartFileType.prototype.write = function(translations, locales) {
     // and then let them write themselves out
 
     var resFileType = this.project.getResourceFileType(this.resourceType);
+    var mode = this.project.settings.mode;
     var customInheritLocale;
     var res, file,
         resources = this.extracted.getAll(),
@@ -207,89 +208,69 @@ DartFileType.prototype.write = function(translations, locales) {
         }
     }
 
-    for (var i = 0; i < resources.length; i++) {
-        res = resources[i];
-        // for each extracted string, write out the translations of it
-        translationLocales.forEach(function(locale) {
-            this.logger.trace("Localizing Dart strings to " + locale);
-            customInheritLocale = this.project.getLocaleInherit(locale);
-
-            db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(locale), function(err, translated) {
-                var r = translated;
-                if (!translated) {
-                    db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(locale), function(err, translated) {
+    if (mode === "localize") {
+        for (var i = 0; i < resources.length; i++) {
+            res = resources[i];
+            // for each extracted string, write out the translations of it
+            translationLocales.forEach(function(locale) {
+                this.logger.trace("Localizing Dart strings to " + locale);
+                customInheritLocale = this.project.getLocaleInherit(locale);
+                db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(locale), function(err, translated) {
                     var r = translated;
-
-                    if (!translated && this.isloadCommonData) {
-                        var manipulateKey = ResourceString.hashKey(this.commonPrjName, locale, res.getKey(), this.commonPrjType, res.getFlavor());
-                        db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
-                            if (translated) {
-                                this._addResource(resFileType, translated, res, locale);
-                            } else if(!translated && customInheritLocale){
-                                db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(customInheritLocale), function(err, translated) {
-                                    if (!translated){
-                                        var manipulateKey = ResourceString.hashKey(this.commonPrjName, customInheritLocale, res.getKey(), this.commonPrjType, res.getFlavor());
-                                        db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
-                                            if (translated){
-                                                this._addResource(resFileType, translated, res, locale);
-                                            } else {
-                                                var newres = res.clone();
-                                                newres.setTargetLocale(locale);
-                                                newres.setTarget((r && r.getTarget()) || res.getSource());
-                                                newres.setState("new");
-                                                newres.setComment(note);
-                                                this.newres.add(newres);
-                                                this.logger.trace("No translation for " + res.reskey + " to " + locale);
-                                            }
-                                        }.bind(this));
-                                    } else {
-                                        this._addResource(resFileType, translated, res, locale);
-                                    }
-                                }.bind(this));
-                            } else {
-                                var newres = res.clone();
-                                newres.setTargetLocale(locale);
-                                newres.setTarget((r && r.getTarget()) || res.getSource());
-                                newres.setState("new");
-                                newres.setComment(note);
-                                this.newres.add(newres);
-                                this.logger.trace("No translation for " + res.reskey + " to " + locale);
-                            }
-                        }.bind(this));
-                    } else if (!translated && customInheritLocale) {
-                        db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(customInheritLocale), function(err, translated) {
-                            var r = translated;
-                            if (translated){
-                                this._addResource(resFileType, translated, res, locale);
-                            } else {
-                                var newres = res.clone();
-                                newres.setTargetLocale(locale);
-                                newres.setTarget((r && r.getTarget()) || res.getSource());
-                                newres.setState("new");
-                                this.newres.add(newres);
-                                this.logger.trace("No translation for " + res.reskey + " to " + locale);
-                            }
-                        }.bind(this));
-                    } else if (!translated || ( this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getSource()) &&
-                        this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getKey()))) {
-                        if (r) {
-                            this.logger.trace("extracted   source: " + this.API.utils.cleanString(res.getSource()));
-                            this.logger.trace("translation source: " + this.API.utils.cleanString(r.getSource()));
-                        }
-                        var note = r && 'The source string has changed. Please update the translation to match if necessary. Previous source: "' + r.getSource() + '"';
-                        var newres = res.clone();
-                        newres.setTargetLocale(locale);
-                        newres.setTarget((r && r.getTarget()) || res.getSource());
-                        newres.setState("new");
-                        newres.setComment(note);
-                        this.newres.add(newres);
-                        this.logger.trace("No translation for " + res.reskey + " to " + locale);
-                    } else {
-                        this._addResource(resFileType, translated, res, locale);
-                    }
-                }.bind(this));
-                } else {
-                    if (( this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getSource()) &&
+                    if (!translated) {
+                        db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(locale), function(err, translated) {
+                        var r = translated;
+                        if (!translated && this.isloadCommonData) {
+                            var manipulateKey = ResourceString.hashKey(this.commonPrjName, locale, res.getKey(), this.commonPrjType, res.getFlavor());
+                            db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
+                                if (translated) {
+                                    this._addResource(resFileType, translated, res, locale);
+                                } else if(!translated && customInheritLocale){
+                                    db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(customInheritLocale), function(err, translated) {
+                                        if (!translated){
+                                            var manipulateKey = ResourceString.hashKey(this.commonPrjName, customInheritLocale, res.getKey(), this.commonPrjType, res.getFlavor());
+                                            db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
+                                                if (translated){
+                                                    this._addResource(resFileType, translated, res, locale);
+                                                } else {
+                                                    var newres = res.clone();
+                                                    newres.setTargetLocale(locale);
+                                                    newres.setTarget((r && r.getTarget()) || res.getSource());
+                                                    newres.setState("new");
+                                                    newres.setComment(note);
+                                                    this.newres.add(newres);
+                                                    this.logger.trace("No translation for " + res.reskey + " to " + locale);
+                                                }
+                                            }.bind(this));
+                                        } else {
+                                            this._addResource(resFileType, translated, res, locale);
+                                        }
+                                    }.bind(this));
+                                } else {
+                                    var newres = res.clone();
+                                    newres.setTargetLocale(locale);
+                                    newres.setTarget((r && r.getTarget()) || res.getSource());
+                                    newres.setState("new");
+                                    newres.setComment(note);
+                                    this.newres.add(newres);
+                                    this.logger.trace("No translation for " + res.reskey + " to " + locale);
+                                }
+                            }.bind(this));
+                        } else if (!translated && customInheritLocale) {
+                            db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(customInheritLocale), function(err, translated) {
+                                var r = translated;
+                                if (translated){
+                                    this._addResource(resFileType, translated, res, locale);
+                                } else {
+                                    var newres = res.clone();
+                                    newres.setTargetLocale(locale);
+                                    newres.setTarget((r && r.getTarget()) || res.getSource());
+                                    newres.setState("new");
+                                    this.newres.add(newres);
+                                    this.logger.trace("No translation for " + res.reskey + " to " + locale);
+                                }
+                            }.bind(this));
+                        } else if (!translated || ( this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getSource()) &&
                             this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getKey()))) {
                             if (r) {
                                 this.logger.trace("extracted   source: " + this.API.utils.cleanString(res.getSource()));
@@ -306,25 +287,78 @@ DartFileType.prototype.write = function(translations, locales) {
                         } else {
                             this._addResource(resFileType, translated, res, locale);
                         }
-                    }
+                    }.bind(this));
+                    } else {
+                        if (( this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getSource()) &&
+                                this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getKey()))) {
+                                if (r) {
+                                    this.logger.trace("extracted   source: " + this.API.utils.cleanString(res.getSource()));
+                                    this.logger.trace("translation source: " + this.API.utils.cleanString(r.getSource()));
+                                }
+                                var note = r && 'The source string has changed. Please update the translation to match if necessary. Previous source: "' + r.getSource() + '"';
+                                var newres = res.clone();
+                                newres.setTargetLocale(locale);
+                                newres.setTarget((r && r.getTarget()) || res.getSource());
+                                newres.setState("new");
+                                newres.setComment(note);
+                                this.newres.add(newres);
+                                this.logger.trace("No translation for " + res.reskey + " to " + locale);
+                            } else {
+                                this._addResource(resFileType, translated, res, locale);
+                            }
+                        }
+                    }.bind(this));
                 }.bind(this));
+        }
+
+        resources = [];
+        var typeValue = this.type.replace("x-", "");
+        if (this.project.settings[typeValue] === undefined ||
+            (this.project.settings[typeValue] && !(this.project.settings[typeValue].disablePseudo === true))){
+            resources = this.pseudo.getAll().filter(function(resource) {
+                return resource.datatype === this.datatype;
             }.bind(this));
         }
-    resources = [];
-    var typeValue = this.type.replace("x-", "");
-    if (this.project.settings[typeValue] === undefined ||
-        (this.project.settings[typeValue] && !(this.project.settings[typeValue].disablePseudo === true))){
-        resources = this.pseudo.getAll().filter(function(resource) {
-            return resource.datatype === this.datatype;
+    } else {
+        // generate mode
+        this.genresources = this.project.getTranslations(translationLocales);
+        this.customInherit = translationLocales.filter(function(locale){
+            return this.project.getLocaleInherit(locale) !== undefined;
         }.bind(this));
+
+        if (this.customInherit.length > 0) {
+            this.customInherit.forEach(function(lo){
+                var res = this.project.getTranslations([lo]);
+                if (res.length === 0) {
+                    var inheritlocale = this.project.getLocaleInherit(lo);
+                    var inheritlocaleRes = this.project.getTranslations([inheritlocale]);
+                    inheritlocaleRes.forEach(function(r){
+                        var newres = r.clone();
+                        newres.setTargetLocale(lo);
+                        this.genresources.push(newres);
+                    }.bind(this))
+                }
+            }.bind(this));
+        }
     }
 
-    for (var i = 0; i < resources.length; i++) {
-        res = resources[i];
-        if (res.getTargetLocale() !== this.project.sourceLocale && res.getSource() !== res.getTarget()) {
-            file = resFileType.getResourceFile(res.getTargetLocale(), this.getLocalizedPath(res.mapping, res.getPath(), res.getTargetLocale()))
+    if (mode === "localize") {
+        for (var i = 0; i < resources.length; i++) {
+            res = resources[i];
+            if (res.getTargetLocale() !== this.project.sourceLocale && res.getSource() !== res.getTarget()) {
+                file = resFileType.getResourceFile(res.getTargetLocale(), this.getLocalizedPath(res.mapping, res.getPath(), res.getTargetLocale()))
+                file.addResource(res);
+                this.logger.trace("Added " + res.reskey + " to " + file.pathName);
+            }
+        }
+    } else {
+        // generate mode
+        var locale;
+        for (var i = 0; i< this.genresources.length;i++) {
+            res = this.genresources[i];
+            locale = res.getTargetLocale();
+            file = resFileType.getResourceFile(res.getTargetLocale());
             file.addResource(res);
-            this.logger.trace("Added " + res.reskey + " to " + file.pathName);
         }
     }
 };

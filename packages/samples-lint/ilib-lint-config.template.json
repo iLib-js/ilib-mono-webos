@@ -1,0 +1,58 @@
+{
+    "name": "settings-lint",
+    "sourceLocale": "en-KR",
+    "locales": [
+        "en-US",
+        "de-DE",
+        "ja-JP",
+        "ko-KR",
+        "am-ET"
+    ],
+    "plugins": [
+    ],
+    "rules": [ // definitions of regular-expression based rules
+        {
+            "type": "source-checker",
+            "name": "source-no-normalize",
+            "severity": "warning",
+            "description": "Example rule to ensure that the normalize function is not called.",
+            "note": "",
+            "regexps": [ "\\.normalize\\s*\\(" ]
+        }
+    ],
+    "rulesets": {
+        "javascript-rules": {
+            "source-no-normalize": true,
+            "my-other-rule": false
+        },
+        "webos-translation-rules": { // you can also define rulesets in the webos plugin
+            "rule": true,
+            "resource-quote-style": true
+        }
+    },
+    "filetypes":{
+        "javascript": {
+            "ruleset": [
+                "javascript-rules" // choose the rulesets by the ruleset name
+            ]
+        },
+        "xliff" : {  // last two will be defined by the webos plugin
+            "ruleset": [ 
+                "source", "webos-translation-rules", "webos-source-rules" 
+            ]
+        }
+    },
+    "paths": {
+        "src/**/*.json": {
+            // this defines the file type right here, like an anonymous function in JS
+            "locales": [
+                "en-US",
+                "de-DE",
+                "ja-JP"
+            ],
+            "ruleset": ["source"]
+        },
+        "[a-z][a-z](-[A-Z][a-z][a-z][a-z])?(-[A-Z][A-Z])?(\.xliff)": "xliff",  // this specifies the file type by file type name
+        "test/testfiles/**/*.js": "javascript"
+    }
+}

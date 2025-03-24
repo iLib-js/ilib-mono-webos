@@ -32,6 +32,12 @@
           <target>すべて削除</target>
         </segment>
       </unit>
+      <unit id="6">
+        <segment>
+          <source>Time</source>
+          <target>時刻</target>
+        </segment>
+      </unit>
     </group>
   </file>
 </xliff>
