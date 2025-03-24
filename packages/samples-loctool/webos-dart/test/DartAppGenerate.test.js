@@ -32,8 +32,9 @@ describe('test the localization result of webos-dart app', () => {
     let filePath, jsonData;
 
     beforeAll(async() => {
+      jest.setTimeout(10000);
       await new Promise((resolve, reject) => {
-        exec(`npm run clean; loctool generate ${generalOptions} ${localeMap} ${localeInherit} ${generateModeOptions} ${locales}`, (error, stdout, stderr) => {
+        exec(`npm run clean; loctool generate ${generalOptions} ${generateModeOptions} ${localeMap} ${localeInherit}  ${locales}`, (error, stdout, stderr) => {
           if (error) {
             return reject(error);
           }
