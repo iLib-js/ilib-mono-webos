@@ -33,7 +33,7 @@ describe('test the localization result of webos-dart app', () => {
 
     beforeAll(async() => {
       await new Promise((resolve, reject) => {
-        exec(`npm run clean; loctool generate ${generalOptions} ${generateModeOptions} ${localeMap} ${localeInherit}  ${locales}`, (error, stdout, stderr) => {
+        exec(`npm run clean; loctool generate ${generalOptions} ${generateModeOptions} ${localeMap} ${localeInherit} ${locales}`, (error, stdout, stderr) => {
           if (error) {
             return reject(error);
           }
@@ -44,11 +44,7 @@ describe('test the localization result of webos-dart app', () => {
     test("dartsample_generate_test_ko_KR", function() {
         expect.assertions(8);
         filePath = path.join(resourcePath, 'ko.json');
-        jsonData;
-
-        if (isValidPath(filePath)) {
-          jsonData = loadData(filePath);
-        }
+        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["App List"]).toBe("앱 목록");
@@ -62,11 +58,7 @@ describe('test the localization result of webos-dart app', () => {
     test("dartsample_generate_test_fr_CA", function() {
       expect.assertions(6);
       filePath = path.join(resourcePath, 'fr.json');
-      jsonData;
-
-      if (isValidPath(filePath)) {
-        jsonData = loadData(filePath);
-      }
+      jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
 
       expect(jsonData).toBeTruthy();
       expect(jsonData["App List"]).toBe("Liste des applications");
@@ -78,11 +70,8 @@ describe('test the localization result of webos-dart app', () => {
   test("dartsample_generate_test_fr_FR", function() {
     expect.assertions(6);
     filePath = path.join(resourcePath, 'fr_FR.json');
-    jsonData;
+    jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
 
-    if (isValidPath(filePath)) {
-      jsonData = loadData(filePath);
-    }
     expect(jsonData).toBeTruthy();
     expect(jsonData["App List"]).toBe("Liste des applications");
     expect(jsonData["App Rating"]).toBe("Évaluation de l'application");
@@ -93,11 +82,8 @@ describe('test the localization result of webos-dart app', () => {
   test("dartsample_generate_test_es_CO", function() {
     expect.assertions(9);
     filePath = path.join(resourcePath, 'es.json');
-    jsonData;
+    jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
 
-    if (isValidPath(filePath)) {
-      jsonData = loadData(filePath);
-    }
     expect(jsonData).toBeTruthy();
     expect(jsonData["App List"]).toBe("Lista de Aplicaciones");
     expect(jsonData["App Rating"]).toBe("Clasificación de Aplicación");
@@ -111,11 +97,8 @@ describe('test the localization result of webos-dart app', () => {
   test("dartsample_generate_test_es_ES", function() {
     expect.assertions(6);
     filePath = path.join(resourcePath, 'es_ES.json');
-    jsonData;
+    jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
 
-    if (isValidPath(filePath)) {
-      jsonData = loadData(filePath);
-    }
     expect(jsonData).toBeTruthy();
     expect(jsonData["App List"]).toBe("Lista de aplicaciones");
     expect(jsonData["App Rating"]).toBe("Clasificación de la aplicación");
@@ -126,11 +109,8 @@ describe('test the localization result of webos-dart app', () => {
   test("dartsample_generate_test_en_US", function() {
     expect.assertions(7);
     filePath = path.join(resourcePath, 'en.json');
-    jsonData;
+    jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
 
-    if (isValidPath(filePath)) {
-      jsonData = loadData(filePath);
-    }
     expect(jsonData).toBeTruthy();
     expect(jsonData["App List"]).toBe("App List");
     expect(jsonData["App Rating"]).toBe("App Rating");
@@ -142,11 +122,8 @@ describe('test the localization result of webos-dart app', () => {
   test("dartsample_generate_test_ja_JP", function() {
     expect.assertions(7);
     filePath = path.join(resourcePath, 'ja.json');
-    jsonData;
+    jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
 
-    if (isValidPath(filePath)) {
-      jsonData = loadData(filePath);
-    }
     expect(jsonData).toBeTruthy();
     expect(jsonData["App List"]).toBe("アプリリスト");
     expect(jsonData["App Rating"]).toBe("アプリの評価");
@@ -158,11 +135,8 @@ describe('test the localization result of webos-dart app', () => {
   test("dartsample_generate_test_sl_SI", function() {
     expect.assertions(6);
     filePath = path.join(resourcePath, 'sl.json');
-    jsonData;
+    jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
 
-    if (isValidPath(filePath)) {
-      jsonData = loadData(filePath);
-    }
     expect(jsonData).toBeTruthy();
     expect(jsonData["Search_all"]).toBe("Iskanje");
     expect(jsonData["1#At least 1 letter|#At least {num} letters"].one).toBe("Vsaj {num} znak");
