@@ -1,7 +1,7 @@
 /*
  * DartFile.test.js - test the Dart file handler object.
  *
- * Copyright (c) 2023-2024, JEDLSoft
+ * Copyright (c) 2023-2025, JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -285,6 +285,66 @@ describe("dartfile", function() {
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe(" {arg1} app cannot be deleted. ");
         expect(r.getKey()).toBe(" {arg1} app cannot be deleted. ");
+    });
+    test("DartFileParseSimpleWithArgWithTypedefined", function() {
+        expect.assertions(5);
+
+        var d = new DartFile({
+            project: p,
+            pathName: undefined,
+            type: dft
+        });
+        expect(d).toBeTruthy();
+
+        d.parse('translate("The lowest temp is {arg1}", args: <String, String>{"arg1": "15"}),');
+
+        var set = d.getTranslationSet();
+        expect(set).toBeTruthy();
+
+        var r = set.getBySource("The lowest temp is {arg1}");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("The lowest temp is {arg1}");
+        expect(r.getKey()).toBe("The lowest temp is {arg1}");
+    });
+    test("DartFileParseSimpleWithArgWithTypedefined2", function() {
+        expect.assertions(5);
+
+        var d = new DartFile({
+            project: p,
+            pathName: undefined,
+            type: dft
+        });
+        expect(d).toBeTruthy();
+
+        d.parse('translate("The lowest temp is {arg1} and the highest temp is {arg2}.", args: <String, int>{"arg1": 15, "arg2": 30}),');
+
+        var set = d.getTranslationSet();
+        expect(set).toBeTruthy();
+
+        var r = set.getBySource("The lowest temp is {arg1} and the highest temp is {arg2}.");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("The lowest temp is {arg1} and the highest temp is {arg2}.");
+        expect(r.getKey()).toBe("The lowest temp is {arg1} and the highest temp is {arg2}.");
+    });
+    test("DartFileParseSimpleWithArgWithTypedefined3", function() {
+        expect.assertions(5);
+
+        var d = new DartFile({
+            project: p,
+            pathName: undefined,
+            type: dft
+        });
+        expect(d).toBeTruthy();
+
+        d.parse("translate('The lowest temp is {arg1} and the highest temp is {arg2}.', args: <String, int>{'arg1': 15, 'arg2': 30}),");
+
+        var set = d.getTranslationSet();
+        expect(set).toBeTruthy();
+
+        var r = set.getBySource("The lowest temp is {arg1} and the highest temp is {arg2}.");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("The lowest temp is {arg1} and the highest temp is {arg2}.");
+        expect(r.getKey()).toBe("The lowest temp is {arg1} and the highest temp is {arg2}.");
     });
     test("DartFileParseSimpleIgnoreWhitespace", function() {
         expect.assertions(5);
@@ -881,7 +941,7 @@ describe("dartfile", function() {
         expect(set.size()).toBe(0);
     });
     test("DartFileTest2", function() {
-        expect.assertions(8);
+        expect.assertions(11);
 
         var d = new DartFile({
             project: p,
@@ -893,7 +953,7 @@ describe("dartfile", function() {
         d.extract();
 
         var set = d.getTranslationSet();
-        expect(set.size()).toBe(4);
+        expect(set.size()).toBe(5);
 
         var r = set.getBySource("Track");
         expect(r).toBeTruthy();
@@ -906,9 +966,14 @@ describe("dartfile", function() {
         expect(r).toBeTruthy();
         expect(r[0].getSource()).toBe("1#At least 1 letter|#At least {num} letters");
         expect(r[0].getKey()).toBe("1#At least 1 letter|#At least {num} letters");
+
+        var r = set.getBySource("first number {arg1}, second number {arg2}, and third number {arg3}");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("first number {arg1}, second number {arg2}, and third number {arg3}");
+        expect(r.getKey()).toBe("first number {arg1}, second number {arg2}, and third number {arg3}");
     });
     test("DartFileTest3", function() {
-        expect.assertions(17);
+        expect.assertions(20);
 
         var d = new DartFile({
             project: p,
@@ -920,7 +985,7 @@ describe("dartfile", function() {
         d.extract();
 
         var set = d.getTranslationSet();
-        expect(set.size()).toBe(5);
+        expect(set.size()).toBe(6);
 
         var r = set.getBySource("WOWCAST ({arg1})");
         expect(r).toBeTruthy();
@@ -946,6 +1011,11 @@ describe("dartfile", function() {
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("The lowest temp is {arg1} and the highest temp is {arg2}.");
         expect(r.getKey()).toBe("The lowest temp is {arg1} and the highest temp is {arg2}.");
+
+        var r = set.getBySource("Exclusive features for {%model} are all gathered here.");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("Exclusive features for {%model} are all gathered here.");
+        expect(r.getKey()).toBe("Exclusive features for {%model} are all gathered here.");
     });
     test("DartPseudoLocalization1", function() {
         expect.assertions(4);
