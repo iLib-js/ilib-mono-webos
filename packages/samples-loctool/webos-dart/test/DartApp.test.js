@@ -40,7 +40,7 @@ describe('test the localization result of webos-dart app', () => {
       });
     }, 50000);
     test("dartsample_test_ko_KR", function() {
-        expect.assertions(7);
+        expect.assertions(9);
         filePath = path.join(resourcePath, 'ko.json');
         jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
 
@@ -51,6 +51,8 @@ describe('test the localization result of webos-dart app', () => {
         expect(jsonData["Delete All"]).toBe("모두 삭제");
         expect(jsonData["Search_all"]).toBe("통합 검색");
         expect(jsonData["{appName} app cannot be deleted."]).toBe("{appName}앱은 삭제될 수 없습니다.");
+        expect(jsonData["The first option is {arg1}."]).toBe("첫 번째 옵션은 {arg1} 입니다.");
+        expect(jsonData["Exclusive features for {%TV_model} are all gathered here."]).toBe("{%TV_model}에서만 제공하는 유용한 기능들이 모여 있어요.");
     });
     test("dartsample_test_fr_CA", function() {
       expect.assertions(6);
