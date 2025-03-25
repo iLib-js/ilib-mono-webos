@@ -33,4 +33,10 @@ const loadData = (filepath) => {
     }
 }
 
-module.exports = { isValidPath, loadData };
+const isExistKey = (filepath, key) => {
+    let jsonData = {};
+    jsonData = isValidPath(filepath) ? loadData(filepath) : jsonData;
+    return (jsonData && jsonData.hasOwnProperty(key)) ? true : false;
+}
+
+module.exports = { isValidPath, loadData, isExistKey };

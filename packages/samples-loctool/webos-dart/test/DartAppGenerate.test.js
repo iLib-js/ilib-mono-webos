@@ -21,7 +21,7 @@ const { exec } = require('child_process');
 const path = require('path');
 const { isValidPath, loadData } = require('../../Utils.js');
 
-describe('test the localization result of webos-dart app', () => {
+describe('test the localization result (generate mode) of webos-dart app', () => {
     const resourcePath = 'assets/i18n';
     const generalOptions = '-2 --xliffStyle custom --pseudo --localizeOnly';
     const generateModeOptions = '--projectType webos-dart --projectId sample-webos-dart --sourceLocale en-KR --resourceDirs json=assets/i18n --resourceFileTypes json=webos-json-resource --plugins webos-dart,webos-json';
