@@ -1,5 +1,15 @@
 # ilib-loctool-webos-dist
 
+## 1.17.1
+
+### Patch Changes
+
+- dcc5cd8: - ilib-loctool-webos-dart:
+  - Fix a bug where the string is not extracted when the variable types are defined in args
+- Updated dependencies [ea52d77]
+- Updated dependencies [09fe23a]
+  - ilib-loctool-webos-dart@1.2.0
+
 ## 1.17.0
 
 ### Minor Changes

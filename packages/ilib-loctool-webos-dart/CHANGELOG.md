@@ -1,5 +1,15 @@
 # ilib-loctool-webos-dart
 
+## 1.2.0
+
+### Minor Changes
+
+- ea52d77: Added a feature to enable the Dart filetype to operate in generate mode as well.
+
+### Patch Changes
+
+- 09fe23a: Fix a bug where the string is not extracted when the variable types are defined in args
+
 ## 1.1.1
 
 ### Patch Changes
