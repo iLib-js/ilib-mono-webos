@@ -11,7 +11,6 @@
         "loc-generate": "loctool generate -2 -x xliffs --projectType custom --sourceLocale en-KR --resourceFileTypes json=webos-json-resource --resourceFileNames json=cstrings.json --plugins webos-c -l en-US,en-AU,en-GB,es-CO,es-ES,fr-CA,fr-FR,ko-KR,ja-JP --localeMap es-CO:es,fr-CA:fr --localeInherit en-AU:en-GB,en-JP:en-GB --projectId sample-webos-c",
         "loc-generate-debug": "node --inspect-brk node_modules/loctool/loctool.js generate -2 -x xliffs --projectType custom --sourceLocale en-KR --resourceFileTypes json=webos-json-resource --plugins webos-c -l en-US,en-AU,en-GB,es-CO,es-ES,fr-CA,fr-FR,ko-KR,ja-JP --localeMap es-CO:es,fr-CA:fr --localeInherit en-AU:en-GB,en-JP:en-GB --projectId sample-webos-c",
         "clean": "rm -rf *.xliff resources",
-        "cleanOutput": "rm -rf *.xliff resources",
         "coverage": "pnpm test --coverage",
         "test": "pnpm test:jest",
         "test:jest": "LANG=en_US.UTF8 node node_modules/jest/bin/jest.js",
