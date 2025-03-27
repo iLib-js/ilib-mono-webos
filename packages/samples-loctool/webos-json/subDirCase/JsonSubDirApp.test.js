@@ -1,5 +1,5 @@
 /*
- * JsonSubDirApp.test.js - test the localization result of webos-json app.
+ * JsonSubDirApp.test.js - test the localization result of webos-json app in subDirCase.
  *
  * Copyright (c) 2025 JEDLSoft
  *
@@ -21,7 +21,7 @@ const { exec } = require('child_process');
 const path = require('path');
 const { isValidPath, loadData } = require('../../Utils.js');
 
-describe('test the localization result of webos-json app', () => {
+describe('test the localization result of webos-json(subDir Case) app', () => {
     const resourcePath = 'resources';
     let fileName = 'appinfo.json';
 

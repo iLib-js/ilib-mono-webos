@@ -41,7 +41,7 @@ describe('test the localization result of webos-cpp app', () => {
         });
       });
     }, 50000);
-    test("csample_test_ko_KR", function() {
+    test("cppsample_test_ko_KR", function() {
         expect.assertions(4);
         filePath = path.join(resourcePath, 'ko', fileName);
         jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
@@ -51,7 +51,7 @@ describe('test the localization result of webos-cpp app', () => {
         expect(jsonData["Update"]).toBe("업데이트");
         expect(jsonData["Update"]).toBe("업데이트");
     });
-    test("csample_test_en_US", function() {
+    test("cppsample_test_en_US", function() {
       expect.assertions(3);
       filePath = path.join(resourcePath, fileName);
       jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
@@ -60,7 +60,7 @@ describe('test the localization result of webos-cpp app', () => {
       expect(jsonData["Ivory Coast"]).toBe("Côte d’Ivoire");
       expect(jsonData["Programme"]).toBe("Channel");
     });
-    test("csample_test_en_AU", function() {
+    test("cppsample_test_en_AU", function() {
       expect.assertions(8);
       filePath = path.join(resourcePath, "en/AU", fileName);
       jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
@@ -74,7 +74,7 @@ describe('test the localization result of webos-cpp app', () => {
       expect(jsonData["Programme"]).toBeTruthy();
       expect(jsonData["Ivory Coast"]).toBeFalsy();
     });
-    test("csample_test_en_GB", function() {
+    test("cppsample_test_en_GB", function() {
       expect.assertions(8);
       filePath = path.join(resourcePath, "en/GB", fileName);
       jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
@@ -88,7 +88,7 @@ describe('test the localization result of webos-cpp app', () => {
       expect(jsonData["Programme"]).toBeTruthy();
       expect(jsonData["Ivory Coast"]).toBeFalsy();
     });
-    test("csample_test_fr_CA", function() {
+    test("cppsample_test_fr_CA", function() {
       expect.assertions(6);
       filePath = path.join(resourcePath, "fr", fileName);
       jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
@@ -100,7 +100,7 @@ describe('test the localization result of webos-cpp app', () => {
       expect(jsonData["Others"]).toBe("Autres");
       expect(jsonData["Exit"]).toBe("Quitter"); //common data
     });
-    test("csample_test_fr_FR", function() {
+    test("cppsample_test_fr_FR", function() {
       expect.assertions(5);
       filePath = path.join(resourcePath, "fr/FR", fileName);
       jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
@@ -111,7 +111,7 @@ describe('test the localization result of webos-cpp app', () => {
       expect(jsonData["Others"]).toBeFalsy();
       expect(jsonData["Exit"]).toBeFalsy();
     });
-    test("csample_test_es_ES", function() {
+    test("cppsample_test_es_ES", function() {
       expect.assertions(4);
       filePath = path.join(resourcePath, "es/ES", fileName);
       jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
@@ -121,7 +121,7 @@ describe('test the localization result of webos-cpp app', () => {
       expect(jsonData["OK"]).toBe("OK");
       expect(jsonData["OK"]).toBeTruthy();
     });
-    test("csample_test_es_CO", function() {
+    test("cppsample_test_es_CO", function() {
       expect.assertions(3);
       filePath = path.join(resourcePath, "es", fileName);
       jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
