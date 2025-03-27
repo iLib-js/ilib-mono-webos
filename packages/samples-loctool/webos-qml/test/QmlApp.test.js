@@ -66,7 +66,7 @@ describe('test the localization result of webos-qml app', () => {
         expect(contextResArr.length).toBe(4);
 
         contextResArr.forEach(({ name: { _text: name }, message }) => {
-          const messages = [].concat(message);
+          const messages = makeArray(message);
           messages.forEach(({ translation: { _text: translation } }, idx) => {
               expect(translation).toBe(expected[name][idx]);
           });
@@ -84,7 +84,7 @@ describe('test the localization result of webos-qml app', () => {
       expect(contextResArr.length).toBe(1);
 
       contextResArr.forEach(({ name: { _text: name }, message }) => {
-        const messages = [].concat(message);
+        const messages = makeArray(message);
         messages.forEach(({ translation: { _text: translation } }, idx) => {
             expect(translation).toBe(expected[name][idx]);
         });
@@ -105,7 +105,7 @@ describe('test the localization result of webos-qml app', () => {
       expect(contextResArr.length).toBe(1);
 
       contextResArr.forEach(({ name: { _text: name }, message }) => {
-        const messages = [].concat(message);
+        const messages = makeArray(message);
         messages.forEach(({ translation: { _text: translation } }, idx) => {
             expect(translation).toBe(expected[name][idx]);
         });
@@ -127,7 +127,7 @@ describe('test the localization result of webos-qml app', () => {
       expect(contextResArr.length).toBe(1);
 
       contextResArr.forEach(({ name: { _text: name }, message }) => {
-        const messages = [].concat(message);
+        const messages = makeArray(message);
         messages.forEach(({ translation: { _text: translation } }, idx) => {
             expect(translation).toBe(expected[name][idx]);
         });
@@ -148,7 +148,7 @@ describe('test the localization result of webos-qml app', () => {
       expect(contextResArr.length).toBe(1);
 
       contextResArr.forEach(({ name: { _text: name }, message }) => {
-        const messages = [].concat(message);
+        const messages = makeArray(message);
         messages.forEach(({ translation: { _text: translation } }, idx) => {
             expect(translation).toBe(expected[name][idx]);
         });
@@ -168,7 +168,7 @@ describe('test the localization result of webos-qml app', () => {
       expect(contextResArr.length).toBe(1);
 
       contextResArr.forEach(({ name: { _text: name }, message }) => {
-        const messages = [].concat(message);
+        const messages = makeArray(message);
         messages.forEach(({ translation: { _text: translation } }, idx) => {
             expect(translation).toBe(expected[name][idx]);
         });
@@ -188,7 +188,7 @@ describe('test the localization result of webos-qml app', () => {
       expect(contextResArr.length).toBe(1);
 
       contextResArr.forEach(({ name: { _text: name }, message }) => {
-        const messages = [].concat(message);
+        const messages = makeArray(message);
         messages.forEach(({ translation: { _text: translation } }, idx) => {
             expect(translation).toBe(expected[name][idx]);
         });
@@ -208,7 +208,7 @@ describe('test the localization result of webos-qml app', () => {
       expect(contextResArr.length).toBe(1);
 
       contextResArr.forEach(({ name: { _text: name }, message }) => {
-        const messages = [].concat(message);
+        const messages = makeArray(message);
         messages.forEach(({ translation: { _text: translation } }, idx) => {
             expect(translation).toBe(expected[name][idx]);
         });
@@ -228,7 +228,7 @@ describe('test the localization result of webos-qml app', () => {
       expect(contextResArr.length).toBe(1);
 
       contextResArr.forEach(({ name: { _text: name }, message }) => {
-        const messages = [].concat(message);
+        const messages = makeArray(message);
         messages.forEach(({ translation: { _text: translation } }, idx) => {
             expect(translation).toBe(expected[name][idx]);
         });
@@ -249,7 +249,7 @@ describe('test the localization result of webos-qml app', () => {
       expect(contextResArr.length).toBe(1);
 
       contextResArr.forEach(({ name: { _text: name }, message }) => {
-        const messages = [].concat(message);
+        const messages = makeArray(message);
         messages.forEach(({ translation: { _text: translation } }, idx) => {
             expect(translation).toBe(expected[name][idx]);
         });
@@ -269,7 +269,7 @@ describe('test the localization result of webos-qml app', () => {
       expect(contextResArr.length).toBe(1);
 
       contextResArr.forEach(({ name: { _text: name }, message }) => {
-        const messages = [].concat(message);
+        const messages = makeArray(message);
         messages.forEach(({ translation: { _text: translation } }, idx) => {
             expect(translation).toBe(expected[name][idx]);
         });
