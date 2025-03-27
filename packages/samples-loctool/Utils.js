@@ -18,6 +18,7 @@
  */
 
 const fs = require('fs');
+const xmljs = require("xml-js");
 
 const isValidPath = (filepath) => {
     return filepath ? fs.existsSync(filepath) : false;
@@ -34,9 +35,20 @@ const loadData = (filepath) => {
 }
 
 const isExistKey = (filepath, key) => {
-    let jsonData = {};
-    jsonData = isValidPath(filepath) ? loadData(filepath) : jsonData;
-    return (jsonData && jsonData.hasOwnProperty(key)) ? true : false;
+    const jsonData = isValidPath(filepath) ? loadData(filepath) : {};
+    return (jsonData && jsonData.hasOwnProperty(key));
 }
 
-module.exports = { isValidPath, loadData, isExistKey };
+const loadTSData = (filepath) => {
+    const options = {trim:false, nativeTypeAttribute: true, compact: true};
+
+    if (isValidPath(filepath)) {
+        const tsFile = fs.readFileSync(filepath, "utf-8");
+        if (tsFile) {
+            return xmljs.xml2js(tsFile, options).TS;
+        }
+    }
+    return undefined;
+}
+
+module.exports = { isValidPath, loadData, isExistKey, loadTSData };
