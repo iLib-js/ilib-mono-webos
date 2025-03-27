@@ -19,11 +19,25 @@
 
 const { exec } = require('child_process');
 const path = require('path');
-const { isValidPath, loadTSData } = require('../../Utils.js');
+const fs = require('fs');
+const xmljs = require("xml-js");
+const { isValidPath } = require('../../Utils.js');
 
 const makeArray = function (data) {
   return Array.isArray(data) ? data : [data]
 };
+
+const loadTSData = (filepath) => {
+    const options = {trim:false, nativeTypeAttribute: true, compact: true};
+
+    if (isValidPath(filepath)) {
+        const tsFile = fs.readFileSync(filepath, "utf-8");
+        if (tsFile) {
+            return xmljs.xml2js(tsFile, options).TS;
+        }
+    }
+    return undefined;
+}
 
 describe('test the localization result of webos-qml app', () => {
     const resourcePath = 'resources';
