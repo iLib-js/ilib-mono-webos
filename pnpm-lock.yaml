@@ -192,8 +192,8 @@ importers:
   packages/samples-lint:
     dependencies:
       ilib-lint:
-        specifier: ^2.7.2
-        version: 2.7.2
+        specifier: ^2.8.1
+        version: 2.8.1
       ilib-lint-webos:
         specifier: workspace:*
         version: link:../ilib-lint-webos
@@ -1474,12 +1474,19 @@ packages:
   ilib-env@1.4.1:
     resolution: {integrity: sha512-lhXj5AaOT6AAft3eSFTqncNSYhqMdXAq9RpAeCral1tJpZDmzxhxpnKcFghgbjk9NkFFBRxFxTIAkgSq9NfEfQ==}
 
+  ilib-istring@1.1.1:
+    resolution: {integrity: sha512-j8UfwARn5FcjrP0qQ+DHA/Ds9RF72+PVQkfp1sHnF79EkY4wXFeEqXh/wm+O+ZRYp88twsmyvFKYSIaVBs9vgQ==}
+
   ilib-lint-common@3.1.2:
     resolution: {integrity: sha512-WiNVrKpwdPn1sEqGYXs4DXZBqSTrEAzBWKQKVuoGz+Uh7ru0gvBJUtbm3WLlKEN9elQj0AFTBI3XHG/LOKnaqA==}
     engines: {node: '>=14.0.0'}
 
-  ilib-lint@2.7.2:
-    resolution: {integrity: sha512-WTCjLML8+9/0sLZ8WnSK9iovxlBehf6lWhC2eqh5kqY3mIEmWwqKFZAAq6/D7mtBrVYD2GBYokQ3uSiQkXem8Q==}
+  ilib-lint-common@3.2.0:
+    resolution: {integrity: sha512-cmxDzVl4sdvJGx13J56zInr48jyw1zNz5msvFOvk48+n5xd9jovnkUT0kqS76sdqXtbNaB7B/PuzByF7piBr/w==}
+    engines: {node: '>=14.0.0'}
+
+  ilib-lint@2.8.1:
+    resolution: {integrity: sha512-jGfI67dQ7L4745EGqTuZEvWLR1lv5qZG4ufIm9l8BOIGrBgc2qFAzwojStM+En2GKypo3Tj8FhCKpnFz0nb94w==}
     engines: {node: '>=14.0.0'}
     hasBin: true
 
@@ -1503,6 +1510,10 @@ packages:
 
   ilib-tools-common@1.13.0:
     resolution: {integrity: sha512-cdWwCE8b7vhjP3bvfb8J5USSZh7V84tVg3286paRm29rueYCv1UJGk7+VeiT8035iW+bQmSqK+uGrmuTpUL5zQ==}
+    engines: {node: '>=10.0.0'}
+
+  ilib-tools-common@1.14.0:
+    resolution: {integrity: sha512-1lDIDgugL8jR7MGRNu1fFJ9qg1nXU328pzJVmhTuoy9ZbGicojo/RaloCeRSnoK5AvwfGaMFkNwPbTQtjDMVWw==}
     engines: {node: '>=10.0.0'}
 
   ilib-tree-node@2.0.1:
@@ -4442,16 +4453,27 @@ snapshots:
 
   ilib-env@1.4.1: {}
 
+  ilib-istring@1.1.1:
+    dependencies:
+      '@log4js-node/log4js-api': 1.0.2
+      ilib-common: 1.1.6
+      ilib-env: 1.4.1
+      ilib-locale: 1.2.4
+      ilib-localedata: 1.5.2
+      regenerator-runtime: 0.14.1
+
   ilib-lint-common@3.1.2: {}
 
-  ilib-lint@2.7.2:
+  ilib-lint-common@3.2.0: {}
+
+  ilib-lint@2.8.1:
     dependencies:
       '@formatjs/intl': 2.10.15
       ilib-common: 1.1.6
-      ilib-lint-common: 3.1.2
+      ilib-lint-common: 3.2.0
       ilib-locale: 1.2.4
       ilib-localeinfo: 1.1.0
-      ilib-tools-common: 1.13.0
+      ilib-tools-common: 1.14.0
       intl-messageformat: 10.7.15
       json5: 2.2.3
       log4js: 6.9.1
@@ -4508,6 +4530,16 @@ snapshots:
     dependencies:
       '@log4js-node/log4js-api': 1.0.2
       ilib-ctype: 1.2.2
+      ilib-locale: 1.2.4
+      ilib-xliff: 1.2.2
+      intl-messageformat: 10.7.15
+      micromatch: 4.0.8
+
+  ilib-tools-common@1.14.0:
+    dependencies:
+      '@log4js-node/log4js-api': 1.0.2
+      ilib-ctype: 1.2.2
+      ilib-istring: 1.1.1
       ilib-locale: 1.2.4
       ilib-xliff: 1.2.2
       intl-messageformat: 10.7.15
