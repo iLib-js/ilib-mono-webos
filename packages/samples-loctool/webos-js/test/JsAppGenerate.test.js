@@ -23,7 +23,7 @@ const defaultRSPath = path.join(process.cwd(), "resources");
 const { isExistKey } = require('../../Utils.js');
 
 describe('test the localization result (generate mode) of webos-js app', () => {
-    const generalOptions = '-2 --xliffStyle custom --pseudo --localizeOnly';
+    const generalOptions = '-2 --xliffStyle custom --localizeOnly';
     const generateModeOptions = '--projectType webos-js --projectId sample-webos-js --sourceLocale en-KR --resourceFileTypes json=webos-json-resource --plugins webos-javascript,webos-json';
     const locales = '-l as-IN,de-DE,en-AU,en-US,en-GB,en-JP,es-ES,es-CO,fr-CA,fr-FR,ja-JP,ko-KR,ko-US';
     const localeInherit = '--localeInherit en-AU:en-GB,en-JP:en-GB';

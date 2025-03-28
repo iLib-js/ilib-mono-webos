@@ -23,7 +23,7 @@ const { isValidPath, loadData } = require('../../Utils.js');
 
 describe('test the localization result (generate mode) of webos-dart app', () => {
     const resourcePath = 'assets/i18n';
-    const generalOptions = '-2 --xliffStyle custom --pseudo --localizeOnly';
+    const generalOptions = '-2 --xliffStyle custom --localizeOnly';
     const generateModeOptions = '--projectType webos-dart --projectId sample-webos-dart --sourceLocale en-KR --resourceDirs json=assets/i18n --resourceFileTypes json=webos-json-resource --plugins webos-dart,webos-json';
     const locales = '-l en-US,es-CO,es-ES,fr-CA,fr-FR,ja-JP,ko-KR,sl-SI'
     const localeInherit = '--localeInherit en-AU:en-GB';
