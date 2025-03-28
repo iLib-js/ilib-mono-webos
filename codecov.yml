@@ -1,7 +1,6 @@
 coverage:
   ignore:
     - "packages/samples-lint"
-    - "packages/samples-loctool"
     - "packages/ilib-loctool-webos-dist"
     - "scripts"
   status:
