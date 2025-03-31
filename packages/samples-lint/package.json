@@ -40,11 +40,11 @@
     "scripts": {
         "lint": "ilib-lint -c ilib-lint-config.json -f html-formatter -o webos-result.html",
         "debug": "node --inspect-brk node_modules/ilib-lint/src/index.js -c ilib-lint-config.json -f html-formatter -o webos-result.html",
-        "clean": "rm webos-result.html",
+        "clean": "rm -rf webos-result.html",
         "test": "echo success"
     },
     "dependencies": {
-        "ilib-lint": "^2.7.2",
+        "ilib-lint": "^2.8.1",
         "ilib-lint-webos": "workspace:*"
     }
 }
