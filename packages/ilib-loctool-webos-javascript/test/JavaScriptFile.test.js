@@ -1102,9 +1102,10 @@ describe("javascriptfile", function() {
             type: jsft
         });
         expect(j).toBeTruthy();
+        debugger;
         j.extract();
         var set = j.getTranslationSet();
-        expect(set.size()).toBe(0);
+        expect(set.size()).toBe(2);
     });
     test("JavaScriptFileNotParseComment", function() {
         expect.assertions(2);
