@@ -93,7 +93,7 @@ JavaScriptFile.trimComments = function(data) {
     // comment style: // , /* */ single, multi line
     //(?<!http:)\/\/((?!\s*i18n))[^\\n]+
     var trimData = data.replace(/(?<!https?:)\/\/\s*((?!i18n))\S*$/gm, "").
-                    replace(/(?<!https?:)\/\/\s*((?!i18n).)*[$/\n]/g, "").
+                    replace(/(?<!https?:)\/\/\s*((?!i18n).)*[\$\\n]/g, "").
                     replace(/\/\*+([^*]|\*(?!\/))*\*+\//g, "").
                     replace(/\/\*(.*)\*\//g, "");
     return trimData;

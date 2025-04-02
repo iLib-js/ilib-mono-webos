@@ -1086,7 +1086,6 @@ describe("javascriptfile", function() {
             type: jsft
         });
         expect(j).toBeTruthy();
-
         // should attempt to read the file and not fail
         j.extract();
 
