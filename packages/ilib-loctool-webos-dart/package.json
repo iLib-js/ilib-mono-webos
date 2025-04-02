@@ -54,7 +54,7 @@
         "micromatch": "^4.0.8"
     },
     "peerDependencies": {
-        "loctool": "2.28.1"
+        "loctool": "2.28.2"
     },
     "devDependencies": {
         "jest": "^29.7.0",
