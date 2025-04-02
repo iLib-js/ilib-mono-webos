@@ -1105,7 +1105,7 @@ describe("javascriptfile", function() {
         debugger;
         j.extract();
         var set = j.getTranslationSet();
-        expect(set.size()).toBe(2);
+        expect(set.size()).toBe(3);
     });
     test("JavaScriptFileNotParseComment", function() {
         expect.assertions(2);
