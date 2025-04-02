@@ -85,6 +85,9 @@ export function findMsgByCode3 (code) {
         case 12:
             $L({key: 'volumeModeHigh', value: 'High' });
             break;
+        case 13:
+            $L("TV On Screen");
+            break;
         default:
             msg.reason = $L('MAC Address'); // xliff_target trim
             break;
