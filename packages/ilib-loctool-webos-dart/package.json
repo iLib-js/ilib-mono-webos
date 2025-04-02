@@ -50,7 +50,7 @@
     },
     "dependencies": {
         "ilib-loctool-webos-json-resource": "workspace:*",
-        "ilib": "^14.21.0",
+        "ilib": "^14.21.1",
         "micromatch": "^4.0.8"
     },
     "peerDependencies": {
@@ -58,6 +58,6 @@
     },
     "devDependencies": {
         "jest": "^29.7.0",
-        "loctool": "2.28.1"
+        "loctool": "2.28.2"
     }
 }
