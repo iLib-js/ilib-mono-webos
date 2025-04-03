@@ -123,6 +123,7 @@ var reGetStringSymbol = new RegExp(/(^\$|\W\$)L?\s*\(\s*("((\\"|[^"])*)"|'((\\'|
 var reGetStringSymbolKeyValuePattern = new RegExp(/(?:^\$|\W\$)L?\s*\(\s*{\s*(key|value)\:\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\,\s*(key|value)\:\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\}\s*\)/g);
 
 var reGetStringWithId = new RegExp(/\.getString(JS)?\s*\(\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*,\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\)/g);
+
 var reI18nComment = new RegExp("//\\s*i18n\\s*:\\s*(.*)$");
 
 /**
