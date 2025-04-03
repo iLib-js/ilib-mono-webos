@@ -25,7 +25,7 @@ const { isExistKey } = require('../../Utils.js');
 describe('test the localization result (generate mode) of webos-js app', () => {
     const generalOptions = '-2 --xliffStyle custom --localizeOnly';
     const generateModeOptions = '--projectType webos-js --projectId sample-webos-js --sourceLocale en-KR --resourceFileTypes json=webos-json-resource --plugins webos-javascript,webos-json';
-    const locales = '-l as-IN,de-DE,en-AU,en-US,en-GB,en-JP,es-ES,es-CO,fr-CA,fr-FR,ja-JP,ko-KR,ko-US';
+    const locales = '-l as-IN,de-DE,en-AU,en-US,en-GB,en-JP,es-ES,es-CO,fr-CA,fr-FR,ja-JP,ko-KR,ko-US,ko-TW';
     const localeInherit = '--localeInherit en-AU:en-GB,en-JP:en-GB';
     const localeMap = '--localeMap es-CO:es,fr-CA:fr';
 
@@ -40,7 +40,7 @@ describe('test the localization result (generate mode) of webos-js app', () => {
       });
     }, 50000);
     test("jssample_generate_test_ko_KR", function() {
-        expect.assertions(5);
+        expect.assertions(6);
         let rb = new ResBundle({
             locale:"ko-KR",
             basePath : defaultRSPath
@@ -49,6 +49,7 @@ describe('test the localization result (generate mode) of webos-js app', () => {
         expect(rb.getString("TV Name : ").toString()).toBe("TV Name :");
         expect(rb.getString("Time Settings").toString()).toBe("[App] 시간 설정");
         expect(rb.getString("High", "volumeModeHigh").toString()).toBe("높음");
+        expect(rb.getString("TV On Screen").toString()).toBe("TV 켜짐 화면");
 
         // common data
         expect(rb.getString("Please enter password.").toString()).toBe("Please enter password.");
@@ -62,6 +63,15 @@ describe('test the localization result (generate mode) of webos-js app', () => {
         expect(rb).toBeTruthy();
         expect(rb.getString("Antenna NEXTGEN TV").toString()).toBe("안테나 NEXTGEN TV");
     });
+    test("jssample_test_ko_TW", function() {
+        expect.assertions(2);
+        let rb = new ResBundle({
+            locale:"ko-TW",
+            basePath : defaultRSPath
+        });
+        expect(rb).toBeTruthy();
+        expect(rb.getString("TV On Screen").toString()).toBe("기기 켜짐 화면");
+    })
     test("jssample_generate_test_en_AU", function() {
         expect.assertions(7);
 
