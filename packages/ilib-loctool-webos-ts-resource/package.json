@@ -50,15 +50,15 @@
         "node": ">=10.0.0"
     },
     "dependencies": {
-        "ilib": "^14.21.0",
+        "ilib": "^14.21.1",
         "pretty-data": "^0.40.0",
         "xml-js": "^1.6.11"
     },
     "peerDependencies": {
-        "loctool": "2.28.1"
+        "loctool": "2.28.2"
     },
     "devDependencies": {
         "jest": "^29.7.0",
-        "loctool": "2.28.1"
+        "loctool": "2.28.2"
     }
 }

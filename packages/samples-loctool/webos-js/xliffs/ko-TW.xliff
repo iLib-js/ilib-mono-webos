@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff version="2.0" srcLang="en-KR" trgLang="ko-TW" xmlns:l="http://ilib-js.com/loctool">
+  <file id="sample-webos-js_f1" original="sample-webos-js">
+    <group id="sample-webos-js_g1" name="javascript">
+      <unit id="1">
+        <segment>
+          <source>TV On Screen</source>
+          <target>기기 켜짐 화면</target>
+        </segment>
+      </unit>
+    </group>
+  </file>
+</xliff>
