@@ -19,8 +19,7 @@ The project is structured as follows:
 - `pnpm-lock.yaml` - Contains the lockfile for pnpm.
 
 ## Packages
-Here is the list of packages.  
-Plugins are optimized for the webOS platform.
+Here is the list of packages. Plugins are optimized for the webOS platform.
 name|description|
 |:------|:---|
 | ilib-loctool-webos-c | C filetype handler. |
