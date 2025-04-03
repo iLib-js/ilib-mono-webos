@@ -4,7 +4,7 @@
     "description": "Sample localization project",
     "repository": "git@github.com:iLib-js/ilib-mono-webos.git",
     "license": "Apache-2.0",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "scripts": {
         "loc": "loctool -2 --xliffStyle custom --localeMap es-CO:es,fr-CA:fr --localeInherit en-AU:en-GB --pseudo --localizeOnly",
         "debug": "node --inspect-brk node_modules/loctool/loctool.js -2 --xliffStyle custom --localeMap es-CO:es,fr-CA:fr --localeInherit en-AU:en-GB --pseudo --localizeOnly",
