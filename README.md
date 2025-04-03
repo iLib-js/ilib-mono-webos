@@ -21,18 +21,20 @@ The project is structured as follows:
 ## Packages
 Here is the list of packages.
 Plugins are optimized for the webOS platform.
-* ilib-loctool-webos-c: C filetype handler.
-* ilib-loctool-webos-cpp: Cpp filetype handler.
-* ilib-loctool-webos-qml: QML filetype handler.
-* ilib-loctool-webos-javascript: JavaScript filetype handler.
-* ilib-loctool-webos-json: JSON filetype handler.
-* ilib-loctool-webos-json-resource: JSON resource filetype handler.
-* ilib-loctool-webos-ts-resource: [TS](https://doc.qt.io/qt-6/linguist-ts-file-format.html) resource filetype handler.
-* ilib-loctool-webos-dart: [Dart](https://docs.fileformat.com/programming/dart/) filetype handler.
-* ilib-lint-webos: provides the ability to parse webOS xliff files and provides rules to check.
-* ilib-loctool-webos-dist: for the purpose of distribution for webOS platform.
-* samples-loctool: sample apps written for each app type to validate the webOS loctool plugins.
-* samples-lint: sample app to validate the webOS lint plugin.
+name|description|
+|------|---|
+| ilib-loctool-webos-c | C filetype handler. |
+| ilib-loctool-webos-cpp |  Cpp filetype handler. |
+| ilib-loctool-webos-qml |  QML filetype handler.|
+| ilib-loctool-webos-javascript |  JavaScript filetype handler.|
+| ilib-loctool-webos-json |  JSON filetype handler.|
+| ilib-loctool-webos-json-resource |  JSON resource filetype handler.|
+| ilib-loctool-webos-ts-resource |  [TS](https://doc.qt.io/qt-6/linguist-ts-file-format.html) resource filetype handler.|
+| ilib-loctool-webos-dart | [Dart](https://docs.fileformat.com/programming/dart/) filetype handler.|
+| ilib-lint-webos | provides the ability to parse webOS xliff files and provides rules to check.|
+| ilib-loctool-webos-dist | for the purpose of distribution for webOS platform.|
+| samples-loctool | sample apps written for each app type to validate the webOS loctool plugins.|
+| samples-lint | sample app to validate the webOS lint plugin.|
 
 ## License
 This project is licensed under the Apache 2.0 License. See the [LICENSE](./LICENSE) file for details.
