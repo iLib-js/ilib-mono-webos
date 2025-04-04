@@ -837,4 +837,88 @@ describe("jsonfile", function() {
 
         expect(ajf.getLocalizedPath("fr-FR")).toBe("localized_json/fr/");
     });
+    test("JsonLocalzeTextWithBaseTranslations2", function() {
+        expect.assertions(2);
+        var ajf = new JsonFile({
+            project: p,
+            type: ajft
+        });
+        expect(ajf).toBeTruthy();
+        ajf.parse({
+            "id": "app",
+            "title": "Live TV",
+        });
+        var translations = new TranslationSet();
+
+        // no translation for en-US
+
+        // kn-IN: source==target
+        var resource2 = new ResourceString({
+            project: "app",
+            source: "Live TV",
+            sourceLocale: "en-KR",
+            key: "Live TV",
+            target: "Live TV",
+            targetLocale: "kn-IN",
+            datatype: "x-json"
+        })
+        translations.add(resource2);
+
+        var actual = ajf.localizeText(translations, "kn-IN");
+        var expected = '{}';
+        expect(actual).toBe(expected);
+    });
+    test("JsonLocalzeTextWithBaseTranslations3", function() {
+        expect.assertions(6);
+        var ajf = new JsonFile({
+            project: p,
+            type: ajft
+        });
+        expect(ajf).toBeTruthy();
+        ajf.parse({
+            "id": "app",
+            "title": "Live TV",
+        });
+        var translations = new TranslationSet();
+
+        // en-US: source !== target
+        var resource = new ResourceString({
+            project: "app",
+            source: "Live TV",
+            sourceLocale: "en-KR",
+            key: "Live TV",
+            target: "(en-US) Live TV",
+            targetLocale: "en-US",
+            datatype: "x-json"
+        })
+        translations.add(resource);
+
+        // no translation for fr-FR
+
+        // fr-CA: source==target
+        var resource3 = new ResourceString({
+            project: "app",
+            source: "Live TV",
+            sourceLocale: "en-KR",
+            key: "Live TV",
+            target: "Live TV",
+            targetLocale: "fr-CA",
+            datatype: "x-json"
+        })
+        translations.add(resource3);
+
+        var actual0 = ajf.localizeText(translations, "en-US");
+        var expected0 = '{\n    "title": "(en-US) Live TV"\n}';
+        expect(actual0).toBe(expected0);
+        var actual1 = ajf.localizeText(translations, "fr-FR");
+        var expected1 = '{}';
+        expect(actual1).toBe(expected1);
+        var actual2 = ajf.localizeText(translations, "fr-CA");
+        var expected2 = '{\n    "title": "Live TV"\n}';
+        expect(actual2).toBe(expected2);
+
+        expect(ajf.getLocalizedPath("en-US")).toBe("localized_json/");
+        expect(ajf.getLocalizedPath("fr-CA")).toBe("localized_json/fr/CA/");
+    });
+
 });

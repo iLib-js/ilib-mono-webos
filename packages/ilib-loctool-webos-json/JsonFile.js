@@ -271,21 +271,31 @@ JsonFile.prototype._addnewResource = function(text, key, locale) {
 
 JsonFile.prototype._getBaseTranslation = function(locale, translations, tester) {
     if (!locale) return;
+
+    var rootLocale = 'en-US';
     var langDefaultLocale = Utils.getBaseLocale(locale);
-    var baseTranslation;
     if (langDefaultLocale === locale) {
-        langDefaultLocale = 'en-US'; // language default locale need to compare with root data
+        langDefaultLocale = rootLocale;
     }
 
-    if (locale !== 'en-US') {
+    var translated = null;
+
+    // Get translation for baseLocale
+    if (locale !== rootLocale) {
         var hashkey = tester.hashKeyForTranslation(langDefaultLocale);
         var alternativeKey = ResourceString.hashKey(tester.getProject(), langDefaultLocale, tester.getKey(), "javascript", tester.getFlavor());
-        var translated = translations.getClean(hashkey) || translations.getClean(alternativeKey);
-        if (translated) {
-            baseTranslation = translated.target;
+        translated = translations.getClean(hashkey) || translations.getClean(alternativeKey);
+
+        // If no translation is found for baseLocale, get translation for 'en-US'
+        if (!translated && langDefaultLocale !== rootLocale) {
+            hashkey = tester.hashKeyForTranslation(rootLocale);
+            alternativeKey = ResourceString.hashKey(tester.getProject(), rootLocale, tester.getKey(), "javascript", tester.getFlavor());
+            translated = translations.getClean(hashkey) || translations.getClean(alternativeKey);
         }
     }
-    return baseTranslation;
+
+    // Return the original string if no translation is found for baseLocales
+    return translated ? translated.target : tester.getKey();
 }
 
 /**
