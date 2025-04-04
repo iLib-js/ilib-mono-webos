@@ -1,7 +1,7 @@
 /*
  * JavaScriptFileType.js - Represents a collection of JavaScript files
  *
- * Copyright (c) 2019-2023, 2025 JEDLSoft
+ * Copyright (c) 2019-2023, JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -119,17 +119,6 @@ JavaScriptFileType.prototype._addResource = function(resFileType, translated, re
     file.addResource(resource);
 }
 
-JavaScriptFileType.prototype._addNewResource = function(res, locale) {
-    var note = "No translation for " + res.reskey + " to " + locale;
-    var newres = res.clone();
-    newres.setTargetLocale(locale);
-    newres.setTarget(res.getSource());
-    newres.setState("new");
-    newres.setComment(note);
-    this.newres.add(newres);
-    this.logger.trace("No translation for " + res.reskey + " to " + locale);
-}
-
 /**
  * Write out the aggregated resources for this file type. In
  * some cases, the string are written out to a common resource
@@ -216,18 +205,36 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
                                             if (translated && (baseTranslation !== translated.getTarget())) {
                                                 this._addResource(resFileType, translated, res, locale);
                                             } else {
-                                                this._addNewResource(res, locale);
+                                                var newres = res.clone();
+                                                newres.setTargetLocale(locale);
+                                                newres.setTarget((r && r.getTarget()) || res.getSource());
+                                                newres.setState("new");
+                                                newres.setComment(note);
+                                                this.newres.add(newres);
+                                                this.logger.trace("No translation for " + res.reskey + " to " + locale);
                                             }
                                         }.bind(this))
 
                                     } else if (translated && (baseTranslation !== translated.getTarget())){
                                         this._addResource(resFileType, translated, res, locale);
                                     } else {
-                                        this._addNewResource(res, locale);
+                                        var newres = res.clone();
+                                        newres.setTargetLocale(locale);
+                                        newres.setTarget((r && r.getTarget()) || res.getSource());
+                                        newres.setState("new");
+                                        newres.setComment(note);
+                                        this.newres.add(newres);
+                                        this.logger.trace("No translation for " + res.reskey + " to " + locale);
                                     }
                                 }.bind(this));
                             } else {
-                                this._addNewResource(res, locale);
+                                var newres = res.clone();
+                                newres.setTargetLocale(locale);
+                                newres.setTarget((r && r.getTarget()) || res.getSource());
+                                newres.setState("new");
+                                newres.setComment(note);
+                                this.newres.add(newres);
+                                this.logger.trace("No translation for " + res.reskey + " to " + locale);
                             }
                         }.bind(this));
                     } else if (!translated && customInheritLocale){
@@ -235,7 +242,13 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
                             if (translated && (baseTranslation != translated.getTarget())) {
                                 this._addResource(resFileType, translated, res, locale);
                             } else {
-                                this._addNewResource(res, locale);
+                                var newres = res.clone();
+                                newres.setTargetLocale(locale);
+                                newres.setTarget((r && r.getTarget()) || res.getSource());
+                                newres.setState("new");
+                                newres.setComment(note);
+                                this.newres.add(newres);
+                                this.logger.trace("No translation for " + res.reskey + " to " + locale);
                             }
                         }.bind(this));
                     } else if (!translated || ( this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getSource()) &&
@@ -244,7 +257,16 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
                             this.logger.trace("extracted   source: " + this.API.utils.cleanString(res.getSource()));
                             this.logger.trace("translation source: " + this.API.utils.cleanString(r.getSource()));
                         }
-                        this._addNewResource(res, locale);
+                        var note = r && 'The source string has changed. Please update the translation to match if necessary. Previous source: "' + r.getSource() + '"';
+                        var newres = res.clone();
+                        newres.setTargetLocale(locale);
+                        newres.setTarget((r && r.getTarget()) || res.getSource());
+                        newres.setState("new");
+                        newres.setComment(note);
+
+                        this.newres.add(newres);
+
+                        this.logger.trace("No translation for " + res.reskey + " to " + locale);
                     } else {
                         if (res.reskey != r.reskey) {
                             // if reskeys don't match, we matched on cleaned string.
