@@ -1,7 +1,7 @@
 /*
  * CFile.js - plugin to extract resources from a C source code file
  *
- * Copyright (c) 2019-2023, JEDLSoft
+ * Copyright (c) 2019-2023, 2025 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -120,9 +120,8 @@ CFile.prototype.parse = function(data) {
     // To extract resBundle_getLocString()
     reGetLocString.lastIndex = 0; // just to be safe
     var result = reGetLocString.exec(data);
-    while (result && result.length > 1 && result[3]) {
-        match = result[3];
-
+    while (result && result.length > 1) {
+        match = result[3] ? result[3]: " "; //To enhance the following case: resBundle_getLocString(_gpstResBundle, "");
         if (match && match.length) {
             this.logger.trace("Found string key: " + this.makeKey(match) + ", string: '" + match + "'");
 
@@ -134,20 +133,22 @@ CFile.prototype.parse = function(data) {
 
             match = CFile.unescapeString(match);
 
-            var r = this.API.newResource({
-                resType: "string",
-                project: this.project.getProjectId(),
-                key: match,
-                sourceLocale: this.project.sourceLocale,
-                source: match,
-                autoKey: true,
-                pathName: this.pathName,
-                state: "new",
-                comment: CFile.trimComment(comment),
-                datatype: this.type.datatype,
-                index: this.resourceIndex++
-            });
-            this.set.add(r);
+            if (result[3]) {
+                var r = this.API.newResource({
+                    resType: "string",
+                    project: this.project.getProjectId(),
+                    key: match,
+                    sourceLocale: this.project.sourceLocale,
+                    source: match,
+                    autoKey: true,
+                    pathName: this.pathName,
+                    state: "new",
+                    comment: CFile.trimComment(comment),
+                    datatype: this.type.datatype,
+                    index: this.resourceIndex++
+                });
+                this.set.add(r);
+            }
         } else {
             this.logger.warn("Warning: Bogus empty string in get string call: ");
             this.logger.warn("... " + data.substring(result.index, reGetString.lastIndex) + " ...");

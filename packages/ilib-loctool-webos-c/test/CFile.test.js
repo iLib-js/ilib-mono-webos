@@ -883,6 +883,21 @@ describe("cfile", function() {
         var set = cf.getTranslationSet();
         expect(set.size()).toBe(4);
     });
+    test("CFileTest4", function() {
+        expect.assertions(2);
+
+        var cf = new CFile({
+            project: p,
+            pathName: "./t4.c",
+            type: cft
+        });
+        debugger;
+        expect(cf).toBeTruthy();
+        cf.extract();
+
+        var set = cf.getTranslationSet();
+        expect(set.size()).toBe(1);
+    });
     test("CFileNotParseCommentLine", function() {
         expect.assertions(3);
 
