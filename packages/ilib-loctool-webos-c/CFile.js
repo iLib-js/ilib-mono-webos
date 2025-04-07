@@ -121,7 +121,7 @@ CFile.prototype.parse = function(data) {
     reGetLocString.lastIndex = 0; // just to be safe
     var result = reGetLocString.exec(data);
     while (result && result.length > 1) {
-        match = result[3] ? result[3]: " "; //To enhance the following case: resBundle_getLocString(_gpstResBundle, "");
+        match = result[3] ? result[3]: " "; //Update for the following case support: resBundle_getLocString(_gpstResBundle, "");
         if (match && match.length) {
             this.logger.trace("Found string key: " + this.makeKey(match) + ", string: '" + match + "'");
 
