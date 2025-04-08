@@ -11,7 +11,8 @@
       <unit id="2">
         <notes>
           <note>title@oled</note>
-        </notes>        <segment>
+        </notes>
+        <segment>
           <source>Live TV oled</source>
           <target>Live TV oled</target>
         </segment>
