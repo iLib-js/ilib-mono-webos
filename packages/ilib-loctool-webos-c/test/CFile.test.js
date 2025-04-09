@@ -1,7 +1,7 @@
 /*
  * CFile.test.js - test the c file handler object.
  *
- * Copyright (c) 2019-2021,2023 JEDLSoft
+ * Copyright (c) 2019-2021, 2023, 2025 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -884,19 +884,21 @@ describe("cfile", function() {
         expect(set.size()).toBe(4);
     });
     test("CFileTest4", function() {
-        expect.assertions(2);
+        expect.assertions(3);
 
         var cf = new CFile({
             project: p,
             pathName: "./t4.c",
             type: cft
         });
-        debugger;
         expect(cf).toBeTruthy();
         cf.extract();
 
         var set = cf.getTranslationSet();
         expect(set.size()).toBe(1);
+
+        var resources = set.getAll();
+        expect(resources[0].getSource()).toBe("* You can watch TV even while updating the software.");
     });
     test("CFileNotParseCommentLine", function() {
         expect.assertions(3);
