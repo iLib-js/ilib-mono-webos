@@ -976,7 +976,6 @@ describe("javascriptfile", function() {
         var set = j.getTranslationSet();
         expect(set.size()).toBe(11);
 
-
         var r = set.getBySource("Track");
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("Track");
@@ -1093,7 +1092,7 @@ describe("javascriptfile", function() {
         expect(set.size()).toBe(4);
     });
     test("JavaScriptFileTest5", function() {
-        expect.assertions(2);
+        expect.assertions(5);
 
         var j = new JavaScriptFile({
             project: p,
@@ -1105,6 +1104,11 @@ describe("javascriptfile", function() {
         j.extract();
         var set = j.getTranslationSet();
         expect(set.size()).toBe(3);
+
+        var r = set.getBySource("Control smart home IoT devices. See https://lge.com/smarthome for details.");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("Control smart home IoT devices. See https://lge.com/smarthome for details.");
+        expect(r.getKey()).toBe("Control smart home IoT devices. See https://lge.com/smarthome for details.");
     });
     test("JavaScriptFileNotParseComment", function() {
         expect.assertions(2);
