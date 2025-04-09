@@ -1,7 +1,7 @@
 /*
  * JsonAppinfoFile.test.js - test the appinfo.json file type handler object.
  *
- * Copyright (c) 2023,2025 JEDLSoft
+ * Copyright (c) 2023, 2025 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -293,7 +293,7 @@ describe("jsonfile", function() {
         expect(r.getSource()).toBe("Settings@oled");
         expect(r.getKey()).toBe("Settings@oled");
     });
-    test("JsonLocalzeText", function() {
+    test("JsonLocalizeText", function() {
         expect.assertions(2);
         var ajf = new JsonFile({
             project: p,
@@ -324,7 +324,7 @@ describe("jsonfile", function() {
         var expected = '{\n    "title": "사진 &amp; 동영상"\n}';
         expect(actual).toBe(expected);
     });
-    test("JsonLocalzeTextxJsonKey", function() {
+    test("JsonLocalizeTextxJsonKey", function() {
         expect.assertions(2);
         var ajf = new JsonFile({
             project: p,
@@ -355,7 +355,7 @@ describe("jsonfile", function() {
         var expected = '{\n    "title": "사진 &amp; 동영상"\n}';
         expect(actual).toBe(expected);
     });
-    test("JsonLocalzeTextxJsonKey2", function() {
+    test("JsonLocalizeTextxJsonKey2", function() {
         expect.assertions(2);
         var ajf = new JsonFile({
             project: p,
@@ -393,7 +393,7 @@ describe("jsonfile", function() {
         var expected = '{\n    "title": "사진 &amp; 동영상"\n}';
         expect(actual).toBe(expected);
     });
-    test("JsonLocalzeTextxJsonKey3", function() {
+    test("JsonLocalizeTextxJsonKey3", function() {
         expect.assertions(2);
         var ajf = new JsonFile({
             project: p,
@@ -420,7 +420,7 @@ describe("jsonfile", function() {
         var expected = '{\n    "title": "사진 &amp; 동영상2"\n}';
         expect(actual).toBe(expected);
     });
-    test("JsonLocalzeTextMultiple", function() {
+    test("JsonLocalizeTextMultiple", function() {
         expect.assertions(2);
         var ajf = new JsonFile({
             project: p,
@@ -794,7 +794,7 @@ describe("jsonfile", function() {
         expect(ajf.getLocalizedPath("fr-FR")).toBe("localized_json/fr/");
         expect(ajf.getLocalizedPath("fr-CA")).toBe("localized_json/fr/CA/");
     });
-    test("JsonLocalzeTextWithBaseTranslations", function() {
+    test("JsonLocalizeTextWithBaseTranslations", function() {
         expect.assertions(4);
         var ajf = new JsonFile({
             project: p,
@@ -837,17 +837,18 @@ describe("jsonfile", function() {
 
         expect(ajf.getLocalizedPath("fr-FR")).toBe("localized_json/fr/");
     });
-    test("JsonLocalzeTextWithBaseTranslations2", function() {
+    test("JsonLocalizeTextWithBaseTranslations2", function() {
         expect.assertions(2);
         var ajf = new JsonFile({
             project: p,
             type: ajft
         });
         expect(ajf).toBeTruthy();
-        ajf.parse({
-            "id": "app",
-            "title": "Live TV",
-        });
+        ajf.parse(
+            '{\n' +
+            '    "id": "app",\n' +
+            '    "title": "Live TV"\n' +
+            '}\n');
         var translations = new TranslationSet();
 
         // no translation for en-US
@@ -868,17 +869,18 @@ describe("jsonfile", function() {
         var expected = '{}';
         expect(actual).toBe(expected);
     });
-    test("JsonLocalzeTextWithBaseTranslations3", function() {
+    test("JsonLocalizeTextWithBaseTranslations3", function() {
         expect.assertions(6);
         var ajf = new JsonFile({
             project: p,
             type: ajft
         });
         expect(ajf).toBeTruthy();
-        ajf.parse({
-            "id": "app",
-            "title": "Live TV",
-        });
+        ajf.parse(
+            '{\n' +
+            '    "id": "app",\n' +
+            '    "title": "Live TV"\n' +
+            '}\n');
         var translations = new TranslationSet();
 
         // en-US: source !== target
