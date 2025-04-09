@@ -1,5 +1,22 @@
 # ilib-loctool-webos-dist
 
+## 1.18.1
+
+### Patch Changes
+
+- f4beb98: - ilib-loctool-webos-javascript:
+  - Fix the issue where the comments are incorrectly removed, the localizable string are not extracted properly.
+- d2bfce8: ilib-loctool-webos-json
+  - Modified \_getBaseTranslation to avoid generating duplicate resources
+- 2d98af2: ilib-loctool-webos-c
+  - Fix the issue where localizable strings are not extracted when the string value is empty ("").
+- Updated dependencies [f4beb98]
+- Updated dependencies [d2bfce8]
+- Updated dependencies [7cc51ae]
+  - ilib-loctool-webos-javascript@1.10.9
+  - ilib-loctool-webos-json@1.1.8
+  - ilib-loctool-webos-c@1.7.7
+
 ## 1.18.0
 
 ### Minor Changes
