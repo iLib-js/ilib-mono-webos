@@ -1,5 +1,12 @@
 # sample-webos-c
 
+## 1.1.1
+
+### Patch Changes
+
+- Updated dependencies [7cc51ae]
+  - ilib-loctool-webos-c@1.7.7
+
 ## 1.1.0
 
 ### Minor Changes

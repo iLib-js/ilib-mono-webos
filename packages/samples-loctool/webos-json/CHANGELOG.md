@@ -1,5 +1,13 @@
 # sample-webos-qcardinfo
 
+## 1.1.1
+
+### Patch Changes
+
+- d2bfce8: Modified \_getBaseTranslation to avoid generating duplicate resources
+- Updated dependencies [d2bfce8]
+  - ilib-loctool-webos-json@1.1.8
+
 ## 1.1.0
 
 ### Minor Changes
