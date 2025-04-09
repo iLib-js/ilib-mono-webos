@@ -16,4 +16,5 @@ coverage/
 resources/
 assets/
 
+# Output of the test
 packages/ilib-loctool-webos-json-resource/testfiles

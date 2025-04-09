@@ -1,7 +1,7 @@
 /*
  * JsonAppinfoFile.test.js - test the appinfo.json file type handler object.
  *
- * Copyright (c) 2023 JEDLSoft
+ * Copyright (c) 2023, 2025 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -293,7 +293,7 @@ describe("jsonfile", function() {
         expect(r.getSource()).toBe("Settings@oled");
         expect(r.getKey()).toBe("Settings@oled");
     });
-    test("JsonLocalzeText", function() {
+    test("JsonLocalizeText", function() {
         expect.assertions(2);
         var ajf = new JsonFile({
             project: p,
@@ -324,7 +324,7 @@ describe("jsonfile", function() {
         var expected = '{\n    "title": "사진 &amp; 동영상"\n}';
         expect(actual).toBe(expected);
     });
-    test("JsonLocalzeTextxJsonKey", function() {
+    test("JsonLocalizeTextxJsonKey", function() {
         expect.assertions(2);
         var ajf = new JsonFile({
             project: p,
@@ -355,7 +355,7 @@ describe("jsonfile", function() {
         var expected = '{\n    "title": "사진 &amp; 동영상"\n}';
         expect(actual).toBe(expected);
     });
-    test("JsonLocalzeTextxJsonKey2", function() {
+    test("JsonLocalizeTextxJsonKey2", function() {
         expect.assertions(2);
         var ajf = new JsonFile({
             project: p,
@@ -393,7 +393,7 @@ describe("jsonfile", function() {
         var expected = '{\n    "title": "사진 &amp; 동영상"\n}';
         expect(actual).toBe(expected);
     });
-    test("JsonLocalzeTextxJsonKey3", function() {
+    test("JsonLocalizeTextxJsonKey3", function() {
         expect.assertions(2);
         var ajf = new JsonFile({
             project: p,
@@ -420,7 +420,7 @@ describe("jsonfile", function() {
         var expected = '{\n    "title": "사진 &amp; 동영상2"\n}';
         expect(actual).toBe(expected);
     });
-    test("JsonLocalzeTextMultiple", function() {
+    test("JsonLocalizeTextMultiple", function() {
         expect.assertions(2);
         var ajf = new JsonFile({
             project: p,
@@ -794,7 +794,7 @@ describe("jsonfile", function() {
         expect(ajf.getLocalizedPath("fr-FR")).toBe("localized_json/fr/");
         expect(ajf.getLocalizedPath("fr-CA")).toBe("localized_json/fr/CA/");
     });
-    test("JsonLocalzeTextWithBaseTranslations", function() {
+    test("JsonLocalizeTextWithBaseTranslations", function() {
         expect.assertions(4);
         var ajf = new JsonFile({
             project: p,
@@ -837,4 +837,90 @@ describe("jsonfile", function() {
 
         expect(ajf.getLocalizedPath("fr-FR")).toBe("localized_json/fr/");
     });
+    test("JsonLocalizeTextWithBaseTranslations2", function() {
+        expect.assertions(2);
+        var ajf = new JsonFile({
+            project: p,
+            type: ajft
+        });
+        expect(ajf).toBeTruthy();
+        ajf.parse(
+            '{\n' +
+            '    "id": "app",\n' +
+            '    "title": "Live TV"\n' +
+            '}\n');
+        var translations = new TranslationSet();
+
+        // no translation for en-US
+
+        // kn-IN: source==target
+        var resource2 = new ResourceString({
+            project: "app",
+            source: "Live TV",
+            sourceLocale: "en-KR",
+            key: "Live TV",
+            target: "Live TV",
+            targetLocale: "kn-IN",
+            datatype: "x-json"
+        })
+        translations.add(resource2);
+
+        var actual = ajf.localizeText(translations, "kn-IN");
+        var expected = '{}';
+        expect(actual).toBe(expected);
+    });
+    test("JsonLocalizeTextWithBaseTranslations3", function() {
+        expect.assertions(6);
+        var ajf = new JsonFile({
+            project: p,
+            type: ajft
+        });
+        expect(ajf).toBeTruthy();
+        ajf.parse(
+            '{\n' +
+            '    "id": "app",\n' +
+            '    "title": "Live TV"\n' +
+            '}\n');
+        var translations = new TranslationSet();
+
+        // en-US: source !== target
+        var resource = new ResourceString({
+            project: "app",
+            source: "Live TV",
+            sourceLocale: "en-KR",
+            key: "Live TV",
+            target: "(en-US) Live TV",
+            targetLocale: "en-US",
+            datatype: "x-json"
+        })
+        translations.add(resource);
+
+        // no translation for fr-FR
+
+        // fr-CA: source==target
+        var resource3 = new ResourceString({
+            project: "app",
+            source: "Live TV",
+            sourceLocale: "en-KR",
+            key: "Live TV",
+            target: "Live TV",
+            targetLocale: "fr-CA",
+            datatype: "x-json"
+        })
+        translations.add(resource3);
+
+        var actual0 = ajf.localizeText(translations, "en-US");
+        var expected0 = '{\n    "title": "(en-US) Live TV"\n}';
+        expect(actual0).toBe(expected0);
+        var actual1 = ajf.localizeText(translations, "fr-FR");
+        var expected1 = '{}';
+        expect(actual1).toBe(expected1);
+        var actual2 = ajf.localizeText(translations, "fr-CA");
+        var expected2 = '{\n    "title": "Live TV"\n}';
+        expect(actual2).toBe(expected2);
+
+        expect(ajf.getLocalizedPath("en-US")).toBe("localized_json/");
+        expect(ajf.getLocalizedPath("fr-CA")).toBe("localized_json/fr/CA/");
+    });
+
 });

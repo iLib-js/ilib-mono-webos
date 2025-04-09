@@ -91,20 +91,23 @@ describe('test the localization result of webos-json app', () => {
         expect(jsonData["title"]).toBe("(fr) Live TV");
     });
     test("appinfo_jsonsample_test_es_ES", function() {
-        expect.assertions(2);
+        expect.assertions(4);
         filePath = path.join(resourcePath, "es/ES", fileName);
         jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["title"]).toBe("(es-ES) Live TV");
+        expect(jsonData["vendor"]).toBeTruthy();
+        expect(jsonData["vendor"]).toBe("test");
     });
     test("appinfo_jsonsample_test_es_CO", function() {
-        expect.assertions(2);
+        expect.assertions(3);
         filePath = path.join(resourcePath, "es", fileName);
         jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["title"]).toBe("(es-CO) Live TV");
+        expect(jsonData["vendor"]).toBeFalsy();
     });
     test("appinfo_jsonsample_test_it_IT", function() {
         expect.assertions(2);
@@ -138,6 +141,15 @@ describe('test the localization result of webos-json app', () => {
         expect(jsonData).toBeTruthy();
         expect(jsonData["title"]).toBe("直播電視");
     });
+    test("appinfo_jsonsample_test_kn_IN", function() {
+        expect.assertions(3);
+        filePath = path.join(resourcePath, "kn", fileName);
+        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
+
+        expect(jsonData).toBeTruthy();
+        expect(jsonData["title"]).toBe("(kn-IN) Live TV");
+        expect(jsonData["title@oled"]).toBeFalsy();
+    });
     test("qcardinfo_jsonsample_test_ko_KR", function() {
         expect.assertions(3);
         fileName = "qcardinfo.json";
@@ -157,7 +169,7 @@ describe('test the localization result of webos-json app', () => {
         jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
-        expect(jsonData["title"]).toBe("Sports");
+        expect(jsonData["title"]).toBeFalsy();
         expect(jsonData["description"]).toBe("Toutes les informations sportives rassemblées au même endroit");
     });
     test("qcardinfo_jsonsample_test_fr_CA", function() {
