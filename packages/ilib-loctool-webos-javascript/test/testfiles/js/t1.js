@@ -15,3 +15,6 @@ createButtonOnPage(webappResBundle.getString("EXIT APP"), "ExitApp_Button", dir_
 createButtonOnPage(webappResBundle.getString("RETRY"), "Retry_Button", dir_tail, onRetryApp);
 createButtonOnPage(webappResBundle.getString("NETWORK SETTINGS"), "NetworkSetting_Button", dir_tail, onLaunchNetworkSetting);
 createButtonOnPage(webappResBundle.getString("SETTINGS"), "Setting_Button", dir_tail, onLaunchGeneralSetting);
+
+alertString += $L("For more information, please refer to the \"Privacy Policy\" available in the settings menu or on the Company\'s website [www.abcd.com or http://kr.abcd.com].") + '<br /><br />';
+$rb.getString('More \'Privacy Policy\' information is available on the site. https://kr.abcd.com]') + '<br /><br />';
