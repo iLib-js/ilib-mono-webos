@@ -12,6 +12,7 @@ All packages are placed in the packages/ directory. Each package has its own REA
 - [Packages](#packages)
 - [Setup](#setup)
 - [Testing](#testing)
+- [Debugging](#debugging)
 - [Contributing](#contributing)
 - [Publishing](#publishing)
 - [License](#license)
@@ -29,28 +30,71 @@ The project is structured as follows:
 - `pnpm-lock.yaml` - Contains the lockfile for pnpm.
 - `codecov.yaml` - Contains the configuration for Codecove.
 
+
 ## Packages
+
 Here is the list of packages. Plugins are optimized for the webOS platform.
-name|description|
-|:------|:---|
-| ilib-loctool-webos-c | C filetype handler. |
-| ilib-loctool-webos-cpp |  Cpp filetype handler. |
-| ilib-loctool-webos-qml |  QML filetype handler.|
-| ilib-loctool-webos-javascript |  JavaScript filetype handler.|
-| ilib-loctool-webos-json |  JSON filetype handler.|
-| ilib-loctool-webos-json-resource |  JSON resource filetype handler.|
-| ilib-loctool-webos-ts-resource |  [TS](https://doc.qt.io/qt-6/linguist-ts-file-format.html) resource filetype handler.|
-| ilib-loctool-webos-dart | [Dart](https://docs.fileformat.com/programming/dart/) filetype handler.|
-| ilib-lint-webos | provides the ability to parse webOS xliff files and provides rules to check.|
-| ilib-loctool-webos-dist | for the purpose of distribution for webOS platform.|
-| samples-loctool | sample apps written for each app type to validate the webOS loctool plugins.|
-| samples-lint | sample app to validate the webOS lint plugin.|
+<table>
+  <tr>
+    <td>Category</td><td>Name</td><td>Description</td>
+  </tr>
+  <tr>
+    <td rowspan="10">localization</td>
+    <td>ilib-loctool-webos-c</td>
+    <td>C filetype handler.</td>
+  </tr>
+  <tr>
+    <td>ilib-loctool-webos-cpp</td>
+    <td>Cpp filetype handler.</td>
+  </tr>
+  <tr>
+    <td>ilib-loctool-webos-javascript</td>
+    <td>JavaScript filetype handler.</td>
+  </tr>
+  <tr>
+    <td>ilib-loctool-webos-qml</td>
+    <td>QML filetype handler.</td>
+  </tr>
+  <tr>
+    <td>ilib-loctool-webos-dart</td>
+    <td><a href="https://docs.fileformat.com/programming/dart/">Dart</a> filetype handler.</td>
+  </tr>
+  <tr>
+    <td>ilib-loctool-webos-json</td>
+    <td> JSON filetype handler.</td>
+  </tr>
+  <tr>
+    <td>ilib-loctool-webos-json-resource</td>
+    <td>JSON resource filetype handler.</td>
+  </tr>
+  <tr>
+    <td>ilib-loctool-webos-ts-resource</td>
+    <td><a href="https://doc.qt.io/qt-6/linguist-ts-file-format.html">TS</a> resource filetype handler.</td>
+  </tr>
+  <tr>
+    <td>ilib-loctool-webos-dist</td>
+    <td>for the purpose of distribution for webOS platform.</td>
+  </tr>
+  <tr>
+    <td>samples-loctool</td>
+    <td>sample apps written for each app type to validate the webOS loctool plugins.</td>
+  </tr>
+  <tr>
+    <td rowspan="2">lint</td> <!-- 세로로 셀을 병합 -->
+    <td>ilib-lint-webos</td>
+    <td>provides the ability to parse webOS xliff files and provides rules to check.</td>
+  </tr>
+  <tr>
+    <td>samples-lint</td>
+    <td>sample app to validate the webOS lint plugin.</td>
+  </tr>
+</table>
 
 ## Setup
 This project is developed using Node.js, nvm and pnpm.
 Make sure you've got them installed before continuing.
 
-- [pnpm.io/](https://pnpm.io/)
+- [pnpm.io](https://pnpm.io/): [installation](https://pnpm.io/installation)
 
 ### Installation
 
@@ -99,11 +143,142 @@ You do NOT need to run `pnpm install` from package directories, as the monorepo 
 packages automatically.
 
 
-#### Repository 
+## Testing
 
-## Test
+Tests are written using [Jest](https://jestjs.io/).
+There are few ways to run tests:
+
+* for an affected package(s) solely or
+* for all packages in the monorepo.
+
+#### 1. Run tests for affected package(s)
+
+It is recommended to run tests only for the projects impacted by recent changes, to save time and resources, and to
+optimize the testing process by skipping tests for projects that haven't been modified. To do so, simply run:
+
+```bash
+pnpm test
+```
+
+#### 2. Run tests for all packages
+
+To run all the tests for all packages in the monorepo, use:
+
+```bash
+pnpm test:all
+```
+
+#### 3. Other options
+
+These may be useful for development and/or debugging purposes.
+These commands should be run from the root directory of the package you're interested in.
+
+1. Run all the tests for a single package in the monorepo:
+
+```bash
+pnpm --filter ilib-loctool-webos-javascript test
+```
+
+or `cd` into the package directory and run:
+
+```bash
+# cd packages/ilib-loctool-webos-javascript
+pnpm test
+```
+
+2. Run all tests for a single file, by passing the path to the file as an argument to the `pnpm test` command, like
+   this:
+
+```bash
+pnpm --filter ilib-loctool-webos-javascript test -- JavaScriptFile.test.js
+
+```
+
+or `cd` into the package directory and run:
+
+```bash
+# cd packages/ilib-loctool-webos-javascript
+pnpm test -- "JavaScriptFile.test.js"
+```
+
+## Debugging
+
+Each package contains a command that can be used to run debug.
+To set a breakpoint, simply write `debugger` at the desired location, Start debugging with the following command.
+
+```bash
+# cd packages/ilib-loctool-webos-javascript
+pnpm run debug
+```
+
+By using the `--filter` option, you can debug from the root of the monorepo.
+
+```bash
+pnpm -filter ilib-loctool-webos-javascript debug
+```
 
 ## Contributing
+
+### Create a PR
+1. Create a new branch
+To avoid directly modifying the main or master branch, you should create a new branch where you'll make your changes.
+```bash
+git checkout -b feature/my-new-feature
+```
+
+2. Make Changes and Commit
+make the necessary code changes or fixes. After editing the files, you need to commit the changes.
+
+3. Push Changes to GitHub
+make the necessary code changes or fixes. After editing the files, you need to commit the changes.
+
+4. Create a Pull Request (PR) on GitHub
+Since there are multiple packages, please specify the name of the package in the title of the PR.
+```bash
+webos-javascript: Summary of the changes you made.
+```
+
+### Changeset
+
+1. Generate a Changeset
+After making changes to your code, you can create a new changeset by running:
+```bash
+npx changeset
+```
+When you run this command, it starts an interactive prompt that will ask you a few questions about the changes you've made. This process allows you to record the changes in a structured format.
+
+2. Answer the Interactive Prompts 
+ - Which packages are affected?   
+   You will be asked to select which packages in your monorepo were modified. You can use the spacebar to select multiple packages if necessary.
+ - What type of change is this? (major, minor, patch)  
+   Next, you'll be asked what type of version bump you want to apply to the affected packages. The choices are:
+    - major: For breaking changes
+    - minor: For new features that are backward-compatible
+    - patch: For bug fixes and minor improvements
+ - Which packages are affected?  
+   Finally, you'll provide a brief summary of the changes. This is a description of what was done in the code and why it's being updated.
+
+3. Generated Changeset File
+After you've answered the prompts, a new file is created inside the changesets folder in your project. The file will be named with a unique identifier (like a timestamp) and will have the following structure:
+```yml
+---
+"package1": minor
+"package2": patch
+---
+Add new feature to package1 and package2
+```
+note) 
+If there are any changes to the loctool-webos plugin, a changeset should be created to reflect the updates in the `ilib-loctool-webos-dist` as well
+
+4. Commit the Changeset File
+After the changeset file is created, you need to commit it to Git:
+
+```bash
+git add .
+git commit -m "Add changeset for package1 and package2"
+```
+This ensures that the changeset is tracked and included in your version control history.
+
 
 ## Publishing
 
