@@ -1,8 +1,8 @@
 # ilib-mono-webos
 
-This repository is a monorepo for the iLib-js project. It is designed to include **webOS-related** packages that are part of iLib-js, even though each package is published to npm as a separate package.
-The monorepo is managed using pnpm workspaces and Turborepo.
-All packages are placed in the packages/ directory. Each package has its own README.md and package.json, which are located in the package root directory.
+This repository is a monorepo for the iLib-js project. It is designed to include **webOS-related** packages that are part of iLib-js, even though each package is published to npm as a separate package.  
+The monorepo is managed using pnpm workspaces and Turborepo.  
+All packages are placed in the packages/ directory. Each package has its own README.md and package.json, which are located in the package root directory.  
 
 The webOS-related repository that existed under iLib-js have been migrated to ilib-mono-webos here.  
 All the packages that are moved to the ilib-mono-webos are marked as `archived` in their original GitHub repositories.
