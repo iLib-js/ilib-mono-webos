@@ -98,7 +98,7 @@ Make sure you've got them installed before continuing.
 - [pnpm.io](https://pnpm.io/): [installation](https://pnpm.io/installation)
     - The pnpm version is specified in `packageManager` property of `package.json` file.
 
-### Installation
+#### 1. Installation
 
 Clone the repository to your local machine with HTTPS:
 
@@ -120,7 +120,7 @@ cd ilib-mono-webos
 Every command from now on should be run in the root directory of the project, unless stated otherwise.
 
 
-### Enabling pnpm
+#### 2. Enabling pnpm
 
 Since v16.13, Node.js is shipping [Corepack](https://nodejs.org/api/corepack.html) for managing package managers, so you
 do not need to install Corepack separately.  
@@ -133,7 +133,7 @@ corepack enable pnpm
 Optional: `pnpm` might be hard to type, so you may use a shorter alias like `pn` instead. See
 guide [here](https://pnpm.io/installation#using-a-shorter-alias).
 
-### Installing project dependencies
+#### 3. Installing project dependencies
 
 The final step is to install the project dependencies. Run:
 
