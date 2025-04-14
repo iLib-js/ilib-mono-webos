@@ -95,6 +95,7 @@ This project is developed using Node.js, nvm and pnpm.
 Make sure you've got them installed before continuing.
 
 - [pnpm.io](https://pnpm.io/): [installation](https://pnpm.io/installation)
+    - The pnpm version is specified in `packageManager` property of `package.json` file.
 
 ### Installation
 

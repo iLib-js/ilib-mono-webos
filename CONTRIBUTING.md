@@ -1,7 +1,7 @@
 # Contributing
 
-Please follow guidelines defined in this file to contribute and follow the existing code style and conventions.
-Ensure your code is documented and passes all linting and tests before submitting a pull request.
+Please follow guidelines defined in this file to contribute.
+Make sure your code is documented and passes all tests before submitting a Pull Request (PR).
 
 ### Create a PR
 1. Create a new branch
@@ -14,10 +14,14 @@ To avoid directly modifying the main or master branch, you should create a new b
 make the necessary code changes or fixes. After editing the files, you need to commit the changes.
 
 3. Push Changes to GitHub
-make the necessary code changes or fixes. After editing the files, you need to commit the changes.
+Use `git push` to push commits made on your local branch to a remote repository.
+    ```bash
+    git push REMOTE-NAME BRANCH-NAME
+    ```
 
 4. Create a Pull Request (PR) on GitHub 
-    - Since there are multiple packages in the repository, please specify the name of the package in the title of the PR.
+    - Since there are multiple packages in the repository, please specify the name of the package in the title of the PR.  
+    for example,
         ```bash
         webos-javascript: Summary of the changes you made.
         ```
