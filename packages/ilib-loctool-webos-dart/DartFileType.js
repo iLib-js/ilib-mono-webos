@@ -156,7 +156,6 @@ DartFileType.prototype.getLocalizedPath = function(mapping, pathname, locale) {
 
 DartFileType.prototype._addResource = function(resFileType, translated, res, locale) {
     var file;
-
     // if reskeys don't match, we matched on cleaned string.
     // so we need to overwrite reskey of the translated resource to match
     if (translated.reskey !== res.reskey) {
@@ -169,6 +168,17 @@ DartFileType.prototype._addResource = function(resFileType, translated, res, loc
     resource.pathName = res.getPath();
     file = resFileType.getResourceFile(locale, this.getLocalizedPath(res.mapping, res.getPath(), locale))
     file.addResource(resource);
+}
+
+DartFileType.prototype._addNewResource = function(res, locale) {
+    var note = "No translation for " + res.reskey + " to " + locale;
+    var newres = res.clone();
+    newres.setTargetLocale(locale);
+    newres.setTarget(res.getSource());
+    newres.setState("new");
+    newres.setComment(note);
+    this.newres.add(newres);
+    this.logger.trace("No translation for " + res.reskey + " to " + locale);
 }
 
 /**
@@ -233,13 +243,7 @@ DartFileType.prototype.write = function(translations, locales) {
                                                 if (translated){
                                                     this._addResource(resFileType, translated, res, locale);
                                                 } else {
-                                                    var newres = res.clone();
-                                                    newres.setTargetLocale(locale);
-                                                    newres.setTarget((r && r.getTarget()) || res.getSource());
-                                                    newres.setState("new");
-                                                    newres.setComment(note);
-                                                    this.newres.add(newres);
-                                                    this.logger.trace("No translation for " + res.reskey + " to " + locale);
+                                                    this._addNewResource(res, locale);
                                                 }
                                             }.bind(this));
                                         } else {
@@ -247,13 +251,7 @@ DartFileType.prototype.write = function(translations, locales) {
                                         }
                                     }.bind(this));
                                 } else {
-                                    var newres = res.clone();
-                                    newres.setTargetLocale(locale);
-                                    newres.setTarget((r && r.getTarget()) || res.getSource());
-                                    newres.setState("new");
-                                    newres.setComment(note);
-                                    this.newres.add(newres);
-                                    this.logger.trace("No translation for " + res.reskey + " to " + locale);
+                                    this._addNewResource(res, locale);
                                 }
                             }.bind(this));
                         } else if (!translated && customInheritLocale) {
@@ -262,12 +260,7 @@ DartFileType.prototype.write = function(translations, locales) {
                                 if (translated){
                                     this._addResource(resFileType, translated, res, locale);
                                 } else {
-                                    var newres = res.clone();
-                                    newres.setTargetLocale(locale);
-                                    newres.setTarget((r && r.getTarget()) || res.getSource());
-                                    newres.setState("new");
-                                    this.newres.add(newres);
-                                    this.logger.trace("No translation for " + res.reskey + " to " + locale);
+                                    this._addNewResource(res, locale);
                                 }
                             }.bind(this));
                         } else if (!translated || ( this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getSource()) &&
@@ -276,14 +269,7 @@ DartFileType.prototype.write = function(translations, locales) {
                                 this.logger.trace("extracted   source: " + this.API.utils.cleanString(res.getSource()));
                                 this.logger.trace("translation source: " + this.API.utils.cleanString(r.getSource()));
                             }
-                            var note = r && 'The source string has changed. Please update the translation to match if necessary. Previous source: "' + r.getSource() + '"';
-                            var newres = res.clone();
-                            newres.setTargetLocale(locale);
-                            newres.setTarget((r && r.getTarget()) || res.getSource());
-                            newres.setState("new");
-                            newres.setComment(note);
-                            this.newres.add(newres);
-                            this.logger.trace("No translation for " + res.reskey + " to " + locale);
+                            this._addNewResource(res, locale);
                         } else {
                             this._addResource(resFileType, translated, res, locale);
                         }
@@ -295,14 +281,7 @@ DartFileType.prototype.write = function(translations, locales) {
                                     this.logger.trace("extracted   source: " + this.API.utils.cleanString(res.getSource()));
                                     this.logger.trace("translation source: " + this.API.utils.cleanString(r.getSource()));
                                 }
-                                var note = r && 'The source string has changed. Please update the translation to match if necessary. Previous source: "' + r.getSource() + '"';
-                                var newres = res.clone();
-                                newres.setTargetLocale(locale);
-                                newres.setTarget((r && r.getTarget()) || res.getSource());
-                                newres.setState("new");
-                                newres.setComment(note);
-                                this.newres.add(newres);
-                                this.logger.trace("No translation for " + res.reskey + " to " + locale);
+                                this._addNewResource(res, locale);
                             } else {
                                 this._addResource(resFileType, translated, res, locale);
                             }

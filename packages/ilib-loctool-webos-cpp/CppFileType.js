@@ -1,7 +1,7 @@
 /*
  * CppFileType.js - Represents a collection of C++ files
  *
- * Copyright (c) 2020-2023, JEDLSoft
+ * Copyright (c) 2020-2023, 2025 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -109,6 +109,17 @@ CppFileType.prototype._addResource = function(resFileType, translated, res, loca
     file.addResource(resource);
 }
 
+CppFileType.prototype._addNewResource = function(res, locale) {
+    var note = "No translation for " + res.reskey + " to " + locale;
+    var newres = res.clone();
+    newres.setTargetLocale(locale);
+    newres.setTarget(res.getSource());
+    newres.setState("new");
+    newres.setComment(note);
+    this.newres.add(newres);
+    this.logger.trace("No translation for " + res.reskey + " to " + locale);
+}
+
 /**
  * Write out the aggregated resources for this file type. In
  * some cases, the string are written out to a common resource
@@ -194,35 +205,17 @@ CppFileType.prototype.write = function(translations, locales) {
                                             if (translated && (baseTranslation !== translated.getTarget())) {
                                                 this._addResource(resFileType, translated, res, locale);
                                             } else {
-                                                var newres = res.clone();
-                                                newres.setTargetLocale(locale);
-                                                newres.setTarget((r && r.getTarget()) || res.getSource());
-                                                newres.setState("new");
-                                                newres.setComment(note);
-                                                this.newres.add(newres);
-                                                this.logger.trace("No translation for " + res.reskey + " to " + locale);
+                                                this._addNewResource(res, locale);
                                             }
                                         }.bind(this));
                                     } else if (translated && (baseTranslation !== translated.getTarget())){
                                         this._addResource(resFileType, translated, res, locale);
                                     } else {
-                                        var newres = res.clone();
-                                        newres.setTargetLocale(locale);
-                                        newres.setTarget((r && r.getTarget()) || res.getSource());
-                                        newres.setState("new");
-                                        newres.setComment(note);
-                                        this.newres.add(newres);
-                                        this.logger.trace("No translation for " + res.reskey + " to " + locale);
+                                        this._addNewResource(res, locale);
                                     }
                                 }.bind(this));
                             } else {
-                                var newres = res.clone();
-                                newres.setTargetLocale(locale);
-                                newres.setTarget((r && r.getTarget()) || res.getSource());
-                                newres.setState("new");
-                                newres.setComment(note);
-                                this.newres.add(newres);
-                                this.logger.trace("No translation for " + res.reskey + " to " + locale);
+                                this._addNewResource(res, locale);
                             }
                         }.bind(this));
                     } else if (!translated && customInheritLocale){
@@ -230,13 +223,7 @@ CppFileType.prototype.write = function(translations, locales) {
                             if (translated && (baseTranslation !== translated.getTarget())){
                                 this._addResource(resFileType, translated, res, locale);
                             } else {
-                                var newres = res.clone();
-                                newres.setTargetLocale(locale);
-                                newres.setTarget((r && r.getTarget()) || res.getSource());
-                                newres.setState("new");
-                                newres.setComment(note);
-                                this.newres.add(newres);
-                                this.logger.trace("No translation for " + res.reskey + " to " + locale);
+                                this._addNewResource(res, locale);
                             }
                         }.bind(this));
                     } else if (!translated || ( this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getSource()) &&
@@ -245,14 +232,7 @@ CppFileType.prototype.write = function(translations, locales) {
                             this.logger.trace("extracted   source: " + this.API.utils.cleanString(res.getSource()));
                             this.logger.trace("translation source: " + this.API.utils.cleanString(r.getSource()));
                         }
-                        var note = r && 'The source string has changed. Please update the translation to match if necessary. Previous source: "' + r.getSource() + '"';
-                        var newres = res.clone();
-                        newres.setTargetLocale(locale);
-                        newres.setTarget((r && r.getTarget()) || res.getSource());
-                        newres.setState("new");
-                        newres.setComment(note);
-                        this.newres.add(newres);
-                        this.logger.trace("No translation for " + res.reskey + " to " + locale);
+                        this._addNewResource(res, locale);
                     } else {
                         if (res.reskey != r.reskey) {
                             // if reskeys don't match, we matched on cleaned string.

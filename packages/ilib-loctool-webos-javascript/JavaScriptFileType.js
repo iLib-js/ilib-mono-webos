@@ -304,7 +304,7 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
             }
         }
     } else {
-        // generate mode:  compare baseTranslation data
+        // generate mode: compare baseTranslation data
         var locale;
         for (var i = 0; i< this.genresources.length;i++) {
             res = this.genresources[i];

@@ -253,7 +253,7 @@ JsonFile.prototype.getfullLocalizedPath = function(locale) {
     return path.join(this.project.target, respath);
 }
 
-JsonFile.prototype._addnewResource = function(text, key, locale) {
+JsonFile.prototype._addNewResource = function(text, key, locale) {
     var newres = this.API.newResource({
         resType: "string",
         project: this.project.getProjectId(),
@@ -266,7 +266,7 @@ JsonFile.prototype._addnewResource = function(text, key, locale) {
         state: "new",
         datatype: this.datatype
     });
-    return newres;
+    this.type.newres.add(newres);
 }
 
 JsonFile.prototype._getBaseTranslation = function(locale, translations, tester) {
@@ -360,13 +360,11 @@ JsonFile.prototype.localizeText = function(translations, locale) {
                             }
                         } else {
                             this.logger.trace("New string found: " + text);
-                            var r  = this._addnewResource(text, key, locale);
-                            this.type.newres.add(r);
+                            this._addNewResource(text, key, locale);
                         }
                     } else {
                         this.logger.trace("New string found: " + text);
-                        var r  = this._addnewResource(text, key, locale);
-                        this.type.newres.add(r);
+                        this._addNewResource(text, key, locale);
                     }
                 } else if(!translated && customInheritLocale) {
                     var hashkey2 = tester.hashKeyForTranslation(customInheritLocale);
@@ -377,13 +375,11 @@ JsonFile.prototype.localizeText = function(translations, locale) {
                         output[property] = translated2.target;
                     } else {
                         this.logger.trace("New string found: " + text);
-                        var r  = this._addnewResource(text, key, locale);
-                        this.type.newres.add(r);
+                        this._addNewResource(text, key, locale);
                     }
                 } else {
                     this.logger.trace("New string found: " + text);
-                    var r  = this._addnewResource(text, key, locale);
-                    this.type.newres.add(r);
+                    this._addNewResource(text, key, locale);
                 }
            }
         }
@@ -428,7 +424,7 @@ JsonFile.prototype.localize = function(translations, locales) {
                 this.API.utils.makeDirs(d);
                 fs.writeFileSync(pathName, translatedOutput, "utf-8");
             }
-       }
+        }
     }
 };
 
