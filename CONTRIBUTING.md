@@ -12,7 +12,7 @@ To avoid directly modifying the main branch, you should create a new branch wher
 git checkout -b feature/my-new-feature
 ```
 #### 2. Make Changes and Commit
-make the necessary code changes or fixes. After editing the files, you need to commit the changes.
+Make the necessary code changes or fixes. After editing the files, you need to commit the changes.
 
 #### 3. Push Changes to GitHub
 Use `git push` to push commits made on your local branch to a remote repository.   
@@ -79,4 +79,4 @@ After the changeset file is created, you need to commit it to Git:
 git add .
 git commit -m "Add changeset for package1 and package2"
 ```
-This ensures that the changeset is tracked and included in your version control history.
+This ensures that the changeset is both tracked and included in your version control history.
