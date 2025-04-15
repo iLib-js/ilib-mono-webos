@@ -1,24 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xliff version="2.0" srcLang="en-KR" trgLang="en-US" xmlns:l="http://ilib-js.com/loctool">
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="en-KR" trgLang="kn-IN">
   <file id="sample-webos-json_f1" original="sample-webos-json">
     <group id="sample-webos-json_g1" name="javascript">
       <unit id="1">
         <segment>
           <source>Live TV</source>
-          <target>(en-US) Live TV</target>
+          <target>(kn-IN) Live TV</target>
         </segment>
       </unit>
       <unit id="2">
-        <notes>
-          <note>vendor</note>
-        </notes>
-        <segment>
-          <source>test</source>
-          <target>(dup) test</target>
-        </segment>
-      </unit>
-      <!-- Leave comments as is
-      <unit id="3">
         <notes>
           <note>title@oled</note>
         </notes>
@@ -27,7 +17,6 @@
           <target>Live TV oled</target>
         </segment>
       </unit>
-      -->
     </group>
   </file>
 </xliff>

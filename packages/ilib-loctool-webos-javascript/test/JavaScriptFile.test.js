@@ -1,7 +1,7 @@
 /*
  * JavaScriptFile.test.js - test the JavaScript file handler object.
  *
- * Copyright (c) 2019-2023, JEDLSoft
+ * Copyright (c) 2019-2023, 2025 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -913,7 +913,7 @@ describe("javascriptfile", function() {
         expect(set.size()).toBe(0);
     });
     test("JavaScriptFileExtractFile", function() {
-        expect.assertions(8);
+        expect.assertions(11);
 
         var j = new JavaScriptFile({
             project: p,
@@ -925,12 +925,17 @@ describe("javascriptfile", function() {
         // should read the file
         j.extract();
         var set = j.getTranslationSet();
-        expect(set.size()).toBe(9);
+        expect(set.size()).toBe(11);
 
         var r = set.getBySource("This is a test");
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("This is a test");
         expect(r.getKey()).toBe("This is a test");
+
+        var r = set.getBySource("More \'Privacy Policy\' information is available on the site. https://kr.abcd.com]");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("More \'Privacy Policy\' information is available on the site. https://kr.abcd.com]");
+        expect(r.getKey()).toBe("More \'Privacy Policy\' information is available on the site. https://kr.abcd.com]");
 
         var r = set.getBy({
             reskey: "id1"
@@ -970,7 +975,6 @@ describe("javascriptfile", function() {
 
         var set = j.getTranslationSet();
         expect(set.size()).toBe(11);
-
 
         var r = set.getBySource("Track");
         expect(r).toBeTruthy();
@@ -1081,12 +1085,30 @@ describe("javascriptfile", function() {
             type: jsft
         });
         expect(j).toBeTruthy();
-
         // should attempt to read the file and not fail
         j.extract();
 
         var set = j.getTranslationSet();
         expect(set.size()).toBe(4);
+    });
+    test("JavaScriptFileTest5", function() {
+        expect.assertions(5);
+
+        var j = new JavaScriptFile({
+            project: p,
+            pathName: "./js/t5.js",
+            type: jsft
+        });
+        expect(j).toBeTruthy();
+        debugger;
+        j.extract();
+        var set = j.getTranslationSet();
+        expect(set.size()).toBe(3);
+
+        var r = set.getBySource("Control smart home IoT devices. See https://lge.com/smarthome for details.");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("Control smart home IoT devices. See https://lge.com/smarthome for details.");
+        expect(r.getKey()).toBe("Control smart home IoT devices. See https://lge.com/smarthome for details.");
     });
     test("JavaScriptFileNotParseComment", function() {
         expect.assertions(2);

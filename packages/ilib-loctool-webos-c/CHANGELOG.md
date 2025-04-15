@@ -1,5 +1,11 @@
 # ilib-loctool-webos-c
 
+## 1.7.7
+
+### Patch Changes
+
+- 7cc51ae: Fix the issue where localizable strings are not extracted when the string value is empty ("").
+
 ## 1.7.6
 
 ### Patch Changes

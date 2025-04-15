@@ -4,6 +4,7 @@
     "type": "web",
     "main": "index.html",
     "title": "Live TV",
+    "title@oled": "Live TV oled",
     "icon": "icon.png",
     "uiRevision": 2,
     "transparent": true,

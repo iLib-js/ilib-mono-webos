@@ -1,5 +1,11 @@
 # ilib-loctool-webos-javascript
 
+## 1.10.9
+
+### Patch Changes
+
+- f4beb98: Fix the issue where the comments are incorrectly removed, the localizable string are not extracted properly.
+
 ## 1.10.8
 
 ### Patch Changes

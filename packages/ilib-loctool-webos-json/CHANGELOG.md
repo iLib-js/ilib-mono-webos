@@ -1,5 +1,11 @@
 # ilib-loctool-webos-json
 
+## 1.1.8
+
+### Patch Changes
+
+- d2bfce8: Modified \_getBaseTranslation to avoid generating duplicate resources
+
 ## 1.1.7
 
 ### Patch Changes

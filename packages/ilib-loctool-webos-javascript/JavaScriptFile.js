@@ -1,7 +1,7 @@
 /*
  * JavaScriptFile.js - plugin to extract resources from a JavaScript source code file
  *
- * Copyright (c) 2019-2022, JEDLSoft
+ * Copyright (c) 2019-2022, 2025 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -91,7 +91,8 @@ JavaScriptFile.cleanString = function(string) {
 JavaScriptFile.trimComments = function(data) {
     if (!data) return;
     // comment style: // , /* */ single, multi line
-    var trimData = data.replace(/\/\/\s*((?!i18n).)*[$/\n]/g, "").
+    var trimData = data.replace(/(?<!https?:)\/\/\s*((?!i18n))\S*$/gm, "").
+                    replace(/(?<!https?:)\/\/\s*((?!i18n).)*[\$\\n]/g, "").
                     replace(/\/\*+([^*]|\*(?!\/))*\*+\//g, "").
                     replace(/\/\*(.*)\*\//g, "");
     return trimData;
