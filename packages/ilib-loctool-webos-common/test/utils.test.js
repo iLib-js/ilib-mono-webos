@@ -24,7 +24,6 @@ if (!utils) {
 describe("utils", function() {
     test("utils_addResources", function() {
         expect.assertions(1);
-
         expect(utils.addNewResource()).toBeFalsy();
     });
 });

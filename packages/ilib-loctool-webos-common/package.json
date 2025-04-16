@@ -29,7 +29,8 @@
   },
   "scripts": {
     "coverage": "pnpm test --coverage",
-    "test": "pnpm test:jest"
+    "test": "pnpm test:jest",
+    "test:jest": "LANG=en_US.UTF8 node node_modules/jest/bin/jest.js"
   },
   "dependencies": {
     "jest": "^29.7.0"
