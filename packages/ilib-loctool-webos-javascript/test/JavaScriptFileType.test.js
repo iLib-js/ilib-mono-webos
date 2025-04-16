@@ -30,14 +30,6 @@ var p = new CustomProject({
     locales:["en-GB"]
 });
 
-var p2 = new CustomProject({
-    id: "app",
-    plugins: ["../."],
-    sourceLocale: "en-US"
-}, "./testfiles", {
-    locales:["en-GB"]
-});
-
 describe("javascriptfiletype", function() {
     test("JavaScriptFileTypeConstructor", function() {
         expect.assertions(1);

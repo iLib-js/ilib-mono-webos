@@ -28,11 +28,16 @@
       "url": "git@github.com:iLib-js/ilib-mono-webos.git"
   },
   "scripts": {
-    "coverage": "pnpm test --coverage",
-    "test": "pnpm test:jest",
-    "test:jest": "LANG=en_US.UTF8 node node_modules/jest/bin/jest.js"
+      "coverage": "pnpm test --coverage",
+      "test": "pnpm test:jest",
+      "test:jest": "LANG=en_US.UTF8 node node_modules/jest/bin/jest.js",
+      "debug": "node --inspect-brk node_modules/jest/bin/jest.js -i"
   },
-  "dependencies": {
-    "jest": "^29.7.0"
+  "peerDependencies": {
+      "loctool": "2.28.2"
+  },
+  "devDependencies": {
+      "jest": "^29.7.0",
+      "loctool": "2.28.2"
   }
 }

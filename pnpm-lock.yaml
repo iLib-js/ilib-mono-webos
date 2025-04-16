@@ -57,10 +57,13 @@ importers:
         version: 2.28.2
 
   packages/ilib-loctool-webos-common:
-    dependencies:
+    devDependencies:
       jest:
         specifier: ^29.7.0
         version: 29.7.0(@types/node@12.20.55)(node-notifier@8.0.2)
+      loctool:
+        specifier: 2.28.2
+        version: 2.28.2
 
   packages/ilib-loctool-webos-cpp:
     dependencies:

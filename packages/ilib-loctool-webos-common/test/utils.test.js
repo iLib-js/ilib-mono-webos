@@ -17,13 +17,25 @@
  * limitations under the License.
  */
 
-if (!utils) {
-    var utils = require("../utils.js");
-}
+
+var utils = require("../utils.js");
+var TranslationSet = require("loctool/lib/TranslationSet.js");
+var ResourceString = require("loctool/lib/ResourceString.js");
 
 describe("utils", function() {
-    test("utils_addResources", function() {
+    test("addResourcesFalse", function() {
         expect.assertions(1);
         expect(utils.addNewResource()).toBeFalsy();
+    });
+    test("addResourcesData", function() {
+        expect.assertions(1);
+
+        var ts = new TranslationSet();
+        var res = new ResourceString({
+            key: "asdf",
+            source: "This is a test"
+        });
+
+        expect(utils.addNewResource(ts, res, "en-US")).toBeTruthy();
     });
 });
