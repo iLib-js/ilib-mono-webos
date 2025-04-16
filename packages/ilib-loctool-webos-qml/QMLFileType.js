@@ -22,6 +22,7 @@ var path = require("path");
 var QMLFile = require("./QMLFile.js");
 var TSResourceFileType = require("ilib-loctool-webos-ts-resource");
 var ResourceString = require("loctool/lib/ResourceString.js");
+var pluginUtils = require("ilib-loctool-webos-common/utils.js");
 
 var QMLFileType = function(project) {
     this.type = "x-qml";
@@ -104,18 +105,6 @@ QMLFileType.prototype._addResource = function(resFileType, translated, res, loca
     file = resFileType.getResourceFile(locale);
     file.addResource(resource);
 }
-
-QMLFileType.prototype._addNewResource = function(res, locale) {
-    var note = "No translation for " + res.reskey + " to " + locale;
-    var newres = res.clone();
-    newres.setTargetLocale(locale);
-    newres.setTarget(res.getSource());
-    newres.setState("new");
-    newres.setComment(note);
-    this.newres.add(newres);
-    this.logger.trace("No translation for " + res.reskey + " to " + locale);
-}
-
 
 QMLFileType.prototype._getTranslationWithNewline = function(db, translated, res, locale, isCommon) {
     var newtranslated = translated;
@@ -229,7 +218,7 @@ QMLFileType.prototype.write = function(translations, locales) {
                                             if (translated){
                                                 this._addResource(resFileType, translated, res, locale);
                                             } else {
-                                                this._addNewResource(res, locale);
+                                                pluginUtils.addNewResource(this.newres, res, locale);
                                             }
                                         }.bind(this));
                                     } else {
@@ -237,7 +226,7 @@ QMLFileType.prototype.write = function(translations, locales) {
                                     }
                                 }.bind(this));
                             } else {
-                                this._addNewResource(res, locale);
+                                pluginUtils.addNewResource(this.newres, res, locale);
                             }
                         }.bind(this));
                     } else if (!translated && customInheritLocale) {
@@ -251,7 +240,7 @@ QMLFileType.prototype.write = function(translations, locales) {
                             if (translated){
                                 this._addResource(resFileType, translated, res, locale);
                             } else {
-                                this._addNewResource(res, locale);
+                                pluginUtils.addNewResource(this.newres, res, locale);
                             }
                         }.bind(this));
                     } else if (!translated || ( this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getSource()) &&
@@ -260,7 +249,7 @@ QMLFileType.prototype.write = function(translations, locales) {
                             this.logger.trace("extracted   source: " + this.API.utils.cleanString(res.getSource()));
                             this.logger.trace("translation source: " + this.API.utils.cleanString(r.getSource()));
                         }
-                        this._addNewResource(res, locale);
+                        pluginUtils.addNewResource(this.newres, res, locale);
                     } else {
                         if (res.reskey != r.reskey) {
                             // if reskeys don't match, we matched on cleaned string.
@@ -286,7 +275,7 @@ QMLFileType.prototype.write = function(translations, locales) {
                                 this.logger.trace("extracted   source: " + this.API.utils.cleanString(res.getSource()));
                                 this.logger.trace("translation source: " + this.API.utils.cleanString(r.getSource()));
                             }
-                            this._addNewResource(res, locale);
+                            pluginUtils.addNewResource(this.newres, res, locale);
                         } else {
                             if (res.reskey != r.reskey) {
                                 // if reskeys don't match, we matched on cleaned string.

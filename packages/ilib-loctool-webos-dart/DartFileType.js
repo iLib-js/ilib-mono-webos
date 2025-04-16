@@ -21,10 +21,11 @@ var fs = require("fs");
 var path = require("path");
 var mm = require("micromatch");
 var Locale = require("ilib/lib/Locale.js");
-var Utils = require("loctool/lib/utils.js")
 var ResourceString = require("loctool/lib/ResourceString.js");
 var DartFile = require("./DartFile.js");
 var JsonResourceFileType = require("ilib-loctool-webos-json-resource");
+var Utils = require("loctool/lib/utils.js")
+var pluginUtils = require("ilib-loctool-webos-common/utils.js");
 
 var DartFileType = function(project) {
     this.type = "x-dart";
@@ -170,17 +171,6 @@ DartFileType.prototype._addResource = function(resFileType, translated, res, loc
     file.addResource(resource);
 }
 
-DartFileType.prototype._addNewResource = function(res, locale) {
-    var note = "No translation for " + res.reskey + " to " + locale;
-    var newres = res.clone();
-    newres.setTargetLocale(locale);
-    newres.setTarget(res.getSource());
-    newres.setState("new");
-    newres.setComment(note);
-    this.newres.add(newres);
-    this.logger.trace("No translation for " + res.reskey + " to " + locale);
-}
-
 /**
  * Write out the aggregated resources for this file type. In
  * some cases, the string are written out to a common resource
@@ -243,7 +233,7 @@ DartFileType.prototype.write = function(translations, locales) {
                                                 if (translated){
                                                     this._addResource(resFileType, translated, res, locale);
                                                 } else {
-                                                    this._addNewResource(res, locale);
+                                                    pluginUtils.addNewResource(this.newres, res, locale);
                                                 }
                                             }.bind(this));
                                         } else {
@@ -251,7 +241,7 @@ DartFileType.prototype.write = function(translations, locales) {
                                         }
                                     }.bind(this));
                                 } else {
-                                    this._addNewResource(res, locale);
+                                    pluginUtils.addNewResource(this.newres, res, locale);
                                 }
                             }.bind(this));
                         } else if (!translated && customInheritLocale) {
@@ -260,7 +250,7 @@ DartFileType.prototype.write = function(translations, locales) {
                                 if (translated){
                                     this._addResource(resFileType, translated, res, locale);
                                 } else {
-                                    this._addNewResource(res, locale);
+                                    pluginUtils.addNewResource(this.newres, res, locale);
                                 }
                             }.bind(this));
                         } else if (!translated || ( this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getSource()) &&
@@ -269,7 +259,7 @@ DartFileType.prototype.write = function(translations, locales) {
                                 this.logger.trace("extracted   source: " + this.API.utils.cleanString(res.getSource()));
                                 this.logger.trace("translation source: " + this.API.utils.cleanString(r.getSource()));
                             }
-                            this._addNewResource(res, locale);
+                            pluginUtils.addNewResource(this.newres, res, locale);
                         } else {
                             this._addResource(resFileType, translated, res, locale);
                         }
@@ -281,7 +271,7 @@ DartFileType.prototype.write = function(translations, locales) {
                                     this.logger.trace("extracted   source: " + this.API.utils.cleanString(res.getSource()));
                                     this.logger.trace("translation source: " + this.API.utils.cleanString(r.getSource()));
                                 }
-                                this._addNewResource(res, locale);
+                                pluginUtils.addNewResource(this.newres, res, locale);
                             } else {
                                 this._addResource(resFileType, translated, res, locale);
                             }

@@ -23,6 +23,7 @@ var CppFile = require("./CppFile.js");
 var JsonResourceFileType = require("ilib-loctool-webos-json-resource");
 var Utils = require("loctool/lib/utils.js")
 var ResourceString = require("loctool/lib/ResourceString.js");
+var pluginUtils = require("ilib-loctool-webos-common/utils.js");
 
 var CppFileType = function(project) {
     this.type = "cpp";
@@ -107,17 +108,6 @@ CppFileType.prototype._addResource = function(resFileType, translated, res, loca
     resource.setTargetLocale(locale);
     file = resFileType.getResourceFile(locale);
     file.addResource(resource);
-}
-
-CppFileType.prototype._addNewResource = function(res, locale) {
-    var note = "No translation for " + res.reskey + " to " + locale;
-    var newres = res.clone();
-    newres.setTargetLocale(locale);
-    newres.setTarget(res.getSource());
-    newres.setState("new");
-    newres.setComment(note);
-    this.newres.add(newres);
-    this.logger.trace("No translation for " + res.reskey + " to " + locale);
 }
 
 /**
@@ -205,17 +195,17 @@ CppFileType.prototype.write = function(translations, locales) {
                                             if (translated && (baseTranslation !== translated.getTarget())) {
                                                 this._addResource(resFileType, translated, res, locale);
                                             } else {
-                                                this._addNewResource(res, locale);
+                                                pluginUtils.addNewResource(this.newres, res, locale);
                                             }
                                         }.bind(this));
                                     } else if (translated && (baseTranslation !== translated.getTarget())){
                                         this._addResource(resFileType, translated, res, locale);
                                     } else {
-                                        this._addNewResource(res, locale);
+                                        pluginUtils.addNewResource(this.newres, res, locale);
                                     }
                                 }.bind(this));
                             } else {
-                                this._addNewResource(res, locale);
+                                pluginUtils.addNewResource(this.newres, res, locale);
                             }
                         }.bind(this));
                     } else if (!translated && customInheritLocale){
@@ -223,7 +213,7 @@ CppFileType.prototype.write = function(translations, locales) {
                             if (translated && (baseTranslation !== translated.getTarget())){
                                 this._addResource(resFileType, translated, res, locale);
                             } else {
-                                this._addNewResource(res, locale);
+                                pluginUtils.addNewResource(this.newres, res, locale);
                             }
                         }.bind(this));
                     } else if (!translated || ( this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getSource()) &&
@@ -232,7 +222,7 @@ CppFileType.prototype.write = function(translations, locales) {
                             this.logger.trace("extracted   source: " + this.API.utils.cleanString(res.getSource()));
                             this.logger.trace("translation source: " + this.API.utils.cleanString(r.getSource()));
                         }
-                        this._addNewResource(res, locale);
+                        pluginUtils.addNewResource(this.newres, res, locale);
                     } else {
                         if (res.reskey != r.reskey) {
                             // if reskeys don't match, we matched on cleaned string.

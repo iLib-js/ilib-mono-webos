@@ -1,0 +1,37 @@
+{
+  "name": "ilib-loctool-webos-common",
+  "version": "1.0.0",
+  "main": "./utils.js",
+  "description": "",
+  "keywords": [
+      "internationalization",
+      "i18n",
+      "localization",
+      "l10n",
+      "globalization",
+      "g11n",
+      "strings",
+      "resources"
+    ],
+  "author": {
+      "name": "Goun Lee",
+      "email": "goun.lee@lge.com"
+  },
+  "contributors": [
+      {
+        "name": "Goun Lee",
+        "email": "goun.lee@lge.com"
+      }
+  ],
+  "repository": {
+      "type": "git",
+      "url": "git@github.com:iLib-js/ilib-mono-webos.git"
+  },
+  "scripts": {
+    "coverage": "pnpm test --coverage",
+    "test": "pnpm test:jest"
+  },
+  "dependencies": {
+    "jest": "^29.7.0"
+  }
+}
