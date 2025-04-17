@@ -1,4 +1,5 @@
 {
+    "private": true,
     "name": "ilib-loctool-mock",
     "version": "1.0.0",
     "main": "./MockFileType.js",
