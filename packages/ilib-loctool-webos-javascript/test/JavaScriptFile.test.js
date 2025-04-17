@@ -1100,7 +1100,7 @@ describe("javascriptfile", function() {
             type: jsft
         });
         expect(j).toBeTruthy();
-        debugger;
+
         j.extract();
         var set = j.getTranslationSet();
         expect(set.size()).toBe(3);

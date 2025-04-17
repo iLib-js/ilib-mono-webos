@@ -148,7 +148,7 @@ JsonFile.prototype.loadSchema = function(source) {
 /**
  * Parse the data string looking for the localizable strings and add them to the
  * project's translation set.
- * @param {String} data the string to parse
+ * @param {String|Object} data to parse
  */
 JsonFile.prototype.parse = function(data) {
     this.logger.debug("Extracting strings from " + this.pathName);
