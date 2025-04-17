@@ -65,6 +65,14 @@ importers:
         specifier: 2.28.2
         version: 2.28.2
 
+  packages/ilib-loctool-webos-common/test/ilib-loctool-mock: {}
+
+  packages/ilib-loctool-webos-common/test/ilib-loctool-mock-resource:
+    dependencies:
+      ilib:
+        specifier: ^14.21.1
+        version: 14.21.1
+
   packages/ilib-loctool-webos-cpp:
     dependencies:
       ilib-loctool-webos-common:

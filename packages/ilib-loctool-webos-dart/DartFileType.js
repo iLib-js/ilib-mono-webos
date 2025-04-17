@@ -155,7 +155,7 @@ DartFileType.prototype.getLocalizedPath = function(mapping, pathname, locale) {
     return path;
 };
 
-DartFileType.prototype._addResource = function(resFileType, translated, res, locale) {
+/*DartFileType.prototype._addResource = function(resFileType, translated, res, locale) {
     var file;
     // if reskeys don't match, we matched on cleaned string.
     // so we need to overwrite reskey of the translated resource to match
@@ -169,7 +169,7 @@ DartFileType.prototype._addResource = function(resFileType, translated, res, loc
     resource.pathName = res.getPath();
     file = resFileType.getResourceFile(locale, this.getLocalizedPath(res.mapping, res.getPath(), locale))
     file.addResource(resource);
-}
+}*/
 
 /**
  * Write out the aggregated resources for this file type. In
@@ -189,7 +189,7 @@ DartFileType.prototype.write = function(translations, locales) {
     var resFileType = this.project.getResourceFileType(this.resourceType);
     var mode = this.project.settings.mode;
     var customInheritLocale;
-    var res, file,
+    var res, file, resPath,
         resources = this.extracted.getAll(),
         db = this.project.db,
         translationLocales = locales.filter(function(locale) {
@@ -213,8 +213,10 @@ DartFileType.prototype.write = function(translations, locales) {
             res = resources[i];
             // for each extracted string, write out the translations of it
             translationLocales.forEach(function(locale) {
+                resPath = this.getLocalizedPath(res.mapping, res.getPath(), locale);
                 this.logger.trace("Localizing Dart strings to " + locale);
                 customInheritLocale = this.project.getLocaleInherit(locale);
+
                 db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(locale), function(err, translated) {
                     var r = translated;
                     if (!translated) {
@@ -224,20 +226,20 @@ DartFileType.prototype.write = function(translations, locales) {
                             var manipulateKey = ResourceString.hashKey(this.commonPrjName, locale, res.getKey(), this.commonPrjType, res.getFlavor());
                             db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
                                 if (translated) {
-                                    this._addResource(resFileType, translated, res, locale);
+                                    pluginUtils.addResource(resFileType, translated, res, locale, resPath);
                                 } else if(!translated && customInheritLocale){
                                     db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(customInheritLocale), function(err, translated) {
                                         if (!translated){
                                             var manipulateKey = ResourceString.hashKey(this.commonPrjName, customInheritLocale, res.getKey(), this.commonPrjType, res.getFlavor());
                                             db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
                                                 if (translated){
-                                                    this._addResource(resFileType, translated, res, locale);
+                                                    pluginUtils.addResource(resFileType, translated, res, locale, resPath);
                                                 } else {
                                                     pluginUtils.addNewResource(this.newres, res, locale);
                                                 }
                                             }.bind(this));
                                         } else {
-                                            this._addResource(resFileType, translated, res, locale);
+                                            pluginUtils.addResource(resFileType, translated, res, locale, resPath);
                                         }
                                     }.bind(this));
                                 } else {
@@ -248,7 +250,7 @@ DartFileType.prototype.write = function(translations, locales) {
                             db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(customInheritLocale), function(err, translated) {
                                 var r = translated;
                                 if (translated){
-                                    this._addResource(resFileType, translated, res, locale);
+                                    pluginUtils.addResource(resFileType, translated, res, locale, resPath);
                                 } else {
                                     pluginUtils.addNewResource(this.newres, res, locale);
                                 }
@@ -261,7 +263,7 @@ DartFileType.prototype.write = function(translations, locales) {
                             }
                             pluginUtils.addNewResource(this.newres, res, locale);
                         } else {
-                            this._addResource(resFileType, translated, res, locale);
+                            pluginUtils.addResource(resFileType, translated, res, locale, resPath);
                         }
                     }.bind(this));
                     } else {
@@ -273,7 +275,7 @@ DartFileType.prototype.write = function(translations, locales) {
                                 }
                                 pluginUtils.addNewResource(this.newres, res, locale);
                             } else {
-                                this._addResource(resFileType, translated, res, locale);
+                                pluginUtils.addResource(resFileType, translated, res, locale, resPath);
                             }
                         }
                     }.bind(this));

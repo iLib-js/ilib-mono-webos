@@ -1,5 +1,5 @@
 /*
- * utils.test.js - test 
+ * utils.test.js - test the utility functions
  *
  * Copyright (c) 2025 JEDLSoft
  *
@@ -17,18 +17,22 @@
  * limitations under the License.
  */
 
-
 var utils = require("../utils.js");
 var TranslationSet = require("loctool/lib/TranslationSet.js");
 var ResourceString = require("loctool/lib/ResourceString.js");
+var CustomProject =  require("loctool/lib/CustomProject.js");
 
 describe("utils", function() {
-    test("addResourcesFalse", function() {
+    test("addNewResourcesFalse", function() {
         expect.assertions(1);
         expect(utils.addNewResource()).toBeFalsy();
     });
-    test("addResourcesData", function() {
+    test("addResourcesFalse", function() {
         expect.assertions(1);
+        expect(utils.addResource()).toBeFalsy();
+    });
+    test("addNewResourceData", function() {
+        expect.assertions(2);
 
         var ts = new TranslationSet();
         var res = new ResourceString({
@@ -37,5 +41,47 @@ describe("utils", function() {
         });
 
         expect(utils.addNewResource(ts, res, "en-US")).toBeTruthy();
+        expect(ts.isDirty()).toBeTruthy();
+    });
+    test("addResourceData", function() {
+        expect.assertions(4);
+
+        var p = new CustomProject({
+            id: "app",
+            plugins: ["ilib-loctool-mock"],
+            sourceLocale: "en-US",
+            settings: {
+                resourceFileTypes: {
+                    "mock": "mock-resource"
+                }
+            },
+            }, ". ", {
+            locales:["en-GB"]
+        });
+
+        var res = new ResourceString({
+            id: "app",
+            sourceLocale: "en-US",
+            key: "asdf",
+            source: "This is a test",
+        });
+
+        var translated = new ResourceString({
+            id: "app",
+            sourceLocale: "en-US",
+            targetLocale: "de-DE",
+            key: "asdf",
+            source: "This is a test",
+            target: "Eine Test",
+        });
+        expect(p).toBeTruthy();
+        expect(res).toBeTruthy();
+        expect(translated).toBeTruthy();
+
+        debugger;
+        p.init(function() {
+            var jt = p.getResourceFileType("mock");
+            expect(utils.addResource(jt, translated, res, "de-DE")).toBeTruthy();
+        });
     });
 });

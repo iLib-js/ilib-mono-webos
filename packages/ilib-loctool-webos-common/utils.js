@@ -1,5 +1,5 @@
 /*
- * utils.js - various utilities
+ * utils.js - Common utility functions for webos plugins are commonly used.
  *
  * Copyright (c) 2025 JEDLSoft
  *
@@ -16,6 +16,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+module.exports.addResource = function (resFileType, translated, res, locale, resPath) {
+    if (!(resFileType && translated && res && locale)) return false;
+    var file;
+    // if reskeys don't match, we matched on cleaned string.
+    // so we need to overwrite reskey of the translated resource to match
+    if (translated.reskey !== res.reskey) {
+        translated.reskey = res.reskey;
+    }
+
+    var resource = translated.clone();
+    resource.project = res.getProject();
+    resource.datatype = res.getDataType();
+    resource.setTargetLocale(locale);
+    resource.pathName = res.getPath();
+    resource.context = res.getContext() || res.getPath().replace(/^.*[\\\/]/, '').replace(/\.(qml|js)/, "");
+    file = resFileType.getResourceFile(locale, resPath);
+    file.addResource(resource);
+
+    return true;
+}
 
 module.exports.addNewResource = function (newresSet, res, locale) {
     if (!(newresSet && res && locale)) return false;

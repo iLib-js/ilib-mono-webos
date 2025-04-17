@@ -94,18 +94,6 @@ QMLFileType.prototype.name = function() {
     return "QML File Type";
 };
 
-QMLFileType.prototype._addResource = function(resFileType, translated, res, locale) {
-    var file;
-    var resource = translated.clone();
-    resource.project = res.getProject();
-    resource.datatype = res.getDataType();
-    resource.pathName = res.getPath();
-    resource.context = res.getContext() || res.getPath().replace(/^.*[\\\/]/, '').replace(/\.(qml|js)/, "");
-    resource.setTargetLocale(locale);
-    file = resFileType.getResourceFile(locale);
-    file.addResource(resource);
-}
-
 QMLFileType.prototype._getTranslationWithNewline = function(db, translated, res, locale, isCommon) {
     var newtranslated = translated;
 
@@ -198,7 +186,7 @@ QMLFileType.prototype.write = function(translations, locales) {
                                 r = translated;
                             }
                             if (translated) {
-                                this._addResource(resFileType, translated, res, locale);
+                                pluginUtils.addResource(resFileType, translated, res, locale);
                             } else if(!translated && customInheritLocale){
                                 var manipulateKey = res.cleanHashKeyForTranslation(customInheritLocale).replace(res.getContext(), "");
                                 db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
@@ -216,13 +204,13 @@ QMLFileType.prototype.write = function(translations, locales) {
                                             }
 
                                             if (translated){
-                                                this._addResource(resFileType, translated, res, locale);
+                                                pluginUtils.addResource(resFileType, translated, res, locale);
                                             } else {
                                                 pluginUtils.addNewResource(this.newres, res, locale);
                                             }
                                         }.bind(this));
                                     } else {
-                                        this._addResource(resFileType, translated, res, locale);
+                                        pluginUtils.addResource(resFileType, translated, res, locale);
                                     }
                                 }.bind(this));
                             } else {
@@ -238,7 +226,7 @@ QMLFileType.prototype.write = function(translations, locales) {
                                 r = translated;
                             }
                             if (translated){
-                                this._addResource(resFileType, translated, res, locale);
+                                pluginUtils.addResource(resFileType, translated, res, locale);
                             } else {
                                 pluginUtils.addNewResource(this.newres, res, locale);
                             }

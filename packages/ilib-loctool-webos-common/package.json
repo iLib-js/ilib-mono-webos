@@ -2,7 +2,7 @@
   "name": "ilib-loctool-webos-common",
   "version": "1.0.0",
   "main": "./utils.js",
-  "description": "",
+  "description": "Common utility functions for webos plugins",
   "keywords": [
       "internationalization",
       "i18n",
