@@ -90,7 +90,46 @@ describe("utils", function() {
         expect(res).toBeTruthy();
         expect(translated).toBeTruthy();
 
-        debugger;
+        p.init(function() {
+            var jt = p.getResourceFileType("mock");
+            expect(utils.addResource(jt, translated, res, "de-DE")).toBeTruthy();
+        });
+    });
+    test("addResourceData_translationKeyDifferent", function() {
+        expect.assertions(4);
+
+        var p = new CustomProject({
+            id: "app",
+            plugins: ["ilib-loctool-mock"],
+            sourceLocale: "en-US",
+            settings: {
+                resourceFileTypes: {
+                    "mock": "mock-resource"
+                }
+            },
+            }, ". ", {
+            locales:["en-GB"]
+        });
+
+        var res = new ResourceString({
+            id: "app",
+            sourceLocale: "en-US",
+            key: "asdf",
+            source: "This is a test",
+        });
+
+        var translated = new ResourceString({
+            id: "app",
+            sourceLocale: "en-US",
+            targetLocale: "de-DE",
+            key: "asdfasdf",
+            source: "This is a test",
+            target: "Eine Test",
+        });
+        expect(p).toBeTruthy();
+        expect(res).toBeTruthy();
+        expect(translated).toBeTruthy();
+
         p.init(function() {
             var jt = p.getResourceFileType("mock");
             expect(utils.addResource(jt, translated, res, "de-DE")).toBeTruthy();
