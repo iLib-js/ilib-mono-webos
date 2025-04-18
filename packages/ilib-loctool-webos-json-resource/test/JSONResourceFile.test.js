@@ -1,7 +1,7 @@
 /*
  * JSONResourceFile.test.js - test the JavaScript file handler object.
  *
- * Copyright (c) 2019-2024 JEDLSoft
+ * Copyright (c) 2019-2025 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -66,6 +66,42 @@ var p3 = new CustomProject({
     projectType: "webos-dart",
     sourceLocale: "en-KR",
     }, "./testfiles", {
+    dart: {
+        "mappings": {
+            "**/*.dart": {
+                "type": "dart",
+                "template": "[dir]/assets/i18n/[localeUnder].json"
+            }
+        }
+    }
+});
+
+var p4 = new CustomProject({
+    id: "flutterHome",
+    projectType: "webos-dart",
+    sourceLocale: "en-KR",
+    resourceDirs: {
+        "json": "assets/i18n"
+        }
+    }, "./testfiles", {
+    dart: {
+        "mappings": {
+            "**/*.dart": {
+                "type": "dart",
+                "template": "[dir]/assets/i18n/[localeUnder].json"
+            }
+        }
+    }
+});
+
+var p5 = new CustomProject({
+    id: "flutterHome",
+    projectType: "webos-dart",
+    sourceLocale: "en-KR",
+    resourceDirs: {
+        "json": "assets/i18n"
+        }
+    }, "./non_existent_dir", {
     dart: {
         "mappings": {
             "**/*.dart": {
@@ -1067,6 +1103,69 @@ describe("jsonresourcefile", function() {
         var actual = jsrf.getContent();
         diff(actual, expected);
 
+        expect(actual).toBe(expected);
+    });
+    test("JSONResourceFileWriteManifest", function() {
+        expect.assertions(5);
+
+        var jsrf = new JSONResourceFile({
+            project: p4,
+            locale: "es-ES"
+        });
+        expect(jsrf).toBeTruthy();
+
+        [
+            p4.getAPI().newResource({
+                type: "string",
+                project: "flutterHome",
+                targetLocale: "es-ES",
+                key: "Good Morning!",
+                sourceLocale: "en-KR",
+                source: "Good Morning!",
+                target: "¡Buenos días!"
+            }),
+        ].forEach(function(res) {
+            jsrf.addResource(res);
+        });
+        var expected =
+            '{\n' +
+            '    "Good Morning!": "¡Buenos días!"\n' +
+            '}';
+
+        var actual = jsrf.getContent();
+        diff(actual, expected);
+
+        jsrf.write();
+        jsrf.writeManifest("resources");
+
+        var dir = path.dirname(jsrf.getResourceFilePath());
+        expect(fs.existsSync(dir)).toBeTruthy();
+        expect(fs.existsSync(path.join(dir, "fluttermanifest.json"))).toBeTruthy();
+        expect(jsrf.isDirty()).toBeTruthy();
+        expect(actual).toBe(expected);
+    });
+    test("JSONResourceFileDoNotWriteManifest", function() {
+        expect.assertions(5);
+
+        var jsrf = new JSONResourceFile({
+            project: p5,
+            locale: "en-US"
+        });
+        expect(jsrf).toBeTruthy();
+
+        var expected =
+            '{}';
+
+        var actual = jsrf.getContent();
+        diff(actual, expected);
+        jsrf.write();
+        jsrf.writeManifest("");
+
+        var dir = path.dirname(jsrf.getResourceFilePath());
+        expect(dir).toBe(path.join(p5.root, "assets/i18n"));
+        expect(fs.existsSync(dir)).toBeFalsy();
+
+        expect(fs.existsSync(path.join(dir, "fluttermanifest.json"))).toBeFalsy();
         expect(actual).toBe(expected);
     });
 });
