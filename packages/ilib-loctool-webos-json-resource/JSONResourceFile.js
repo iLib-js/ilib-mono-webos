@@ -356,13 +356,11 @@ JSONResourceFile.prototype.writeManifest = function(filePath) {
     walk(filePath, "");
     var manifestFilePath = (this.project.getProjectType() === 'webos-dart') ?
                            path.join(filePath, "fluttermanifest.json") : path.join(filePath, "ilibmanifest.json");
-
     var readManifest, data;
     if (fs.existsSync(manifestFilePath)) {
         readManifest = fs.readFileSync(manifestFilePath, {encoding:'utf8'});
         data = JSON.parse(readManifest)
     }
-
     if ((!data || data["generated"] === undefined) && manifest.files.length > 0) {
         for (var i=0; i < manifest.files.length; i++) {
             this.logger.info("Writing out", path.join(filePath, manifest.files[i]) + " to Manifest file");

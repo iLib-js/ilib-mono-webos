@@ -1074,7 +1074,6 @@ describe("jsonresourcefile", function() {
             locale: "sl-SI"
         });
         expect(jsrf).toBeTruthy();
-        debugger
 
         [
             p2.getAPI().newResource({
