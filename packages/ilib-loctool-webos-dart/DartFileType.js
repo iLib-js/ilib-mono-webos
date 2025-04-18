@@ -21,10 +21,11 @@ var fs = require("fs");
 var path = require("path");
 var mm = require("micromatch");
 var Locale = require("ilib/lib/Locale.js");
-var Utils = require("loctool/lib/utils.js")
 var ResourceString = require("loctool/lib/ResourceString.js");
 var DartFile = require("./DartFile.js");
 var JsonResourceFileType = require("ilib-loctool-webos-json-resource");
+var Utils = require("loctool/lib/utils.js")
+var pluginUtils = require("ilib-loctool-webos-common/utils.js");
 
 var DartFileType = function(project) {
     this.type = "x-dart";
@@ -154,23 +155,6 @@ DartFileType.prototype.getLocalizedPath = function(mapping, pathname, locale) {
     return path;
 };
 
-DartFileType.prototype._addResource = function(resFileType, translated, res, locale) {
-    var file;
-
-    // if reskeys don't match, we matched on cleaned string.
-    // so we need to overwrite reskey of the translated resource to match
-    if (translated.reskey !== res.reskey) {
-        translated.reskey = res.reskey;
-    }
-    var resource = translated.clone();
-    resource.project = res.getProject();
-    resource.datatype = res.getDataType();
-    resource.setTargetLocale(locale);
-    resource.pathName = res.getPath();
-    file = resFileType.getResourceFile(locale, this.getLocalizedPath(res.mapping, res.getPath(), locale))
-    file.addResource(resource);
-}
-
 /**
  * Write out the aggregated resources for this file type. In
  * some cases, the string are written out to a common resource
@@ -189,7 +173,7 @@ DartFileType.prototype.write = function(translations, locales) {
     var resFileType = this.project.getResourceFileType(this.resourceType);
     var mode = this.project.settings.mode;
     var customInheritLocale;
-    var res, file,
+    var res, file, resPath,
         resources = this.extracted.getAll(),
         db = this.project.db,
         translationLocales = locales.filter(function(locale) {
@@ -213,8 +197,10 @@ DartFileType.prototype.write = function(translations, locales) {
             res = resources[i];
             // for each extracted string, write out the translations of it
             translationLocales.forEach(function(locale) {
+                resPath = this.getLocalizedPath(res.mapping, res.getPath(), locale);
                 this.logger.trace("Localizing Dart strings to " + locale);
                 customInheritLocale = this.project.getLocaleInherit(locale);
+
                 db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(locale), function(err, translated) {
                     var r = translated;
                     if (!translated) {
@@ -224,50 +210,33 @@ DartFileType.prototype.write = function(translations, locales) {
                             var manipulateKey = ResourceString.hashKey(this.commonPrjName, locale, res.getKey(), this.commonPrjType, res.getFlavor());
                             db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
                                 if (translated) {
-                                    this._addResource(resFileType, translated, res, locale);
+                                    pluginUtils.addResource(resFileType, translated, res, locale, resPath);
                                 } else if(!translated && customInheritLocale){
                                     db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(customInheritLocale), function(err, translated) {
                                         if (!translated){
                                             var manipulateKey = ResourceString.hashKey(this.commonPrjName, customInheritLocale, res.getKey(), this.commonPrjType, res.getFlavor());
                                             db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
                                                 if (translated){
-                                                    this._addResource(resFileType, translated, res, locale);
+                                                    pluginUtils.addResource(resFileType, translated, res, locale, resPath);
                                                 } else {
-                                                    var newres = res.clone();
-                                                    newres.setTargetLocale(locale);
-                                                    newres.setTarget((r && r.getTarget()) || res.getSource());
-                                                    newres.setState("new");
-                                                    newres.setComment(note);
-                                                    this.newres.add(newres);
-                                                    this.logger.trace("No translation for " + res.reskey + " to " + locale);
+                                                    pluginUtils.addNewResource(this.newres, res, locale);
                                                 }
                                             }.bind(this));
                                         } else {
-                                            this._addResource(resFileType, translated, res, locale);
+                                            pluginUtils.addResource(resFileType, translated, res, locale, resPath);
                                         }
                                     }.bind(this));
                                 } else {
-                                    var newres = res.clone();
-                                    newres.setTargetLocale(locale);
-                                    newres.setTarget((r && r.getTarget()) || res.getSource());
-                                    newres.setState("new");
-                                    newres.setComment(note);
-                                    this.newres.add(newres);
-                                    this.logger.trace("No translation for " + res.reskey + " to " + locale);
+                                    pluginUtils.addNewResource(this.newres, res, locale);
                                 }
                             }.bind(this));
                         } else if (!translated && customInheritLocale) {
                             db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(customInheritLocale), function(err, translated) {
                                 var r = translated;
                                 if (translated){
-                                    this._addResource(resFileType, translated, res, locale);
+                                    pluginUtils.addResource(resFileType, translated, res, locale, resPath);
                                 } else {
-                                    var newres = res.clone();
-                                    newres.setTargetLocale(locale);
-                                    newres.setTarget((r && r.getTarget()) || res.getSource());
-                                    newres.setState("new");
-                                    this.newres.add(newres);
-                                    this.logger.trace("No translation for " + res.reskey + " to " + locale);
+                                    pluginUtils.addNewResource(this.newres, res, locale);
                                 }
                             }.bind(this));
                         } else if (!translated || ( this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getSource()) &&
@@ -276,16 +245,9 @@ DartFileType.prototype.write = function(translations, locales) {
                                 this.logger.trace("extracted   source: " + this.API.utils.cleanString(res.getSource()));
                                 this.logger.trace("translation source: " + this.API.utils.cleanString(r.getSource()));
                             }
-                            var note = r && 'The source string has changed. Please update the translation to match if necessary. Previous source: "' + r.getSource() + '"';
-                            var newres = res.clone();
-                            newres.setTargetLocale(locale);
-                            newres.setTarget((r && r.getTarget()) || res.getSource());
-                            newres.setState("new");
-                            newres.setComment(note);
-                            this.newres.add(newres);
-                            this.logger.trace("No translation for " + res.reskey + " to " + locale);
+                            pluginUtils.addNewResource(this.newres, res, locale);
                         } else {
-                            this._addResource(resFileType, translated, res, locale);
+                            pluginUtils.addResource(resFileType, translated, res, locale, resPath);
                         }
                     }.bind(this));
                     } else {
@@ -295,16 +257,9 @@ DartFileType.prototype.write = function(translations, locales) {
                                     this.logger.trace("extracted   source: " + this.API.utils.cleanString(res.getSource()));
                                     this.logger.trace("translation source: " + this.API.utils.cleanString(r.getSource()));
                                 }
-                                var note = r && 'The source string has changed. Please update the translation to match if necessary. Previous source: "' + r.getSource() + '"';
-                                var newres = res.clone();
-                                newres.setTargetLocale(locale);
-                                newres.setTarget((r && r.getTarget()) || res.getSource());
-                                newres.setState("new");
-                                newres.setComment(note);
-                                this.newres.add(newres);
-                                this.logger.trace("No translation for " + res.reskey + " to " + locale);
+                                pluginUtils.addNewResource(this.newres, res, locale);
                             } else {
-                                this._addResource(resFileType, translated, res, locale);
+                                pluginUtils.addResource(resFileType, translated, res, locale, resPath);
                             }
                         }
                     }.bind(this));

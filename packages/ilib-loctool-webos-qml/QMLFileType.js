@@ -1,7 +1,7 @@
 /*
  * QMLFileType.js - Represents a collection of QML files
  *
- * Copyright (c) 2020-2023, JEDLSoft
+ * Copyright (c) 2020-2023, 2025 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ var path = require("path");
 var QMLFile = require("./QMLFile.js");
 var TSResourceFileType = require("ilib-loctool-webos-ts-resource");
 var ResourceString = require("loctool/lib/ResourceString.js");
+var pluginUtils = require("ilib-loctool-webos-common/utils.js");
 
 var QMLFileType = function(project) {
     this.type = "x-qml";
@@ -92,18 +93,6 @@ QMLFileType.prototype.handles = function(pathName) {
 QMLFileType.prototype.name = function() {
     return "QML File Type";
 };
-
-QMLFileType.prototype._addResource = function(resFileType, translated, res, locale) {
-    var file;
-    var resource = translated.clone();
-    resource.project = res.getProject();
-    resource.datatype = res.getDataType();
-    resource.pathName = res.getPath();
-    resource.context = res.getContext() || res.getPath().replace(/^.*[\\\/]/, '').replace(/\.(qml|js)/, "");
-    resource.setTargetLocale(locale);
-    file = resFileType.getResourceFile(locale);
-    file.addResource(resource);
-}
 
 QMLFileType.prototype._getTranslationWithNewline = function(db, translated, res, locale, isCommon) {
     var newtranslated = translated;
@@ -196,9 +185,8 @@ QMLFileType.prototype.write = function(translations, locales) {
                                 translated = this._getTranslationWithNewline(db, translated, res, locale, true);
                                 r = translated;
                             }
-
                             if (translated) {
-                                this._addResource(resFileType, translated, res, locale);
+                                pluginUtils.addResource(resFileType, translated, res, locale);
                             } else if(!translated && customInheritLocale){
                                 var manipulateKey = res.cleanHashKeyForTranslation(customInheritLocale).replace(res.getContext(), "");
                                 db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
@@ -216,29 +204,17 @@ QMLFileType.prototype.write = function(translations, locales) {
                                             }
 
                                             if (translated){
-                                                this._addResource(resFileType, translated, res, locale);
+                                                pluginUtils.addResource(resFileType, translated, res, locale);
                                             } else {
-                                                var newres = res.clone();
-                                                newres.setTargetLocale(locale);
-                                                newres.setTarget((r && r.getTarget()) || res.getSource());
-                                                newres.setState("new");
-                                                newres.setComment(note);
-                                                this.newres.add(newres);
-                                                this.logger.trace("No translation for " + res.reskey + " to " + locale);
+                                                pluginUtils.addNewResource(this.newres, res, locale);
                                             }
                                         }.bind(this));
                                     } else {
-                                        this._addResource(resFileType, translated, res, locale);
+                                        pluginUtils.addResource(resFileType, translated, res, locale);
                                     }
                                 }.bind(this));
                             } else {
-                                var newres = res.clone();
-                                newres.setTargetLocale(locale);
-                                newres.setTarget((r && r.getTarget()) || res.getSource());
-                                newres.setState("new");
-                                newres.setComment(note);
-                                this.newres.add(newres);
-                                this.logger.trace("No translation for " + res.reskey + " to " + locale);
+                                pluginUtils.addNewResource(this.newres, res, locale);
                             }
                         }.bind(this));
                     } else if (!translated && customInheritLocale) {
@@ -249,16 +225,10 @@ QMLFileType.prototype.write = function(translations, locales) {
                                 translated = this._getTranslationWithNewline(db, translated, res, customInheritLocale, false);
                                 r = translated;
                             }
-
                             if (translated){
-                                this._addResource(resFileType, translated, res, locale);
+                                pluginUtils.addResource(resFileType, translated, res, locale);
                             } else {
-                                var newres = res.clone();
-                                newres.setTargetLocale(locale);
-                                newres.setTarget((r && r.getTarget()) || res.getSource());
-                                newres.setState("new");
-                                this.newres.add(newres);
-                                this.logger.trace("No translation for " + res.reskey + " to " + locale);
+                                pluginUtils.addNewResource(this.newres, res, locale);
                             }
                         }.bind(this));
                     } else if (!translated || ( this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getSource()) &&
@@ -267,14 +237,7 @@ QMLFileType.prototype.write = function(translations, locales) {
                             this.logger.trace("extracted   source: " + this.API.utils.cleanString(res.getSource()));
                             this.logger.trace("translation source: " + this.API.utils.cleanString(r.getSource()));
                         }
-                        var note = r && 'The source string has changed. Please update the translation to match if necessary. Previous source: "' + r.getSource() + '"';
-                        var newres = res.clone();
-                        newres.setTargetLocale(locale);
-                        newres.setTarget((r && r.getTarget()) || res.getSource());
-                        newres.setState("new");
-                        newres.setComment(note);
-                        this.newres.add(newres);
-                        this.logger.trace("No translation for " + res.reskey + " to " + locale);
+                        pluginUtils.addNewResource(this.newres, res, locale);
                     } else {
                         if (res.reskey != r.reskey) {
                             // if reskeys don't match, we matched on cleaned string.
@@ -300,14 +263,7 @@ QMLFileType.prototype.write = function(translations, locales) {
                                 this.logger.trace("extracted   source: " + this.API.utils.cleanString(res.getSource()));
                                 this.logger.trace("translation source: " + this.API.utils.cleanString(r.getSource()));
                             }
-                            var note = r && 'The source string has changed. Please update the translation to match if necessary. Previous source: "' + r.getSource() + '"';
-                            var newres = res.clone();
-                            newres.setTargetLocale(locale);
-                            newres.setTarget((r && r.getTarget()) || res.getSource());
-                            newres.setState("new");
-                            newres.setComment(note);
-                            this.newres.add(newres);
-                            this.logger.trace("No translation for " + res.reskey + " to " + locale);
+                            pluginUtils.addNewResource(this.newres, res, locale);
                         } else {
                             if (res.reskey != r.reskey) {
                                 // if reskeys don't match, we matched on cleaned string.
