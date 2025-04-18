@@ -17,7 +17,17 @@
  * limitations under the License.
  */
 
-
+/**
+* Add a resource to this file
+*
+* @param {resFileType} a filetype of the resource to be added
+* @param {Resource} res a translation resource to add to this file
+* @param {Resource} res a source resource for the trnslation resource
+* @param {String} locale a resource of the locale
+* @param {String} resPath localization resource path. It is optional
+*
+* @returns {boolean} true if the resource is added succesfully.
+*/
 module.exports.addResource = function (resFileType, translated, res, locale, resPath) {
     if (!(resFileType && translated && res && locale)) return false;
     var file;
@@ -39,6 +49,15 @@ module.exports.addResource = function (resFileType, translated, res, locale, res
     return true;
 }
 
+/**
+* Add a resource to this file
+*
+* @param {Resource} newresSet translationset for the new resources
+* @param {Resource} res a resource to add to this new translation set
+* @param {String} locales a resource of the locale
+*
+* @returns {boolean} true if the resource is successfully added.
+*/
 module.exports.addNewResource = function (newresSet, res, locale) {
     if (!(newresSet && res && locale)) return false;
 
