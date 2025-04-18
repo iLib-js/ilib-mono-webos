@@ -3,7 +3,8 @@ coverage:
     - "packages/samples-lint"
     - "packages/ilib-loctool-webos-dist"
     - "scripts"
-    - "packages/ilib-loctool-webos-common/test"
+    - "packages/ilib-loctool-webos-common/test/ilib-loctool-mock"
+    - "packages/ilib-loctool-webos-common/test/ilib-loctool-mock-resource"
   status:
     patch:
       default: yes
