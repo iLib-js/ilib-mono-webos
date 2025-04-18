@@ -17,6 +17,7 @@
  * limitations under the License.
  */
 
+
 module.exports.addResource = function (resFileType, translated, res, locale, resPath) {
     if (!(resFileType && translated && res && locale)) return false;
     var file;

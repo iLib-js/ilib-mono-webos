@@ -155,22 +155,6 @@ DartFileType.prototype.getLocalizedPath = function(mapping, pathname, locale) {
     return path;
 };
 
-/*DartFileType.prototype._addResource = function(resFileType, translated, res, locale) {
-    var file;
-    // if reskeys don't match, we matched on cleaned string.
-    // so we need to overwrite reskey of the translated resource to match
-    if (translated.reskey !== res.reskey) {
-        translated.reskey = res.reskey;
-    }
-    var resource = translated.clone();
-    resource.project = res.getProject();
-    resource.datatype = res.getDataType();
-    resource.setTargetLocale(locale);
-    resource.pathName = res.getPath();
-    file = resFileType.getResourceFile(locale, this.getLocalizedPath(res.mapping, res.getPath(), locale))
-    file.addResource(resource);
-}*/
-
 /**
  * Write out the aggregated resources for this file type. In
  * some cases, the string are written out to a common resource

@@ -43,6 +43,18 @@ describe("utils", function() {
         expect(utils.addNewResource(ts, res, "en-US")).toBeTruthy();
         expect(ts.isDirty()).toBeTruthy();
     });
+    test("addNewResourceDataFalse2", function() {
+        expect.assertions(2);
+
+        var ts = new TranslationSet();
+        var res = new ResourceString({
+            key: "asdf",
+            source: "This is a test"
+        });
+
+        expect(utils.addNewResource(ts, res)).toBeFalsy();
+        expect(utils.addNewResource(ts)).toBeFalsy();
+    });
     test("addResourceData", function() {
         expect.assertions(4);
 
