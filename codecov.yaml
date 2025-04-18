@@ -3,6 +3,7 @@ coverage:
     - "packages/samples-lint"
     - "packages/ilib-loctool-webos-dist"
     - "scripts"
+    - "packages/ilib-loctool-webos-common/test"
   status:
     patch:
       default: yes
