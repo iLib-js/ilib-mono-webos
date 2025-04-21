@@ -329,11 +329,11 @@ JSONResourceFile.prototype.writeManifest = function(filePath) {
     };
 
     if (this.project.getProjectType() === 'webos-dart') {
-        filePath = path.join(this.project.root, "assets/i18n");
+        filePath = path.join(this.project.getRoot(), "assets/i18n");
     }
 
     if (!fs.existsSync(filePath)) {
-        this.logger.debug(filePath+" does not exist");
+        this.logger.debug(filePath + " does not exist");
         return;
     }
 

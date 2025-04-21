@@ -38,6 +38,13 @@ function diff(a, b) {
     }
 }
 
+afterEach(() => {
+    const outputPath = './testfiles';
+    if (fs.existsSync(outputPath)) {
+        fs.rmSync(outputPath, { recursive: true });
+    }
+});
+
 var p = new CustomProject({
     id: "webosApp",
     projectType: "webos-web",
@@ -84,24 +91,6 @@ var p4 = new CustomProject({
         "json": "assets/i18n"
         }
     }, "./testfiles", {
-    dart: {
-        "mappings": {
-            "**/*.dart": {
-                "type": "dart",
-                "template": "[dir]/assets/i18n/[localeUnder].json"
-            }
-        }
-    }
-});
-
-var p5 = new CustomProject({
-    id: "flutterHome",
-    projectType: "webos-dart",
-    sourceLocale: "en-KR",
-    resourceDirs: {
-        "json": "assets/i18n"
-        }
-    }, "./non_existent_dir", {
     dart: {
         "mappings": {
             "**/*.dart": {
@@ -1136,7 +1125,8 @@ describe("jsonresourcefile", function() {
         diff(actual, expected);
 
         jsrf.write();
-        jsrf.writeManifest("resources");
+        var resourceRoot = path.join(p4.getRoot(), "assets/i18n");
+        jsrf.writeManifest(resourceRoot);
 
         var dir = path.dirname(jsrf.getResourceFilePath());
         expect(fs.existsSync(dir)).toBeTruthy();
@@ -1148,7 +1138,7 @@ describe("jsonresourcefile", function() {
         expect.assertions(5);
 
         var jsrf = new JSONResourceFile({
-            project: p5,
+            project: p4,
             locale: "en-US"
         });
         expect(jsrf).toBeTruthy();
@@ -1159,10 +1149,11 @@ describe("jsonresourcefile", function() {
         var actual = jsrf.getContent();
         diff(actual, expected);
         jsrf.write();
-        jsrf.writeManifest("");
+        var resourceRoot = path.join(p4.getRoot(), "assets/i18n");
+        jsrf.writeManifest(resourceRoot);
 
         var dir = path.dirname(jsrf.getResourceFilePath());
-        expect(dir).toBe(path.join(p5.root, "assets/i18n"));
+        expect(dir).toBe(resourceRoot);
         expect(fs.existsSync(dir)).toBeFalsy();
 
         expect(fs.existsSync(path.join(dir, "fluttermanifest.json"))).toBeFalsy();
