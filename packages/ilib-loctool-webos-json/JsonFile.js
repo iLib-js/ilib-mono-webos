@@ -124,7 +124,7 @@ JsonFile.prototype.loadSchema = function(source) {
     } else if (filename == "appinfo") {
         schemaFilePath = path.join(__dirname, "schema/appinfo.schema.json");
     } else {
-        schemaFilePath = path.join(filedir, filename +".schema.json");
+        schemaFilePath = path.join(filedir, filename + ".schema.json");
     }
 
     this.logger.debug("JsonFileTyp load Schema File " + schemaFilePath + "?");
@@ -195,7 +195,7 @@ JsonFile.prototype.extract = function() {
     if (this.pathName) {
         var p = path.join(this.project.root, this.pathName);
         try {
-            var data = fs.readFileSync(p, "utf8");
+            var data = fs.readFileSync(p, "utf-8");
             if (data) {
                 this.parse(data);
             }
@@ -497,7 +497,7 @@ JsonFile.prototype.writeManifest = function(filePath) {
     var manifestFilePath = path.join(filePath, "ilibmanifest.json");
     var readManifest, data;
     if (fs.existsSync(manifestFilePath)) {
-        readManifest = fs.readFileSync(manifestFilePath, {encoding:'utf8'});
+        readManifest = fs.readFileSync(manifestFilePath, {encoding: 'utf-8'});
         data = JSON.parse(readManifest)
     }
     if ((!data || data["generated"] === undefined) && manifest.files.length > 0) {
@@ -506,7 +506,7 @@ JsonFile.prototype.writeManifest = function(filePath) {
         }
         manifest["l10n_timestamp"] = new Date().getTime().toString();
         manifest["generated"] = true;
-        fs.writeFileSync(manifestFilePath, JSON.stringify(manifest, undefined, 4), 'utf8');
+        fs.writeFileSync(manifestFilePath, JSON.stringify(manifest, undefined, 4), 'utf-8');
     }
 }
 
