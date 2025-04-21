@@ -313,7 +313,7 @@ JSONResourceFile.prototype.write = function() {
             this.logger.debug("Wrote string translations to file " + this.pathName);
             dir = path.dirname(this.pathName);
             this.API.utils.makeDirs(dir);
-            fs.writeFileSync(this.pathName, js, "utf8");
+            fs.writeFileSync(this.pathName, js, "utf-8");
         }
     } else {
         this.logger.debug("File " + this.pathName + " is not dirty. Skipping.");
@@ -355,7 +355,7 @@ JSONResourceFile.prototype.writeManifest = function(filePath) {
                            path.join(filePath, "fluttermanifest.json") : path.join(filePath, "ilibmanifest.json");
     var readManifest, data;
     if (fs.existsSync(manifestFilePath)) {
-        readManifest = fs.readFileSync(manifestFilePath, {encoding:'utf8'});
+        readManifest = fs.readFileSync(manifestFilePath, {encoding: 'utf-8'});
         data = JSON.parse(readManifest)
     }
     if ((!data || data["generated"] === undefined) && manifest.files.length > 0) {
@@ -364,7 +364,7 @@ JSONResourceFile.prototype.writeManifest = function(filePath) {
         }
         manifest["l10n_timestamp"] = new Date().getTime().toString();
         manifest["generated"] = true;
-        fs.writeFileSync(manifestFilePath, JSON.stringify(manifest, undefined, 4), 'utf8');
+        fs.writeFileSync(manifestFilePath, JSON.stringify(manifest, undefined, 4), 'utf-8');
     }
 };
 
