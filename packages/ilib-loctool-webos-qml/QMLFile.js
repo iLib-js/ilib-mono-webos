@@ -395,7 +395,7 @@ QMLFile.prototype.extract = function() {
     if (this.pathName) {
         var p = path.join(this.project.root, this.pathName);
         try {
-            var data = fs.readFileSync(p, "utf8");
+            var data = fs.readFileSync(p, "utf-8");
             if (data) {
                 this.parse(data);
             }

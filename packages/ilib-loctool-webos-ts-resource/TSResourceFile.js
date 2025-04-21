@@ -247,12 +247,12 @@ TSResourceFile.prototype.getResourceFilePath = function(locale) {
     locale = locale || this.locale;
     var dir, newPath;
     var projectId = this.project.options.id;
-    var filename = projectId +"_en.ts";
+    var filename = projectId + "_en.ts";
 
     if (this.baseLocale) {
-        filename = locale.getLanguage()+".ts";
+        filename = locale.getLanguage()+ ".ts";
     } else {
-        filename = locale.getSpec().replace(/-/g, "_") +".ts";
+        filename = locale.getSpec().replace(/-/g, "_") + ".ts";
     }
     filename = projectId + "_" + filename;
 
@@ -279,7 +279,7 @@ TSResourceFile.prototype.write = function() {
         this.API.utils.makeDirs(dir);
 
         var js = this.getContent();
-        fs.writeFileSync(this.pathName, js, "utf8");
+        fs.writeFileSync(this.pathName, js, "utf-8");
         this.logger.info("Wrote string translations to file " + this.pathName);
     } else {
         this.logger.debug("File " + this.pathName + " is not dirty. Skipping.");

@@ -109,7 +109,7 @@ QMLFileType.prototype._getTranslationWithNewline = function(db, translated, res,
     var newtranslated = translated;
 
     var newlinerestored = res.getSource().replace(/\n/g, "\\n");
-    this.logger.debug("_getTranslationWithNewline: "+newlinerestored);
+    this.logger.debug("_getTranslationWithNewline: " + newlinerestored);
     var newres = res.clone();
     newres.source = newlinerestored;
     newres.sourcehash = this.API.utils.hashKey(newlinerestored);
