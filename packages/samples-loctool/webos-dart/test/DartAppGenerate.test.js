@@ -70,6 +70,20 @@ describe('test the localization result (generate mode) of webos-dart app', () =>
       const project = ProjectFactory.newProject(projectSettings, appSettings);
       GenerateModeProcess(project);
     }, 50000);
+    test("dartsample_generate_test_ko_KR", function() {
+      expect.assertions(8);
+      filePath = path.join(resourcePath, 'ko.json');
+      jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
+
+      expect(jsonData).toBeTruthy();
+      expect(jsonData["App List"]).toBe("앱 목록");
+      expect(jsonData["App Rating"]).toBe("앱 등급");
+      expect(jsonData["Back button"]).toBe("이전 버튼");
+      expect(jsonData["Delete All"]).toBe("모두 삭제");
+      expect(jsonData["Search_all"]).toBe("통합 검색");
+      expect(jsonData["{appName} app cannot be deleted."]).toBe("{appName}앱은 삭제될 수 없습니다.");
+      expect(jsonData["Live TV"]).toBe("현재 방송"); //no source code
+  });
     test("dartsample_generate_test_fr_CA", function() {
       expect.assertions(6);
       filePath = path.join(resourcePath, 'fr.json');
