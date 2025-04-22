@@ -46,55 +46,55 @@ describe('test the localization result (generate mode) of webos-dart app', () =>
       "xliffVersion": 2,
     };
     const appSettings = {
-        xliffsDir: "./xliffs",
-        locales:[
-          "en-US",
-          "en-US",
-          "es-CO",
-          "es-ES",
-          "fr-CA",
-          "fr-FR",
-          "ja-JP",
-          "ko-KR",
-          "sl-SI"
-        ],
-        localeMap: {
-          "es-CO": "es",
-          "fr-CA": "fr"
-        },
-        localeInherit: {
-          "en-AU": "en-GB",
-        }
-      };
-      debugger;
-      const project = ProjectFactory.newProject(projectSettings, appSettings);
-      GenerateModeProcess(project);
-    }, 50000);
-    test("dartsample_generate_test_ko_KR", function() {
-      expect.assertions(8);
-      filePath = path.join(resourcePath, 'ko.json');
-      jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
+      xliffsDir: "./xliffs",
+      locales:[
+        "en-US",
+        "en-US",
+        "es-CO",
+        "es-ES",
+        "fr-CA",
+        "fr-FR",
+        "ja-JP",
+        "ko-KR",
+        "sl-SI"
+      ],
+      localeMap: {
+        "es-CO": "es",
+        "fr-CA": "fr"
+      },
+      localeInherit: {
+        "en-AU": "en-GB",
+      }
+    };
+    const project = ProjectFactory.newProject(projectSettings, appSettings);
+    GenerateModeProcess(project);
 
-      expect(jsonData).toBeTruthy();
-      expect(jsonData["App List"]).toBe("앱 목록");
-      expect(jsonData["App Rating"]).toBe("앱 등급");
-      expect(jsonData["Back button"]).toBe("이전 버튼");
-      expect(jsonData["Delete All"]).toBe("모두 삭제");
-      expect(jsonData["Search_all"]).toBe("통합 검색");
-      expect(jsonData["{appName} app cannot be deleted."]).toBe("{appName}앱은 삭제될 수 없습니다.");
-      expect(jsonData["Live TV"]).toBe("현재 방송"); //no source code
+  }, 50000);
+  test("dartsample_generate_test_ko_KR", function() {
+    expect.assertions(8);
+    filePath = path.join(resourcePath, 'ko.json');
+    jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
+
+    expect(jsonData).toBeTruthy();
+    expect(jsonData["App List"]).toBe("앱 목록");
+    expect(jsonData["App Rating"]).toBe("앱 등급");
+    expect(jsonData["Back button"]).toBe("이전 버튼");
+    expect(jsonData["Delete All"]).toBe("모두 삭제");
+    expect(jsonData["Search_all"]).toBe("통합 검색");
+    expect(jsonData["{appName} app cannot be deleted."]).toBe("{appName}앱은 삭제될 수 없습니다.");
+    expect(jsonData["Live TV"]).toBe("현재 방송"); //no source code
   });
-    test("dartsample_generate_test_fr_CA", function() {
-      expect.assertions(6);
-      filePath = path.join(resourcePath, 'fr.json');
-      jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
+  test("dartsample_generate_test_fr_CA", function() {
+    expect.assertions(6);
+    filePath = path.join(resourcePath, 'fr.json');
+    jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
 
-      expect(jsonData).toBeTruthy();
-      expect(jsonData["App List"]).toBe("Liste des applications");
-      expect(jsonData["App Rating"]).toBe("Évaluation de l'application");
-      expect(jsonData["Back button"]).toBe("Bouton Retour");
-      expect(jsonData["Delete All"]).toBe("Tout supprimer");
-      expect(jsonData["Search_all"]).toBe("Rechercher");
+    expect(jsonData).toBeTruthy();
+    expect(jsonData["App List"]).toBe("Liste des applications");
+    expect(jsonData["App Rating"]).toBe("Évaluation de l'application");
+    expect(jsonData["Back button"]).toBe("Bouton Retour");
+    expect(jsonData["Delete All"]).toBe("Tout supprimer");
+    expect(jsonData["Search_all"]).toBe("Rechercher");
   });
   test("dartsample_generate_test_fr_FR", function() {
     expect.assertions(6);
