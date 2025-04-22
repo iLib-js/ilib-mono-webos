@@ -1,7 +1,7 @@
 /*
  * JSONResourceFile.js - represents an JSON style resource file
  *
- * Copyright (c) 2019-2024, JEDLSoft
+ * Copyright (c) 2019-2025, JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -328,10 +328,13 @@ JSONResourceFile.prototype.writeManifest = function(filePath) {
         files: []
     };
 
-    if (!fs.existsSync(filePath)) return;
-
     if (this.project.getProjectType() === 'webos-dart') {
-        filePath = "assets/i18n";
+        filePath = path.join(this.project.getRoot(), "assets/i18n");
+    }
+
+    if (!fs.existsSync(filePath)) {
+        this.logger.debug(filePath + " does not exist");
+        return;
     }
 
     function walk(root, dir) {
