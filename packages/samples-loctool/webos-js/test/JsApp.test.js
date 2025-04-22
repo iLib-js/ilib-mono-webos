@@ -30,14 +30,14 @@ describe('test the localization result of webos-js app', () => {
     let fullPath = '';
 
     beforeAll(async() => {
-      await new Promise((resolve, reject) => {
-        exec(`npm run clean; loctool ${generalOptions} ${localeMap} ${localeInherit}`, (error, stdout, stderr) => {
-          if (error) {
-            return reject(error);
-          }
-          resolve(stdout);
+        await new Promise((resolve, reject) => {
+            exec(`npm run clean; loctool ${generalOptions} ${localeMap} ${localeInherit}`, (error, stdout, stderr) => {
+                if (error) {
+                    return reject(error);
+                }
+                resolve(stdout);
+            });
         });
-      });
     }, 50000);
     test("jssample_test_ko_KR", function() {
         expect.assertions(6);
