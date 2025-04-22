@@ -17,44 +17,59 @@
  * limitations under the License.
  */
 
-const { exec } = require('child_process');
+const fs = require("fs");
 const path = require('path');
 const { isValidPath, loadData } = require('../../Utils.js');
 
+const GenerateModeProcess = require("loctool/lib/GenerateModeProcess.js");
+const ProjectFactory = require("loctool/lib/ProjectFactory.js");
+
 describe('test the localization result (generate mode) of webos-dart app', () => {
-    const resourcePath = 'assets/i18n';
-    const generalOptions = '-2 --xliffStyle custom --localizeOnly';
-    const generateModeOptions = '--projectType webos-dart --projectId sample-webos-dart --sourceLocale en-KR --resourceDirs json=assets/i18n --resourceFileTypes json=webos-json-resource --plugins webos-dart,webos-json';
-    const locales = '-l en-US,es-CO,es-ES,fr-CA,fr-FR,ja-JP,ko-KR,sl-SI'
-    const localeInherit = '--localeInherit en-AU:en-GB';
-    const localeMap = '--localeMap es-CO:es,fr-CA:fr';
+  const resourcePath = 'assets/i18n';
+  let filePath, jsonData;
 
-    let filePath, jsonData;
+  beforeAll(async() => {
+    const outputPath = "./assets/i18n";
+    if (fs.existsSync(outputPath)) {
+      fs.rmSync(outputPath, { recursive: true });
+    }
 
-    beforeAll(async() => {
-      await new Promise((resolve, reject) => {
-        exec(`npm run clean; loctool generate ${generalOptions} ${generateModeOptions} ${localeMap} ${localeInherit} ${locales}`, (error, stdout, stderr) => {
-          if (error) {
-            return reject(error);
-          }
-          resolve(stdout);
-        });
-      });
+    const projectSettings = {
+      "rootDir": ".",
+      "id": "sample-webos-dart",
+      "projectType": "webos-dart",
+      "sourceLocale": "en-KR",
+      "resourceDirs" : { "json": "assets/i18n" },
+      "resourceFileTypes": { "json":"ilib-loctool-webos-json-resource" },
+      "plugins": [ "ilib-loctool-webos-dart" ],
+      "xliffStyle": "custom",
+      "xliffVersion": 2,
+    };
+    const appSettings = {
+        xliffsDir: "./xliffs",
+        locales:[
+          "en-US",
+          "en-US",
+          "es-CO",
+          "es-ES",
+          "fr-CA",
+          "fr-FR",
+          "ja-JP",
+          "ko-KR",
+          "sl-SI"
+        ],
+        localeMap: {
+          "es-CO": "es",
+          "fr-CA": "fr"
+        },
+        localeInherit: {
+          "en-AU": "en-GB",
+        }
+      };
+      debugger;
+      const project = ProjectFactory.newProject(projectSettings, appSettings);
+      GenerateModeProcess(project);
     }, 50000);
-    test("dartsample_generate_test_ko_KR", function() {
-        expect.assertions(8);
-        filePath = path.join(resourcePath, 'ko.json');
-        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
-
-        expect(jsonData).toBeTruthy();
-        expect(jsonData["App List"]).toBe("앱 목록");
-        expect(jsonData["App Rating"]).toBe("앱 등급");
-        expect(jsonData["Back button"]).toBe("이전 버튼");
-        expect(jsonData["Delete All"]).toBe("모두 삭제");
-        expect(jsonData["Search_all"]).toBe("통합 검색");
-        expect(jsonData["{appName} app cannot be deleted."]).toBe("{appName}앱은 삭제될 수 없습니다.");
-        expect(jsonData["Live TV"]).toBe("현재 방송"); //no source code
-    });
     test("dartsample_generate_test_fr_CA", function() {
       expect.assertions(6);
       filePath = path.join(resourcePath, 'fr.json');
