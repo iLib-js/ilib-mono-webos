@@ -16,28 +16,63 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const { exec } = require('child_process');
+
+const fs = require("fs");
 const path = require('path');
 const ResBundle = require("ilib/lib/ResBundle");
 const defaultRSPath = path.join(process.cwd(), "resources");
 const { isExistKey } = require('../../Utils.js');
 
-describe('test the localization result (generate mode) of webos-js app', () => {
-    const generalOptions = '-2 --xliffStyle custom --localizeOnly';
-    const generateModeOptions = '--projectType webos-js --projectId sample-webos-js --sourceLocale en-KR --resourceFileTypes json=webos-json-resource --plugins webos-javascript,webos-json';
-    const locales = '-l as-IN,de-DE,en-AU,en-US,en-GB,en-JP,es-ES,es-CO,fr-CA,fr-FR,ja-JP,ko-KR,ko-US,ko-TW';
-    const localeInherit = '--localeInherit en-AU:en-GB,en-JP:en-GB';
-    const localeMap = '--localeMap es-CO:es,fr-CA:fr';
+const ProjectFactory = require("loctool/lib/ProjectFactory.js");
+const GenerateModeProcess = require("loctool/lib/GenerateModeProcess.js");
 
+describe('test the localization result (generate mode) of webos-js app', () => {
     beforeAll(async() => {
-      await new Promise((resolve, reject) => {
-        exec(`npm run clean; loctool generate ${generalOptions} ${generateModeOptions} ${localeMap} ${localeInherit} ${locales}`, (error, stdout, stderr) => {
-          if (error) {
-            return reject(error);
-          }
-          resolve(stdout);
-        });
-      });
+        const outputPath = "./resources";
+        if (fs.existsSync(outputPath)) {
+            fs.rmSync(outputPath, { recursive: true });
+        }
+        const projectSettings = {
+            "rootDir": ".",
+            "id": "sample-webos-js",
+            "projectType": "webos-js",
+            "sourceLocale": "en-KR",
+            "resourceDirs" : { "json": "resources" },
+            "resourceFileTypes": { "json":"ilib-loctool-webos-json-resource" },
+            "plugins": [ "ilib-loctool-webos-javascript" ],
+            "xliffStyle": "custom",
+            "xliffVersion": 2,
+        };
+        const appSettings = {
+            xliffsDir: "./xliffs",
+            locales:[
+                "as-IN",
+                "de-DE",
+                "en-AU",
+                "en-US",
+                "en-GB",
+                "en-JP",
+                "es-ES",
+                "es-CO",
+                "fr-CA",
+                "fr-FR",
+                "ja-JP",
+                "ko-KR",
+                "ko-US",
+                "ko-TW"
+            ],
+            localeMap: {
+                "es-CO": "es",
+                "fr-CA": "fr"
+            },
+            localeInherit: {
+                "en-AU": "en-GB",
+                "en-JP": "en-GB",
+            }
+        };
+        const project = ProjectFactory.newProject(projectSettings, appSettings);
+        GenerateModeProcess(project);
+
     }, 50000);
     test("jssample_generate_test_ko_KR", function() {
         expect.assertions(6);
