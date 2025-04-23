@@ -29,8 +29,9 @@ describe('test the localization result (generate mode) of webos-dart app', () =>
     let filePath, jsonData;
 
     beforeAll(async() => {
-        if (fs.existsSync(resourcePath)) {
-            fs.rmSync(resourcePath, { recursive: true });
+        const outputPath = "./assets/i18n";
+        if (fs.existsSync(outputPath)) {
+            fs.rmSync(outputPath, { recursive: true });
         }
         const projectSettings = {
             "rootDir": ".",
