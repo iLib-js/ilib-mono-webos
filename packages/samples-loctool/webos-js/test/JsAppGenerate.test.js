@@ -28,8 +28,9 @@ const GenerateModeProcess = require("loctool/lib/GenerateModeProcess.js");
 
 describe('test the localization result (generate mode) of webos-js app', () => {
     beforeAll(async() => {
-        if (fs.existsSync(defaultRSPath)) {
-            fs.rmSync(defaultRSPath, { recursive: true });
+        const outputPath = "./resources";
+        if (fs.existsSync(outputPath)) {
+            fs.rmSync(outputPath, { recursive: true });
         }
         const projectSettings = {
             "rootDir": ".",
