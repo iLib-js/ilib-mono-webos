@@ -29,11 +29,9 @@ describe('test the localization result (generate mode) of webos-dart app', () =>
     let filePath, jsonData;
 
     beforeAll(async() => {
-        const outputPath = "./assets/i18n";
-        if (fs.existsSync(outputPath)) {
-        fs.rmSync(outputPath, { recursive: true });
+        if (fs.existsSync(resourcePath)) {
+            fs.rmSync(resourcePath, { recursive: true });
         }
-
         const projectSettings = {
             "rootDir": ".",
             "id": "sample-webos-dart",
@@ -69,7 +67,7 @@ describe('test the localization result (generate mode) of webos-dart app', () =>
         const project = ProjectFactory.newProject(projectSettings, appSettings);
         GenerateModeProcess(project);
 
-      }, 50000);
+    }, 50000);
     test("dartsample_generate_test_ko_KR", function() {
         expect.assertions(8);
         filePath = path.join(resourcePath, 'ko.json');
