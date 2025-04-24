@@ -7,14 +7,13 @@ coverage:
     - "packages/ilib-loctool-webos-common/test/ilib-loctool-mock-resource"
   status:
     patch:
-      default: yes
-      target: 30%
-      threshold: 0%
-      base: auto
-      branches:
-        - main
-      layout: "condensed_header, condensed_files, condensed_footer"
-      hide_project_coverage: TRUE
+      default:
+        #basic
+        target: 30%
+        threshold: 0%
+        layout: "condensed_header, condensed_files, condensed_footer"
+        if_ci_failed: ignore #success, failure, error, ignore
+        hide_project_coverage: TRUE
     project:
       default:
         # basic
