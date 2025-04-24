@@ -8,8 +8,8 @@ coverage:
   status:
     patch:
       default: yes
-      target: 30%
-      threshold: 0
+      target: auto
+      threshold: 0%
       base: auto
       branches:
         - main
