@@ -101,6 +101,19 @@ var p4 = new CustomProject({
     }
 });
 
+var p5 = new CustomProject({
+        id: "webosApp",
+        projectType: "webos-web",
+        sourceLocale: "en-US",
+    },
+    "./testfiles",
+    {
+        targetDir: "custom_dir",
+        locales: ["es-ES"],
+    }
+);
+
+
 describe("jsonresourcefile", function() {
     test("JSONResourceFileConstructor", function() {
         expect.assertions(1);
@@ -1125,7 +1138,7 @@ describe("jsonresourcefile", function() {
         diff(actual, expected);
 
         jsrf.write();
-        var resourceRoot = path.join(p4.getRoot(), "assets/i18n");
+        var resourceRoot = path.join(p4.target, "assets/i18n");
         jsrf.writeManifest(resourceRoot);
 
         var dir = path.dirname(jsrf.getResourceFilePath());
@@ -1149,7 +1162,7 @@ describe("jsonresourcefile", function() {
         var actual = jsrf.getContent();
         diff(actual, expected);
         jsrf.write();
-        var resourceRoot = path.join(p4.getRoot(), "assets/i18n");
+        var resourceRoot = path.join(p4.target, "assets/i18n");
         jsrf.writeManifest(resourceRoot);
 
         var dir = path.dirname(jsrf.getResourceFilePath());
@@ -1159,4 +1172,44 @@ describe("jsonresourcefile", function() {
         expect(fs.existsSync(path.join(dir, "fluttermanifest.json"))).toBeFalsy();
         expect(actual).toBe(expected);
     });
+    test("JSONResourceFileWriteManifestWithTargetDir", function() {
+        expect.assertions(5);
+
+        var jsrf = new JSONResourceFile({
+            project: p5,
+            locale: "es-ES"
+        });
+        expect(jsrf).toBeTruthy();
+
+        [
+            p5.getAPI().newResource({
+                type: "string",
+                project: "webosApp",
+                targetLocale: "es-ES",
+                key: "Good Morning!",
+                sourceLocale: "en-KR",
+                source: "Good Morning!",
+                target: "¡Buenos días!"
+            }),
+        ].forEach(function(res) {
+            jsrf.addResource(res);
+        });
+        var expected =
+            '{\n' +
+            '    "Good Morning!": "¡Buenos días!"\n' +
+            '}';
+
+        var actual = jsrf.getContent();
+        diff(actual, expected);
+
+        jsrf.write();
+        var resourceRoot = path.join(p5.target, "resources");
+        jsrf.writeManifest(resourceRoot);
+
+        expect(fs.existsSync(resourceRoot)).toBeTruthy();
+        expect(fs.existsSync(path.join(resourceRoot, "ilibmanifest.json"))).toBeTruthy();
+        expect(jsrf.isDirty()).toBeTruthy();
+        expect(actual).toBe(expected);
+    });
+
 });
