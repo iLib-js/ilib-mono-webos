@@ -20,7 +20,7 @@
 const fs = require("fs");
 const path = require('path');
 const ResBundle = require("ilib/lib/ResBundle");
-const defaultRSPath = path.join(process.cwd(), "resources");
+const defaultRSPath = path.join(process.cwd(), "resources2");
 const { isExistKey } = require('../../Utils.js');
 
 const ProjectFactory = require("loctool/lib/ProjectFactory.js");
@@ -28,7 +28,7 @@ const GenerateModeProcess = require("loctool/lib/GenerateModeProcess.js");
 
 describe('test the localization result (generate mode) of webos-js app', () => {
     beforeAll(async() => {
-        const outputPath = "./resources";
+        const outputPath = "./resources2";
         if (fs.existsSync(outputPath)) {
             fs.rmSync(outputPath, { recursive: true });
         }
@@ -37,7 +37,7 @@ describe('test the localization result (generate mode) of webos-js app', () => {
             "id": "sample-webos-js",
             "projectType": "webos-js",
             "sourceLocale": "en-KR",
-            "resourceDirs" : { "json": "resources" },
+            "resourceDirs" : { "json": "resources2" },
             "resourceFileTypes": { "json":"ilib-loctool-webos-json-resource" },
             "plugins": [ "ilib-loctool-webos-javascript" ],
             "xliffStyle": "custom",

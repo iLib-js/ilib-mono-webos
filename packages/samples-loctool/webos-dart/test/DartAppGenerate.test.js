@@ -25,11 +25,11 @@ const ProjectFactory = require("loctool/lib/ProjectFactory.js");
 const GenerateModeProcess = require("loctool/lib/GenerateModeProcess.js");
 
 describe('test the localization result (generate mode) of webos-dart app', () => {
-    const resourcePath = 'assets/i18n';
+    const resourcePath = 'assets2/i18n';
     let filePath, jsonData;
 
     beforeAll(async() => {
-        const outputPath = "./assets/i18n";
+        const outputPath = "./assets2/i18n";
         if (fs.existsSync(outputPath)) {
             fs.rmSync(outputPath, { recursive: true });
         }
@@ -38,7 +38,7 @@ describe('test the localization result (generate mode) of webos-dart app', () =>
             "id": "sample-webos-dart",
             "projectType": "webos-dart",
             "sourceLocale": "en-KR",
-            "resourceDirs" : { "json": "assets/i18n" },
+            "resourceDirs" : { "json": "assets2/i18n" },
             "resourceFileTypes": { "json":"ilib-loctool-webos-json-resource" },
             "plugins": [ "ilib-loctool-webos-dart" ],
             "xliffStyle": "custom",
