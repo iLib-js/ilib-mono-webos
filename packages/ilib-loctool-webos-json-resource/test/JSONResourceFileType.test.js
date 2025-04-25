@@ -32,6 +32,18 @@ var p = new CustomProject({
     locales:["en-GB"]
 });
 
+var p2 = new CustomProject({
+    id: "webosApp",
+    projectType: "webos-web",
+    sourceLocale: "en-US",
+},
+"./testfiles",
+{
+    targetDir: "custom_dir",
+    locales: ["es-ES"],
+}
+);
+
 describe("jsonresourcefiletype", function() {
     test("JSONResourceFileTypeConstructor", function() {
         expect.assertions(1);
@@ -99,28 +111,18 @@ describe("jsonresourcefiletype", function() {
     });
     test("JSONResourceFileTypeWithTargetDir", function() {
         expect.assertions(4);
-        var p5 = new CustomProject({
-            id: "webosApp",
-            projectType: "webos-web",
-            sourceLocale: "en-US",
-        },
-        "./testfiles",
-        {
-            targetDir: "custom_dir",
-            locales: ["es-ES"],
-        }
-    );
+
         var jsrf = new JSONResourceFile({
-            project: p5,
+            project: p2,
             locale: "es-ES"
         });
-        var jrftype = new JSONResourceFileType(p5);
+        var jrftype = new JSONResourceFileType(p2);
 
         expect(jsrf).toBeTruthy();
         expect(jrftype).toBeTruthy();
 
         [
-            p5.getAPI().newResource({
+            p2.getAPI().newResource({
                 type: "string",
                 project: "webosApp",
                 targetLocale: "es-ES",
@@ -136,7 +138,7 @@ describe("jsonresourcefiletype", function() {
         jsrf.write();
         jrftype.projectClose();
 
-        var resourceRoot = path.join(p5.target, "resources");
+        var resourceRoot = path.join(p2.target, "resources");
         expect(fs.existsSync(resourceRoot)).toBeTruthy();
         expect(fs.existsSync(path.join(resourceRoot, "ilibmanifest.json"))).toBeTruthy();
     });

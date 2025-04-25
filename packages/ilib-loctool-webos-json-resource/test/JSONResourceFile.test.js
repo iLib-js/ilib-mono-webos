@@ -22,7 +22,6 @@ var path = require("path");
 
 if (!JSONResourceFile) {
     var JSONResourceFile = require("../JSONResourceFile.js");
-    var JSONResourceFileType = require("../JSONResourceFileType.js");
     var CustomProject = require("loctool/lib/CustomProject.js");
 }
 
