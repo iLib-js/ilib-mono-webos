@@ -101,19 +101,6 @@ var p4 = new CustomProject({
     }
 });
 
-var p5 = new CustomProject({
-        id: "webosApp",
-        projectType: "webos-web",
-        sourceLocale: "en-US",
-    },
-    "./testfiles",
-    {
-        targetDir: "custom_dir",
-        locales: ["es-ES"],
-    }
-);
-
-
 describe("jsonresourcefile", function() {
     test("JSONResourceFileConstructor", function() {
         expect.assertions(1);
