@@ -22,6 +22,7 @@ var path = require("path");
 
 if (!JSONResourceFile) {
     var JSONResourceFile = require("../JSONResourceFile.js");
+    var JSONResourceFileType = require("../JSONResourceFileType.js");
     var CustomProject = require("loctool/lib/CustomProject.js");
 }
 
@@ -1210,6 +1211,38 @@ describe("jsonresourcefile", function() {
         expect(fs.existsSync(path.join(resourceRoot, "ilibmanifest.json"))).toBeTruthy();
         expect(jsrf.isDirty()).toBeTruthy();
         expect(actual).toBe(expected);
+    });
+    test("JSONResourceFileTypeWithTargetDir", function() {
+        expect.assertions(4);
+
+        var jrfile = new JSONResourceFile({
+            project: p5,
+            locale: "es-ES"
+        });
+        var jrftype = new JSONResourceFileType(p5);
+        expect(jrfile).toBeTruthy();
+        expect(jrftype).toBeTruthy();
+
+        [
+            p5.getAPI().newResource({
+                type: "string",
+                project: "webosApp",
+                targetLocale: "es-ES",
+                key: "Good Morning!",
+                sourceLocale: "en-KR",
+                source: "Good Morning!",
+                target: "¡Buenos días!"
+            }),
+        ].forEach(function(res) {
+            jrfile.addResource(res);
+        });
+
+        jrfile.write();
+        jrftype.projectClose();
+
+        var resourceRoot = path.join(p5.target, "resources");
+        expect(fs.existsSync(resourceRoot)).toBeTruthy();
+        expect(fs.existsSync(path.join(resourceRoot, "ilibmanifest.json"))).toBeTruthy();
     });
 
 });
