@@ -1125,7 +1125,7 @@ describe("jsonresourcefile", function() {
         diff(actual, expected);
 
         jsrf.write();
-        var resourceRoot = path.join(p4.getRoot(), "assets/i18n");
+        var resourceRoot = path.join(p4.target, "assets/i18n");
         jsrf.writeManifest(resourceRoot);
 
         var dir = path.dirname(jsrf.getResourceFilePath());
@@ -1149,7 +1149,7 @@ describe("jsonresourcefile", function() {
         var actual = jsrf.getContent();
         diff(actual, expected);
         jsrf.write();
-        var resourceRoot = path.join(p4.getRoot(), "assets/i18n");
+        var resourceRoot = path.join(p4.target, "assets/i18n");
         jsrf.writeManifest(resourceRoot);
 
         var dir = path.dirname(jsrf.getResourceFilePath());
