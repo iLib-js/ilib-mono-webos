@@ -40,7 +40,7 @@ describe('test the localization result of webos-js app', () => {
         });
     }, 50000);
     test("jssample_test_ko_KR", function() {
-        expect.assertions(6);
+        expect.assertions(7);
         let rb = new ResBundle({
             locale:"ko-KR",
             basePath : defaultRSPath
@@ -50,6 +50,7 @@ describe('test the localization result of webos-js app', () => {
         expect(rb.getString("Time Settings").toString()).toBe("[App] 시간 설정");
         expect(rb.getString("High", "volumeModeHigh").toString()).toBe("높음");
         expect(rb.getString("TV On Screen").toString()).toBe("TV 켜짐 화면");
+        expect(rb.getString("IPv6 e.g.: {ipAddress}").toString()).toBe("IPv6 예시: {ipAddress}");
 
         // common data
         expect(rb.getString("Please enter password.").toString()).toBe("[common] 비밀번호를 입력해 주세요.");

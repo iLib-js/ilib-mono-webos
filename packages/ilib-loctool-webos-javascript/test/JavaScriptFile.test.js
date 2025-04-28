@@ -860,6 +860,24 @@ describe("javascriptfile", function() {
         var set = j.getTranslationSet();
         expect(set.size()).toBe(1);
     });
+    test("JavaScriptFileParsewithNewLine", function() {
+        expect.assertions(4);
+
+        var j = new JavaScriptFile({
+            project: p,
+            pathName: undefined,
+            type: jsft
+        });
+        expect(j).toBeTruthy();
+        j.parse('toIString($L("IPv6 e.g.: \n{ipAddress}")).format({ipAddress: "fe80::1ff:fe23:4567:890a:5900"})');
+
+        var set = j.getTranslationSet();
+
+        r = set.getBySource("IPv6 e.g.: \n{ipAddress}");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("IPv6 e.g.: \n{ipAddress}");
+        expect(set.size()).toBe(1);
+    });
     test("JavaScriptFileParsePunctuationBeforeRB", function() {
         expect.assertions(9);
 
