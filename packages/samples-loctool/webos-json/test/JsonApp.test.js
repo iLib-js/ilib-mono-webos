@@ -32,14 +32,14 @@ describe('test the localization result of webos-json app', () => {
     let filePath, jsonData = {};
 
     beforeAll(async() => {
-      await new Promise((resolve, reject) => {
-        exec(`npm run clean; loctool ${generalOptions} ${localeMap} ${localeInherit}`, (error, stdout, stderr) => {
-          if (error) {
-            return reject(error);
-          }
-          resolve(stdout);
+        await new Promise((resolve, reject) => {
+            exec(`npm run clean; loctool ${generalOptions} ${localeMap} ${localeInherit}`, (error, stdout, stderr) => {
+                if (error) {
+                    return reject(error);
+                }
+                resolve(stdout);
+            });
         });
-      });
     }, 50000);
     test("appinfo_jsonsample_test_ko_KR", function() {
         expect.assertions(2);
