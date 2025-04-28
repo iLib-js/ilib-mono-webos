@@ -2,4 +2,4 @@
 "ilib-loctool-webos-json": patch
 ---
 
-Changed the method name (\_addnewResource() ->\_addNewReource())
+Changed the method name (\_addnewResource() ->\_addNewResource())

@@ -1,5 +1,10 @@
 ---
-"ilib-loctool-webos-dist": major
+"ilib-loctool-webos-dist": minor
 ---
-webos-javascript, webos-qml, webos-cpp, webos-dart, webos-c:
+
+ilib-loctool-webos-cpp:  
+ilib-loctool-webos-webos-c:  
+ilib-loctool-webos-javascript:  
+ilib-loctool-webos-webos-qml:  
+ilib-loctool-webos-webos-dart:  
 - The plugins utilize the newly created ilib-loctool-webos-common package for their functionalities

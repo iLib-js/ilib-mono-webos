@@ -1,9 +1,9 @@
 ---
-"ilib-loctool-webos-javascript": major
-"ilib-loctool-webos-dart": major
-"ilib-loctool-webos-cpp": major
-"ilib-loctool-webos-qml": major
-"ilib-loctool-webos-c": major
+"ilib-loctool-webos-javascript": minor
+"ilib-loctool-webos-dart": minor
+"ilib-loctool-webos-cpp": minor
+"ilib-loctool-webos-qml": minor
+"ilib-loctool-webos-c": minor
 ---
 
 Created the `ilib-loctool-webos-common` package, which can be commonly used in plugins.

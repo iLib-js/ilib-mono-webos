@@ -20,9 +20,9 @@
 /**
 * Add a resource to this file
 *
-* @param {resFileType} a filetype of the resource to be added
-* @param {Resource} res a translation resource to add to this file
-* @param {Resource} res a source resource for the trnslation resource
+* @param {resFileType} resFileType a filetype of the resource to be added
+* @param {Resource} translated a translation resource to add to this file
+* @param {Resource} res a source resource for the translation resource
 * @param {String} locale a resource of the locale
 * @param {String} resPath localization resource path. It is optional
 *
@@ -52,9 +52,9 @@ module.exports.addResource = function (resFileType, translated, res, locale, res
 /**
 * Add a resource to this file
 *
-* @param {Resource} newresSet translationset for the new resources
+* @param {TranslationSet} newresSet translationset for the new resources
 * @param {Resource} res a resource to add to this new translation set
-* @param {String} locales a resource of the locale
+* @param {String} locale the target locale of the resource
 *
 * @returns {boolean} true if the resource is successfully added.
 */
