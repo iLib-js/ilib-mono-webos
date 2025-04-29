@@ -74,6 +74,18 @@
           <target>TV 켜짐 화면</target>
         </segment>
       </unit>
+      <unit id="177">
+        <segment>
+          <source>IPv6 e.g.: {ipAddress}</source>
+          <target>IPv6 예시: {ipAddress}</target>
+        </segment>
+      </unit>
+      <unit id="178">
+        <segment>
+          <source>IPv4 e.g.: {ip4Address}</source>
+          <target>IPv4 예시: {ip4Address}</target>
+        </segment>
+      </unit>
     </group>
   </file>
 </xliff>
