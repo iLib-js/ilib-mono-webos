@@ -1110,6 +1110,30 @@ describe("javascriptfile", function() {
         expect(r.getSource()).toBe("Control smart home IoT devices. See https://lge.com/smarthome for details.");
         expect(r.getKey()).toBe("Control smart home IoT devices. See https://lge.com/smarthome for details.");
     });
+    test("JavaScriptFileTest6", function() {
+        expect.assertions(8);
+
+        var j = new JavaScriptFile({
+            project: p,
+            pathName: "./js/t6.js",
+            type: jsft
+        });
+        expect(j).toBeTruthy();
+        debugger;
+        j.extract();
+        var set = j.getTranslationSet();
+        expect(set.size()).toBe(2);
+
+        var r = set.getBySource("My Playlist");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("My Playlist");
+        expect(r.getKey()).toBe("My Playlist");
+
+        var r = set.getBySource("Bluetooth");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("Bluetooth");
+        expect(r.getKey()).toBe("Bluetooth");
+    });
     test("JavaScriptFileNotParseComment", function() {
         expect.assertions(2);
 
