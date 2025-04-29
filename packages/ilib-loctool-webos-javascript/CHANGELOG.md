@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- f4beb98: Fix the issue where the comments are incorrectly removed, the localizable string are not extracted properly.
+- f4beb98: Fixed the issue where the comments are incorrectly removed, the localizable string are not extracted properly.
 
 ## 1.10.8
 
@@ -19,7 +19,7 @@
 ### Patch Changes
 
 - 079439a: Updated dependencies. (loctool: 2.28.1)
-- 96e8bf4: Update dependencies. (loctool: 2.28.1)
+- 96e8bf4: Updated dependencies. (loctool: 2.28.1)
 - Updated dependencies [079439a]
   - ilib-loctool-webos-json-resource@1.7.1
 
@@ -139,7 +139,7 @@
 
 ## 1.4.5
 
-- Update dependent module version to have the latest one.(loctool: 2.16.2)
+- Updated dependent module version to have the latest one.(loctool: 2.16.2)
 
 ## 1.4.4
 
@@ -176,4 +176,4 @@
 ## 1.1.0
 
 - Supported xliff 2.0 style
-  - Update code to return translation data properly with xliff 2.0 format
+  - Updated code to return translation data properly with xliff 2.0 format
