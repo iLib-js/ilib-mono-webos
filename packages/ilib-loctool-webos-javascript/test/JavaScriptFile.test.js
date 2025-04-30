@@ -1119,7 +1119,7 @@ describe("javascriptfile", function() {
             type: jsft
         });
         expect(j).toBeTruthy();
-        debugger;
+
         j.extract();
         var set = j.getTranslationSet();
         expect(set.size()).toBe(2);
@@ -1133,6 +1133,29 @@ describe("javascriptfile", function() {
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("Bluetooth");
         expect(r.getKey()).toBe("Bluetooth");
+    });
+    test("JavaScriptFileTest7", function() {
+        expect.assertions(8);
+
+        var j = new JavaScriptFile({
+            project: p,
+            pathName: "./js/t7.js",
+            type: jsft
+        });
+        expect(j).toBeTruthy();
+        j.extract();
+        var set = j.getTranslationSet();
+        expect(set.size()).toBe(2);
+
+        var r = set.getBySource("IPv6 e.g.: \\n{ipAddress}");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("IPv6 e.g.: \\n{ipAddress}");
+        expect(r.getKey()).toBe("IPv6 e.g.: {ipAddress}");
+
+        var r = set.getBySource("example: \\t{address}");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("example: \\t{address}");
+        expect(r.getKey()).toBe("example: {address}");
     });
     test("JavaScriptFileNotParseComment", function() {
         expect.assertions(2);

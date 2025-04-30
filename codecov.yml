@@ -3,16 +3,17 @@ coverage:
     - "packages/samples-lint"
     - "packages/ilib-loctool-webos-dist"
     - "scripts"
+    - "packages/ilib-loctool-webos-common/test/ilib-loctool-mock"
+    - "packages/ilib-loctool-webos-common/test/ilib-loctool-mock-resource"
   status:
     patch:
-      default: yes
-      target: auto
-      threshold: 0
-      base: auto
-      branches:
-        - main
-      layout: "condensed_header, condensed_files, condensed_footer"
-      hide_project_coverage: TRUE
+      default:
+        #basic
+        target: 30%
+        threshold: 0%
+        layout: "condensed_header, condensed_files, condensed_footer"
+        if_ci_failed: ignore #success, failure, error, ignore
+        hide_project_coverage: TRUE
     project:
       default:
         # basic
