@@ -25,3 +25,11 @@ const checkDeviceList = (list, bAddMyplaylist, rtl) => {
 const getListThumbnailAction = (res, item) => (dispatch, getState) => {
 	// encode thumbanil path
 }
+
+//i18n $L("This is a test");
+
+/// RB.getString("This is a test2"); // i18n: this is a translator\'s comment\n\tfoo("This is not");
+
+$L("Hello"); // i18n: this is an i18n comments.
+
+//** $L("This is a test3");
