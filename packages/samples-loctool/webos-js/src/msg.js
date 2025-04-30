@@ -88,6 +88,10 @@ export function findMsgByCode3 (code) {
         case 13:
             $L("TV On Screen");
             break;
+        case 14:
+            toIString($L("IPv6 e.g.: \n{ipAddress}")).format({ipAddress: "fe80::1ff:fe23:4567:890a:5900"})
+        case 15:
+            toIString($L("IPv4 e.g.: \t{ip4Address}")).format({ipAddress: "123.123.456.456"})
         default:
             msg.reason = $L('MAC Address'); // xliff_target trim
             break;
