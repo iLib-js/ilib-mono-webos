@@ -1,5 +1,12 @@
 # sample-webos-json-subdir
 
+## 1.1.2
+
+### Patch Changes
+
+- Updated dependencies [7771a4d]
+  - ilib-loctool-webos-json@1.1.9
+
 ## 1.1.1
 
 ### Patch Changes

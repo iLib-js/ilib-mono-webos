@@ -1,5 +1,12 @@
 # ilib-loctool-webos-json-resource
 
+## 1.7.3
+
+### Patch Changes
+
+- 1d6b5fb: Modifiled the root path of manifestfile
+- 57de2c8: Handle exception for fluttermanifest.json and modify its path
+
 ## 1.7.2
 
 ### Patch Changes
