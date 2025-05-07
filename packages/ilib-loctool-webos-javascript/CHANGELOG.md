@@ -1,5 +1,22 @@
 # ilib-loctool-webos-javascript
 
+## 1.11.0
+
+### Minor Changes
+
+- 2bd79c9: Created the `ilib-loctool-webos-common` package, which can be commonly used in plugins.
+  - Added `addResource()` and `addNewResource()` methods in it. and have also enabled its usage within the plugins.
+
+### Patch Changes
+
+- 78a9e51: Fixed to correctly handle escape character when making key
+- 45a3d32: Fix the issue of comments being deleted incorrectly
+- Updated dependencies [2bd79c9]
+- Updated dependencies [1d6b5fb]
+- Updated dependencies [57de2c8]
+  - ilib-loctool-webos-common@1.0.0
+  - ilib-loctool-webos-json-resource@1.7.3
+
 ## 1.10.9
 
 ### Patch Changes
