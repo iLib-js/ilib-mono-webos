@@ -1,7 +1,7 @@
 /*
  * JavaScriptFileType.test.js - test the JavaScript file type handler object.
  *
- * Copyright (c) 2019-2021, 2023 JEDLSoft
+ * Copyright (c) 2019-2021, 2023, 2025 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,15 +19,21 @@
 
 if (!JavaScriptFileType) {
     var JavaScriptFileType = require("../JavaScriptFileType.js");
-    var CustomProject =  require("loctool/lib/CustomProject.js");
 }
+var CustomProject =  require("loctool/lib/CustomProject.js");
+var TranslationSet = require("loctool/lib/TranslationSet.js");
+var ResourceString = require("loctool/lib/ResourceString.js");
 
 var p = new CustomProject({
     id: "app",
-    plugins: ["../."],
-    sourceLocale: "en-US"
-}, "./testfiles", {
-    locales:["en-GB"]
+    plugins: [require.resolve("../."), require.resolve("../../ilib-loctool-webos-json-resource")],
+    sourceLocale: "en-US",
+    resourceFileTypes: {
+        "json":"ilib-loctool-webos-json-resource"
+    },
+    }, "./testfiles", {
+    locales:["en-GB"],
+    mode: "localize"
 });
 
 describe("javascriptfiletype", function() {
@@ -61,5 +67,34 @@ describe("javascriptfiletype", function() {
         expect(htf).toBeTruthy();
 
         expect(!htf.handles("foojs")).toBeTruthy();
+    });
+    test("JavaScriptFileTypeWrite", function() {
+        expect.assertions(1);
+
+        var trans = new TranslationSet();
+        var translated = new ResourceString({
+            id: "app",
+            sourceLocale: "en-US",
+            targetLocale: "de-DE",
+            key: "asdf",
+            source: "This is a test",
+            target: "Eine Test",
+        });
+
+        var res = new ResourceString({
+            key: "asdf",
+            source: "This is a test"
+        });
+
+        var htf = new JavaScriptFileType(p);
+        expect(htf).toBeTruthy();
+        debugger;
+
+        p.init(function() {
+            htf.extracted.add(res);
+            p.db.ts.add(translated);
+            htf.write(trans, ["de-DE"]);
+        });
+
     });
 });
