@@ -1,0 +1,17 @@
+{
+    "private": true,
+    "name": "sample-webos-js",
+    "description": "Sample localization project",
+    "repository": "git@github.com:iLib-js/ilib-mono-webos.git",
+    "license": "Apache-2.0",
+    "version": "1.0.0",
+    "scripts": {
+        "coverage": "pnpm test --coverage",
+        "test": "pnpm test:jest",
+        "test:jest": "LANG=en_US.UTF8 node node_modules/jest/bin/jest.js",
+        "test-debug": "node --inspect-brk node_modules/jest/bin/jest.js -i"
+    },
+    "devDependencies": {
+        "ilib": "^14.21.1"
+    }
+}
