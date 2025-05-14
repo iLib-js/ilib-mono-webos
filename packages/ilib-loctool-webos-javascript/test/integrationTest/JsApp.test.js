@@ -23,9 +23,8 @@ const ProjectFactory = require("loctool/lib/ProjectFactory.js");
 const ResBundle = require("ilib/lib/ResBundle");
 
 describe('integrationtest the localization result of webos-js app', () => {
-    const projectRoot = "./test/integrationTest";
+    const projectRoot = (process.cwd().indexOf("integrationTest")) >-1 ? ".": "./test/integrationTest";
     const defaultRSPath = path.join(process.cwd(), projectRoot, "resources");
-
     beforeAll(async() => {
         const projectSettings = {
             "rootDir": projectRoot,
@@ -47,7 +46,7 @@ describe('integrationtest the localization result of webos-js app', () => {
             mode: "localize",
             nopseudo: false,
             webos: {
-                "commonXliff": "./test/integrationTest/common"
+                "commonXliff": path.join(projectRoot, "./common")
             },
             locales:[
                 "en-AU",

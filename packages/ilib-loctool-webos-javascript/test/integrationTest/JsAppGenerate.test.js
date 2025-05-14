@@ -25,7 +25,7 @@ const ProjectFactory = require("loctool/lib/ProjectFactory.js");
 const GenerateModeProcess = require("loctool/lib/GenerateModeProcess.js");
 
 describe('test the localization result (generate mode) of webos-js app', () => {
-    const projectRoot = "./test/integrationTest";
+    const projectRoot = (process.cwd().indexOf("integrationTest")) > -1 ? ".": "./test/integrationTest";
     const defaultRSPath = path.join(process.cwd(), projectRoot, "resources2");
     beforeAll(async() => {
         const projectSettings = {
