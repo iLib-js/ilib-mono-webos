@@ -23,7 +23,9 @@ const path = require('path');
 
 const ProjectFactory = require("loctool/lib/ProjectFactory.js");
 const GenerateModeProcess = require("loctool/lib/GenerateModeProcess.js");
+const pluginUtils = require("ilib-loctool-webos-common/utils.js");
 
+/*
 const isValidPath = (filepath) => {
   return filepath ? fs.existsSync(filepath) : false;
 }
@@ -36,7 +38,7 @@ const loadData = (filepath) => {
       console.error(`Error reading or parsing file: ${error.message}`);
       return null;
   }
-}
+}*/
 
 describe("[integration] test the localization result of webos-cpp app", () => {
     const projectRoot = "./test/integration";
@@ -77,7 +79,6 @@ describe("[integration] test the localization result of webos-cpp app", () => {
         };
         var project = ProjectFactory.newProject(projectSettings, appSettings);
         process = GenerateModeProcess(project);
-       
     }, 50000);
 
     afterAll(async () => {
@@ -91,19 +92,16 @@ describe("[integration] test the localization result of webos-cpp app", () => {
         filePath = path.join(resourcePath, 'ko', fileName);
 
         expect(process).toBeTruthy();
-
-        expect(isValidPath(filePath)).toBeTruthy();
-
-        jsonData = loadData(filePath);
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
+        jsonData = pluginUtils.loadData(filePath);
 
         expect(jsonData).toBeTruthy();
         expect(Object.keys(jsonData).length).toBe(6);
-        
         expect(jsonData["No"]).toBe("아니오");
         expect(jsonData["Yes"]).toBe("예");
-        expect(jsonData["Update"]).toBe("업데이트");        
-        expect(jsonData["Cancel"]).toBe("취소");        
-        expect(jsonData["Time Settings"]).toBe("[App] 시간 설정");        
+        expect(jsonData["Update"]).toBe("업데이트");
+        expect(jsonData["Cancel"]).toBe("취소");
+        expect(jsonData["Time Settings"]).toBe("[App] 시간 설정");
     });
 
   });

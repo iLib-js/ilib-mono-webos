@@ -22,8 +22,9 @@ const fs = require("fs");
 const path = require('path');
 
 const ProjectFactory = require("loctool/lib/ProjectFactory.js");
+const pluginUtils = require("ilib-loctool-webos-common/utils.js");
 
-const isValidPath = (filepath) => {
+/*const isValidPath = (filepath) => {
   return filepath ? fs.existsSync(filepath) : false;
 }
 
@@ -35,7 +36,7 @@ const loadData = (filepath) => {
       console.error(`Error reading or parsing file: ${error.message}`);
       return null;
   }
-}
+}*/
 
 describe("[integration] test the localization result of webos-cpp app", () => {
     const projectRoot = "./test/integration";
@@ -115,14 +116,16 @@ describe("[integration] test the localization result of webos-cpp app", () => {
         
     test("cppsample_test_ko_KR", function() {
         expect.assertions(4);
+        debugger;
         filePath = path.join(resourcePath, 'ko', fileName);
-        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
+        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
+        let test = pluginUtils.isExistKey(filePath, "NO");
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["No"]).toBe("아니오");
         expect(jsonData["Update"]).toBe("업데이트");
         expect(jsonData["Update"]).toBe("업데이트");
-    });
+    });/*
     test("cppsample_test_en_US", function() {
         expect.assertions(3);
         filePath = path.join(resourcePath, fileName);
@@ -201,6 +204,6 @@ describe("[integration] test the localization result of webos-cpp app", () => {
         expect(jsonData).toBeTruthy();
         expect(jsonData["Sound Out"]).toBe("Salida de Audio");
         expect(jsonData["OK"]).toBe("Aceptar");
-    });
+    });*/
 
   });

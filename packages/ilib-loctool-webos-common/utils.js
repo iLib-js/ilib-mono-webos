@@ -17,6 +17,27 @@
  * limitations under the License.
  */
 
+var fs = require("fs");
+
+module.exports.isValidPath = function(filepath) {
+    return filepath ? fs.existsSync(filepath) : false;
+}
+
+module.exports.loadData = function(filepath) {
+    try {
+        var readData = fs.readFileSync(filepath, 'utf-8');
+        return JSON.parse(readData);
+    } catch (error) {
+        console.error(`Error reading or parsing file: ${error.message}`);
+        return null;
+    }
+}
+
+module.exports.isExistKey = function(filepath, key) {
+    var jsonData = this.isValidPath(filepath) ? this.loadData(filepath) : {};
+    return (jsonData && jsonData.hasOwnProperty(key));
+}
+
 /**
 * Add a resource to this file
 *
