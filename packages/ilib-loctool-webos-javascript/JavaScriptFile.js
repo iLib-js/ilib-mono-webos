@@ -76,8 +76,7 @@ JavaScriptFile.cleanString = function(string) {
 
     unescaped = unescaped.
         replace(/\\[btnfr]/g, " ").
-        replace(/[ \n\t\r\f]+/g, " ").
-        trim();
+        replace(/[ \n\t\r\f]+/g, " ");
 
     return unescaped;
 };
@@ -91,10 +90,7 @@ JavaScriptFile.cleanString = function(string) {
 JavaScriptFile.trimComments = function(data) {
     if (!data) return;
     // comment style: // , /* */ single, multi line
-    var trimData = data.replace(/(?<!https?:)\/\/\s*((?!i18n))\S*$/gm, "").
-                    replace(/(?<!https?:)\/\/\s*((?!i18n).)*[\$\\n]/g, "").
-                    replace(/\/\*+([^*]|\*(?!\/))*\*+\//g, "").
-                    replace(/\/\*(.*)\*\//g, "");
+    var trimData = data.replace(/(https?:\/\/[^\s]+)|(\/\*[\s\S]*?\*\/|\/\/(?!\s*i18n\s*:).*?$)/gm, (match, url) => url || '');
     return trimData;
 };
 
@@ -111,7 +107,7 @@ JavaScriptFile.trimComments = function(data) {
  * @returns {String} a unique key for this string
  */
 JavaScriptFile.prototype.makeKey = function(source) {
-    return JavaScriptFile.unescapeString(source).replace(/\s+/gm, ' ');
+    return JavaScriptFile.cleanString(source).replace(/\s+/gm, ' ');
 };
 
 var reGetStringBogusConcatenation1 = new RegExp(/\.getString(JS)?\s*\(\s*("[^"]*"|'[^']*')\s*\+/g);

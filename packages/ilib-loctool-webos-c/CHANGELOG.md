@@ -1,5 +1,20 @@
 # ilib-loctool-webos-c
 
+## 1.8.0
+
+### Minor Changes
+
+- 2bd79c9: Created the `ilib-loctool-webos-common` package, which can be commonly used in plugins.
+  - Added `addResource()` and `addNewResource()` methods in it. and have also enabled its usage within the plugins.
+
+### Patch Changes
+
+- Updated dependencies [2bd79c9]
+- Updated dependencies [1d6b5fb]
+- Updated dependencies [57de2c8]
+  - ilib-loctool-webos-common@1.0.0
+  - ilib-loctool-webos-json-resource@1.7.3
+
 ## 1.7.7
 
 ### Patch Changes

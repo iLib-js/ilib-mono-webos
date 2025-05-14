@@ -1,5 +1,40 @@
 # ilib-loctool-webos-dist
 
+## 1.19.0
+
+### Minor Changes
+
+- 2bd79c9: ilib-loctool-webos-cpp:
+  ilib-loctool-webos-webos-c:
+  ilib-loctool-webos-javascript:
+  ilib-loctool-webos-webos-qml:
+  ilib-loctool-webos-webos-dart:
+  - The plugins utilize the newly created ilib-loctool-webos-common package for their functionalities
+
+### Patch Changes
+
+- 78a9e51: ilib-loctool-webos-javascript:
+  - Fixed to correctly handle escape character when making key.
+- 784e290: ilib-loctool-webos-json-resource
+  - Handle exception for fluttermanifest.json and modify its path
+- 45a3d32: ilib-loctool-webos-javascript:
+  - Fix the issue of comments being deleted incorrectly.
+- 1d6b5fb: ilib-loctool-webos-json-resource
+  - Modified the root path of manifest file
+- Updated dependencies [7771a4d]
+- Updated dependencies [78a9e51]
+- Updated dependencies [45a3d32]
+- Updated dependencies [1d6b5fb]
+- Updated dependencies [2bd79c9]
+- Updated dependencies [57de2c8]
+  - ilib-loctool-webos-json@1.1.9
+  - ilib-loctool-webos-javascript@1.11.0
+  - ilib-loctool-webos-json-resource@1.7.3
+  - ilib-loctool-webos-dart@1.3.0
+  - ilib-loctool-webos-cpp@1.8.0
+  - ilib-loctool-webos-qml@1.8.0
+  - ilib-loctool-webos-c@1.8.0
+
 ## 1.18.1
 
 ### Patch Changes

@@ -1,10 +1,27 @@
 # ilib-loctool-webos-javascript
 
+## 1.11.0
+
+### Minor Changes
+
+- 2bd79c9: Created the `ilib-loctool-webos-common` package, which can be commonly used in plugins.
+  - Added `addResource()` and `addNewResource()` methods in it. and have also enabled its usage within the plugins.
+
+### Patch Changes
+
+- 78a9e51: Fixed to correctly handle escape character when making key
+- 45a3d32: Fix the issue of comments being deleted incorrectly
+- Updated dependencies [2bd79c9]
+- Updated dependencies [1d6b5fb]
+- Updated dependencies [57de2c8]
+  - ilib-loctool-webos-common@1.0.0
+  - ilib-loctool-webos-json-resource@1.7.3
+
 ## 1.10.9
 
 ### Patch Changes
 
-- f4beb98: Fix the issue where the comments are incorrectly removed, the localizable string are not extracted properly.
+- f4beb98: Fixed the issue where the comments are incorrectly removed, the localizable string are not extracted properly.
 
 ## 1.10.8
 
@@ -19,7 +36,7 @@
 ### Patch Changes
 
 - 079439a: Updated dependencies. (loctool: 2.28.1)
-- 96e8bf4: Update dependencies. (loctool: 2.28.1)
+- 96e8bf4: Updated dependencies. (loctool: 2.28.1)
 - Updated dependencies [079439a]
   - ilib-loctool-webos-json-resource@1.7.1
 
@@ -139,7 +156,7 @@
 
 ## 1.4.5
 
-- Update dependent module version to have the latest one.(loctool: 2.16.2)
+- Updated dependent module version to have the latest one.(loctool: 2.16.2)
 
 ## 1.4.4
 
@@ -176,4 +193,4 @@
 ## 1.1.0
 
 - Supported xliff 2.0 style
-  - Update code to return translation data properly with xliff 2.0 format
+  - Updated code to return translation data properly with xliff 2.0 format
