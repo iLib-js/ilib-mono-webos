@@ -11,8 +11,12 @@
         "test:jest": "LANG=en_US.UTF8 node node_modules/jest/bin/jest.js",
         "test-debug": "node --inspect-brk node_modules/jest/bin/jest.js -i"
     },
+    "dependencies": {
+        "ilib-loctool-webos-javascript": "workspace:*",
+        "ilib-loctool-webos-json-resource": "workspace:*",
+        "loctool": "^2.28.2"
+    },
     "devDependencies": {
-        "loctool": "^2.28.2",
         "ilib": "^14.21.1",
         "jest": "^29.7.0"
     }
