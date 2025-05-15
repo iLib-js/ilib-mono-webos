@@ -29,7 +29,7 @@ module.exports.loadData = function(filepath) {
         return JSON.parse(readData);
     } catch (error) {
         console.error(`Error reading or parsing file: ${error.message}`);
-        return null;
+        return undefined;
     }
 }
 

@@ -24,25 +24,11 @@ const path = require('path');
 const ProjectFactory = require("loctool/lib/ProjectFactory.js");
 const pluginUtils = require("ilib-loctool-webos-common/utils.js");
 
-/*const isValidPath = (filepath) => {
-  return filepath ? fs.existsSync(filepath) : false;
-}
-
-const loadData = (filepath) => {
-  try {
-      const readData = fs.readFileSync(filepath, 'utf-8');
-      return JSON.parse(readData);
-  } catch (error) {
-      console.error(`Error reading or parsing file: ${error.message}`);
-      return null;
-  }
-}*/
-
 describe("[integration] test the localization result of webos-cpp app", () => {
-    const projectRoot = "./test/integration";
-    let filePath, jsonData;
+    const projectRoot = (process.cwd().indexOf("integrationTest")) >-1 ? ".": "./test/integrationTest";
     const resourcePath = path.join(projectRoot, "resources");
     const fileName = "cppstrings.json";
+    let filePath, jsonData;
 
     beforeAll(async() => {
         if (fs.existsSync(resourcePath)) {
@@ -53,6 +39,9 @@ describe("[integration] test the localization result of webos-cpp app", () => {
             "id": "sample-webos-cpp",
             "projectType": "webos-cpp",
             "sourceLocale": "en-KR",
+            "pseudoLocale" : {
+                "zxx-XX": "debug"
+            },
             "resourceDirs" : { "json": "resources" },
             "resourceFileTypes": { "json":"ilib-loctool-webos-json-resource" },
             "plugins": [ "ilib-loctool-webos-cpp" ],
@@ -62,13 +51,13 @@ describe("[integration] test the localization result of webos-cpp app", () => {
 
         const appSettings = {
             localizeOnly: true,
-            xliffsDir: "./xliffs",  // under projectRoot
+            xliffsDir: "./xliffs",
             mode: "localize",
             xliffVersion: 2,
-            nopseudo: true,
+            nopseudo: false,
             resourceFileNames: { "cpp": fileName },
             webos: {
-                "commonXliff": "./test/integration/common"
+                "commonXliff": path.join(projectRoot, "./common")
             },
             locales:[
                 "en-AU",
@@ -91,11 +80,12 @@ describe("[integration] test the localization result of webos-cpp app", () => {
         };
         var project = ProjectFactory.newProject(projectSettings, appSettings);
 
-        project.addPath("srcfiles/test.cpp");
+        project.addPath("src/test.cpp");
 
         if (project) {
             project.init(function() {
                 project.extract(function() {
+                    project.generatePseudo();
                     project.write(function() {
                         project.save(function() {
                             project.close(function() {
@@ -105,105 +95,66 @@ describe("[integration] test the localization result of webos-cpp app", () => {
                 });
             });
         }
-        
     }, 50000);
-
     afterAll(async () => {
         if (fs.existsSync(resourcePath)) {
             fs.rmSync(resourcePath, { recursive: true });
         }
-     });
-        
+     });     
     test("cppsample_test_ko_KR", function() {
-        expect.assertions(4);
-        debugger;
+        expect.assertions(5);
         filePath = path.join(resourcePath, 'ko', fileName);
         jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
-        let test = pluginUtils.isExistKey(filePath, "NO");
 
         expect(jsonData).toBeTruthy();
+        expect(jsonData["Yes"]).toBe("예");
         expect(jsonData["No"]).toBe("아니오");
-        expect(jsonData["Update"]).toBe("업데이트");
-        expect(jsonData["Update"]).toBe("업데이트");
-    });/*
-    test("cppsample_test_en_US", function() {
-        expect.assertions(3);
-        filePath = path.join(resourcePath, fileName);
-        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
-
-        expect(jsonData).toBeTruthy();
-        expect(jsonData["Ivory Coast"]).toBe("Côte d’Ivoire");
-        expect(jsonData["Programme"]).toBe("Channel");
-    });
-    test("cppsample_test_en_AU", function() {
-        expect.assertions(8);
-        filePath = path.join(resourcePath, "en/AU", fileName);
-        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
-
-        expect(jsonData).toBeTruthy();
-        expect(jsonData["Service Area Zip Code"]).toBe("Service Area Postcode");
-        expect(jsonData["TV Program Locks"]).toBe("TV Rating Locks");
-        expect(jsonData["Programme"]).toBe("Programme");
-        expect(jsonData["Game Optimizer"]).toBe("Game Optimiser"); //common data
-        expect(jsonData["HDMI Deep Color"]).toBe("HDMI Deep Colour"); //common data
-        expect(jsonData["Programme"]).toBeTruthy();
-        expect(jsonData["Ivory Coast"]).toBeFalsy();
-    });
-    test("cppsample_test_en_GB", function() {
-        expect.assertions(8);
-        filePath = path.join(resourcePath, "en/GB", fileName);
-        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
-
-        expect(jsonData).toBeTruthy();
-        expect(jsonData["Service Area Zip Code"]).toBe("Service Area Postcode");
-        expect(jsonData["TV Program Locks"]).toBe("TV Rating Locks");
-        expect(jsonData["Programme"]).toBe("Programme");
-        expect(jsonData["Game Optimizer"]).toBe("Game Optimiser"); //common data
-        expect(jsonData["HDMI Deep Color"]).toBe("HDMI Deep Colour"); //common data
-        expect(jsonData["Programme"]).toBeTruthy();
-        expect(jsonData["Ivory Coast"]).toBeFalsy();
-    });
-    test("cppsample_test_fr_CA", function() {
-        expect.assertions(6);
-        filePath = path.join(resourcePath, "fr", fileName);
-        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
-
-        expect(jsonData).toBeTruthy();
-        expect(jsonData["Agree"]).toBe("D’accord");
-        expect(jsonData["Programme"]).toBe("Programme");
-        expect(jsonData["Others"]).toBe("Autres");
-        expect(jsonData["Others"]).toBe("Autres");
-        expect(jsonData["Exit"]).toBe("Quitter"); //common data
-    });
-    test("cppsample_test_fr_FR", function() {
-        expect.assertions(5);
-        filePath = path.join(resourcePath, "fr/FR", fileName);
-        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
-
-        expect(jsonData).toBeTruthy();
-        expect(jsonData["Agree"]).toBe("J'accepte");
-        expect(jsonData["Agree"]).toBe("J'accepte");
-        expect(jsonData["Others"]).toBeFalsy();
-        expect(jsonData["Exit"]).toBeFalsy();
-    });
-    test("cppsample_test_es_ES", function() {
-        expect.assertions(4);
-        filePath = path.join(resourcePath, "es/ES", fileName);
-        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
-
-        expect(jsonData).toBeTruthy();
-        expect(jsonData["Sound Out"]).toBe("Salida de sonido");
-        expect(jsonData["OK"]).toBe("OK");
-        expect(jsonData["OK"]).toBeTruthy();
+        expect(jsonData["Update"]).toBe("업데이트")
+        expect(jsonData["Cancel"]).toBe("취소")
     });
     test("cppsample_test_es_CO", function() {
-        expect.assertions(3);
+        expect.assertions(2);
         filePath = path.join(resourcePath, "es", fileName);
-        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
+        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["Sound Out"]).toBe("Salida de Audio");
-        expect(jsonData["OK"]).toBe("Aceptar");
-    });*/
+    });
+    test("cppsample_test_en_US", function() {
+        expect.assertions(2);
+        filePath = path.join(resourcePath, fileName);
+        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
+        expect(jsonData).toBeTruthy();
+        expect(jsonData["Programme"]).toBe("Channel");
+    });
+    test("cppsample_test_en_AU", function() {
+        expect.assertions(2);
+        filePath = path.join(resourcePath, "en/AU", fileName);
+        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
+
+        expect(jsonData).toBeTruthy();
+        expect(jsonData["Programme"]).toBe("Programme");
+    });
+    test("cppsample_test_en_GB", function() {
+        expect.assertions(2);
+        filePath = path.join(resourcePath, "en/GB", fileName);
+        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
+
+        expect(jsonData).toBeTruthy();
+        expect(jsonData["Programme"]).toBe("Programme");
+    });
+    test("cppsample_test_zxx", function() {
+        expect.assertions(7);
+        filePath = path.join(resourcePath, "zxx", fileName);
+        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
+
+        expect(jsonData).toBeTruthy();
+        expect(jsonData["Cancel"]).toBe("[Çàñçëľ210]")
+        expect(jsonData["No"]).toBe("[Ňõ0]");
+        expect(jsonData["Programme"]).toBe("[Pŕõğŕàmmë43210]")
+        expect(jsonData["Sound Out"]).toBe("[Šõüñð Øüţ43210]")
+        expect(jsonData["Update"]).toBe("[Úþðàţë210]")
+        expect(jsonData["Yes"]).toBe("[Ŷëš10]");
+    });
   });
