@@ -113,12 +113,13 @@ describe("[integration] test the localization result of webos-cpp app", () => {
         expect(jsonData["Cancel"]).toBe("취소")
     });
     test("cppsample_test_es_CO", function() {
-        expect.assertions(2);
+        expect.assertions(3);
         filePath = path.join(resourcePath, "es", fileName);
         jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["Sound Out"]).toBe("Salida de Audio");
+        expect(jsonData["OK"]).toBe("Aceptar"); // common
     });
     test("cppsample_test_en_US", function() {
         expect.assertions(2);
