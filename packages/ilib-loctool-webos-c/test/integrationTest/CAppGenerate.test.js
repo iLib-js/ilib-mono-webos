@@ -65,7 +65,7 @@ describe("[integration] test the localization result of webos-c app", () => {
         if (fs.existsSync(resourcePath)) {
             fs.rmSync(resourcePath, { recursive: true });
         }
-     }); 
+    });
     test("csample_test_ko_KR_generate_mode", function() {
         expect.assertions(5);
         filePath = path.join(resourcePath, 'ko', fileName);

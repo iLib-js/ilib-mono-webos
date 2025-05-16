@@ -234,6 +234,25 @@ importers:
         specifier: 2.28.2
         version: 2.28.2
 
+  packages/ilib-loctool-webos-qml/test/integrationTest:
+    dependencies:
+      ilib-loctool-webos-qml:
+        specifier: workspace:*
+        version: link:../..
+      ilib-loctool-webos-ts-resource:
+        specifier: workspace:*
+        version: link:../../../ilib-loctool-webos-ts-resource
+      loctool:
+        specifier: ^2.28.2
+        version: 2.28.2
+      xml-js:
+        specifier: ^1.6.11
+        version: 1.6.11
+    devDependencies:
+      jest:
+        specifier: ^29.7.0
+        version: 29.7.0(@types/node@12.20.55)(node-notifier@8.0.2)
+
   packages/ilib-loctool-webos-ts-resource:
     dependencies:
       ilib:

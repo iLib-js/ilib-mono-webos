@@ -17,7 +17,6 @@
  * limitations under the License.
  */
 
-
 const fs = require("fs");
 const path = require('path');
 
@@ -95,7 +94,7 @@ describe("[integration] test the localization result of webos-cpp app", () => {
         if (fs.existsSync(resourcePath)) {
             fs.rmSync(resourcePath, { recursive: true });
         }
-     });     
+    });
     test("cppsample_test_ko_KR", function() {
         expect.assertions(5);
         filePath = path.join(resourcePath, 'ko', fileName);
