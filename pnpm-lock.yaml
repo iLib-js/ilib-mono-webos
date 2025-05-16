@@ -143,6 +143,22 @@ importers:
         specifier: 2.28.2
         version: 2.28.2
 
+  packages/ilib-loctool-webos-dart/test/integrationTest:
+    dependencies:
+      ilib-loctool-webos-dart:
+        specifier: workspace:*
+        version: link:../..
+      ilib-loctool-webos-json-resource:
+        specifier: workspace:*
+        version: link:../../../ilib-loctool-webos-json-resource
+      loctool:
+        specifier: ^2.28.2
+        version: 2.28.2
+    devDependencies:
+      jest:
+        specifier: ^29.7.0
+        version: 29.7.0(@types/node@12.20.55)(node-notifier@8.0.2)
+
   packages/ilib-loctool-webos-dist:
     dependencies:
       ilib-loctool-webos-c:
