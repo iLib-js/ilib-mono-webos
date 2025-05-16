@@ -1,5 +1,5 @@
 /*
- * CppApp.test.js - test the localization result in localize mode of webos-cpp app
+ * CApp.test.js - test the localization result of webos-c app.
  *
  * Copyright (c) 2025 JEDLSoft
  *
@@ -17,34 +17,33 @@
  * limitations under the License.
  */
 
-
 const fs = require("fs");
 const path = require('path');
 
 const ProjectFactory = require("loctool/lib/ProjectFactory.js");
 const pluginUtils = require("ilib-loctool-webos-common/utils.js");
 
-describe("[integration] test the localization result of webos-cpp app", () => {
+describe("[integration] test the localization result of webos-c app", () => {
     const projectRoot = (process.cwd().indexOf("integrationTest")) >-1 ? ".": "./test/integrationTest";
     const resourcePath = path.join(projectRoot, "resources");
-    const fileName = "cppstrings.json";
-    let filePath, jsonData;
-
+    const fileName = "cstrings.json";
+    let filePath, jsonData = {};
+    
     beforeAll(async() => {
         if (fs.existsSync(resourcePath)) {
             fs.rmSync(resourcePath, { recursive: true });
         }
         const projectSettings = {
             "rootDir": projectRoot, 
-            "id": "sample-webos-cpp",
-            "projectType": "webos-cpp",
+            "id": "sample-webos-c",
+            "projectType": "webos-c",
             "sourceLocale": "en-KR",
             "pseudoLocale" : {
                 "zxx-XX": "debug"
             },
             "resourceDirs" : { "json": "resources" },
             "resourceFileTypes": { "json":"ilib-loctool-webos-json-resource" },
-            "plugins": [ "ilib-loctool-webos-cpp" ],
+            "plugins": [ "ilib-loctool-webos-c" ],
             "xliffStyle": "custom",
             "xliffVersion": 2,
         };
@@ -55,7 +54,7 @@ describe("[integration] test the localization result of webos-cpp app", () => {
             mode: "localize",
             xliffVersion: 2,
             nopseudo: false,
-            resourceFileNames: { "cpp": fileName },
+            resourceFileNames: { "c": fileName },
             webos: {
                 "commonXliff": path.join(projectRoot, "./common")
             },
@@ -75,7 +74,7 @@ describe("[integration] test the localization result of webos-cpp app", () => {
         };
         var project = ProjectFactory.newProject(projectSettings, appSettings);
 
-        project.addPath("src/test.cpp");
+        project.addPath("src/test.c");
 
         if (project) {
             project.init(function() {
@@ -95,28 +94,27 @@ describe("[integration] test the localization result of webos-cpp app", () => {
         if (fs.existsSync(resourcePath)) {
             fs.rmSync(resourcePath, { recursive: true });
         }
-     });     
-    test("cppsample_test_ko_KR", function() {
-        expect.assertions(5);
+     }); 
+    test("csample_test_ko_KR", function() {
+        expect.assertions(4);
         filePath = path.join(resourcePath, 'ko', fileName);
         jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
-        expect(jsonData["Yes"]).toBe("예");
         expect(jsonData["No"]).toBe("아니오");
-        expect(jsonData["Update"]).toBe("업데이트")
-        expect(jsonData["Cancel"]).toBe("취소")
+        expect(jsonData["OK"]).toBe("확인");
+        expect(jsonData["Yes"]).toBe("예");
     });
-    test("cppsample_test_es_CO", function() {
+    test("csample_test_es_CO", function() {
         expect.assertions(3);
-        filePath = path.join(resourcePath, "es", fileName);
+        filePath = path.join(resourcePath, 'es', fileName);
         jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["Sound Out"]).toBe("Salida de Audio");
-        expect(jsonData["OK"]).toBe("Aceptar"); // common
+        expect(jsonData["OK"]).toBe("Aceptar");
     });
-    test("cppsample_test_en_US", function() {
+    test("csample_test_en_US", function() {
         expect.assertions(2);
         filePath = path.join(resourcePath, fileName);
         jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
@@ -124,33 +122,32 @@ describe("[integration] test the localization result of webos-cpp app", () => {
         expect(jsonData).toBeTruthy();
         expect(jsonData["Programme"]).toBe("Channel");
     });
-    test("cppsample_test_en_AU", function() {
+    test("csample_test_en_AU", function() {
         expect.assertions(2);
-        filePath = path.join(resourcePath, "en/AU", fileName);
+        filePath = path.join(resourcePath, 'en/AU', fileName);
         jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["Programme"]).toBe("Programme");
     });
-    test("cppsample_test_en_GB", function() {
+    test("csample_test_en_GB", function() {
         expect.assertions(2);
-        filePath = path.join(resourcePath, "en/GB", fileName);
+        filePath = path.join(resourcePath, 'en/GB', fileName);
         jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["Programme"]).toBe("Programme");
     });
-    test("cppsample_test_zxx", function() {
-        expect.assertions(7);
-        filePath = path.join(resourcePath, "zxx", fileName);
+    test("csample_test_zxx", function() {
+        expect.assertions(6);
+        filePath = path.join(resourcePath, 'zxx', fileName);
         jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
-        expect(jsonData["Cancel"]).toBe("[Çàñçëľ210]")
         expect(jsonData["No"]).toBe("[Ňõ0]");
-        expect(jsonData["Programme"]).toBe("[Pŕõğŕàmmë43210]")
-        expect(jsonData["Sound Out"]).toBe("[Šõüñð Øüţ43210]")
-        expect(jsonData["Update"]).toBe("[Úþðàţë210]")
+        expect(jsonData["OK"]).toBe("[Øĸ0]");
         expect(jsonData["Yes"]).toBe("[Ŷëš10]");
+        expect(jsonData["Programme"]).toBe("[Pŕõğŕàmmë43210]");
+        expect(jsonData["Sound Out"]).toBe("[Šõüñð Øüţ43210]");
     });
-  });
+});
