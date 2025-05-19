@@ -22,10 +22,13 @@ const path = require('path');
 const ProjectFactory = require("loctool/lib/ProjectFactory.js");
 const ResBundle = require("ilib/lib/ResBundle");
 
-describe('integrationtest the localization result of webos-js app', () => {
-    const projectRoot = (process.cwd().indexOf("integrationTest")) >-1 ? ".": "./test/integrationTest";
+describe('[integration] test the localization result of webos-js app', () => {
+    const projectRoot = (process.cwd().indexOf("integrationTest")) > -1 ? "." : "./test/integrationTest";
     const defaultRSPath = path.join(process.cwd(), projectRoot, "resources");
     beforeAll(async() => {
+        if (fs.existsSync(defaultRSPath)) {
+            fs.rmSync(defaultRSPath, { recursive: true });
+        }
         const projectSettings = {
             "rootDir": projectRoot,
             "id": "sample-webos-js",
@@ -63,7 +66,7 @@ describe('integrationtest the localization result of webos-js app', () => {
                 "en-AU": "en-GB",
             }
         };
-        var project = ProjectFactory.newProject(projectSettings, appSettings);
+        const project = ProjectFactory.newProject(projectSettings, appSettings);
         project.addPath("src/sample.js");
         
         if (project) {

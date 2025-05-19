@@ -24,10 +24,13 @@ const ResBundle = require("ilib/lib/ResBundle");
 const ProjectFactory = require("loctool/lib/ProjectFactory.js");
 const GenerateModeProcess = require("loctool/lib/GenerateModeProcess.js");
 
-describe('test the localization result (generate mode) of webos-js app', () => {
-    const projectRoot = (process.cwd().indexOf("integrationTest")) > -1 ? ".": "./test/integrationTest";
+describe('[integration] test the localization result (generate mode) of webos-js app', () => {
+    const projectRoot = (process.cwd().indexOf("integrationTest")) > -1 ? "." : "./test/integrationTest";
     const defaultRSPath = path.join(process.cwd(), projectRoot, "resources2");
     beforeAll(async() => {
+        if (fs.existsSync(defaultRSPath)) {
+            fs.rmSync(defaultRSPath, { recursive: true });
+        }
         const projectSettings = {
             "rootDir": projectRoot,
             "id": "sample-webos-js",
