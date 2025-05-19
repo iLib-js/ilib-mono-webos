@@ -20,7 +20,7 @@
 var fs = require("fs");
 
 /**
-* Add a resource to this file
+* Check whether a file exists at the given path.
 *
 * @param {String} filepath a path to file
 *
@@ -31,7 +31,7 @@ module.exports.isValidPath = function(filepath) {
 }
 
 /**
-* Reads the content of a file from the specified path and parses it as JSON.
+* Read the content of a file from the specified path and parses it as JSON.
 *
 * @param {String} filepath a path to file
 
@@ -48,7 +48,7 @@ module.exports.loadData = function(filepath) {
 }
 
 /**
-* Add a resource to this file
+* Check if the given key is exists in the file.
 *
 * @param {String} filepath a path to file
 * @param {String} key The key to check for existence
