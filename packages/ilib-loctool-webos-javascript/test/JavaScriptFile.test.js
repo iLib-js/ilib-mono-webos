@@ -362,8 +362,7 @@ describe("javascriptfile", function() {
             type: jsft
         });
         expect(j).toBeTruthy();
-
-        j.parse('\tRB.getString("This is a test"); // i18n: this is a translator\'s comment\n\tfoo("This is not");');
+        j.parse('\tRB.getString("This is a test"); // i18n this is a translator\'s comment\n\tfoo("This is not");');
 
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
@@ -384,7 +383,7 @@ describe("javascriptfile", function() {
         });
         expect(j).toBeTruthy();
 
-        j.parse("\trb.getString('This is a test'); // i18n: this is a translator\'s comment\n\tfoo('This is not');");
+        j.parse("\trb.getString('This is a test'); // i18n this is a translator\'s comment\n\tfoo('This is not');");
 
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
@@ -476,7 +475,7 @@ describe("javascriptfile", function() {
         });
         expect(j).toBeTruthy();
 
-        j.parse('\trb.getString("This is a test", "foobar"); // i18n: this is a translator\'s comment\n\tfoo("This is not");');
+        j.parse('\trb.getString("This is a test", "foobar"); // i18n this is a translator\'s comment\n\tfoo("This is not");');
 
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
@@ -693,7 +692,7 @@ describe("javascriptfile", function() {
         });
         expect(j).toBeTruthy();
 
-        j.parse('RB.getString("This is a test");   // i18n: foo\n\ta.parse("This is another test.");\n\t\tRB.getString("This is also a test");\t// i18n: bar');
+        j.parse('RB.getString("This is a test");   // i18n foo\n\ta.parse("This is another test.");\n\t\tRB.getString("This is also a test");\t// i18n bar');
 
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
@@ -719,8 +718,7 @@ describe("javascriptfile", function() {
             type: jsft
         });
         expect(j).toBeTruthy();
-
-        j.parse('RB.getString("This is a test", "asdf");   // i18n: foo\n\ta.parse("This is another test.");\n\t\tRB.getString("This is also a test", "kdkdkd");\t// i18n: bar');
+        j.parse('RB.getString("This is a test", "asdf");   // i18n foo\n\ta.parse("This is another test.");\n\t\tRB.getString("This is also a test", "kdkdkd");\t// i18n bar');
 
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
@@ -1140,7 +1138,6 @@ describe("javascriptfile", function() {
             type: jsft
         });
         expect(j).toBeTruthy();
-
         j.extract();
         var set = j.getTranslationSet();
         expect(set.size()).toBe(3);
@@ -1194,7 +1191,7 @@ describe("javascriptfile", function() {
         });
         expect(j).toBeTruthy();
 
-        j.parse('// $L("This is a test"); // i18n: this is a translator\'s comment\n\tfoo("This is not");');
+        j.parse('// $L("This is a test"); // i18n this is a translator\'s comment\n\tfoo("This is not");');
 
         var set = j.getTranslationSet();
         expect(set.size()).toBe(0);
@@ -1209,7 +1206,7 @@ describe("javascriptfile", function() {
         });
         expect(j).toBeTruthy();
 
-        j.parse('$L("This is a test"); // i18n: this is a translator\'s comment\n\t$L("This is a test2");foo("This is not");');
+        j.parse('$L("This is a test"); // i18n this is a translator\'s comment\n\t$L("This is a test2");foo("This is not");');
 
         var set = j.getTranslationSet();
         expect(set.size()).toBe(2);
