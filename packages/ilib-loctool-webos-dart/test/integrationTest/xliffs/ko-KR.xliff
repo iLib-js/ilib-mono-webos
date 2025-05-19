@@ -20,6 +20,18 @@
           <target>이전 버튼</target>
         </segment>
       </unit>
+      <unit id="4">
+        <segment>
+          <source>Delete All</source>
+          <target>모두 삭제</target>
+        </segment>
+      </unit>
+      <unit id="5">
+        <segment>
+          <source>Live TV</source>
+          <target>현재 방송</target>
+        </segment>
+      </unit>
     </group>
   </file>
 </xliff>

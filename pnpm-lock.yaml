@@ -148,9 +148,9 @@ importers:
       ilib-loctool-webos-dart:
         specifier: workspace:*
         version: link:../..
-      ilib-loctool-webos-json-resource:
+      ilib-loctool-webos-ts-resource:
         specifier: workspace:*
-        version: link:../../../ilib-loctool-webos-json-resource
+        version: link:../../../ilib-loctool-webos-ts-resource
       loctool:
         specifier: ^2.28.2
         version: 2.28.2

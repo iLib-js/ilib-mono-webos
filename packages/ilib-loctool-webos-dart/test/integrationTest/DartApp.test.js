@@ -23,15 +23,15 @@ const path = require('path');
 const ProjectFactory = require("loctool/lib/ProjectFactory.js");
 const pluginUtils = require("ilib-loctool-webos-common/utils.js");
 
-describe('test the localization result of webos-dart app', () => {
-    const projectRoot = (process.cwd().indexOf("integrationTest")) >-1 ? ".": "./test/integrationTest";
+describe('[integration] test the localization result of webos-dart app', () => {
+    const projectRoot = (process.cwd().indexOf("integrationTest")) > -1 ? ".": "./test/integrationTest";
     const resourcePath = path.join(projectRoot, "assets/i18n");
     let filePath, jsonData = {};
 
     beforeAll(async() => {
-        /*if (fs.existsSync(resourcePath)) {
+        if (fs.existsSync(resourcePath)) {
             fs.rmSync(resourcePath, { recursive: true });
-        }*/
+        }
         const projectSettings = {
             "rootDir": projectRoot, 
             "id": "sample-webos-dart",
@@ -68,10 +68,17 @@ describe('test the localization result of webos-dart app', () => {
             },
             localeInherit: {
                 "en-AU": "en-GB",
+            },
+            "dart": {
+               "disablePseudo": false,
+                "mappings" : {
+                    "**/*.dart": {
+                        "template": path.join(projectRoot, "[dir]/assets/i18n/[localeUnder].json")
+                    }
+                }
             }
         };
-        var project = ProjectFactory.newProject(projectSettings, appSettings);
-
+        const project = ProjectFactory.newProject(projectSettings, appSettings)
         project.addPath("src/test.dart");
 
         if (project) {
@@ -89,9 +96,9 @@ describe('test the localization result of webos-dart app', () => {
         }
     }, 50000);
     afterAll(async () => {
-        /*if (fs.existsSync(resourcePath)) {
+        if (fs.existsSync(resourcePath)) {
             fs.rmSync(resourcePath, { recursive: true });
-        }*/
+        }
     });
     test("dartsample_test_ko_KR", function() {
         expect.assertions(4);
@@ -136,5 +143,16 @@ describe('test the localization result of webos-dart app', () => {
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["Programme"]).toBe("Programme");
+    });
+    test("dartsample_test_zxx", function() {
+        expect.assertions(5);
+        filePath = path.join(resourcePath, 'zxx.json');
+        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
+
+        expect(jsonData).toBeTruthy();
+        expect(jsonData["App List"]).toBe("[Ãþþ Ľíšţ3210]");
+        expect(jsonData["Back button"]).toBe("[ßàçķ büţţõñ543210]");
+        expect(jsonData["Programme"]).toBe("[Pŕõğŕàmmë43210]");
+        expect(jsonData["Search"]).toBe("[Šëàŕçĥ210]");
     });
 });

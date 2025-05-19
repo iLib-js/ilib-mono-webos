@@ -12,7 +12,7 @@
     },
     "dependencies": {
         "ilib-loctool-webos-dart": "workspace:*",
-        "ilib-loctool-webos-json-resource": "workspace:*",
+        "ilib-loctool-webos-ts-resource": "workspace:*",
         "loctool": "^2.28.2"
     },
     "devDependencies": {

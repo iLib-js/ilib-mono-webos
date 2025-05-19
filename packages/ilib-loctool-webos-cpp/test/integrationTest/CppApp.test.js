@@ -24,7 +24,7 @@ const ProjectFactory = require("loctool/lib/ProjectFactory.js");
 const pluginUtils = require("ilib-loctool-webos-common/utils.js");
 
 describe("[integration] test the localization result of webos-cpp app", () => {
-    const projectRoot = (process.cwd().indexOf("integrationTest")) >-1 ? ".": "./test/integrationTest";
+    const projectRoot = (process.cwd().indexOf("integrationTest")) > -1 ? "." : "./test/integrationTest";
     const resourcePath = path.join(projectRoot, "resources");
     const fileName = "cppstrings.json";
     let filePath, jsonData;
@@ -72,8 +72,7 @@ describe("[integration] test the localization result of webos-cpp app", () => {
                 "en-AU": "en-GB",
             }
         };
-        var project = ProjectFactory.newProject(projectSettings, appSettings);
-
+        const project = ProjectFactory.newProject(projectSettings, appSettings);
         project.addPath("src/test.cpp");
 
         if (project) {

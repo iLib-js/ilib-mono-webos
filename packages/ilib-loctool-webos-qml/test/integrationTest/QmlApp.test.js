@@ -17,7 +17,6 @@
  * limitations under the License.
  */
 
-const { exec } = require('child_process');
 const path = require('path');
 const fs = require('fs');
 const xmljs = require("xml-js");
@@ -41,10 +40,9 @@ const loadTSData = (filepath) => {
     return undefined;
 }
 
-describe('test the localization result of webos-qml app', () => {
-    const projectRoot = (process.cwd().indexOf("integrationTest")) >-1 ? ".": "./test/integrationTest";
+describe('[integration] test the localization result of webos-qml app', () => {
+    const projectRoot = (process.cwd().indexOf("integrationTest")) >-1 ? "." : "./test/integrationTest";
     const resourcePath = path.join(projectRoot, "resources");
-
     let filePath, tsData = {};
 
     beforeAll(async() => {
@@ -89,8 +87,7 @@ describe('test the localization result of webos-qml app', () => {
                 "en-AU": "en-GB",
             }
         };
-        var project = ProjectFactory.newProject(projectSettings, appSettings);
-
+        const project = ProjectFactory.newProject(projectSettings, appSettings)
         project.addPath("src/test.qml");
 
         if (project) {
@@ -156,7 +153,6 @@ describe('test the localization result of webos-qml app', () => {
             });
         });
     });
-    
     test("qmlsample_test_en_US", function() {
         expect.assertions(3);
         const expected = {

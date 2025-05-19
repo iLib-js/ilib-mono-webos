@@ -25,7 +25,7 @@ const GenerateModeProcess = require("loctool/lib/GenerateModeProcess.js");
 const pluginUtils = require("ilib-loctool-webos-common/utils.js");
 
 describe("[integration] test the localization result of webos-cpp app", () => {
-    const projectRoot = (process.cwd().indexOf("integrationTest")) >-1 ? ".": "./test/integrationTest";
+    const projectRoot = (process.cwd().indexOf("integrationTest")) > -1 ? "." : "./test/integrationTest";
     const resourcePath = path.join(projectRoot, "resources2");
     const fileName = "cppstrings.json";
     let filePath, jsonData;
@@ -57,10 +57,9 @@ describe("[integration] test the localization result of webos-cpp app", () => {
                 "ko-KR"
             ]
         };
-        var project = ProjectFactory.newProject(projectSettings, appSettings);
+        const project = ProjectFactory.newProject(projectSettings, appSettings);
         process = GenerateModeProcess(project);
     }, 50000);
-
     afterAll(async () => {
         if (fs.existsSync(resourcePath)) {
             fs.rmSync(resourcePath, { recursive: true });
