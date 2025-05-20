@@ -1192,7 +1192,7 @@ describe("javascriptfile", function() {
         expect(r.getKey()).toBe("Control smart home IoT devices. See https://lge.com/smarthome for details.");
     });
     test("JavaScriptFileTest6", function() {
-        expect.assertions(12);
+        expect.assertions(13);
 
         var j = new JavaScriptFile({
             project: p,
@@ -1208,6 +1208,7 @@ describe("javascriptfile", function() {
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("My Playlist");
         expect(r.getKey()).toBe("My Playlist");
+        expect(r.getComment()).toBe("This string is for My Playlist in Select Music Popup");
 
         var r = set.getBySource("Bluetooth");
         expect(r).toBeTruthy();
