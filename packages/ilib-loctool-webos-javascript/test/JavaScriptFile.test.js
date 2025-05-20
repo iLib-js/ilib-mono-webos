@@ -415,6 +415,68 @@ describe("javascriptfile", function() {
         expect(r.getKey()).toBe("This is a test");
         expect(r.getComment()).toBeFalsy();
     });
+    test("JavaScriptFileParseTranslatorComment3", function() {
+        expect.assertions(6);
+
+        var j = new JavaScriptFile({
+            project: p,
+            pathName: undefined,
+            type: jsft
+        });
+        expect(j).toBeTruthy();
+        debugger;
+        j.parse("\trb.getString('This is a test'); // i18N translator comments.");
+
+        var set = j.getTranslationSet();
+        expect(set).toBeTruthy();
+
+        var r = set.getBySource("This is a test");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("This is a test");
+        expect(r.getKey()).toBe("This is a test");
+        expect(r.getComment()).toBe("translator comments.");
+    });
+    test("JavaScriptFileParseTranslatorComment4", function() {
+        expect.assertions(6);
+
+        var j = new JavaScriptFile({
+            project: p,
+            pathName: undefined,
+            type: jsft
+        });
+        expect(j).toBeTruthy();
+
+        j.parse("\trb.getString('This is a test'); // I18N translator comments.");
+
+        var set = j.getTranslationSet();
+        expect(set).toBeTruthy();
+
+        var r = set.getBySource("This is a test");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("This is a test");
+        expect(r.getKey()).toBe("This is a test");
+        expect(r.getComment()).toBe("translator comments.");
+    });
+    test("JavaScriptFileParseTranslatorComment5", function() {
+        expect.assertions(6);
+
+        var j = new JavaScriptFile({
+            project: p,
+            pathName: undefined,
+            type: jsft
+        });
+        expect(j).toBeTruthy();
+
+        j.parse("\trb.getString('This is a test'); // I18n translator comments.");
+        var set = j.getTranslationSet();
+        expect(set).toBeTruthy();
+
+        var r = set.getBySource("This is a test");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("This is a test");
+        expect(r.getKey()).toBe("This is a test");
+        expect(r.getComment()).toBe("translator comments.");
+    });
     test("JavaScriptFileParseSingleQuotesWithEmbeddedSingleQuotes", function() {
         expect.assertions(5);
 

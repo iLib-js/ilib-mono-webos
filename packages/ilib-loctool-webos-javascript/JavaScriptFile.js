@@ -90,7 +90,7 @@ JavaScriptFile.cleanString = function(string) {
 JavaScriptFile.trimComments = function(data) {
     if (!data) return;
     // comment style: // , /* */ single, multi line
-    var trimData = data.replace(/(https?:\/\/[^\s]+)|(\/\*[\s\S]*?\*\/|\/\/(?!\s*i18n\s*).*?$)/gm, (match, url) => url || '');
+    var trimData = data.replace(/(https?:\/\/[^\s]+)|(\/\*[\s\S]*?\*\/|\/\/(?!\s*i18n\s*).*?$)/gim, (match, url) => url || '');
     return trimData;
 };
 
