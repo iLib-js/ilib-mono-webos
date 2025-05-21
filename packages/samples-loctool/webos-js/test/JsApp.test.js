@@ -20,7 +20,6 @@ const { exec } = require('child_process');
 const path = require('path');
 const ResBundle = require("ilib/lib/ResBundle");
 const defaultRSPath = path.join(process.cwd(), "resources");
-//const { isExistKey } = require('../../Utils.js');
 const pluginUtils = require("ilib-loctool-webos-common/utils.js");
 
 describe('test the localization result of webos-js app', () => {
