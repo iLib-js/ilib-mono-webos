@@ -23,15 +23,15 @@ var ResourceString = require("loctool/lib/ResourceString.js");
 var CustomProject =  require("loctool/lib/CustomProject.js");
 
 describe("utils", function() {
-    test("addNewResourcesFalse", function() {
+    test("test_addNewResourcesFalse", function() {
         expect.assertions(1);
         expect(utils.addNewResource()).toBeFalsy();
     });
-    test("addResourcesFalse", function() {
+    test("test_addResourcesFalse", function() {
         expect.assertions(1);
         expect(utils.addResource()).toBeFalsy();
     });
-    test("addNewResourceData", function() {
+    test("test_addNewResourceData", function() {
         expect.assertions(2);
 
         var ts = new TranslationSet();
@@ -43,7 +43,7 @@ describe("utils", function() {
         expect(utils.addNewResource(ts, res, "en-US")).toBeTruthy();
         expect(ts.isDirty()).toBeTruthy();
     });
-    test("addNewResourceDataFalse2", function() {
+    test("test_addNewResourceDataFalse2", function() {
         expect.assertions(2);
 
         var ts = new TranslationSet();
@@ -55,7 +55,7 @@ describe("utils", function() {
         expect(utils.addNewResource(ts, res)).toBeFalsy();
         expect(utils.addNewResource(ts)).toBeFalsy();
     });
-    test("addResourceData", function() {
+    test("test_addResourceData", function() {
         expect.assertions(4);
 
         var p = new CustomProject({
@@ -95,7 +95,7 @@ describe("utils", function() {
             expect(utils.addResource(jt, translated, res, "de-DE")).toBeTruthy();
         });
     });
-    test("addResourceData_translationKeyDifferent", function() {
+    test("test_addResourceData_translationKeyDifferent", function() {
         expect.assertions(4);
 
         var p = new CustomProject({
@@ -134,5 +134,34 @@ describe("utils", function() {
             var jt = p.getResourceFileType("mock");
             expect(utils.addResource(jt, translated, res, "de-DE")).toBeTruthy();
         });
+    });
+    test("test_isValidPathFalse", function() {
+        expect.assertions(2);
+
+        expect(utils.isValidPath()).toBeFalsy();
+        expect(utils.isValidPath("./result/temp.json")).toBeFalsy();
+    });
+    test("test_isValidPathTrue", function() {
+        expect.assertions(1);
+        expect(utils.isValidPath("./test/testfiles/strings.json")).toBeTruthy();
+    });
+    test("test_loadData", function() {
+        expect.assertions(1);
+        var expected = { 'Hello': '안녕하세요.', 'Thank you': '감사합니다.' };
+        var actual = utils.loadData("./test/testfiles/strings.json");
+        expect(actual).toEqual(expected);
+    });
+    test("test_loadDataFalse", function() {
+        expect.assertions(1);
+        expect(utils.loadData("./result/temp.json")).toBe(undefined);
+    });
+    test("test_isExistKey_True", function() {
+        expect.assertions(2);
+        expect(utils.isExistKey("./test/testfiles/strings.json", "Hello")).toBeTruthy();
+        expect(utils.isExistKey("./test/testfiles/strings.json", "Thank you")).toBeTruthy();
+    });
+    test("test_isExistKey_False", function() {
+        expect.assertions(1);
+        expect(utils.isExistKey("./test/testfiles/strings.json", "Bye")).toBeFalsy()
     });
 });

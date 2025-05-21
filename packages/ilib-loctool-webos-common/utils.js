@@ -17,6 +17,49 @@
  * limitations under the License.
  */
 
+var fs = require("fs");
+
+/**
+* Check whether a file exists at the given path.
+*
+* @param {String} filepath a path to file
+*
+* @returns {boolean} true if the path is valid; otherwise false.
+*/
+module.exports.isValidPath = function(filepath) {
+    return filepath ? fs.existsSync(filepath) : false;
+}
+
+/**
+* Read the content of a file from the specified path and parses it as JSON.
+*
+* @param {String} filepath a path to file
+
+* @returns {Object} parsed JSON object if the path is valid; otherwise undefined.
+*/
+module.exports.loadData = function(filepath) {
+    try {
+        var readData = fs.readFileSync(filepath, 'utf-8');
+        return JSON.parse(readData);
+    } catch (error) {
+        console.error(`Error reading or parsing file: ${error.message}`);
+        return undefined;
+    }
+}
+
+/**
+* Check if the given key is exists in the file.
+*
+* @param {String} filepath a path to file
+* @param {String} key The key to check for existence
+
+* @returns {boolean} true if the is exists; otherwise false.
+*/
+module.exports.isExistKey = function(filepath, key) {
+    var jsonData = this.isValidPath(filepath) ? this.loadData(filepath) : {};
+    return (jsonData && jsonData.hasOwnProperty(key));
+}
+
 /**
 * Add a resource to this file
 *
