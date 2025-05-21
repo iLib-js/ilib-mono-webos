@@ -1,5 +1,4 @@
 ---
-"integration-sample-webos-dart": patch
 "ilib-loctool-webos-dart": patch
 ---
 
