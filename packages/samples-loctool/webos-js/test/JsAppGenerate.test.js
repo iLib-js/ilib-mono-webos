@@ -21,7 +21,7 @@ const fs = require("fs");
 const path = require('path');
 const ResBundle = require("ilib/lib/ResBundle");
 const defaultRSPath = path.join(process.cwd(), "resources2");
-const { isExistKey } = require('../../Utils.js');
+const pluginUtils = require("ilib-loctool-webos-common/utils.js");
 
 const ProjectFactory = require("loctool/lib/ProjectFactory.js");
 const GenerateModeProcess = require("loctool/lib/GenerateModeProcess.js");
@@ -121,8 +121,8 @@ describe('test the localization result (generate mode) of webos-js app', () => {
         expect(rb.getString("Ivory Coast").toString()).toBe("Côte d’Ivoire");
 
         let fullPath = path.join(defaultRSPath, "en/AU/strings.json");
-        expect(isExistKey(fullPath, "Programme")).toBeTruthy();
-        expect(isExistKey(fullPath, "Ivory Coast")).toBeFalsy();
+        expect(pluginUtils.isExistKey(fullPath, "Programme")).toBeTruthy();
+        expect(pluginUtils.isExistKey(fullPath, "Ivory Coast")).toBeFalsy();
     });
     test("jssample_generate_test_en_GB", function() {
         expect.assertions(7);
@@ -138,8 +138,8 @@ describe('test the localization result (generate mode) of webos-js app', () => {
         expect(rb.getString("Ivory Coast").toString()).toBe("Côte d’Ivoire");
 
         let fullPath = path.join(defaultRSPath, "en/GB/strings.json");
-        expect(isExistKey(fullPath, "Programme")).toBeTruthy();
-        expect(isExistKey(fullPath, "Ivory Coast")).toBeFalsy();
+        expect(pluginUtils.isExistKey(fullPath, "Programme")).toBeTruthy();
+        expect(pluginUtils.isExistKey(fullPath, "Ivory Coast")).toBeFalsy();
     });
     test("jssample_generate_test_fr_CA", function() {
         expect.assertions(3);
@@ -163,7 +163,7 @@ describe('test the localization result (generate mode) of webos-js app', () => {
         expect(rb.getString("Others").toString()).toBe("Autres");
 
         let fullPath = path.join(defaultRSPath, "en/FR/strings.json");
-        expect(isExistKey(fullPath, "Others")).toBeFalsy();
+        expect(pluginUtils.isExistKey(fullPath, "Others")).toBeFalsy();
     });
     test("jssample_generate_test_es_ES", function() {
         expect.assertions(2);

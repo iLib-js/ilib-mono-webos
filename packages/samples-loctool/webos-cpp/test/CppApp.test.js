@@ -19,7 +19,7 @@
 
 const { exec } = require('child_process');
 const path = require('path');
-const { isValidPath, loadData } = require('../../Utils.js');
+const pluginUtils = require("ilib-loctool-webos-common/utils.js");
 
 describe('test the localization result of webos-cpp app', () => {
     const resourcePath = 'resources';
@@ -44,7 +44,7 @@ describe('test the localization result of webos-cpp app', () => {
     test("cppsample_test_ko_KR", function() {
         expect.assertions(4);
         filePath = path.join(resourcePath, 'ko', fileName);
-        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
+        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["No"]).toBe("아니오");
@@ -54,7 +54,7 @@ describe('test the localization result of webos-cpp app', () => {
     test("cppsample_test_en_US", function() {
         expect.assertions(3);
         filePath = path.join(resourcePath, fileName);
-        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
+        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["Ivory Coast"]).toBe("Côte d’Ivoire");
@@ -63,7 +63,7 @@ describe('test the localization result of webos-cpp app', () => {
     test("cppsample_test_en_AU", function() {
         expect.assertions(8);
         filePath = path.join(resourcePath, "en/AU", fileName);
-        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
+        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["Service Area Zip Code"]).toBe("Service Area Postcode");
@@ -77,7 +77,7 @@ describe('test the localization result of webos-cpp app', () => {
     test("cppsample_test_en_GB", function() {
         expect.assertions(8);
         filePath = path.join(resourcePath, "en/GB", fileName);
-        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
+        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["Service Area Zip Code"]).toBe("Service Area Postcode");
@@ -91,7 +91,7 @@ describe('test the localization result of webos-cpp app', () => {
     test("cppsample_test_fr_CA", function() {
         expect.assertions(6);
         filePath = path.join(resourcePath, "fr", fileName);
-        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
+        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["Agree"]).toBe("D’accord");
@@ -103,7 +103,7 @@ describe('test the localization result of webos-cpp app', () => {
     test("cppsample_test_fr_FR", function() {
         expect.assertions(5);
         filePath = path.join(resourcePath, "fr/FR", fileName);
-        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
+        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["Agree"]).toBe("J'accepte");
@@ -114,7 +114,7 @@ describe('test the localization result of webos-cpp app', () => {
     test("cppsample_test_es_ES", function() {
         expect.assertions(4);
         filePath = path.join(resourcePath, "es/ES", fileName);
-        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
+        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["Sound Out"]).toBe("Salida de sonido");
@@ -124,7 +124,7 @@ describe('test the localization result of webos-cpp app', () => {
     test("cppsample_test_es_CO", function() {
         expect.assertions(3);
         filePath = path.join(resourcePath, "es", fileName);
-        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
+        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["Sound Out"]).toBe("Salida de Audio");

@@ -20,7 +20,8 @@ const { exec } = require('child_process');
 const path = require('path');
 const ResBundle = require("ilib/lib/ResBundle");
 const defaultRSPath = path.join(process.cwd(), "resources");
-const { isExistKey } = require('../../Utils.js');
+//const { isExistKey } = require('../../Utils.js');
+const pluginUtils = require("ilib-loctool-webos-common/utils.js");
 
 describe('test the localization result of webos-js app', () => {
     const generalOptions = '-2 --xliffStyle custom --pseudo --localizeOnly';
@@ -88,8 +89,8 @@ describe('test the localization result of webos-js app', () => {
         expect(rb.getString("Ivory Coast").toString()).toBe("Côte d’Ivoire");
 
         fullPath = path.join(defaultRSPath, "en/AU/strings.json");
-        expect(isExistKey(fullPath, "Programme")).toBeTruthy();
-        expect(isExistKey(fullPath, "Ivory Coast")).toBeFalsy();
+        expect(pluginUtils.isExistKey(fullPath, "Programme")).toBeTruthy();
+        expect(pluginUtils.isExistKey(fullPath, "Ivory Coast")).toBeFalsy();
 
         // common data's locale Inheritence
         expect(rb.getString("Game Optimizer").toString()).toBe("Game Optimiser");
@@ -112,8 +113,8 @@ describe('test the localization result of webos-js app', () => {
         expect(rb.getString("Ivory Coast").toString()).toBe("Côte d’Ivoire");
 
         fullPath = path.join(defaultRSPath, "en/GB/strings.json");
-        expect(isExistKey(fullPath, "Programme")).toBeTruthy();
-        expect(isExistKey(fullPath, "Ivory Coast")).toBeFalsy();
+        expect(pluginUtils.isExistKey(fullPath, "Programme")).toBeTruthy();
+        expect(pluginUtils.isExistKey(fullPath, "Ivory Coast")).toBeFalsy();
 
         // common data's locale Inheritence
         expect(rb.getString("Game Optimizer").toString()).toBe("Game Optimiser");
@@ -136,7 +137,7 @@ describe('test the localization result of webos-js app', () => {
         expect(rb.getString("Exit").toString()).toBe("Quitter"); //common data
         
         fullPath = path.join(defaultRSPath, "fr/strings.json");
-        expect(isExistKey(fullPath, "Exit")).toBeTruthy();
+        expect(pluginUtils.isExistKey(fullPath, "Exit")).toBeTruthy();
     });
     test("jssample_test_fr_FR", function() {
         expect.assertions(6);
@@ -151,8 +152,8 @@ describe('test the localization result of webos-js app', () => {
         expect(rb.getString("Exit").toString()).toBe("Quitter"); //common data
 
         fullPath = path.join(defaultRSPath, "fr/FR/strings.json");
-        expect(isExistKey(fullPath, "Others")).toBeFalsy();
-        expect(isExistKey(fullPath, "Exit")).toBeFalsy();
+        expect(pluginUtils.isExistKey(fullPath, "Others")).toBeFalsy();
+        expect(pluginUtils.isExistKey(fullPath, "Exit")).toBeFalsy();
         
     });
     test("jssample_test_es_ES", function() {
@@ -166,7 +167,7 @@ describe('test the localization result of webos-js app', () => {
 
         expect(rb.getString("OK").toString()).toBe("OK"); //common data
         fullPath = path.join(defaultRSPath, "es/ES/strings.json");
-        expect(isExistKey(fullPath, "OK")).toBeTruthy();
+        expect(pluginUtils.isExistKey(fullPath, "OK")).toBeTruthy();
     });
     test("jssample_test_es_CO", function() {
         expect.assertions(3);

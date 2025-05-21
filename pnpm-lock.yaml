@@ -321,6 +321,9 @@ importers:
       ilib-loctool-webos-c:
         specifier: workspace:*
         version: link:../../ilib-loctool-webos-c
+      ilib-loctool-webos-common:
+        specifier: workspace:*
+        version: link:../../ilib-loctool-webos-common
       ilib-loctool-webos-json-resource:
         specifier: workspace:*
         version: link:../../ilib-loctool-webos-json-resource
@@ -334,6 +337,9 @@ importers:
 
   packages/samples-loctool/webos-cpp:
     dependencies:
+      ilib-loctool-webos-common:
+        specifier: workspace:*
+        version: link:../../ilib-loctool-webos-common
       ilib-loctool-webos-cpp:
         specifier: workspace:*
         version: link:../../ilib-loctool-webos-cpp
@@ -350,6 +356,9 @@ importers:
 
   packages/samples-loctool/webos-dart:
     dependencies:
+      ilib-loctool-webos-common:
+        specifier: workspace:*
+        version: link:../../ilib-loctool-webos-common
       ilib-loctool-webos-dart:
         specifier: workspace:*
         version: link:../../ilib-loctool-webos-dart
@@ -369,6 +378,9 @@ importers:
 
   packages/samples-loctool/webos-js:
     dependencies:
+      ilib-loctool-webos-common:
+        specifier: workspace:*
+        version: link:../../ilib-loctool-webos-common
       ilib-loctool-webos-javascript:
         specifier: workspace:*
         version: link:../../ilib-loctool-webos-javascript
@@ -391,6 +403,9 @@ importers:
 
   packages/samples-loctool/webos-json:
     dependencies:
+      ilib-loctool-webos-common:
+        specifier: workspace:*
+        version: link:../../ilib-loctool-webos-common
       ilib-loctool-webos-json:
         specifier: workspace:*
         version: link:../../ilib-loctool-webos-json
@@ -404,6 +419,9 @@ importers:
 
   packages/samples-loctool/webos-json/subDirCase:
     dependencies:
+      ilib-loctool-webos-common:
+        specifier: workspace:*
+        version: link:../../../ilib-loctool-webos-common
       ilib-loctool-webos-json:
         specifier: workspace:*
         version: link:../../../ilib-loctool-webos-json
@@ -420,6 +438,9 @@ importers:
 
   packages/samples-loctool/webos-qml:
     dependencies:
+      ilib-loctool-webos-common:
+        specifier: workspace:*
+        version: link:../../ilib-loctool-webos-common
       ilib-loctool-webos-json:
         specifier: workspace:*
         version: link:../../ilib-loctool-webos-json
