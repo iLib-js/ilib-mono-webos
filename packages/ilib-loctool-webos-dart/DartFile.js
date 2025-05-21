@@ -119,8 +119,8 @@ translate("{arg1} app cannot be deleted.", arg:{"arg1": "Settings"})
 translate("The lowest temp is {arg1}", args: <String, int>{"arg1": 15})
 translate("The lowest temperature is {arg1} and the highest temperature is {arg2}.", arg:{"arg1": 15, "arg2": 30})
 */
-var reTranslate = new RegExp(/translate\s*\(\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\)/g);
-var reTranslateWithKey = new RegExp(/translate\s*\(\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\,\s*(key)\s*\:\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\)/g);
+var reTranslate = new RegExp(/translate\s*\(\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*,?\s*\)/g);
+var reTranslateWithKey = new RegExp(/translate\s*\(\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\,\s*(key)\s*\:\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*,?\s*\)/g);
 var reTranslateWithArg = new RegExp(/translate\s*\(\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\,\s*args\s*\:/g);
 var reTranslatePlural = new RegExp(/translatePlural\s*\(\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\,\s*(.*)\)/g);
 var reI18nComment = new RegExp("//\\s*i18n\\s*:\\s*(.*)$");
