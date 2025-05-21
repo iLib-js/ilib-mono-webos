@@ -362,7 +362,8 @@ describe("javascriptfile", function() {
             type: jsft
         });
         expect(j).toBeTruthy();
-        j.parse('\tRB.getString("This is a test"); // i18n this is a translator\'s comment\n\tfoo("This is not");');
+
+        j.parse('\tRB.getString("This is a test"); // i18n: this is a translator\'s comment\n\tfoo("This is not");');
 
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
@@ -383,7 +384,7 @@ describe("javascriptfile", function() {
         });
         expect(j).toBeTruthy();
 
-        j.parse("\trb.getString('This is a test'); // i18n this is a translator\'s comment\n\tfoo('This is not');");
+        j.parse("\trb.getString('This is a test'); // i18n: this is a translator\'s comment\n\tfoo('This is not');");
 
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
@@ -477,6 +478,46 @@ describe("javascriptfile", function() {
         expect(r.getKey()).toBe("This is a test");
         expect(r.getComment()).toBe("translator comments.");
     });
+    test("JavaScriptFileParseTranslatorCommen6", function() {
+        expect.assertions(6);
+
+        var j = new JavaScriptFile({
+            project: p,
+            pathName: undefined,
+            type: jsft
+        });
+        expect(j).toBeTruthy();
+
+        j.parse("\trb.getString('This is a test'); // i18n translator comments.");
+        var set = j.getTranslationSet();
+        expect(set).toBeTruthy();
+
+        var r = set.getBySource("This is a test");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("This is a test");
+        expect(r.getKey()).toBe("This is a test");
+        expect(r.getComment()).toBe("translator comments.");
+    });
+    test("JavaScriptFileParseTranslatorCommen7", function() {
+        expect.assertions(6);
+
+        var j = new JavaScriptFile({
+            project: p,
+            pathName: undefined,
+            type: jsft
+        });
+        expect(j).toBeTruthy();
+
+        j.parse("\trb.getString('This is a test'); // I18n : translator comments.");
+        var set = j.getTranslationSet();
+        expect(set).toBeTruthy();
+
+        var r = set.getBySource("This is a test");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("This is a test");
+        expect(r.getKey()).toBe("This is a test");
+        expect(r.getComment()).toBe("translator comments.");
+    });
     test("JavaScriptFileParseSingleQuotesWithEmbeddedSingleQuotes", function() {
         expect.assertions(5);
 
@@ -537,7 +578,7 @@ describe("javascriptfile", function() {
         });
         expect(j).toBeTruthy();
 
-        j.parse('\trb.getString("This is a test", "foobar"); // i18n this is a translator\'s comment\n\tfoo("This is not");');
+        j.parse('\trb.getString("This is a test", "foobar"); // i18n: this is a translator\'s comment\n\tfoo("This is not");');
 
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
@@ -754,7 +795,7 @@ describe("javascriptfile", function() {
         });
         expect(j).toBeTruthy();
 
-        j.parse('RB.getString("This is a test");   // i18n foo\n\ta.parse("This is another test.");\n\t\tRB.getString("This is also a test");\t// i18n bar');
+        j.parse('RB.getString("This is a test");   // i18n: foo\n\ta.parse("This is another test.");\n\t\tRB.getString("This is also a test");\t// i18n: bar');
 
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
@@ -780,7 +821,8 @@ describe("javascriptfile", function() {
             type: jsft
         });
         expect(j).toBeTruthy();
-        j.parse('RB.getString("This is a test", "asdf");   // i18n foo\n\ta.parse("This is another test.");\n\t\tRB.getString("This is also a test", "kdkdkd");\t// i18n bar');
+
+        j.parse('RB.getString("This is a test", "asdf");   // i18n: foo\n\ta.parse("This is another test.");\n\t\tRB.getString("This is also a test", "kdkdkd");\t// i18n: bar');
 
         var set = j.getTranslationSet();
         expect(set).toBeTruthy();
@@ -1192,7 +1234,7 @@ describe("javascriptfile", function() {
         expect(r.getKey()).toBe("Control smart home IoT devices. See https://lge.com/smarthome for details.");
     });
     test("JavaScriptFileTest6", function() {
-        expect.assertions(13);
+        expect.assertions(17);
 
         var j = new JavaScriptFile({
             project: p,
@@ -1202,7 +1244,7 @@ describe("javascriptfile", function() {
         expect(j).toBeTruthy();
         j.extract();
         var set = j.getTranslationSet();
-        expect(set.size()).toBe(3);
+        expect(set.size()).toBe(4);
 
         var r = set.getBySource("My Playlist");
         expect(r).toBeTruthy();
@@ -1220,6 +1262,12 @@ describe("javascriptfile", function() {
         expect(r.getSource()).toBe("Hello");
         expect(r.getKey()).toBe("Hello");
         expect(r.getComment()).toBe("this is an i18n comments.");
+
+        var r = set.getBySource("Hello Hello");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("Hello Hello");
+        expect(r.getKey()).toBe("Hello Hello");
+        expect(r.getComment()).toBe("test: this is an i18n comments.");
     });
     test("JavaScriptFileTest7", function() {
         expect.assertions(8);
@@ -1254,7 +1302,7 @@ describe("javascriptfile", function() {
         });
         expect(j).toBeTruthy();
 
-        j.parse('// $L("This is a test"); // i18n this is a translator\'s comment\n\tfoo("This is not");');
+        j.parse('// $L("This is a test"); // i18n: this is a translator\'s comment\n\tfoo("This is not");');
 
         var set = j.getTranslationSet();
         expect(set.size()).toBe(0);
@@ -1269,7 +1317,7 @@ describe("javascriptfile", function() {
         });
         expect(j).toBeTruthy();
 
-        j.parse('$L("This is a test"); // i18n this is a translator\'s comment\n\t$L("This is a test2");foo("This is not");');
+        j.parse('$L("This is a test"); // i18n: this is a translator\'s comment\n\t$L("This is a test2");foo("This is not");');
 
         var set = j.getTranslationSet();
         expect(set.size()).toBe(2);

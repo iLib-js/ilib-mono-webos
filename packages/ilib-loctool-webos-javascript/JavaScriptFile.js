@@ -90,7 +90,7 @@ JavaScriptFile.cleanString = function(string) {
 JavaScriptFile.trimComments = function(data) {
     if (!data) return;
     // comment style: // , /* */ single, multi line
-    var trimData = data.replace(/(https?:\/\/[^\s]+)|(\/\*[\s\S]*?\*\/|\/\/(?!\s*i18n\s*).*?$)/gim, (match, url) => url || '');
+    var trimData = data.replace(/(https?:\/\/[^\s]+)|(\/\*[\s\S]*?\*\/|\/\/(?!\s*i18n\s*:?\s*).*?$)/gim, (match, url) => url || '');
     return trimData;
 };
 
@@ -120,7 +120,7 @@ var reGetStringSymbolKeyValuePattern = new RegExp(/(?:^\$|\W\$)L?\s*\(\s*{\s*(ke
 
 var reGetStringWithId = new RegExp(/\.getString(JS)?\s*\(\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*,\s*("((\\"|[^"])*)"|'((\\'|[^'])*)')\s*\)/g);
 
-var reI18nComment = new RegExp(/\/\/\s*i18n\s*(.*)$/i);
+var reI18nComment = new RegExp(/\/\/\s*i18n\s*:?\s*(.*)$/i);
 
 /**
  * Parse the data string looking for the localizable strings and add them to the
