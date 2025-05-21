@@ -23,17 +23,17 @@ const checkDeviceList = (list, bAddMyplaylist, rtl) => {
 
 /* ActionCreatror - getThumbnail of TNM */
 const getListThumbnailAction = (res, item) => (dispatch, getState) => {
-	// encode thumbanil path
+	// encode thumbnail path
 }
 
 ///i18n $L("This is a test");
 
 /// RB.getString("This is a test2"); // i18n: this is a translator\'s comment\n\tfoo("This is not");
 
-$L("Hello"); // i18n: this is an i18n comments.
+$L("Hello"); // i18n: this is an i18n comment.
 
 //** $L("This is a test3");
 
 
 
-$L("Hello Hello"); // i18n test: this is an i18n comments.
+$L("Hello Hello"); // i18n test: This is a comment for the translator.

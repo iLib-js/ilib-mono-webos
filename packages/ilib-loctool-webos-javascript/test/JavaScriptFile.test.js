@@ -1282,13 +1282,13 @@ describe("javascriptfile", function() {
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("Hello");
         expect(r.getKey()).toBe("Hello");
-        expect(r.getComment()).toBe("this is an i18n comments.");
+        expect(r.getComment()).toBe("this is an i18n comment.");
 
         var r = set.getBySource("Hello Hello");
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("Hello Hello");
         expect(r.getKey()).toBe("Hello Hello");
-        expect(r.getComment()).toBe("test: this is an i18n comments.");
+        expect(r.getComment()).toBe("test: This is a comment for the translator.");
     });
     test("JavaScriptFileTest7", function() {
         expect.assertions(8);
