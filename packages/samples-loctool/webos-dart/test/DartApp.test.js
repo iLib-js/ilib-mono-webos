@@ -79,7 +79,7 @@ describe('test the localization result of webos-dart app', () => {
         expect(jsonData["Search_all"]).toBe("Recherche");
     });
     test("dartsample_test_es_CO", function() {
-        expect.assertions(10);
+        expect.assertions(11);
         filePath = path.join(resourcePath, 'es.json');
         jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
 
@@ -93,6 +93,7 @@ describe('test the localization result of webos-dart app', () => {
         expect(jsonData["plural.demo"].one).toBe("Has pulsado el botón una vez.");
         expect(jsonData["plural.demo"].two).toBe("Has pulsado el botón dos veces.");
         expect(jsonData["plural.demo"].other).toBe("Ha pulsado el botón {num} veces.");
+        expect(jsonData["Trailing commas"]).toBe("Comas finales");
     });
     test("dartsample_test_es_ES", function() {
         expect.assertions(7);
