@@ -21,7 +21,7 @@ const { exec } = require('child_process');
 const path = require('path');
 const fs = require('fs');
 const xmljs = require("xml-js");
-const { isValidPath } = require('../../Utils.js');
+const pluginUtils = require("ilib-loctool-webos-common/utils.js");
 
 const makeArray = function (data) {
   return Array.isArray(data) ? data : [data]
@@ -30,7 +30,7 @@ const makeArray = function (data) {
 const loadTSData = (filepath) => {
     const options = {trim:false, nativeTypeAttribute: true, compact: true};
 
-    if (isValidPath(filepath)) {
+    if (pluginUtils.isValidPath(filepath)) {
         const tsFile = fs.readFileSync(filepath, "utf-8");
         if (tsFile) {
             return xmljs.xml2js(tsFile, options).TS;
@@ -73,7 +73,7 @@ describe('test the localization result of webos-qml app', () => {
         };
 
         filePath = path.join(resourcePath, 'music_ko.ts');
-        tsData = isValidPath(filePath) ? loadTSData(filePath) : tsData;
+        tsData = pluginUtils.isValidPath(filePath) ? loadTSData(filePath) : tsData;
         expect(tsData).toBeTruthy();
 
         const contextResArr = makeArray(tsData.context);
@@ -91,7 +91,7 @@ describe('test the localization result of webos-qml app', () => {
         const expected = {"StringSheet": ["Service Area Zip Code", "TV Program Locks"]};
 
         filePath = path.join(resourcePath, 'music_en.ts');
-        tsData = isValidPath(filePath) ? loadTSData(filePath) : tsData;
+        tsData = pluginUtils.isValidPath(filePath) ? loadTSData(filePath) : tsData;
         expect(tsData).toBeTruthy();
 
         const contextResArr = makeArray(tsData.context);;
@@ -112,7 +112,7 @@ describe('test the localization result of webos-qml app', () => {
         };
 
         filePath = path.join(resourcePath, 'music_en_JP.ts');
-        tsData = isValidPath(filePath) ? loadTSData(filePath) : tsData;
+        tsData = pluginUtils.isValidPath(filePath) ? loadTSData(filePath) : tsData;
         expect(tsData).toBeTruthy();
 
         const contextResArr = makeArray(tsData.context);;
@@ -134,7 +134,7 @@ describe('test the localization result of webos-qml app', () => {
         };
       
         filePath = path.join(resourcePath, 'music_en_GB.ts');
-        tsData = isValidPath(filePath) ? loadTSData(filePath) : tsData;
+        tsData = pluginUtils.isValidPath(filePath) ? loadTSData(filePath) : tsData;
         expect(tsData).toBeTruthy();
       
         const contextResArr = makeArray(tsData.context);;
@@ -155,7 +155,7 @@ describe('test the localization result of webos-qml app', () => {
         };
 
         filePath = path.join(resourcePath, 'music_en_AU.ts');
-        tsData = isValidPath(filePath) ? loadTSData(filePath) : tsData;
+        tsData = pluginUtils.isValidPath(filePath) ? loadTSData(filePath) : tsData;
         expect(tsData).toBeTruthy();
 
         const contextResArr = makeArray(tsData.context);;
@@ -175,7 +175,7 @@ describe('test the localization result of webos-qml app', () => {
         };
 
         filePath = path.join(resourcePath, 'music_es_ES.ts');
-        tsData = isValidPath(filePath) ? loadTSData(filePath) : tsData;
+        tsData = pluginUtils.isValidPath(filePath) ? loadTSData(filePath) : tsData;
         expect(tsData).toBeTruthy();
 
         const contextResArr = makeArray(tsData.context);
@@ -195,7 +195,7 @@ describe('test the localization result of webos-qml app', () => {
         };
 
         filePath = path.join(resourcePath, 'music_es.ts');
-        tsData = isValidPath(filePath) ? loadTSData(filePath) : tsData;
+        tsData = pluginUtils.isValidPath(filePath) ? loadTSData(filePath) : tsData;
         expect(tsData).toBeTruthy();
 
         const contextResArr = makeArray(tsData.context);;
@@ -215,7 +215,7 @@ describe('test the localization result of webos-qml app', () => {
         };
 
         filePath = path.join(resourcePath, 'music_fr_FR.ts');
-        tsData = isValidPath(filePath) ? loadTSData(filePath) : tsData;
+        tsData = pluginUtils.isValidPath(filePath) ? loadTSData(filePath) : tsData;
         expect(tsData).toBeTruthy();
 
         const contextResArr = makeArray(tsData.context);
@@ -235,7 +235,7 @@ describe('test the localization result of webos-qml app', () => {
         };
 
         filePath = path.join(resourcePath, 'music_fr.ts');
-        tsData = isValidPath(filePath) ? loadTSData(filePath) : tsData;
+        tsData = pluginUtils.isValidPath(filePath) ? loadTSData(filePath) : tsData;
         expect(tsData).toBeTruthy();
 
         const contextResArr = makeArray(tsData.context);
@@ -256,7 +256,7 @@ describe('test the localization result of webos-qml app', () => {
         };
 
         filePath = path.join(resourcePath, 'music_it.ts');
-        tsData = isValidPath(filePath) ? loadTSData(filePath) : tsData;
+        tsData = pluginUtils.isValidPath(filePath) ? loadTSData(filePath) : tsData;
         expect(tsData).toBeTruthy();
 
         const contextResArr = makeArray(tsData.context);
@@ -276,7 +276,7 @@ describe('test the localization result of webos-qml app', () => {
         };
 
         filePath = path.join(resourcePath, 'music_as.ts');
-        tsData = isValidPath(filePath) ? loadTSData(filePath) : tsData;
+        tsData = pluginUtils.isValidPath(filePath) ? loadTSData(filePath) : tsData;
         expect(tsData).toBeTruthy();
 
         const contextResArr = makeArray(tsData.context);

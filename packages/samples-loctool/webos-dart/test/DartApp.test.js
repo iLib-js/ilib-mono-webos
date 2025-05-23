@@ -19,7 +19,7 @@
 
 const { exec } = require('child_process');
 const path = require('path');
-const { isValidPath, loadData } = require('../../Utils.js');
+const pluginUtils = require("ilib-loctool-webos-common/utils.js");
 
 describe('test the localization result of webos-dart app', () => {
     const resourcePath = 'assets/i18n';
@@ -42,7 +42,7 @@ describe('test the localization result of webos-dart app', () => {
     test("dartsample_test_ko_KR", function() {
         expect.assertions(9);
         filePath = path.join(resourcePath, 'ko.json');
-        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
+        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["App List"]).toBe("앱 목록");
@@ -57,7 +57,7 @@ describe('test the localization result of webos-dart app', () => {
     test("dartsample_test_fr_CA", function() {
         expect.assertions(6);
         filePath = path.join(resourcePath, 'fr.json');
-        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
+        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["App List"]).toBe("Liste des applications");
@@ -69,7 +69,7 @@ describe('test the localization result of webos-dart app', () => {
     test("dartsample_test_fr_FR", function() {
         expect.assertions(6);
         filePath = path.join(resourcePath, 'fr_FR.json');
-        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
+        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["App List"]).toBe("Liste des applications");
@@ -81,7 +81,7 @@ describe('test the localization result of webos-dart app', () => {
     test("dartsample_test_es_CO", function() {
         expect.assertions(11);
         filePath = path.join(resourcePath, 'es.json');
-        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
+        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["App List"]).toBe("Lista de Aplicaciones");
@@ -98,7 +98,7 @@ describe('test the localization result of webos-dart app', () => {
     test("dartsample_test_es_ES", function() {
         expect.assertions(7);
         filePath = path.join(resourcePath, 'es_ES.json');
-        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
+        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["App List"]).toBe("Lista de aplicaciones");
@@ -111,7 +111,7 @@ describe('test the localization result of webos-dart app', () => {
     test("dartsample_test_en_US", function() {
         expect.assertions(7);
         filePath = path.join(resourcePath, 'en.json');
-        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
+        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["App List"]).toBe("App List");
@@ -124,7 +124,7 @@ describe('test the localization result of webos-dart app', () => {
     test("dartsample_test_ja_JP", function() {
         expect.assertions(6);
         filePath = path.join(resourcePath, 'ja.json');
-        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
+        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["App List"]).toBe("アプリリスト");
@@ -136,7 +136,7 @@ describe('test the localization result of webos-dart app', () => {
     test("dartsample_test_sl_SI", function() {
         expect.assertions(6);
         filePath = path.join(resourcePath, 'sl.json');
-        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
+        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["Search_all"]).toBe("Iskanje");

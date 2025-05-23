@@ -19,7 +19,7 @@
 
 const { exec } = require('child_process');
 const path = require('path');
-const { isValidPath, loadData } = require('../../Utils.js');
+const pluginUtils = require("ilib-loctool-webos-common/utils.js");
 
 describe('test the localization result of webos-json app', () => {
     const resourcePath = 'resources';
@@ -44,7 +44,7 @@ describe('test the localization result of webos-json app', () => {
     test("appinfo_jsonsample_test_ko_KR", function() {
         expect.assertions(2);
         filePath = path.join(resourcePath, 'ko', fileName);
-        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
+        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["title"]).toBe("현재 방송");
@@ -52,7 +52,7 @@ describe('test the localization result of webos-json app', () => {
     test("appinfo_jsonsample_test_en_US", function() {
         expect.assertions(3);
         filePath = path.join(resourcePath, fileName);
-        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
+        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["title"]).toBe("(en-US) Live TV");
@@ -61,7 +61,7 @@ describe('test the localization result of webos-json app', () => {
     test("appinfo_jsonsample_test_en_AU", function() {
         expect.assertions(2);
         filePath = path.join(resourcePath, "en/AU", fileName);
-        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
+        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["title"]).toBe("(en-GB) Live TV");
@@ -69,7 +69,7 @@ describe('test the localization result of webos-json app', () => {
     test("appinfo_jsonsample_test_en_GB", function() {
         expect.assertions(2);
         filePath = path.join(resourcePath, "en/GB", fileName);
-        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
+        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["title"]).toBe("(en-GB) Live TV");
@@ -77,7 +77,7 @@ describe('test the localization result of webos-json app', () => {
     test("appinfo_jsonsample_test_fr_CA", function() {
         expect.assertions(2);
         filePath = path.join(resourcePath, "fr", fileName);
-        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
+        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["title"]).toBe("(fr) Live TV");
@@ -85,7 +85,7 @@ describe('test the localization result of webos-json app', () => {
     test("appinfo_jsonsample_test_fr_FR", function() {
         expect.assertions(2);
         filePath = path.join(resourcePath, "fr", fileName);
-        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
+        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["title"]).toBe("(fr) Live TV");
@@ -93,7 +93,7 @@ describe('test the localization result of webos-json app', () => {
     test("appinfo_jsonsample_test_es_ES", function() {
         expect.assertions(4);
         filePath = path.join(resourcePath, "es/ES", fileName);
-        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
+        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["title"]).toBe("(es-ES) Live TV");
@@ -103,7 +103,7 @@ describe('test the localization result of webos-json app', () => {
     test("appinfo_jsonsample_test_es_CO", function() {
         expect.assertions(3);
         filePath = path.join(resourcePath, "es", fileName);
-        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
+        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["title"]).toBe("(es-CO) Live TV");
@@ -112,7 +112,7 @@ describe('test the localization result of webos-json app', () => {
     test("appinfo_jsonsample_test_it_IT", function() {
         expect.assertions(2);
         filePath = path.join(resourcePath, "es", fileName);
-        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
+        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["title"]).toBe("(es-CO) Live TV");
@@ -120,7 +120,7 @@ describe('test the localization result of webos-json app', () => {
     test("appinfo_jsonsample_test_zh_Hans_CN", function() {
         expect.assertions(2);
         filePath = path.join(resourcePath, "zh", fileName);
-        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
+        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["title"]).toBe("直播电视");
@@ -128,7 +128,7 @@ describe('test the localization result of webos-json app', () => {
     test("appinfo_jsonsample_test_zh_Hant_HK", function() {
         expect.assertions(2);
         filePath = path.join(resourcePath, "zh/Hant/HK", fileName);
-        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
+        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["title"]).toBe("Live TV");
@@ -136,7 +136,7 @@ describe('test the localization result of webos-json app', () => {
     test("appinfo_jsonsample_test_zh_Hant_TW", function() {
         expect.assertions(2);
         filePath = path.join(resourcePath, "zh/Hant/TW", fileName);
-        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
+        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["title"]).toBe("直播電視");
@@ -144,7 +144,7 @@ describe('test the localization result of webos-json app', () => {
     test("appinfo_jsonsample_test_kn_IN", function() {
         expect.assertions(3);
         filePath = path.join(resourcePath, "kn", fileName);
-        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
+        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["title"]).toBe("(kn-IN) Live TV");
@@ -155,7 +155,7 @@ describe('test the localization result of webos-json app', () => {
         fileName = "qcardinfo.json";
 
         filePath = path.join(resourcePath, "ko", fileName);
-        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
+        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["title"]).toBe("스포츠");
@@ -166,7 +166,7 @@ describe('test the localization result of webos-json app', () => {
         fileName = "qcardinfo.json";
 
         filePath = path.join(resourcePath, "fr", fileName);
-        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
+        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["title"]).toBeFalsy();
@@ -177,7 +177,7 @@ describe('test the localization result of webos-json app', () => {
         fileName = "qcardinfo.json";
 
         filePath = path.join(resourcePath, "fr/CA", fileName);
-        jsonData = isValidPath(filePath) ? loadData(filePath) : jsonData;
+        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
         expect(jsonData["title"]).toBeFalsy();
