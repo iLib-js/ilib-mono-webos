@@ -8,6 +8,12 @@
      <target>Stel asseblief u PIN-kode vanaf “Kieslys > PIN-kode”.</target>
     </segment>
    </unit>
+   <unit id="sample-A_1">
+    <segment>
+     <source>Set audio-related options.</source>
+     <target>Stel oudio-verwante opsies</target>
+    </segment>
+   </unit>
   </group>
  </file>
 </xliff>

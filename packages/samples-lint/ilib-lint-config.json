@@ -6,7 +6,7 @@
         "ilib-lint-webos"
     ],
     "rulesets": {
-        "webos-translation-rules": {
+        "rules-from-the-default": {
             "resource-url-match": true,
             "resource-named-params": true,
             "resource-quote-style": true,
@@ -20,12 +20,16 @@
             "resource-no-halfwidth-kana-characters": true,
             "resource-no-double-byte-space": true,
             "resource-no-space-with-fullwidth-punctuation": true
+        },
+        "webos-newly-defined": {
+            "resource-period-match": true
         }
     },
     "filetypes":{
         "xliff" : {
             "ruleset": [ 
-                "webos-translation-rules"
+                "rules-from-the-default",
+                "webos-newly-defined"
             ]
         }
     },

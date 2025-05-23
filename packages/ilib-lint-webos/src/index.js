@@ -20,6 +20,7 @@
 import { Plugin } from 'ilib-lint-common';
 
 import HtmlFormatter from './HtmlFormatter.js';
+import ResourcePeriodMatchRule from './ResourcePeriodMatchRule.js';
 
 class webOSPlugin extends Plugin {
     constructor(options) {
@@ -28,13 +29,13 @@ class webOSPlugin extends Plugin {
 
     /** @override */
     init() {
-        //console.log("webOSPlugin.init() called");
+        console.log("webOSPlugin.init() called");
     }
 
     /** @override */
     getRules() {
         //console.log("webOSPlugin.getRules() called");
-        //return [ FStringMatchRule, FStringNumberedRule, LegacyMatchRule ];
+        return [ ResourcePeriodMatchRule ];
     }
 
     /** @override */
