@@ -1,5 +1,14 @@
 # ilib-loctool-webos-dart
 
+## 1.3.1
+
+### Patch Changes
+
+- 96bb38c: Fix extraction issue for localizable strings followed by trailing commas
+- 10d6351: Added integration test cases to improve Jest code coverage.
+- Updated dependencies [10d6351]
+  - ilib-loctool-webos-common@1.1.0
+
 ## 1.3.0
 
 ### Minor Changes

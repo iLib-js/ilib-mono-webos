@@ -1,5 +1,13 @@
 # ilib-loctool-webos-cpp
 
+## 1.8.1
+
+### Patch Changes
+
+- 10d6351: Added integration test cases to improve Jest code coverage.
+- Updated dependencies [10d6351]
+  - ilib-loctool-webos-common@1.1.0
+
 ## 1.8.0
 
 ### Minor Changes
