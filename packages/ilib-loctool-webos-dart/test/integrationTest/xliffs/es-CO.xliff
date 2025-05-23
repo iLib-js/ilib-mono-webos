@@ -20,6 +20,12 @@
           <target>Botón regresar</target>
         </segment>
       </unit>
+      <unit id="4">
+        <segment>
+          <source>App Rating</source>
+          <target>Clasificación de Aplicación</target>
+        </segment>
+      </unit>
     </group>
   </file>
 </xliff>

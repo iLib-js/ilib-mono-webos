@@ -111,7 +111,7 @@ describe('[integration] test the localization result of webos-dart app', () => {
         expect(jsonData["Search"]).toBe("통합 검색");
     });
     test("dartsample_test_es_CO", function() {
-        expect.assertions(4);
+        expect.assertions(5);
         filePath = path.join(resourcePath, 'es.json');
         jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
@@ -119,6 +119,7 @@ describe('[integration] test the localization result of webos-dart app', () => {
         expect(jsonData["App List"]).toBe("Lista de Aplicaciones");
         expect(jsonData["Search"]).toBe("Buscar");
         expect(jsonData["Back button"]).toBe("Botón regresar");
+        expect(jsonData["App Rating"]).toBe("Clasificación de Aplicación");
     });
     test("dartsample_test_es_US", function() {
         expect.assertions(2);
@@ -145,11 +146,12 @@ describe('[integration] test the localization result of webos-dart app', () => {
         expect(jsonData["Programme"]).toBe("Programme");
     });
     test("dartsample_test_zxx", function() {
-        expect.assertions(5);
+        expect.assertions(6);
         filePath = path.join(resourcePath, 'zxx.json');
         jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
         expect(jsonData).toBeTruthy();
+        expect(Object.keys(jsonData).length).toBe(5);
         expect(jsonData["App List"]).toBe("[Ãþþ Ľíšţ3210]");
         expect(jsonData["Back button"]).toBe("[ßàçķ büţţõñ543210]");
         expect(jsonData["Programme"]).toBe("[Pŕõğŕàmmë43210]");

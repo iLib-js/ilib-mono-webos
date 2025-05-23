@@ -941,7 +941,7 @@ describe("dartfile", function() {
         expect(set.size()).toBe(0);
     });
     test("DartFileTest2", function() {
-        expect.assertions(11);
+        expect.assertions(17);
 
         var d = new DartFile({
             project: p,
@@ -953,7 +953,7 @@ describe("dartfile", function() {
         d.extract();
 
         var set = d.getTranslationSet();
-        expect(set.size()).toBe(5);
+        expect(set.size()).toBe(7);
 
         var r = set.getBySource("Track");
         expect(r).toBeTruthy();
@@ -971,6 +971,16 @@ describe("dartfile", function() {
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("first number {arg1}, second number {arg2}, and third number {arg3}");
         expect(r.getKey()).toBe("first number {arg1}, second number {arg2}, and third number {arg3}");
+
+        var r = set.getBySource("Trailing Commas");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("Trailing Commas");
+        expect(r.getKey()).toBe("Trailing Commas");
+
+        var r = set.getBySource("Trailing Commas with key");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("Trailing Commas with key");
+        expect(r.getKey()).toBe("comma");
     });
     test("DartFileTest3", function() {
         expect.assertions(20);

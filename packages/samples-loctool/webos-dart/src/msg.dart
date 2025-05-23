@@ -22,3 +22,5 @@ static String sn_home_0016(tvModel) => translate(
         'Exclusive features for {%TV_model} are all gathered here.',
         args: {'%TV_model': tvModel},
       );
+
+translate("Trailing commas", );
