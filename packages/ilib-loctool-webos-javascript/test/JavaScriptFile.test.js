@@ -416,6 +416,129 @@ describe("javascriptfile", function() {
         expect(r.getKey()).toBe("This is a test");
         expect(r.getComment()).toBeFalsy();
     });
+    test("JavaScriptFileParseTranslatorComment3", function() {
+        expect.assertions(6);
+
+        var j = new JavaScriptFile({
+            project: p,
+            pathName: undefined,
+            type: jsft
+        });
+        expect(j).toBeTruthy();
+        debugger;
+        j.parse("\trb.getString('This is a test'); // i18N translator comments.");
+
+        var set = j.getTranslationSet();
+        expect(set).toBeTruthy();
+
+        var r = set.getBySource("This is a test");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("This is a test");
+        expect(r.getKey()).toBe("This is a test");
+        expect(r.getComment()).toBe("translator comments.");
+    });
+    test("JavaScriptFileParseTranslatorComment4", function() {
+        expect.assertions(6);
+
+        var j = new JavaScriptFile({
+            project: p,
+            pathName: undefined,
+            type: jsft
+        });
+        expect(j).toBeTruthy();
+
+        j.parse("\trb.getString('This is a test'); // I18N translator comments.");
+
+        var set = j.getTranslationSet();
+        expect(set).toBeTruthy();
+
+        var r = set.getBySource("This is a test");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("This is a test");
+        expect(r.getKey()).toBe("This is a test");
+        expect(r.getComment()).toBe("translator comments.");
+    });
+    test("JavaScriptFileParseTranslatorComment5", function() {
+        expect.assertions(6);
+
+        var j = new JavaScriptFile({
+            project: p,
+            pathName: undefined,
+            type: jsft
+        });
+        expect(j).toBeTruthy();
+
+        j.parse("\trb.getString('This is a test'); // I18n translator comments.");
+        var set = j.getTranslationSet();
+        expect(set).toBeTruthy();
+
+        var r = set.getBySource("This is a test");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("This is a test");
+        expect(r.getKey()).toBe("This is a test");
+        expect(r.getComment()).toBe("translator comments.");
+    });
+    test("JavaScriptFileParseTranslatorComment6", function() {
+        expect.assertions(6);
+
+        var j = new JavaScriptFile({
+            project: p,
+            pathName: undefined,
+            type: jsft
+        });
+        expect(j).toBeTruthy();
+
+        j.parse("\trb.getString('This is a test'); // i18n translator comments.");
+        var set = j.getTranslationSet();
+        expect(set).toBeTruthy();
+
+        var r = set.getBySource("This is a test");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("This is a test");
+        expect(r.getKey()).toBe("This is a test");
+        expect(r.getComment()).toBe("translator comments.");
+    });
+    test("JavaScriptFileParseTranslatorComment7", function() {
+        expect.assertions(6);
+
+        var j = new JavaScriptFile({
+            project: p,
+            pathName: undefined,
+            type: jsft
+        });
+        expect(j).toBeTruthy();
+
+        j.parse("\trb.getString('This is a test'); // I18n : translator comments.");
+        var set = j.getTranslationSet();
+        expect(set).toBeTruthy();
+
+        var r = set.getBySource("This is a test");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("This is a test");
+        expect(r.getKey()).toBe("This is a test");
+        expect(r.getComment()).toBe("translator comments.");
+    });
+    test("JavaScriptFileParseTranslatorComment8", function() {
+        expect.assertions(6);
+
+        var j = new JavaScriptFile({
+            project: p,
+            pathName: undefined,
+            type: jsft
+        });
+        expect(j).toBeTruthy();
+
+        j.parse("\trb.getString('This is a test'); /// i18n comment");
+
+        var set = j.getTranslationSet();
+        expect(set).toBeTruthy();
+
+        var r = set.getBySource("This is a test");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("This is a test");
+        expect(r.getKey()).toBe("This is a test");
+        expect(r.getComment()).toBeFalsy();
+    });
     test("JavaScriptFileParseSingleQuotesWithEmbeddedSingleQuotes", function() {
         expect.assertions(5);
 
@@ -1132,7 +1255,7 @@ describe("javascriptfile", function() {
         expect(r.getKey()).toBe("Control smart home IoT devices. See https://lge.com/smarthome for details.");
     });
     test("JavaScriptFileTest6", function() {
-        expect.assertions(12);
+        expect.assertions(17);
 
         var j = new JavaScriptFile({
             project: p,
@@ -1140,15 +1263,15 @@ describe("javascriptfile", function() {
             type: jsft
         });
         expect(j).toBeTruthy();
-
         j.extract();
         var set = j.getTranslationSet();
-        expect(set.size()).toBe(3);
+        expect(set.size()).toBe(4);
 
         var r = set.getBySource("My Playlist");
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("My Playlist");
         expect(r.getKey()).toBe("My Playlist");
+        expect(r.getComment()).toBe("This string is for My Playlist in Select Music Popup");
 
         var r = set.getBySource("Bluetooth");
         expect(r).toBeTruthy();
@@ -1159,7 +1282,13 @@ describe("javascriptfile", function() {
         expect(r).toBeTruthy();
         expect(r.getSource()).toBe("Hello");
         expect(r.getKey()).toBe("Hello");
-        expect(r.getComment()).toBe("this is an i18n comments.");
+        expect(r.getComment()).toBe("this is an i18n comment.");
+
+        var r = set.getBySource("Hello Hello");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("Hello Hello");
+        expect(r.getKey()).toBe("Hello Hello");
+        expect(r.getComment()).toBe("test: This is a comment for the translator.");
     });
     test("JavaScriptFileTest7", function() {
         expect.assertions(8);
