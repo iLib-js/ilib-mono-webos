@@ -1,5 +1,24 @@
 # ilib-loctool-webos-dist
 
+## 1.19.1
+
+### Patch Changes
+
+- a46ed98: ilib-loctool-webosjavascript:
+  - Cleaned up the i18n comment extraction rules.
+    - After i18n, a colon is not required, and case sensitivity does not apply.
+- 96bb38c: ilib-loctool-webos-dart
+  - Fix extraction issue for localizable strings followed by trailing commas
+- Updated dependencies [649e39c]
+- Updated dependencies [b987012]
+- Updated dependencies [96bb38c]
+- Updated dependencies [10d6351]
+  - ilib-loctool-webos-javascript@1.11.1
+  - ilib-loctool-webos-dart@1.3.1
+  - ilib-loctool-webos-c@1.8.1
+  - ilib-loctool-webos-cpp@1.8.1
+  - ilib-loctool-webos-qml@1.8.1
+
 ## 1.19.0
 
 ### Minor Changes

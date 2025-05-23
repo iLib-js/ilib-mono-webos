@@ -1,5 +1,15 @@
 # ilib-loctool-webos-javascript
 
+## 1.11.1
+
+### Patch Changes
+
+- 649e39c: Cleaned up the i18n comment extraction rules.
+  - After i18n, a colon is not required, and case sensitivity does not apply.
+- b987012: Added integration test cases to improve Jest code coverage.
+- Updated dependencies [10d6351]
+  - ilib-loctool-webos-common@1.1.0
+
 ## 1.11.0
 
 ### Minor Changes
