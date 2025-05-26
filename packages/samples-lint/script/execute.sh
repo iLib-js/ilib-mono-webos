@@ -2,11 +2,11 @@
 
 : <<'END'
 DIR = /home/goun/Source/swp/localization-data
-CONFIG = /home/goun/Source/swp/lintScript/ilib-lint-config.json
-LINTPATH = /home/goun/Source/ilib-samples/lint-webos/node_modules/ilib-lint
-OUTPUTPATH = /home/goun/Source/swp/lintResult-swp
+CONFIG = /home/goun/Source/ilib-mono-webos/packages/samples-lint/ilib-lint-config.json
+LINTPATH = /home/goun/Source/node_modules/.bin/ilib-lint
+OUTPUTPATH = /home/goun/Source/lintResult/result_submission_934
 
-./execute.sh ~/Source/swp/localization-data/ /home/goun/Source/ilib-samples/lint-webos/ilib-lint-config.json /home/goun/Source/ilib-samples/lint-webos/node_modules/.bin/ilib-lint /home/goun/Source/swp/lintResult-swp
+./execute.sh /home/goun/Source/swp/localization-data/ /home/goun/Source/ilib-mono-webos/packages/samples-lint/ilib-lint-config.json /home/goun/Source/node_modules/.bin/ilib-lint /home/goun/Source/lintResult/result_submission_934
 END
 
 SAVEIFS=$IFS
