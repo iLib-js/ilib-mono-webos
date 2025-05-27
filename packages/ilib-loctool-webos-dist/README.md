@@ -25,7 +25,7 @@ Plugins are optimized for the webOS platform.
 
 Copyright (c) 2020-2025, JEDLSoft
 
-This plugin is license under Apache2. See the (https://github.com/iLib-js/ilib-mono-webos/blob/main/packages/ilib-loctool-webos-dist/CHANGELOG.md)
+This plugin is license under Apache2. See the [LICENSE](https://github.com/iLib-js/ilib-mono-webos/blob/main/packages/ilib-loctool-webos-dist/LICENSE)
 file for more details.
 
 ## Release Notes
