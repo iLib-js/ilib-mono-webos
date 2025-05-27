@@ -6,8 +6,10 @@
     "license": "Apache-2.0",
     "repository": {
         "type": "git",
-        "url": "git@github.com:iLib-js/ilib-mono-webos.git"
+        "url": "git@github.com:iLib-js/ilib-mono-webos.git",
+        "directory": "packages/ilib-loctool-webos-dist"
     },
+    "homepage": "https://github.com/iLib-js/ilib-mono-webos/blob/main/packages/ilib-loctool-webos-dist",
     "author": {
         "name": "Goun Lee",
         "email": "goun.lee@lge.com"

@@ -36,8 +36,10 @@
     ],
     "repository": {
         "type": "git",
-        "url": "git@github.com:iLib-js/ilib-mono-webos.git"
+        "url": "git@github.com:iLib-js/ilib-mono-webos.git",
+        "directory": "packages/ilib-loctool-webos-ts-resource"
     },
+    "homepage": "https://github.com/iLib-js/ilib-mono-webos/blob/main/packages/ilib-loctool-webos-ts-resource",
     "scripts": {
         "coverage": "pnpm test --coverage",
         "test": "pnpm test:jest",

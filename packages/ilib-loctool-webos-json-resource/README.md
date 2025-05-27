@@ -13,16 +13,16 @@ This plugin is for generating JSON type resource files from JavaScript, C, and C
 }
 ```
 #### Sample
-The simple sample is provided in the [ilib-loctool-samples](https://github.com/iLib-js/ilib-loctool-samples) repository.
-Please check the [webos-js](https://github.com/iLib-js/ilib-loctool-samples/tree/main/webos-js), [webos-c](https://github.com/iLib-js/ilib-loctool-samples/tree/main/webos-c), [webos-cpp](https://github.com/iLib-js/ilib-loctool-samples/tree/main/webos-cpp), and [webos-dart](https://github.com/iLib-js/ilib-loctool-samples/tree/main/webos-dart) samples to see what JSON files look like.
+The simple sample is provided in the [samples-loctool](https://github.com/iLib-js/ilib-mono-webos/tree/main/packages/samples-loctool).
+Please check the [webos-js](https://github.com/iLib-js/ilib-mono-webos/tree/main/packages/samples-loctool/webos-js), [webos-c](https://github.com/iLib-js/ilib-mono-webos/tree/main/packages/samples-loctool/webos-c), [webos-cpp](https://github.com/iLib-js/ilib-mono-webos/tree/main/packages/samples-loctool/webos-cpp), and [webos-dart](https://github.com/iLib-js/ilib-mono-webos/tree/main/packages/samples-loctool/webos-dart) samples to see what JSON files look like.
 
 ## License
 
 Copyright (c) 2019-2025, JEDLSoft
 
-This plugin is license under Apache2. See the [LICENSE](./LICENSE)
+This plugin is license under Apache2. See the [LICENSE](https://github.com/iLib-js/ilib-mono-webos/blob/main/packages/ilib-loctool-webos-json-resource/LICENSE)
 file for more details.
 
 ## Release Notes
 
-See the [CHANGELOG.md](./CHANGELOG.md) file.
+See the [CHANGELOG.md](https://github.com/iLib-js/ilib-mono-webos/blob/main/packages/ilib-loctool-webos-json-resource/CHANGELOG.md) file.
