@@ -53,6 +53,7 @@ describe("[integration] test the localization result of webos-cpp app", () => {
             xliffVersion: 2,
             nopseudo: true,
             resourceFileNames: { "cpp": fileName },
+            customCategories: {"device-type": "Monitor"},
             locales:[
                 "ko-KR"
             ]
@@ -66,7 +67,7 @@ describe("[integration] test the localization result of webos-cpp app", () => {
         }
     });
     test("cppsample_test_ko_KR_generate_mode", function() {
-        expect.assertions(9);
+        expect.assertions(10);
         filePath = path.join(resourcePath, 'ko', fileName);
 
         expect(process).toBeTruthy();
@@ -74,11 +75,12 @@ describe("[integration] test the localization result of webos-cpp app", () => {
         jsonData = pluginUtils.loadData(filePath);
         
         expect(jsonData).toBeTruthy();
-        expect(Object.keys(jsonData).length).toBe(5);
+        expect(Object.keys(jsonData).length).toBe(6);
         expect(jsonData["No"]).toBe("아니오");
         expect(jsonData["Yes"]).toBe("예");
         expect(jsonData["Update"]).toBe("업데이트");
         expect(jsonData["Cancel"]).toBe("취소");
         expect(jsonData["Time Settings"]).toBe("시간 설정");
+        expect(jsonData["NOT AVAILABLE"]).toBe("\"Monitor\" 이용이 불가능합니다");
     });
   });

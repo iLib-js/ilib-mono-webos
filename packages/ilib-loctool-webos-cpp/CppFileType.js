@@ -100,6 +100,51 @@ CppFileType.prototype._getExtension = function(filepath) {
     return ext;
 }
 
+CppFileType.prototype._getCustomTarget = function(translated) {
+    const customCategories = this.project.settings.customCategories;
+    const defaultTarget = translated.getTarget();
+
+    if (!customCategories) {
+        return defaultTarget;
+    }
+
+    const customMetadata = translated.getCustomMetadata();
+    if (!customMetadata) {
+        return defaultTarget;
+    }
+
+    this.logger.info("====== _getCustomTarget) source =", translated.getSource());
+    this.logger.info("====== _getCustomTarget) customMetadata =", customMetadata);
+
+    const key = "device-type"; ////
+
+    if (customCategories.hasOwnProperty(key)) {
+        const metaCategory = key;
+        const metaType = customCategories[key];
+
+        this.logger.info("====== _getCustomTarget) customCategory-Key:", metaCategory);
+        this.logger.info("====== _getCustomTarget) customCategory-Value:", metaType);
+
+        const metaGroup = customMetadata['mda:metaGroup'];
+
+        if (metaGroup && metaGroup._attributes?.category === metaCategory) {
+            const metas = metaGroup['mda:meta'];
+            let targetText = null;
+
+            if (Array.isArray(metas)) {
+                const matchedMeta = metas.find(meta => meta._attributes?.type === metaType);
+                targetText = matchedMeta?._text || null;
+            } else if (metas._attributes?.type === metaType) {
+                targetText = metas._text;
+            }
+
+            return targetText || defaultTarget;
+        }
+    }
+
+    return defaultTarget;
+};
+
 /**
  * Write out the aggregated resources for this file type. In
  * some cases, the string are written out to a common resource
@@ -158,12 +203,12 @@ CppFileType.prototype.write = function(translations, locales) {
                 if (locale !== 'en-US' && (translationLocales.includes(langDefaultLocale))) {
                     db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(langDefaultLocale), function(err, translated) {
                         if (translated) {
-                            baseTranslation = translated.getTarget();
+                            baseTranslation = this._getCustomTarget(translated);
                         } else if (this.isloadCommonData) {
                             var manipulateKey = ResourceString.hashKey(this.commonPrjName, langDefaultLocale, res.getKey(), this.commonPrjType, res.getFlavor());
                             db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
                                 if (translated){
-                                    baseTranslation = translated.getTarget();
+                                    baseTranslation = this._getCustomTarget(translated);
                                 }
                             }.bind(this));
                         }
@@ -175,20 +220,23 @@ CppFileType.prototype.write = function(translations, locales) {
                     if (!translated && this.isloadCommonData) {
                         var manipulateKey = ResourceString.hashKey(this.commonPrjName, locale, res.getKey(), this.commonPrjType, res.getFlavor());
                         db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
-                            if (translated && (baseTranslation !== translated.getTarget())){
+                            if (translated && (baseTranslation !== this._getCustomTarget(translated))) {
+                                this.logger.warn(" === write (1) addResource: ", res.getSource());
                                 pluginUtils.addResource(resFileType, translated, res, locale);
-                            } else if(!translated && customInheritLocale){
+                            } else if (!translated && customInheritLocale) {
                                 db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(customInheritLocale), function(err, translated) {
-                                    if (!translated){
+                                    if (!translated) {
                                         var manipulateKey = ResourceString.hashKey(this.commonPrjName, customInheritLocale, res.getKey(), this.commonPrjType, res.getFlavor());
                                         db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
-                                            if (translated && (baseTranslation !== translated.getTarget())) {
+                                            if (translated && (baseTranslation !== this._getCustomTarget(translated))) {
+                                this.logger.warn(" === write (2) addResource: ", res.getSource());
                                                 pluginUtils.addResource(resFileType, translated, res, locale);
                                             } else {
                                                 pluginUtils.addNewResource(this.newres, res, locale);
                                             }
                                         }.bind(this));
-                                    } else if (translated && (baseTranslation !== translated.getTarget())){
+                                    } else if (translated && (baseTranslation !== this._getCustomTarget(translated))){
+                                this.logger.warn(" === write (3) addResource: ", res.getSource());
                                         pluginUtils.addResource(resFileType, translated, res, locale);
                                     } else {
                                         pluginUtils.addNewResource(this.newres, res, locale);
@@ -200,7 +248,8 @@ CppFileType.prototype.write = function(translations, locales) {
                         }.bind(this));
                     } else if (!translated && customInheritLocale){
                         db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(customInheritLocale), function(err, translated) {
-                            if (translated && (baseTranslation !== translated.getTarget())){
+                            if (translated && (baseTranslation !== this._getCustomTarget(translated))){
+                                this.logger.warn(" === write (4) addResource: ", res.getSource());
                                 pluginUtils.addResource(resFileType, translated, res, locale);
                             } else {
                                 pluginUtils.addNewResource(this.newres, res, locale);
@@ -221,8 +270,10 @@ CppFileType.prototype.write = function(translations, locales) {
                             r.reskey = res.reskey;
                         }
     
-                        if (baseTranslation != r.getTarget()) {
+                        if (baseTranslation != this._getCustomTarget(r)) {
+                            this.logger.warn(" === write (5) addResource: ", res.getSource(), this._getCustomTarget(r));
                             file = resFileType.getResourceFile(locale);
+                            r.setTarget(this._getCustomTarget(r));
                             file.addResource(r);
                             this.logger.trace("Added " + r.reskey + " to " + file.pathName);
                         } else {
@@ -254,6 +305,7 @@ CppFileType.prototype.write = function(translations, locales) {
                     var inheritlocaleRes = this.project.getTranslations([inheritlocale]);
                     inheritlocaleRes.forEach(function(r){
                         var newres = r.clone();
+                        newres.setTarget(this._getCustomTarget(r));
                         newres.setTargetLocale(lo);
                         this.genresources.push(newres);
                     }.bind(this))
@@ -264,8 +316,9 @@ CppFileType.prototype.write = function(translations, locales) {
     if (mode === "localize") {
         for (var i = 0; i < resources.length; i++) {
             res = resources[i];
-            if (res.getTargetLocale() !== this.project.sourceLocale && res.getSource() !== res.getTarget()) {
+            if (res.getTargetLocale() !== this.project.sourceLocale && res.getSource() !== this._getCustomTarget(res)) {
                 file = resFileType.getResourceFile(res.getTargetLocale());
+                res.setTarget(this._getCustomTarget(res));
                 file.addResource(res);
                 this.logger.trace("Added " + res.reskey + " to " + file.pathName);
             }
@@ -288,19 +341,23 @@ CppFileType.prototype.write = function(translations, locales) {
 
             db.getResourceByCleanHashKey(langkey, function(err, translated) {
                 if (translated){
-                    baseTranslation = translated.getTarget();
+                    baseTranslation = this._getCustomTarget(translated);
                 } else {
                     db.getResourceByCleanHashKey(enUSKey, function(err, translated) {
                         if (translated){
-                            baseTranslation = translated.getTarget();
+                            baseTranslation = this._getCustomTarget(translated);
                         }
                     }.bind(this));
                 }
             }.bind(this));
 
-            if ((locale == "en-US" && res.getSource() !== res.getTarget()) ||
-                (baseTranslation !== res.getTarget())) {
+            console.log(" ====== generateMode) custom="+this.project.settings.customCategories);
+            console.log(" ======= generateMode) "+res.getSource() + " -- "+ res.getTarget()+ " -- "+ this._getCustomTarget(res));
+
+            if ((locale == "en-US" && res.getSource() !== this._getCustomTarget(res)) ||
+                (baseTranslation !== this._getCustomTarget(res))) {
                 file = resFileType.getResourceFile(res.getTargetLocale());
+                res.setTarget(this._getCustomTarget(res));
                 file.addResource(res);
             }
         }
@@ -429,7 +486,7 @@ CppFileType.prototype.getPseudo = function() {
     resources.forEach(function(resource) {
         this.logger.trace("Generating pseudo for " + resource.getKey());
         var res = resource.generatePseudo(locale, pb);
-        if (res && res.getSource() !== res.getTarget()) {
+        if (res && res.getSource() !== this._getCustomTarget(res)) {
             this.pseudo.add(res);
         }
     }.bind(this));

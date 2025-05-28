@@ -55,6 +55,7 @@ describe("[integration] test the localization result of webos-cpp app", () => {
             xliffVersion: 2,
             nopseudo: false,
             resourceFileNames: { "cpp": fileName },
+            customCategories: {"device-type": "Monitor"},
             webos: {
                 "commonXliff": path.join(projectRoot, "./common")
             },
@@ -95,7 +96,7 @@ describe("[integration] test the localization result of webos-cpp app", () => {
         }
     });
     test("cppsample_test_ko_KR", function() {
-        expect.assertions(5);
+        expect.assertions(6);
         filePath = path.join(resourcePath, 'ko', fileName);
         jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
@@ -104,6 +105,7 @@ describe("[integration] test the localization result of webos-cpp app", () => {
         expect(jsonData["No"]).toBe("아니오");
         expect(jsonData["Update"]).toBe("업데이트")
         expect(jsonData["Cancel"]).toBe("취소")
+        expect(jsonData["NOT AVAILABLE"]).toBe("\"Monitor\" 이용이 불가능합니다");
     });
     test("cppsample_test_es_CO", function() {
         expect.assertions(3);
