@@ -43,8 +43,10 @@
     ],
     "repository": {
         "type": "git",
-        "url": "git@github.com:iLib-js/ilib-mono-webos.git"
+        "url": "git@github.com:iLib-js/ilib-mono-webos.git",
+        "directory": "packages/ilib-lint-webos"
     },
+    "homepage": "https://github.com/iLib-js/ilib-mono-webos/blob/main/packages/ilib-lint-webos",
     "engines": {
         "node": ">=14.0.0"
     },

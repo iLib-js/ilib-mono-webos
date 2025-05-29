@@ -21,16 +21,16 @@ The TS file format used by Qt Linguist. The TS file is an intermediate output fo
 ```
 
 #### Sample
-The simple sample is provided in [ilib-loctool-samples](https://github.com/iLib-js/ilib-loctool-samples) repository.
-Please check the [webos-qml](https://github.com/iLib-js/ilib-loctool-samples/tree/main/webos-qml) sample to see what TS file looks like.
+The simple sample is provided in [samples-loctool](https://github.com/iLib-js/ilib-mono-webos/tree/main/packages/samples-loctool).
+Please check the [webos-qml](https://github.com/iLib-js/ilib-mono-webos/tree/main/packages/samples-loctool/webos-qml) sample to see what TS file looks like.
 
 ## License
 
 Copyright (c) 2019-2025, JEDLSoft
 
-This plugin is license under Apache2. See the [LICENSE](./LICENSE)
+This plugin is license under Apache2. See the [LICENSE](https://github.com/iLib-js/ilib-mono-webos/blob/main/packages/ilib-loctool-webos-ts-resource/LICENSE)
 file for more details.
 
 ## Release Notes
 
-See the [CHANGELOG.md](./CHANGELOG.md) file.
+See the [CHANGELOG.md](https://github.com/iLib-js/ilib-mono-webos/blob/main/packages/ilib-loctool-webos-ts-resource/CHANGELOG.md) file.

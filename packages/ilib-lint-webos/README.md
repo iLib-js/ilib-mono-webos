@@ -22,9 +22,9 @@ is written with ESM modules.
 
 Copyright (c) 2024-2025, JEDLSoft
 
-This plugin is license under Apache2. See the [LICENSE](./LICENSE)
+This plugin is license under Apache2. See the [LICENSE](https://github.com/iLib-js/ilib-mono-webos/blob/main/packages/ilib-lint-webos/LICENSE)
 file for more details.
 
 ## Release Notes
 
-See the [CHANGELOG.md](./CHANGELOG.md) file.
+See the [CHANGELOG.md](https://github.com/iLib-js/ilib-mono-webos/blob/main/packages/ilib-lint-webos/CHANGELOG.md) file.

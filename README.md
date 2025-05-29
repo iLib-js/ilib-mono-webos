@@ -40,7 +40,7 @@ Here is the list of packages. Plugins are optimized for the webOS platform.
     <td>Category</td><td>Name</td><td>Description</td>
   </tr>
   <tr>
-    <td rowspan="10">localization</td>
+    <td rowspan="11">localization</td>
     <td>ilib-loctool-webos-c</td>
     <td>C filetype handler.</td>
   </tr>
@@ -71,6 +71,10 @@ Here is the list of packages. Plugins are optimized for the webOS platform.
   <tr>
     <td>ilib-loctool-webos-ts-resource</td>
     <td><a href="https://doc.qt.io/qt-6/linguist-ts-file-format.html">TS</a> resource filetype handler.</td>
+  </tr>
+  <tr>
+    <td>ilib-loctool-webos-common</td>
+    <td>contains functions commonly used in the plugin.</td>
   </tr>
   <tr>
     <td>ilib-loctool-webos-dist</td>
