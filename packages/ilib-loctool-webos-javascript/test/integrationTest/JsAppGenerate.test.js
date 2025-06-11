@@ -44,7 +44,7 @@ describe('[integration] test the localization result (generate mode) of webos-js
         };
         const appSettings = {
             localizeOnly: true,
-            xliffsDir: "./xliffs",
+            translationsDir: "./xliffs",
             locales:[
                 "ko-KR"
             ],

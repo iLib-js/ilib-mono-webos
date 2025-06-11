@@ -50,7 +50,7 @@ describe("[integration] test the localization result of webos-c app", () => {
 
         const appSettings = {
             localizeOnly: true,
-            xliffsDir: "./xliffs",
+            translationsDir: "./xliffs",
             mode: "localize",
             xliffVersion: 2,
             nopseudo: false,
