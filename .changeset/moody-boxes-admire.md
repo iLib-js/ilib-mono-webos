@@ -6,4 +6,4 @@
 "ilib-loctool-webos-c": patch
 ---
 
-Update the examples to use the new option `translationDir` instead of the deprecated option `xliffDir`.
+Updated the examples to use the new option `translationDir` instead of the deprecated option `xliffDir`.
