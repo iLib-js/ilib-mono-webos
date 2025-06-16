@@ -44,7 +44,7 @@ describe('test the localization result (generate mode) of webos-js app', () => {
             "xliffVersion": 2,
         };
         const appSettings = {
-            xliffsDir: "./xliffs",
+            translationsDir: "./xliffs",
             locales:[
                 "as-IN",
                 "de-DE",

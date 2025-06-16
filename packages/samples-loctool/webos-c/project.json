@@ -26,7 +26,7 @@
         "resources"
     ],
     "settings": {
-        "xliffsDir": "./xliffs",
+        "translationsDir": "./xliffs",
         "locales":[
             "en-US",
             "en-AU",

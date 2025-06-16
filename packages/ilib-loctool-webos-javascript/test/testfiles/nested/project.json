@@ -15,6 +15,6 @@
     ],
     "settings": {
         "locales": ["ko-KR", "en-US"],
-        "xliffsDir": "sample-xliff"
+        "translationsDir": "sample-xliff"
 	}
 }

@@ -23,7 +23,7 @@
         "subDirCase"
     ],
     "settings": {
-        "xliffsDir": "./xliffs",
+        "translationsDir": "./xliffs",
         "locales":[
             "en-AU",
             "en-GB",

@@ -46,7 +46,7 @@ describe('[integration] test the localization result (generate mode) of webos-da
             "xliffVersion": 2,
         };
         const appSettings = {
-            xliffsDir: "./xliffs",
+            translationsDir: "./xliffs",
             locales:[
                 "ko-KR"
             ],

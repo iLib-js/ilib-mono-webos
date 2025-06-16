@@ -4,10 +4,10 @@
 
 ### Patch Changes
 
-- a46ed98: ilib-loctool-webosjavascript:
+- a46ed98: ilib-loctool-webos-javascript:
   - Cleaned up the i18n comment extraction rules.
     - After i18n, a colon is not required, and case sensitivity does not apply.
-- 96bb38c: ilib-loctool-webos-dart
+- 96bb38c: ilib-loctool-webos-dart:
   - Fix extraction issue for localizable strings followed by trailing commas
 - Updated dependencies [649e39c]
 - Updated dependencies [b987012]
@@ -23,22 +23,22 @@
 
 ### Minor Changes
 
-- 2bd79c9: ilib-loctool-webos-cpp:
-  ilib-loctool-webos-webos-c:
-  ilib-loctool-webos-javascript:
-  ilib-loctool-webos-webos-qml:
-  ilib-loctool-webos-webos-dart:
+- 2bd79c9: ilib-loctool-webos-cpp:  
+  ilib-loctool-webos-webos-c:  
+  ilib-loctool-webos-javascript:  
+  ilib-loctool-webos-webos-qml:  
+  ilib-loctool-webos-webos-dart:  
   - The plugins utilize the newly created ilib-loctool-webos-common package for their functionalities
 
 ### Patch Changes
 
 - 78a9e51: ilib-loctool-webos-javascript:
   - Fixed to correctly handle escape character when making key.
-- 784e290: ilib-loctool-webos-json-resource
+- 784e290: ilib-loctool-webos-json-resource:
   - Handle exception for fluttermanifest.json and modify its path
 - 45a3d32: ilib-loctool-webos-javascript:
   - Fix the issue of comments being deleted incorrectly.
-- 1d6b5fb: ilib-loctool-webos-json-resource
+- 1d6b5fb: ilib-loctool-webos-json-resource:
   - Modified the root path of manifest file
 - Updated dependencies [7771a4d]
 - Updated dependencies [78a9e51]
@@ -60,9 +60,9 @@
 
 - f4beb98: ilib-loctool-webos-javascript:
   - Fix the issue where the comments are incorrectly removed, the localizable string are not extracted properly.
-- d2bfce8: ilib-loctool-webos-json
+- d2bfce8: ilib-loctool-webos-json:
   - Modified \_getBaseTranslation to avoid generating duplicate resources
-- 2d98af2: ilib-loctool-webos-c
+- 2d98af2: ilib-loctool-webos-c:
   - Fix the issue where localizable strings are not extracted when the string value is empty ("").
 - Updated dependencies [f4beb98]
 - Updated dependencies [d2bfce8]
@@ -75,12 +75,12 @@
 
 ### Minor Changes
 
-- eaa1511: - ilib-loctool-webos-dart:
+- eaa1511: ilib-loctool-webos-dart:
   - Added a feature to enable the Dart filetype to operate in generate mode as well.
 
 ### Patch Changes
 
-- dcc5cd8: - ilib-loctool-webos-dart:
+- dcc5cd8: ilib-loctool-webos-dart:
   - Fix a bug where the string is not extracted when the variable types are defined in args
 - 3a33a2a: Updated dependencies. (loctool: 2.28.2, ilib: 14.21.1)
 - Updated dependencies [ea52d77]
@@ -99,7 +99,7 @@
 
 ### Minor Changes
 
-- 719741e: - Updated fixed loctool and plugins version. (loctool: 2.28.1)
+- 719741e: Updated fixed loctool and plugins version. (loctool: 2.28.1)
   - **Fixes in plugins**
     - webos-json-resource
       - Updated to generate the plural pseudo data for the DartFileType correctly.

@@ -29,7 +29,7 @@
         "assets"
     ],
     "settings": {
-        "xliffsDir": "./xliffs",
+        "translationsDir": "./xliffs",
         "locales":[
             "en-US",
             "es-CO",

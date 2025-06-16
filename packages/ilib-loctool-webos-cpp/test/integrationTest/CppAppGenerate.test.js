@@ -48,7 +48,7 @@ describe("[integration] test the localization result of webos-cpp app", () => {
 
         const appSettings = {
             localizeOnly: true,
-            xliffsDir: "./xliffs",
+            translationsDir: "./xliffs",
             mode: "generate",
             xliffVersion: 2,
             nopseudo: true,

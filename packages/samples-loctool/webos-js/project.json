@@ -27,7 +27,7 @@
         "common"
     ],
     "settings": {
-        "xliffsDir": "./xliffs",
+        "translationsDir": "./xliffs",
         "locales":[
             "as-IN",
             "de-DE",

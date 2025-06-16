@@ -45,7 +45,7 @@ describe('[integration] test the localization result of webos-js app', () => {
         };
         const appSettings = {
             localizeOnly: true,
-            xliffsDir: "./xliffs",
+            translationsDir: "./xliffs",
             mode: "localize",
             nopseudo: false,
             webos: {

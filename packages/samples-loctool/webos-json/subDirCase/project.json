@@ -22,7 +22,7 @@
         "common"
     ],
     "settings": {
-        "xliffsDir": "./xliffs",
+        "translationsDir": "./xliffs",
         "locales":[
             "en-GB",
             "en-US",

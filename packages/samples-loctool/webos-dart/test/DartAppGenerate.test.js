@@ -45,7 +45,7 @@ describe('test the localization result (generate mode) of webos-dart app', () =>
             "xliffVersion": 2,
         };
         const appSettings = {
-            xliffsDir: "./xliffs",
+            translationsDir: "./xliffs",
             locales:[
                 "en-US",
                 "en-US",
