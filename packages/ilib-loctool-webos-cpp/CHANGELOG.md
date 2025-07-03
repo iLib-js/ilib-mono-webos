@@ -1,5 +1,15 @@
 # ilib-loctool-webos-cpp
 
+## 1.8.2
+
+### Patch Changes
+
+- 1970707: Updated the examples to use the new option `translationDir` instead of the deprecated option `xliffDir`.
+- e244b3a: Fix the broken documentation links after each plugin is published to npm
+- Updated dependencies [e244b3a]
+  - ilib-loctool-webos-json-resource@1.7.4
+  - ilib-loctool-webos-common@1.1.1
+
 ## 1.8.1
 
 ### Patch Changes

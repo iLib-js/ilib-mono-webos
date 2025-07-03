@@ -1,5 +1,11 @@
 # ilib-loctool-webos-json
 
+## 1.1.10
+
+### Patch Changes
+
+- e244b3a: Fix the broken documentation links after each plugin is published to npm
+
 ## 1.1.9
 
 ### Patch Changes
