@@ -1,7 +1,7 @@
 {
     "private": true,
     "name": "lint-webos-sample",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "main": "./src/index.js",
     "description": "Sample application that demostrates how to use the ilib-lint tool with python strings",
     "license": "Apache-2.0",
