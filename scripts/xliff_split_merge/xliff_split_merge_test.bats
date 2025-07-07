@@ -44,7 +44,20 @@ teardown() {
 }
 
 # Test the 'split_component' command
-# @test "Test - xliff_split_merge.sh split_component" {
-#  run ./xliff_split_merge.sh split_component test/input test/output
-#  [ "$status" -eq 0 ]
-#}
+@test "Test - xliff_split_merge.sh split_component" {
+  run ./xliff_split_merge.sh split_component ./testfiles/split_component ./output_split_component
+  [ "$status" -eq 0 ]
+  # Check if the output file was created
+  [ -f ./output_split_component/appA/ko-KR.xliff ]
+  [ -f ./output_split_component/appB/ko-KR.xliff ]
+  [ -f ./output_split_component/appC/ko-KR.xliff ]
+
+  # Compare the output file with the expected results
+  run diff ./output_split_component/appA/ko-KR.xliff ./testfiles/Expected/exp_split_component/appA/ko-KR.xliff
+  [ "$status" -eq 0 ]
+  run diff ./output_split_component/appB/ko-KR.xliff ./testfiles/Expected/exp_split_component/appB/ko-KR.xliff
+  [ "$status" -eq 0 ]
+  run diff ./output_split_component/appC/ko-KR.xliff ./testfiles/Expected/exp_split_component/appC/ko-KR.xliff
+  [ "$status" -eq 0 ]
+
+}
