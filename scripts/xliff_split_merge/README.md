@@ -8,7 +8,7 @@ It supports merging and splitting operations across multiple components and lang
 *Split by Component*: Split merged XLIFF files into individual components.
 
 ## Requirements
-Node.js
+Node.js  
 loctool.js (automatically located from ../../node_modules/.pnpm)
 ## Usage
 ```
@@ -25,7 +25,7 @@ Merges XLIFF files for the same language across multiple apps in INPUT_DIR.
 ```
 ./xliff_split_merge.sh merge_language <INPUT_DIR> [OUTPUT_DIR]
 ```
-If OUTPUT_DIR is not specified, it defaults to <INPUT_DIR>--results.
+If OUTPUT_DIR is not specified, it defaults to '<INPUT_DIR>--results'.
 #### 3. split_component
 Splits merged XLIFF files in INPUT_DIR into separate components and saves them to OUTPUT_DIR.
 ```
