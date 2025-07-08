@@ -44,7 +44,7 @@ Skips merging if corresponding input files are missing.
 ```
 ./xliff_split_merge.sh merge_language ./localization-data ./output_merge_language
 ```
-This merges all .xliff files for each language across multiple apps in ./localization-data and saves them to ./output_merge_language.
+This merges all xliff files for each language across multiple apps in ./localization-data and saves them to ./output_merge_language.
 ## Testing with Bats
 This script can be tested using bats-core, a Bash automated testing system.
 ### Installation
@@ -53,5 +53,5 @@ npm install -g bats
 ```
 ### Running Tests
 ```
-bats xliff_split_merge_test.bats
+bats test_xliff_split_merge.bats
 ```
