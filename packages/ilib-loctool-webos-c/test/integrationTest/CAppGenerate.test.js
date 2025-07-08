@@ -71,7 +71,7 @@ describe("[integration] test the localization result of webos-c app", () => {
         filePath = path.join(resourcePath, 'ko', fileName);
         jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
-        expect(jsonData).toBeTruthy();
+        expect(Object.keys(jsonData).length).toBeGreaterThan(0);
         expect(jsonData["No"]).toBe("아니오");
         expect(jsonData["OK"]).toBe("확인");
         expect(jsonData["Yes"]).toBe("예");

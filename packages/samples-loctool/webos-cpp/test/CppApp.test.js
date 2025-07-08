@@ -46,7 +46,7 @@ describe('test the localization result of webos-cpp app', () => {
         filePath = path.join(resourcePath, 'ko', fileName);
         jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
-        expect(jsonData).toBeTruthy();
+        expect(Object.keys(jsonData).length).toBeGreaterThan(0);
         expect(jsonData["No"]).toBe("아니오");
         expect(jsonData["Update"]).toBe("업데이트");
         expect(jsonData["Update"]).toBe("업데이트");
@@ -56,7 +56,7 @@ describe('test the localization result of webos-cpp app', () => {
         filePath = path.join(resourcePath, fileName);
         jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
-        expect(jsonData).toBeTruthy();
+        expect(Object.keys(jsonData).length).toBeGreaterThan(0);
         expect(jsonData["Ivory Coast"]).toBe("Côte d’Ivoire");
         expect(jsonData["Programme"]).toBe("Channel");
     });
@@ -65,7 +65,7 @@ describe('test the localization result of webos-cpp app', () => {
         filePath = path.join(resourcePath, "en/AU", fileName);
         jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
-        expect(jsonData).toBeTruthy();
+        expect(Object.keys(jsonData).length).toBeGreaterThan(0);
         expect(jsonData["Service Area Zip Code"]).toBe("Service Area Postcode");
         expect(jsonData["TV Program Locks"]).toBe("TV Rating Locks");
         expect(jsonData["Programme"]).toBe("Programme");
@@ -79,7 +79,7 @@ describe('test the localization result of webos-cpp app', () => {
         filePath = path.join(resourcePath, "en/GB", fileName);
         jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
-        expect(jsonData).toBeTruthy();
+        expect(Object.keys(jsonData).length).toBeGreaterThan(0);
         expect(jsonData["Service Area Zip Code"]).toBe("Service Area Postcode");
         expect(jsonData["TV Program Locks"]).toBe("TV Rating Locks");
         expect(jsonData["Programme"]).toBe("Programme");
@@ -93,7 +93,7 @@ describe('test the localization result of webos-cpp app', () => {
         filePath = path.join(resourcePath, "fr", fileName);
         jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
-        expect(jsonData).toBeTruthy();
+        expect(Object.keys(jsonData).length).toBeGreaterThan(0);
         expect(jsonData["Agree"]).toBe("D’accord");
         expect(jsonData["Programme"]).toBe("Programme");
         expect(jsonData["Others"]).toBe("Autres");
@@ -105,7 +105,7 @@ describe('test the localization result of webos-cpp app', () => {
         filePath = path.join(resourcePath, "fr/FR", fileName);
         jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
-        expect(jsonData).toBeTruthy();
+        expect(Object.keys(jsonData).length).toBeGreaterThan(0);
         expect(jsonData["Agree"]).toBe("J'accepte");
         expect(jsonData["Agree"]).toBe("J'accepte");
         expect(jsonData["Others"]).toBeFalsy();
@@ -116,7 +116,7 @@ describe('test the localization result of webos-cpp app', () => {
         filePath = path.join(resourcePath, "es/ES", fileName);
         jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
-        expect(jsonData).toBeTruthy();
+        expect(Object.keys(jsonData).length).toBeGreaterThan(0);
         expect(jsonData["Sound Out"]).toBe("Salida de sonido");
         expect(jsonData["OK"]).toBe("OK");
         expect(jsonData["OK"]).toBeTruthy();
@@ -126,7 +126,7 @@ describe('test the localization result of webos-cpp app', () => {
         filePath = path.join(resourcePath, "es", fileName);
         jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
-        expect(jsonData).toBeTruthy();
+        expect(Object.keys(jsonData).length).toBeGreaterThan(0);
         expect(jsonData["Sound Out"]).toBe("Salida de Audio");
         expect(jsonData["OK"]).toBe("Aceptar");
     });

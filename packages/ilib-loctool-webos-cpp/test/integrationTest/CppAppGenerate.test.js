@@ -73,7 +73,7 @@ describe("[integration] test the localization result of webos-cpp app", () => {
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
         jsonData = pluginUtils.loadData(filePath);
         
-        expect(jsonData).toBeTruthy();
+        expect(Object.keys(jsonData).length).toBeGreaterThan(0);
         expect(Object.keys(jsonData).length).toBe(5);
         expect(jsonData["No"]).toBe("아니오");
         expect(jsonData["Yes"]).toBe("예");
