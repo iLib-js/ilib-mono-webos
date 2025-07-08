@@ -79,7 +79,7 @@ describe('[integration] test the localization result (generate mode) of webos-da
         filePath = path.join(resourcePath, 'ko.json');
         jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
-        expect(jsonData).toBeTruthy();
+        expect(Object.keys(jsonData).length).toBeGreaterThan(0);
         expect(jsonData["App List"]).toBe("앱 목록");
         expect(jsonData["Back button"]).toBe("이전 버튼");
         expect(jsonData["Delete All"]).toBe("모두 삭제");

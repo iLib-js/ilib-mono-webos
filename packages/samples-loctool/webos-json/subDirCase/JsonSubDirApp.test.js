@@ -46,7 +46,7 @@ describe('test the localization result of webos-json(subDir Case) app', () => {
         filePath = path.join("subDirCase/app1", resourcePath, 'ko', fileName);
         jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
-        expect(jsonData).toBeTruthy();
+        expect(Object.keys(jsonData).length).toBeGreaterThan(0);
         expect(jsonData["title"]).toBe("[common]현재 방송");
         expect(jsonData["vendor"]).toBe("전자");
     });
@@ -55,7 +55,7 @@ describe('test the localization result of webos-json(subDir Case) app', () => {
         filePath = path.join("subDirCase/app1", resourcePath, fileName);
         jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
-        expect(jsonData).toBeTruthy();
+        expect(Object.keys(jsonData).length).toBeGreaterThan(0);
         expect(jsonData["title"]).toBe("(en-US) Live TV");
     });
     test("subdirApp1_jsonsample_test_en_GB", function() {
@@ -63,7 +63,7 @@ describe('test the localization result of webos-json(subDir Case) app', () => {
         filePath = path.join("subDirCase/app1", resourcePath, "en/GB", fileName);
         jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
-        expect(jsonData).toBeTruthy();
+        expect(Object.keys(jsonData).length).toBeGreaterThan(0);
         expect(jsonData["title"]).toBe("(en-GB) Live TV");
     });
     test("subdirApp1_jsonsample_test_zh_Hans_CN", function() {
@@ -71,7 +71,7 @@ describe('test the localization result of webos-json(subDir Case) app', () => {
         filePath = path.join("subDirCase/app1", resourcePath, "zh", fileName);
         jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
-        expect(jsonData).toBeTruthy();
+        expect(Object.keys(jsonData).length).toBeGreaterThan(0);
         expect(jsonData["vendor"]).toBe("电子");
     });
     test("subdirApp2_jsonsample_test_ru_RU", function() {
@@ -79,7 +79,7 @@ describe('test the localization result of webos-json(subDir Case) app', () => {
         filePath = path.join("subDirCase/app2", resourcePath, "ru", fileName);
         jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
 
-        expect(jsonData).toBeTruthy();
+        expect(Object.keys(jsonData).length).toBeGreaterThan(0);
         expect(jsonData["title"]).toBe("YouTube Детям");
     });
 });
