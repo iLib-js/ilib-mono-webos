@@ -69,9 +69,9 @@ describe("[integration] test the localization result of webos-c app", () => {
     test("csample_test_ko_KR_generate_mode", function() {
         expect.assertions(5);
         filePath = path.join(resourcePath, 'ko', fileName);
-        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
-        expect(Object.keys(jsonData).length).toBeGreaterThan(0);
+        jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["No"]).toBe("아니오");
         expect(jsonData["OK"]).toBe("확인");
         expect(jsonData["Yes"]).toBe("예");

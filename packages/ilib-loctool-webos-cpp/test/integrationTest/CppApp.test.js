@@ -97,9 +97,9 @@ describe("[integration] test the localization result of webos-cpp app", () => {
     test("cppsample_test_ko_KR", function() {
         expect.assertions(5);
         filePath = path.join(resourcePath, 'ko', fileName);
-        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
-        expect(Object.keys(jsonData).length).toBeGreaterThan(0);
+        jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["Yes"]).toBe("예");
         expect(jsonData["No"]).toBe("아니오");
         expect(jsonData["Update"]).toBe("업데이트")
@@ -108,42 +108,42 @@ describe("[integration] test the localization result of webos-cpp app", () => {
     test("cppsample_test_es_CO", function() {
         expect.assertions(3);
         filePath = path.join(resourcePath, "es", fileName);
-        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
-        expect(Object.keys(jsonData).length).toBeGreaterThan(0);
+        jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["Sound Out"]).toBe("Salida de Audio");
         expect(jsonData["OK"]).toBe("Aceptar"); // common
     });
     test("cppsample_test_en_US", function() {
         expect.assertions(2);
         filePath = path.join(resourcePath, fileName);
-        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
-        expect(Object.keys(jsonData).length).toBeGreaterThan(0);
+        jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["Programme"]).toBe("Channel");
     });
     test("cppsample_test_en_AU", function() {
         expect.assertions(2);
         filePath = path.join(resourcePath, "en/AU", fileName);
-        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
-        expect(Object.keys(jsonData).length).toBeGreaterThan(0);
+        jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["Programme"]).toBe("Programme");
     });
     test("cppsample_test_en_GB", function() {
         expect.assertions(2);
         filePath = path.join(resourcePath, "en/GB", fileName);
-        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
-        expect(Object.keys(jsonData).length).toBeGreaterThan(0);
+        jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["Programme"]).toBe("Programme");
     });
     test("cppsample_test_zxx", function() {
         expect.assertions(7);
         filePath = path.join(resourcePath, "zxx", fileName);
-        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
-        expect(Object.keys(jsonData).length).toBeGreaterThan(0);
+        jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["Cancel"]).toBe("[Çàñçëľ210]")
         expect(jsonData["No"]).toBe("[Ňõ0]");
         expect(jsonData["Programme"]).toBe("[Pŕõğŕàmmë43210]")
