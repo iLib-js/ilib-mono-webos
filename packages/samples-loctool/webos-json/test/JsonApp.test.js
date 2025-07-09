@@ -44,58 +44,58 @@ describe('test the localization result of webos-json app', () => {
     test("appinfo_jsonsample_test_ko_KR", function() {
         expect.assertions(2);
         filePath = path.join(resourcePath, 'ko', fileName);
-        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
-        expect(Object.keys(jsonData).length).toBeGreaterThan(0);
+        jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["title"]).toBe("현재 방송");
     });
     test("appinfo_jsonsample_test_en_US", function() {
         expect.assertions(3);
         filePath = path.join(resourcePath, fileName);
-        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
-        expect(Object.keys(jsonData).length).toBeGreaterThan(0);
+        jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["title"]).toBe("(en-US) Live TV");
         expect(jsonData["vendor"]).toBe("(dup) test");
     });
     test("appinfo_jsonsample_test_en_AU", function() {
         expect.assertions(2);
         filePath = path.join(resourcePath, "en/AU", fileName);
-        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
-        expect(Object.keys(jsonData).length).toBeGreaterThan(0);
+        jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["title"]).toBe("(en-GB) Live TV");
     });
     test("appinfo_jsonsample_test_en_GB", function() {
         expect.assertions(2);
         filePath = path.join(resourcePath, "en/GB", fileName);
-        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
-        expect(Object.keys(jsonData).length).toBeGreaterThan(0);
+        jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["title"]).toBe("(en-GB) Live TV");
     });
     test("appinfo_jsonsample_test_fr_CA", function() {
         expect.assertions(2);
         filePath = path.join(resourcePath, "fr", fileName);
-        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
-        expect(Object.keys(jsonData).length).toBeGreaterThan(0);
+        jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["title"]).toBe("(fr) Live TV");
     });
     test("appinfo_jsonsample_test_fr_FR", function() {
         expect.assertions(2);
         filePath = path.join(resourcePath, "fr", fileName);
-        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
-        expect(Object.keys(jsonData).length).toBeGreaterThan(0);
+        jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["title"]).toBe("(fr) Live TV");
     });
     test("appinfo_jsonsample_test_es_ES", function() {
         expect.assertions(4);
         filePath = path.join(resourcePath, "es/ES", fileName);
-        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
-        expect(Object.keys(jsonData).length).toBeGreaterThan(0);
+        jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["title"]).toBe("(es-ES) Live TV");
         expect(jsonData["vendor"]).toBeTruthy();
         expect(jsonData["vendor"]).toBe("test");
@@ -103,50 +103,50 @@ describe('test the localization result of webos-json app', () => {
     test("appinfo_jsonsample_test_es_CO", function() {
         expect.assertions(3);
         filePath = path.join(resourcePath, "es", fileName);
-        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
-        expect(Object.keys(jsonData).length).toBeGreaterThan(0);
+        jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["title"]).toBe("(es-CO) Live TV");
         expect(jsonData["vendor"]).toBeFalsy();
     });
     test("appinfo_jsonsample_test_it_IT", function() {
         expect.assertions(2);
         filePath = path.join(resourcePath, "es", fileName);
-        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
-        expect(Object.keys(jsonData).length).toBeGreaterThan(0);
+        jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["title"]).toBe("(es-CO) Live TV");
     });
     test("appinfo_jsonsample_test_zh_Hans_CN", function() {
         expect.assertions(2);
         filePath = path.join(resourcePath, "zh", fileName);
-        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
-        expect(Object.keys(jsonData).length).toBeGreaterThan(0);
+        jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["title"]).toBe("直播电视");
     });
     test("appinfo_jsonsample_test_zh_Hant_HK", function() {
         expect.assertions(2);
         filePath = path.join(resourcePath, "zh/Hant/HK", fileName);
-        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
-        expect(Object.keys(jsonData).length).toBeGreaterThan(0);
+        jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["title"]).toBe("Live TV");
     });
     test("appinfo_jsonsample_test_zh_Hant_TW", function() {
         expect.assertions(2);
         filePath = path.join(resourcePath, "zh/Hant/TW", fileName);
-        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
-        expect(Object.keys(jsonData).length).toBeGreaterThan(0);
+        jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["title"]).toBe("直播電視");
     });
     test("appinfo_jsonsample_test_kn_IN", function() {
         expect.assertions(3);
         filePath = path.join(resourcePath, "kn", fileName);
-        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
-        expect(Object.keys(jsonData).length).toBeGreaterThan(0);
+        jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["title"]).toBe("(kn-IN) Live TV");
         expect(jsonData["title@oled"]).toBeFalsy();
     });
@@ -155,9 +155,9 @@ describe('test the localization result of webos-json app', () => {
         fileName = "qcardinfo.json";
 
         filePath = path.join(resourcePath, "ko", fileName);
-        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
-        expect(Object.keys(jsonData).length).toBeGreaterThan(0);
+        jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["title"]).toBe("스포츠");
         expect(jsonData["description"]).toBe("스포츠 정보를 한눈에");
     });
@@ -166,9 +166,9 @@ describe('test the localization result of webos-json app', () => {
         fileName = "qcardinfo.json";
 
         filePath = path.join(resourcePath, "fr", fileName);
-        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
-        expect(Object.keys(jsonData).length).toBeGreaterThan(0);
+        jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["title"]).toBeFalsy();
         expect(jsonData["description"]).toBe("Toutes les informations sportives rassemblées au même endroit");
     });
@@ -177,9 +177,9 @@ describe('test the localization result of webos-json app', () => {
         fileName = "qcardinfo.json";
 
         filePath = path.join(resourcePath, "fr/CA", fileName);
-        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
-        expect(Object.keys(jsonData).length).toBeGreaterThan(0);
+        jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["title"]).toBeFalsy();
         expect(jsonData["description"]).toBe("Tous les renseignements sportifs en un seul endroit");
     });
