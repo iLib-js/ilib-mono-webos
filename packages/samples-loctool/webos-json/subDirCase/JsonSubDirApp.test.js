@@ -44,42 +44,42 @@ describe('test the localization result of webos-json(subDir Case) app', () => {
     test("subdirApp1_jsonsample_test_ko_KR", function() {
         expect.assertions(3);
         filePath = path.join("subDirCase/app1", resourcePath, 'ko', fileName);
-        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
-        expect(jsonData).toBeTruthy();
+        jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["title"]).toBe("[common]현재 방송");
         expect(jsonData["vendor"]).toBe("전자");
     });
     test("subdirApp1_jsonsample_test_en_US", function() {
         expect.assertions(2);
         filePath = path.join("subDirCase/app1", resourcePath, fileName);
-        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
-        expect(jsonData).toBeTruthy();
+        jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["title"]).toBe("(en-US) Live TV");
     });
     test("subdirApp1_jsonsample_test_en_GB", function() {
         expect.assertions(2);
         filePath = path.join("subDirCase/app1", resourcePath, "en/GB", fileName);
-        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
-        expect(jsonData).toBeTruthy();
+        jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["title"]).toBe("(en-GB) Live TV");
     });
     test("subdirApp1_jsonsample_test_zh_Hans_CN", function() {
         expect.assertions(2);
         filePath = path.join("subDirCase/app1", resourcePath, "zh", fileName);
-        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
-        expect(jsonData).toBeTruthy();
+        jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["vendor"]).toBe("电子");
     });
     test("subdirApp2_jsonsample_test_ru_RU", function() {
         expect.assertions(2);
         filePath = path.join("subDirCase/app2", resourcePath, "ru", fileName);
-        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
-        expect(jsonData).toBeTruthy();
+        jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["title"]).toBe("YouTube Детям");
     });
 });

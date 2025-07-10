@@ -66,14 +66,13 @@ describe("[integration] test the localization result of webos-cpp app", () => {
         }
     });
     test("cppsample_test_ko_KR_generate_mode", function() {
-        expect.assertions(9);
+        expect.assertions(8);
         filePath = path.join(resourcePath, 'ko', fileName);
 
         expect(process).toBeTruthy();
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
         jsonData = pluginUtils.loadData(filePath);
-        
-        expect(jsonData).toBeTruthy();
+
         expect(Object.keys(jsonData).length).toBe(5);
         expect(jsonData["No"]).toBe("아니오");
         expect(jsonData["Yes"]).toBe("예");

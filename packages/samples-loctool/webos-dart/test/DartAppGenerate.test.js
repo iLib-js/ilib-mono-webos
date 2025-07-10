@@ -72,9 +72,9 @@ describe('test the localization result (generate mode) of webos-dart app', () =>
     test("dartsample_generate_test_ko_KR", function() {
         expect.assertions(8);
         filePath = path.join(resourcePath, 'ko.json');
-        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
-        expect(jsonData).toBeTruthy();
+        jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["App List"]).toBe("앱 목록");
         expect(jsonData["App Rating"]).toBe("앱 등급");
         expect(jsonData["Back button"]).toBe("이전 버튼");
@@ -86,9 +86,9 @@ describe('test the localization result (generate mode) of webos-dart app', () =>
     test("dartsample_generate_test_fr_CA", function() {
         expect.assertions(6);
         filePath = path.join(resourcePath, 'fr.json');
-        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
-        expect(jsonData).toBeTruthy();
+        jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["App List"]).toBe("Liste des applications");
         expect(jsonData["App Rating"]).toBe("Évaluation de l'application");
         expect(jsonData["Back button"]).toBe("Bouton Retour");
@@ -98,9 +98,9 @@ describe('test the localization result (generate mode) of webos-dart app', () =>
     test("dartsample_generate_test_fr_FR", function() {
         expect.assertions(6);
         filePath = path.join(resourcePath, 'fr_FR.json');
-        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
-        expect(jsonData).toBeTruthy();
+        jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["App List"]).toBe("Liste des applications");
         expect(jsonData["App Rating"]).toBe("Évaluation de l'application");
         expect(jsonData["Back button"]).toBe("Bouton Retour");
@@ -110,9 +110,9 @@ describe('test the localization result (generate mode) of webos-dart app', () =>
     test("dartsample_generate_test_es_CO", function() {
         expect.assertions(9);
         filePath = path.join(resourcePath, 'es.json');
-        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
-        expect(jsonData).toBeTruthy();
+        jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["App List"]).toBe("Lista de Aplicaciones");
         expect(jsonData["App Rating"]).toBe("Clasificación de Aplicación");
         expect(jsonData["Back button"]).toBe("Botón regresar");
@@ -125,9 +125,9 @@ describe('test the localization result (generate mode) of webos-dart app', () =>
     test("dartsample_generate_test_es_ES", function() {
         expect.assertions(6);
         filePath = path.join(resourcePath, 'es_ES.json');
-        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
-        expect(jsonData).toBeTruthy();
+        jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["App List"]).toBe("Lista de aplicaciones");
         expect(jsonData["App Rating"]).toBe("Clasificación de la aplicación");
         expect(jsonData["Back button"]).toBe("Botón atrás");
@@ -137,9 +137,9 @@ describe('test the localization result (generate mode) of webos-dart app', () =>
     test("dartsample_generate_test_en_US", function() {
         expect.assertions(7);
         filePath = path.join(resourcePath, 'en.json');
-        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
-        expect(jsonData).toBeTruthy();
+        jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["App List"]).toBe("App List");
         expect(jsonData["App Rating"]).toBe("App Rating");
         expect(jsonData["Back button"]).toBe("Back button");
@@ -150,9 +150,9 @@ describe('test the localization result (generate mode) of webos-dart app', () =>
     test("dartsample_generate_test_ja_JP", function() {
         expect.assertions(7);
         filePath = path.join(resourcePath, 'ja.json');
-        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
-        expect(jsonData).toBeTruthy();
+        jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["App List"]).toBe("アプリリスト");
         expect(jsonData["App Rating"]).toBe("アプリの評価");
         expect(jsonData["Back button"]).toBe("[戻る]ボタン");
@@ -163,9 +163,9 @@ describe('test the localization result (generate mode) of webos-dart app', () =>
     test("dartsample_generate_test_sl_SI", function() {
         expect.assertions(6);
         filePath = path.join(resourcePath, 'sl.json');
-        jsonData = pluginUtils.isValidPath(filePath) ? pluginUtils.loadData(filePath) : jsonData;
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
-        expect(jsonData).toBeTruthy();
+        jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["Search_all"]).toBe("Iskanje");
         expect(jsonData["1#At least 1 letter|#At least {num} letters"].one).toBe("Vsaj {num} znak");
         expect(jsonData["1#At least 1 letter|#At least {num} letters"].two).toBe("Vsaj {num} znaka");
