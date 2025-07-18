@@ -1,5 +1,23 @@
 # ilib-loctool-webos-dist
 
+## 1.19.2
+
+### Patch Changes
+
+- e244b3a: Fix the broken documentation links after each plugin is published to npm
+- 7163edd: Updated dependencies. (loctool: 2.30.0)
+- Updated dependencies [1970707]
+- Updated dependencies [e244b3a]
+- Updated dependencies [7163edd]
+  - ilib-loctool-webos-javascript@1.11.2
+  - ilib-loctool-webos-dart@1.3.2
+  - ilib-loctool-webos-cpp@1.8.2
+  - ilib-loctool-webos-qml@1.8.2
+  - ilib-loctool-webos-c@1.8.2
+  - ilib-loctool-webos-json-resource@1.7.4
+  - ilib-loctool-webos-ts-resource@1.5.7
+  - ilib-loctool-webos-json@1.1.10
+
 ## 1.19.1
 
 ### Patch Changes
@@ -27,7 +45,7 @@
   ilib-loctool-webos-webos-c:  
   ilib-loctool-webos-javascript:  
   ilib-loctool-webos-webos-qml:  
-  ilib-loctool-webos-webos-dart:  
+  ilib-loctool-webos-webos-dart:
   - The plugins utilize the newly created ilib-loctool-webos-common package for their functionalities
 
 ### Patch Changes
