@@ -18,9 +18,9 @@
     "dependencies": {
         "ilib-loctool-webos-json": "workspace:*",
         "ilib-loctool-webos-common": "workspace:*",
-        "loctool": "^2.29.3"
+        "loctool": "^2.30.0"
     },
     "devDependencies": {
-        "jest": "^30.0.0"
+        "jest": "^30.0.4"
     }
 }

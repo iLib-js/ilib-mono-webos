@@ -44,7 +44,7 @@
         "test": "echo success"
     },
     "dependencies": {
-        "ilib-lint": "^2.14.0",
+        "ilib-lint": "^2.15.0",
         "ilib-lint-webos": "workspace:*"
     }
 }
