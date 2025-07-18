@@ -1,5 +1,17 @@
 # ilib-loctool-webos-javascript
 
+## 1.11.2
+
+### Patch Changes
+
+- 1970707: Updated the examples to use the new option `translationDir` instead of the deprecated option `xliffDir`.
+- e244b3a: Fix the broken documentation links after each plugin is published to npm
+- 7163edd: Updated dependencies. (loctool: 2.30.0)
+- Updated dependencies [e244b3a]
+- Updated dependencies [7163edd]
+  - ilib-loctool-webos-json-resource@1.7.4
+  - ilib-loctool-webos-common@1.1.1
+
 ## 1.11.1
 
 ### Patch Changes
