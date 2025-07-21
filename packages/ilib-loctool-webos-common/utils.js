@@ -42,7 +42,7 @@ module.exports.loadData = function(filepath) {
         var readData = fs.readFileSync(filepath, 'utf-8');
         return JSON.parse(readData);
     } catch (error) {
-        console.error(`Error reading or parsing file: ${error.message}`);
+        console.log(`Error reading or parsing file: ${error.message}`);
         return undefined;
     }
 }
@@ -113,4 +113,30 @@ module.exports.addNewResource = function (newresSet, res, locale) {
     newresSet.add(newres);
 
     return true;
+};
+
+/**
+* @param {Object} settings settings object that configures how the tool will operate
+*
+* @returns {String} Information on which device is currently being targeted for localization
+*/
+module.exports.getDeviceType = function (settings) {
+    if (!settings) return;
+    return settings.metadata ? settings.metadata["device-type"] : undefined;
+}
+
+/**
+* @param {Resource} translated a translation resource to add to this file
+* @param {String} deviceType It is optional. Information on which device is currently being targeted for localization
+*
+* @returns {String} The target string corresponding to the metadata.
+*/
+module.exports.getTarget = function (translated, deviceType) {
+    var defaultTarget = translated.target;
+
+    if (!deviceType || !translated.metadata) return defaultTarget;
+    var dataArr = translated.metadata["mda:metaGroup"]['mda:meta'];
+
+    var matchItem = dataArr.find(item => item['_attributes']['type'] === deviceType);
+    return matchItem ? matchItem['_text'] : defaultTarget;
 };

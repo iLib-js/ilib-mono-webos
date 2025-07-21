@@ -42,7 +42,7 @@ describe("[integration] test the localization result of webos-c app", () => {
             "resourceDirs" : { "json": "resources2" },
             "resourceFileTypes": { "json":"ilib-loctool-webos-json-resource" },
             "plugins": [ "ilib-loctool-webos-c" ],
-            "xliffStyle": "custom",
+            "xliffStyle": "webOS",
             "xliffVersion": 2,
         };
 
