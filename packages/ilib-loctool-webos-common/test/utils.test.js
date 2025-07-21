@@ -164,4 +164,55 @@ describe("utils", function() {
         expect.assertions(1);
         expect(utils.isExistKey("./test/testfiles/strings.json", "Bye")).toBeFalsy()
     });
+    test("test_getDeviceType", function() {
+        expect.assertions(1);
+
+        var settings = {
+            metadata: {
+                "device-type": "Monitor"
+            }
+        };
+        expect(utils.getDeviceType(settings)).toBe("Monitor");
+    });
+    test("test_getDeviceType_False", function() {
+        expect.assertions(1);
+
+        expect(utils.getDeviceType()).toBeFalsy();
+    });
+    test("test_getDeviceType_False2", function() {
+        expect.assertions(1);
+        var settings = {
+            metadataaa: {
+                "device-type": "Monitor"
+            }
+        };
+        expect(utils.getDeviceType(settings)).toBeFalsy();
+    });
+    /*
+    test("test_getTarget", function() {
+        expect.assertions(1);
+        var translated = new ResourceString({
+            id: "app",
+            sourceLocale: "en-US",
+            targetLocale: "ko-KR",
+            key: "NOT AVAILABLE",
+            source: "NOT AVAILABLE",
+            target: "이용이 불가능합니다",
+            metadata: {
+                "mda:meta" : {
+                    [
+
+                    ],
+                    [],
+                    [],
+                },
+                "_attributes": {
+                    "category": "device-type"
+                }
+            }
+        });
+
+        var deviceType = "Moitor"
+
+    });*/
 });
