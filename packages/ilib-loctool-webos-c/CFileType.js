@@ -153,7 +153,7 @@ CFileType.prototype.write = function(translations, locales) {
                             var manipulateKey = ResourceString.hashKey(this.commonPrjName, langDefaultLocale, res.getKey(), this.commonPrjType, res.getFlavor());
                             db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
                                 if (translated){
-                                    baseTranslation = pluginUtils.getTarget(translated, deviceType);;
+                                    baseTranslation = pluginUtils.getTarget(translated, deviceType);
                                 }
                             }.bind(this));
                         }
@@ -280,11 +280,11 @@ CFileType.prototype.write = function(translations, locales) {
             
             db.getResourceByCleanHashKey(langkey, function(err, translated) {
                 if (translated){
-                    baseTranslation = pluginUtils.getTarget(translated, deviceType);;
+                    baseTranslation = pluginUtils.getTarget(translated, deviceType);
                 } else {
                     db.getResourceByCleanHashKey(enUSKey, function(err, translated) {
                         if (translated){
-                            baseTranslation = pluginUtils.getTarget(translated, deviceType);;
+                            baseTranslation = pluginUtils.getTarget(translated, deviceType);
                         }
                     }.bind(this));
                 }
