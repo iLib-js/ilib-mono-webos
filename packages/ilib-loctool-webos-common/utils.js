@@ -56,6 +56,8 @@ module.exports.loadData = function(filepath) {
 * @returns {boolean} true if the is exists; otherwise false.
 */
 module.exports.isExistKey = function(filepath, key) {
+    if (!filepath || !key) return false;
+
     var jsonData = this.isValidPath(filepath) ? this.loadData(filepath) : {};
     return (jsonData && jsonData.hasOwnProperty(key));
 }
@@ -72,7 +74,8 @@ module.exports.isExistKey = function(filepath, key) {
 * @returns {boolean} true if the resource is added succesfully.
 */
 module.exports.addResource = function (resFileType, translated, res, locale, resPath) {
-    if (!(resFileType && translated && res && locale)) return false;
+    if (!resFileType || !translated || !res || !locale) return false;
+
     var file;
     // if reskeys don't match, we matched on cleaned string.
     // so we need to overwrite reskey of the translated resource to match
@@ -102,7 +105,7 @@ module.exports.addResource = function (resFileType, translated, res, locale, res
 * @returns {boolean} true if the resource is successfully added.
 */
 module.exports.addNewResource = function (newresSet, res, locale) {
-    if (!(newresSet && res && locale)) return false;
+    if (!newresSet || !res || !locale) return false;
 
     var note = "No translation for " + res.reskey + " to " + locale;
     var newres = res.clone();
@@ -122,7 +125,7 @@ module.exports.addNewResource = function (newresSet, res, locale) {
 */
 module.exports.getDeviceType = function (settings) {
     if (!settings) return;
-    return settings.metadata ? settings.metadata["device-type"] : undefined;
+    return settings.metadata?.["device-type"];
 }
 
 /**
@@ -135,8 +138,10 @@ module.exports.getTarget = function (translated, deviceType) {
     var defaultTarget = translated.target;
 
     if (!deviceType || !translated.metadata) return defaultTarget;
-    var dataArr = translated.metadata["mda:metaGroup"]['mda:meta'];
+    var dataArr = translated.metadata["mda:metaGroup"]?.['mda:meta'];
+
+    if (!dataArr) return defaultTarget;
 
     var matchItem = dataArr.find(item => item['_attributes']['type'] === deviceType);
-    return matchItem ? matchItem['_text'] : defaultTarget;
+    return matchItem ? matchItem['_text']: defaultTarget;
 };

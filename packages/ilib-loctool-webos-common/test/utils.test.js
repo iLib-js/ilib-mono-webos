@@ -188,9 +188,9 @@ describe("utils", function() {
         };
         expect(utils.getDeviceType(settings)).toBeFalsy();
     });
-    /*
     test("test_getTarget", function() {
         expect.assertions(1);
+
         var translated = new ResourceString({
             id: "app",
             sourceLocale: "en-US",
@@ -199,20 +199,102 @@ describe("utils", function() {
             source: "NOT AVAILABLE",
             target: "이용이 불가능합니다",
             metadata: {
-                "mda:meta" : {
-                    [
-
+                "mda:metaGroup": {
+                    "mda:meta": [
+                        {
+                            "_attributes" : {"type": "Monitor"},
+                            "_text": "\"Monitor\" 이용이 불가능합니다"
+                        },
+                        {
+                            "_attributes" : {"type": "Box"},
+                            "_text": "\"Box\" 이용이 불가능합니다"
+                        },
+                        {
+                            "_attributes" : {"type": "SoundBar"},
+                            "_text": "\"SoundBar\" 이용이 불가능합니다"
+                        }
                     ],
-                    [],
-                    [],
-                },
-                "_attributes": {
-                    "category": "device-type"
+                    "_attributes": {
+                        "category": "device-type"
+                    }
                 }
             }
         });
 
-        var deviceType = "Moitor"
+        var deviceType = "SoundBar"
+        var result = utils.getTarget(translated, deviceType);
+        expect(result).toBe("\"SoundBar\" 이용이 불가능합니다");
+    });
+    test("test_getTarget2", function() {
+        expect.assertions(1);
 
-    });*/
+        var translated = new ResourceString({
+            id: "app",
+            sourceLocale: "en-US",
+            targetLocale: "ko-KR",
+            key: "NOT AVAILABLE",
+            source: "NOT AVAILABLE",
+            target: "이용이 불가능합니다",
+            metadata: {
+                "mda:metaGroup": {
+                    "mda:meta": [
+                        {
+                            "_attributes" : {"type": "Monitor"},
+                            "_text": "\"Monitor\" 이용이 불가능합니다"
+                        },
+                        {
+                            "_attributes" : {"type": "Box"},
+                            "_text": "\"Box\" 이용이 불가능합니다"
+                        },
+                        {
+                            "_attributes" : {"type": "SoundBar"},
+                            "_text": "\"SoundBar\" 이용이 불가능합니다"
+                        }
+                    ],
+                    "_attributes": {
+                        "category": "device-type"
+                    }
+                }
+            }
+        });
+        var result = utils.getTarget(translated);
+        expect(result).toBe("이용이 불가능합니다");
+    });
+    test("test_getTarget3", function() {
+        expect.assertions(1);
+
+        var translated = new ResourceString({
+            id: "app",
+            sourceLocale: "en-US",
+            targetLocale: "ko-KR",
+            key: "NOT AVAILABLE",
+            source: "NOT AVAILABLE",
+            target: "이용이 불가능합니다",
+            metadata: {
+                "mda:metaGroup": {
+                    "mda:meta": [
+                        {
+                            "_attributes" : {"type": "Monitor"},
+                            "_text": "\"Monitor\" 이용이 불가능합니다"
+                        },
+                        {
+                            "_attributes" : {"type": "Box"},
+                            "_text": "\"Box\" 이용이 불가능합니다"
+                        },
+                        {
+                            "_attributes" : {"type": "SoundBar"},
+                            "_text": "\"SoundBar\" 이용이 불가능합니다"
+                        }
+                    ],
+                    "_attributes": {
+                        "category": "device-type"
+                    }
+                }
+            }
+        });
+
+        var deviceType = "SoundBarrrrr"
+        var result = utils.getTarget(translated, deviceType);
+        expect(result).toBe("이용이 불가능합니다");
+    });
 });
