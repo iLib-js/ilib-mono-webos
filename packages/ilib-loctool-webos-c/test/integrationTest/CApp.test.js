@@ -45,7 +45,7 @@ describe("[integration] test the localization result of webos-c app", () => {
             "resourceFileTypes": { "json":"ilib-loctool-webos-json-resource" },
             "plugins": [ "ilib-loctool-webos-c" ],
         };
-        debugger;
+
         const appSettings = {
             localizeOnly: true,
             translationsDir: "./xliffs",

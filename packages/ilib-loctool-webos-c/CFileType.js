@@ -280,19 +280,20 @@ CFileType.prototype.write = function(translations, locales) {
             
             db.getResourceByCleanHashKey(langkey, function(err, translated) {
                 if (translated){
-                    baseTranslation = translated.getTarget();
+                    baseTranslation = pluginUtils.getTarget(translated, deviceType);;
                 } else {
                     db.getResourceByCleanHashKey(enUSKey, function(err, translated) {
                         if (translated){
-                            baseTranslation = translated.getTarget();
+                            baseTranslation = pluginUtils.getTarget(translated, deviceType);;
                         }
                     }.bind(this));
                 }
             }.bind(this));
 
-            if ((locale == "en-US" && res.getSource() !== res.getTarget()) ||
-                (baseTranslation !== res.getTarget())) {
+            if ((locale == "en-US" && res.getSource() !== pluginUtils.getTarget(res, deviceType)) ||
+                (baseTranslation !== pluginUtils.getTarget(res, deviceType))) {
                 file = resFileType.getResourceFile(res.getTargetLocale());
+                res.setTarget(pluginUtils.getTarget(res, deviceType));
                 file.addResource(res);
             }
         }
@@ -385,11 +386,12 @@ CFileType.prototype.generatePseudo = function(locale, pb) {
         sourceLocale: pb.getSourceLocale()
     });
     this.logger.trace("Found " + resources.length + " source resources for " + pb.getSourceLocale());
+    var deviceType = pluginUtils.getDeviceType(this.project.settings);
 
     resources.forEach(function(resource) {
         this.logger.trace("Generating pseudo for " + resource.getKey());
         var res = resource.generatePseudo(locale, pb);
-        if (res && res.getSource() !== res.getTarget()) {
+        if (res && res.getSource() !== pluginUtils.getTarget(res, deviceType)) {
             this.pseudo.add(res);
         }
     }.bind(this));
