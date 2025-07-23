@@ -125,7 +125,7 @@ module.exports.addNewResource = function (newresSet, res, locale) {
 */
 module.exports.getDeviceType = function (settings) {
     if (!settings) return;
-    return settings.metadata?.["device-type"];
+    return (settings && settings.metadata) ? settings.metadata["device-type"]: undefined;
 }
 
 /**
@@ -138,10 +138,14 @@ module.exports.getTarget = function (translated, deviceType) {
     var defaultTarget = translated.target;
 
     if (!deviceType || !translated.metadata) return defaultTarget;
-    var dataArr = translated.metadata["mda:metaGroup"]?.['mda:meta'];
+
+    var dataArr = (translated.metadata && translated.metadata["mda:metaGroup"]) ?
+                  translated.metadata["mda:metaGroup"]["mda:meta"]: undefined;
 
     if (!dataArr) return defaultTarget;
 
-    var matchItem = dataArr.find(item => item['_attributes']['type'] === deviceType);
+    var matchItem = dataArr.find(function(item) {
+        return item['_attributes']['type'] === deviceType;
+    });
     return matchItem ? matchItem['_text']: defaultTarget;
 };
