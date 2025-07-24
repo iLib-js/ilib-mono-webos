@@ -38,6 +38,22 @@
           <target>시간 설정</target>
         </segment>
       </unit>
+      <unit id="7">
+        <mda:metadata>
+          <mda:metaGroup category="device-type">
+            <mda:meta type="Monitor">* 이 기능은 모니터가 꺼질 때 한 번만 실행됩니다.</mda:meta>
+            <mda:meta type="Projector">* 이 기능은 프로젝터가 꺼질 때 한번만 실행됩니다.</mda:meta>
+            <mda:meta type="StanbyME">* 이 기능은 기기 전원이 꺼질 때 한번만 실행됩니다.</mda:meta>
+          </mda:metaGroup>
+        </mda:metadata>
+        <notes>
+          <note>Settings_Picture  40</note>
+        </notes>
+        <segment>
+          <source>* This feature is applied once and only once when the TV is turned off.</source>
+          <target>* 이 기능은 TV가 꺼질 때 한 번만 실행됩니다.</target>
+        </segment>
+      </unit>
     </group>
   </file>
 </xliff>

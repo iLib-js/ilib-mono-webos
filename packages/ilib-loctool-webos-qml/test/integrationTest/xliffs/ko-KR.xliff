@@ -28,6 +28,17 @@ Please check the Network Settings and try again.</source>
 네트워크 설정 확인 후 다시 시도하세요.</target>
     </segment>
    </unit>
+  <unit id="79">
+    <mda:metadata>
+      <mda:metaGroup category="device-type">
+        <mda:meta type="StanbyME">'예약 목록'으로 가서 현재 등록되어 있는 예약을 변경하시겠습니까?</mda:meta>
+      </mda:metaGroup>
+    </mda:metadata>
+    <segment>
+      <source>Do you want to go to TV Scheduler now to change schedules?</source>
+      <target>'예약 목록'으로 가서 등록된 예약을 변경하시겠습니까?</target>
+    </segment>
+  </unit>
     </group>
   </file>
 </xliff>
