@@ -34,16 +34,16 @@ describe("[integration] test the localization result of webos-c app", () => {
             fs.rmSync(resourcePath, { recursive: true });
         }
         const projectSettings = {
-            "rootDir": projectRoot, 
-            "id": "sample-webos-c",
-            "projectType": "webos-c",
-            "sourceLocale": "en-KR",
-            "pseudoLocale" : {
+            rootDir: projectRoot,
+            id: "sample-webos-c",
+            projectType: "webos-c",
+            sourceLocale: "en-KR",
+            pseudoLocale : {
                 "zxx-XX": "debug"
             },
-            "resourceDirs" : { "json": "resources" },
-            "resourceFileTypes": { "json":"ilib-loctool-webos-json-resource" },
-            "plugins": [ "ilib-loctool-webos-c" ],
+            resourceDirs : { "json": "resources" },
+            resourceFileTypes: { "json":"ilib-loctool-webos-json-resource" },
+            plugins: [ "ilib-loctool-webos-c" ],
         };
 
         const appSettings = {
@@ -55,7 +55,6 @@ describe("[integration] test the localization result of webos-c app", () => {
             },
             xliffVersion: 2,
             xliffStyle: "webOS",
-            "xliffVersion": 2,
             nopseudo: false,
             resourceFileNames: { "c": fileName },
             webos: {

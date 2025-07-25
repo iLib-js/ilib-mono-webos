@@ -33,25 +33,27 @@ describe('[integration] test the localization result of webos-dart app', () => {
             fs.rmSync(resourcePath, { recursive: true });
         }
         const projectSettings = {
-            "rootDir": projectRoot, 
-            "id": "sample-webos-dart",
-            "projectType": "webos-dart",
-            "sourceLocale": "en-KR",
-            "pseudoLocale" : {
+            rootDir: projectRoot,
+            id: "sample-webos-dart",
+            projectType: "webos-dart",
+            sourceLocale: "en-KR",
+            pseudoLocale : {
                 "zxx-XX": "debug"
             },
-            "resourceDirs" : { "json": "assets/i18n" },
-            "resourceFileTypes": { "json":"ilib-loctool-webos-json-resource" },
-            "plugins": [ "ilib-loctool-webos-dart" ],
-            "xliffStyle": "custom",
-            "xliffVersion": 2,
+            resourceDirs : { "json": "assets/i18n" },
+            resourceFileTypes: { "json":"ilib-loctool-webos-json-resource" },
+            plugins: [ "ilib-loctool-webos-dart" ]
         };
 
         const appSettings = {
             localizeOnly: true,
             translationsDir: "./xliffs",
             mode: "localize",
+            metadata : {
+                "device-type": "Monitor"
+            },
             xliffVersion: 2,
+            xliffStyle: "webOS",
             nopseudo: false,
             webos: {
                 "commonXliff": path.join(projectRoot, "./common")
@@ -69,9 +71,9 @@ describe('[integration] test the localization result of webos-dart app', () => {
             localeInherit: {
                 "en-AU": "en-GB",
             },
-            "dart": {
-               "disablePseudo": false,
-                "mappings" : {
+            dart: {
+               disablePseudo: false,
+                mappings : {
                     "**/*.dart": {
                         "template": path.join(projectRoot, "[dir]/assets/i18n/[localeUnder].json")
                     }
@@ -101,7 +103,7 @@ describe('[integration] test the localization result of webos-dart app', () => {
         }
     });
     test("dartsample_test_ko_KR", function() {
-        expect.assertions(4);
+        expect.assertions(5);
         filePath = path.join(resourcePath, 'ko.json');
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
@@ -109,6 +111,7 @@ describe('[integration] test the localization result of webos-dart app', () => {
         expect(jsonData["App List"]).toBe("앱 목록");
         expect(jsonData["Back button"]).toBe("이전 버튼");
         expect(jsonData["Search"]).toBe("통합 검색");
+        expect(jsonData["Internal Speaker"]).toBe("모니터 스피커");
     });
     test("dartsample_test_es_CO", function() {
         expect.assertions(5);
@@ -146,15 +149,16 @@ describe('[integration] test the localization result of webos-dart app', () => {
         expect(jsonData["Programme"]).toBe("Programme");
     });
     test("dartsample_test_zxx", function() {
-        expect.assertions(6);
+        expect.assertions(7);
         filePath = path.join(resourcePath, 'zxx.json');
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
         jsonData = pluginUtils.loadData(filePath);
-        expect(Object.keys(jsonData).length).toBe(5);
+        expect(Object.keys(jsonData).length).toBe(6);
         expect(jsonData["App List"]).toBe("[Ãþþ Ľíšţ3210]");
         expect(jsonData["Back button"]).toBe("[ßàçķ büţţõñ543210]");
         expect(jsonData["Programme"]).toBe("[Pŕõğŕàmmë43210]");
         expect(jsonData["Search"]).toBe("[Šëàŕçĥ210]");
+        expect(jsonData["Internal Speaker"]).toBe("[Ïñţëŕñàľ Šþëàķëŕ76543210]");
     });
 });

@@ -50,24 +50,26 @@ describe('[integration] test the localization result of webos-qml app', () => {
             fs.rmSync(resourcePath, { recursive: true });
         }
         const projectSettings = {
-            "rootDir": projectRoot, 
-            "id": "sample-webos-qml",
-            "projectType": "webos-qml",
-            "sourceLocale": "en-KR",
-            "pseudoLocale" : {
+            rootDir: projectRoot, 
+            id: "sample-webos-qml",
+            projectType: "webos-qml",
+            sourceLocale: "en-KR",
+            pseudoLocale : {
                 "zxx-XX": "debug"
             },
-            "resourceDirs" : { "ts": "resources" },
-            "resourceFileTypes": { "ts": "ilib-loctool-webos-ts-resource" },
-            "plugins": [ "ilib-loctool-webos-qml" ],
-            "xliffStyle": "custom",
-            "xliffVersion": 2,
+            resourceDirs : { "ts": "resources" },
+            resourceFileTypes: { "ts": "ilib-loctool-webos-ts-resource" },
+            plugins: [ "ilib-loctool-webos-qml" ]
         };
 
         const appSettings = {
             localizeOnly: true,
             translationsDir: "./xliffs",
             mode: "localize",
+            metadata : {
+                "device-type": "StanbyME"
+            },
+            xliffStyle: "webOS",
             xliffVersion: 2,
             nopseudo: false,
             webos: {
@@ -110,10 +112,12 @@ describe('[integration] test the localization result of webos-qml app', () => {
         }
     });
     test("qmlsample_test_ko_KR", function() {
-        expect.assertions(6);
-        
+        expect.assertions(7);
+        debugger;
         const expected = {
-            "test": [ "오디오","음악",
+            "test": [ "오디오",
+                 "'예약 목록'으로 가서 현재 등록되어 있는 예약을 변경하시겠습니까?",
+                "음악",
                 "네트워크가 연결되지 않았습니다.\n네트워크 설정 확인 후 다시 시도하세요.",
                 "노래"
             ],
