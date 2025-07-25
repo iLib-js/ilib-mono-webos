@@ -1,5 +1,11 @@
 # ilib-loctool-webos-ts-resource
 
+## 1.5.8
+
+### Patch Changes
+
+- 7ea2310: Updated dependencies. (loctool: 2.31.0)
+
 ## 1.5.7
 
 ### Patch Changes
