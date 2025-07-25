@@ -164,4 +164,137 @@ describe("utils", function() {
         expect.assertions(1);
         expect(utils.isExistKey("./test/testfiles/strings.json", "Bye")).toBeFalsy()
     });
+    test("test_getDeviceType", function() {
+        expect.assertions(1);
+
+        var settings = {
+            metadata: {
+                "device-type": "Monitor"
+            }
+        };
+        expect(utils.getDeviceType(settings)).toBe("Monitor");
+    });
+    test("test_getDeviceType_False", function() {
+        expect.assertions(1);
+
+        expect(utils.getDeviceType()).toBeFalsy();
+    });
+    test("test_getDeviceType_False2", function() {
+        expect.assertions(1);
+        var settings = {
+            metadataaa: {
+                "device-type": "Monitor"
+            }
+        };
+        expect(utils.getDeviceType(settings)).toBeFalsy();
+    });
+    test("test_getTarget", function() {
+        expect.assertions(1);
+
+        var translated = new ResourceString({
+            id: "app",
+            sourceLocale: "en-US",
+            targetLocale: "ko-KR",
+            key: "NOT AVAILABLE",
+            source: "NOT AVAILABLE",
+            target: "이용이 불가능합니다",
+            metadata: {
+                "mda:metaGroup": {
+                    "mda:meta": [
+                        {
+                            "_attributes" : {"type": "Monitor"},
+                            "_text": "\"Monitor\" 이용이 불가능합니다"
+                        },
+                        {
+                            "_attributes" : {"type": "Box"},
+                            "_text": "\"Box\" 이용이 불가능합니다"
+                        },
+                        {
+                            "_attributes" : {"type": "SoundBar"},
+                            "_text": "\"SoundBar\" 이용이 불가능합니다"
+                        }
+                    ],
+                    "_attributes": {
+                        "category": "device-type"
+                    }
+                }
+            }
+        });
+
+        var deviceType = "SoundBar"
+        var result = utils.getTarget(translated, deviceType);
+        expect(result).toBe("\"SoundBar\" 이용이 불가능합니다");
+    });
+    test("test_getTarget2", function() {
+        expect.assertions(1);
+
+        var translated = new ResourceString({
+            id: "app",
+            sourceLocale: "en-US",
+            targetLocale: "ko-KR",
+            key: "NOT AVAILABLE",
+            source: "NOT AVAILABLE",
+            target: "이용이 불가능합니다",
+            metadata: {
+                "mda:metaGroup": {
+                    "mda:meta": [
+                        {
+                            "_attributes" : {"type": "Monitor"},
+                            "_text": "\"Monitor\" 이용이 불가능합니다"
+                        },
+                        {
+                            "_attributes" : {"type": "Box"},
+                            "_text": "\"Box\" 이용이 불가능합니다"
+                        },
+                        {
+                            "_attributes" : {"type": "SoundBar"},
+                            "_text": "\"SoundBar\" 이용이 불가능합니다"
+                        }
+                    ],
+                    "_attributes": {
+                        "category": "device-type"
+                    }
+                }
+            }
+        });
+        var result = utils.getTarget(translated);
+        expect(result).toBe("이용이 불가능합니다");
+    });
+    test("test_getTarget3", function() {
+        expect.assertions(1);
+
+        var translated = new ResourceString({
+            id: "app",
+            sourceLocale: "en-US",
+            targetLocale: "ko-KR",
+            key: "NOT AVAILABLE",
+            source: "NOT AVAILABLE",
+            target: "이용이 불가능합니다",
+            metadata: {
+                "mda:metaGroup": {
+                    "mda:meta": [
+                        {
+                            "_attributes" : {"type": "Monitor"},
+                            "_text": "\"Monitor\" 이용이 불가능합니다"
+                        },
+                        {
+                            "_attributes" : {"type": "Box"},
+                            "_text": "\"Box\" 이용이 불가능합니다"
+                        },
+                        {
+                            "_attributes" : {"type": "SoundBar"},
+                            "_text": "\"SoundBar\" 이용이 불가능합니다"
+                        }
+                    ],
+                    "_attributes": {
+                        "category": "device-type"
+                    }
+                }
+            }
+        });
+
+        var deviceType = "SoundBarrrrr"
+        var result = utils.getTarget(translated, deviceType);
+        expect(result).toBe("이용이 불가능합니다");
+    });
 });

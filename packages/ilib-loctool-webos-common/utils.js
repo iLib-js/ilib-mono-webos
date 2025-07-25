@@ -42,7 +42,7 @@ module.exports.loadData = function(filepath) {
         var readData = fs.readFileSync(filepath, 'utf-8');
         return JSON.parse(readData);
     } catch (error) {
-        console.error(`Error reading or parsing file: ${error.message}`);
+        console.log(`Error reading or parsing file: ${error.message}`);
         return undefined;
     }
 }
@@ -56,6 +56,8 @@ module.exports.loadData = function(filepath) {
 * @returns {boolean} true if the is exists; otherwise false.
 */
 module.exports.isExistKey = function(filepath, key) {
+    if (!filepath || !key) return false;
+
     var jsonData = this.isValidPath(filepath) ? this.loadData(filepath) : {};
     return (jsonData && jsonData.hasOwnProperty(key));
 }
@@ -72,7 +74,8 @@ module.exports.isExistKey = function(filepath, key) {
 * @returns {boolean} true if the resource is added succesfully.
 */
 module.exports.addResource = function (resFileType, translated, res, locale, resPath) {
-    if (!(resFileType && translated && res && locale)) return false;
+    if (!resFileType || !translated || !res || !locale) return false;
+
     var file;
     // if reskeys don't match, we matched on cleaned string.
     // so we need to overwrite reskey of the translated resource to match
@@ -102,7 +105,7 @@ module.exports.addResource = function (resFileType, translated, res, locale, res
 * @returns {boolean} true if the resource is successfully added.
 */
 module.exports.addNewResource = function (newresSet, res, locale) {
-    if (!(newresSet && res && locale)) return false;
+    if (!newresSet || !res || !locale) return false;
 
     var note = "No translation for " + res.reskey + " to " + locale;
     var newres = res.clone();
@@ -113,4 +116,36 @@ module.exports.addNewResource = function (newresSet, res, locale) {
     newresSet.add(newres);
 
     return true;
+};
+
+/**
+* @param {Object} settings settings object that configures how the tool will operate
+*
+* @returns {String} Information on which device is currently being targeted for localization
+*/
+module.exports.getDeviceType = function (settings) {
+    if (!settings) return;
+    return (settings && settings.metadata) ? settings.metadata["device-type"]: undefined;
+}
+
+/**
+* @param {Resource} translated a translation resource to add to this file
+* @param {String} deviceType It is optional. Information on which device is currently being targeted for localization
+*
+* @returns {String} The target string corresponding to the metadata.
+*/
+module.exports.getTarget = function (translated, deviceType) {
+    var defaultTarget = translated.target;
+
+    if (!deviceType || !translated.metadata) return defaultTarget;
+
+    var dataArr = (translated.metadata && translated.metadata["mda:metaGroup"]) ?
+                  translated.metadata["mda:metaGroup"]["mda:meta"]: undefined;
+
+    if (!dataArr) return defaultTarget;
+
+    var matchItem = dataArr.find(function(item) {
+        return item['_attributes']['type'] === deviceType;
+    });
+    return matchItem ? matchItem['_text']: defaultTarget;
 };

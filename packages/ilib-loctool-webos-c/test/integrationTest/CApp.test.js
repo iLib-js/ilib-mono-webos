@@ -44,15 +44,18 @@ describe("[integration] test the localization result of webos-c app", () => {
             "resourceDirs" : { "json": "resources" },
             "resourceFileTypes": { "json":"ilib-loctool-webos-json-resource" },
             "plugins": [ "ilib-loctool-webos-c" ],
-            "xliffStyle": "custom",
-            "xliffVersion": 2,
         };
 
         const appSettings = {
             localizeOnly: true,
             translationsDir: "./xliffs",
             mode: "localize",
+            metadata : {
+                "device-type": "SoundBar"
+            },
             xliffVersion: 2,
+            xliffStyle: "webOS",
+            "xliffVersion": 2,
             nopseudo: false,
             resourceFileNames: { "c": fileName },
             webos: {
@@ -95,7 +98,7 @@ describe("[integration] test the localization result of webos-c app", () => {
         }
      }); 
     test("csample_test_ko_KR", function() {
-        expect.assertions(4);
+        expect.assertions(5);
         filePath = path.join(resourcePath, 'ko', fileName);
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
@@ -103,6 +106,7 @@ describe("[integration] test the localization result of webos-c app", () => {
         expect(jsonData["No"]).toBe("아니오");
         expect(jsonData["OK"]).toBe("확인");
         expect(jsonData["Yes"]).toBe("예");
+        expect(jsonData["NOT AVAILABLE"]).toBe("\"SoundBar\" 이용이 불가능합니다");
     });
     test("csample_test_es_CO", function() {
         expect.assertions(3);

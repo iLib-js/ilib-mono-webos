@@ -42,8 +42,6 @@ describe("[integration] test the localization result of webos-c app", () => {
             "resourceDirs" : { "json": "resources2" },
             "resourceFileTypes": { "json":"ilib-loctool-webos-json-resource" },
             "plugins": [ "ilib-loctool-webos-c" ],
-            "xliffStyle": "custom",
-            "xliffVersion": 2,
         };
 
         const appSettings = {
@@ -51,12 +49,17 @@ describe("[integration] test the localization result of webos-c app", () => {
             translationsDir: "./xliffs",
             mode: "generate",
             xliffVersion: 2,
+            xliffStyle: "webOS",
+            metadata : {
+                "device-type": "Monitor"
+            },
             nopseudo: false,
             resourceFileNames: { "c": fileName },
             locales:[
                 "ko-KR"
             ]
         };
+
         const project = ProjectFactory.newProject(projectSettings, appSettings);
         process = GenerateModeProcess(project);
 
@@ -67,7 +70,7 @@ describe("[integration] test the localization result of webos-c app", () => {
         }
     });
     test("csample_test_ko_KR_generate_mode", function() {
-        expect.assertions(5);
+        expect.assertions(6);
         filePath = path.join(resourcePath, 'ko', fileName);
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
@@ -76,5 +79,6 @@ describe("[integration] test the localization result of webos-c app", () => {
         expect(jsonData["OK"]).toBe("확인");
         expect(jsonData["Yes"]).toBe("예");
         expect(jsonData["Time Settings"]).toBe("시간 설정");
+        expect(jsonData["NOT AVAILABLE"]).toBe("\"Monitor\" 이용이 불가능합니다");
     });
 });
