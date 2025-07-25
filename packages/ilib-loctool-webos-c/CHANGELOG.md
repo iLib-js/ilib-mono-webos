@@ -1,5 +1,19 @@
 # ilib-loctool-webos-c
 
+## 1.9.0
+
+### Minor Changes
+
+- 8f3072b: - Updated to correctly generate resources even when XLIFF files include metadata, using the new APIs from `ilib-loctool-webos-common`
+
+### Patch Changes
+
+- 7ea2310: Updated dependencies. (loctool: 2.31.0)
+- Updated dependencies [7ea2310]
+- Updated dependencies [8f3072b]
+  - ilib-loctool-webos-json-resource@1.7.5
+  - ilib-loctool-webos-common@1.2.0
+
 ## 1.8.2
 
 ### Patch Changes

@@ -1,5 +1,17 @@
 # ilib-loctool-webos-common
 
+## 1.2.0
+
+### Minor Changes
+
+- 8f3072b: - Added new APIs to use across webOS plugins
+  - `getDeviceType()`
+  - `getTarget()`
+
+### Patch Changes
+
+- 7ea2310: Updated dependencies. (loctool: 2.31.0)
+
 ## 1.1.1
 
 ### Patch Changes
