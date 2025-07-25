@@ -35,18 +35,21 @@ describe('[integration] test the localization result (generate mode) of webos-da
             fs.rmSync(outputPath, { recursive: true });
         }
         const projectSettings = {
-            "rootDir": projectRoot,
-            "id": "sample-webos-dart",
-            "projectType": "webos-dart",
-            "sourceLocale": "en-KR",
-            "resourceDirs" : { "json": "assets2/i18n" },
-            "resourceFileTypes": { "json":"ilib-loctool-webos-json-resource" },
-            "plugins": [ "ilib-loctool-webos-dart" ],
-            "xliffStyle": "custom",
-            "xliffVersion": 2,
+            rootDir: projectRoot,
+            id: "sample-webos-dart",
+            projectType: "webos-dart",
+            sourceLocale: "en-KR",
+            resourceDirs : { "json": "assets2/i18n" },
+            resourceFileTypes: { "json":"ilib-loctool-webos-json-resource" },
+            plugins: [ "ilib-loctool-webos-dart" ]
         };
         const appSettings = {
             translationsDir: "./xliffs",
+            xliffStyle: "webOS",
+            metadata : {
+                "device-type": "StanbyME"
+            },
+            xliffVersion: 2,
             locales:[
                 "ko-KR"
             ],
@@ -56,9 +59,9 @@ describe('[integration] test the localization result (generate mode) of webos-da
             localeInherit: {
                 "en-AU": "en-GB",
             },
-            "dart": {
-               "disablePseudo": false,
-                "mappings" : {
+            dart: {
+               disablePseudo: false,
+                mappings : {
                     "**/*.dart": {
                         "template": path.join(projectRoot, "[dir]/assets/i18n/[localeUnder].json")
                     }
@@ -75,7 +78,7 @@ describe('[integration] test the localization result (generate mode) of webos-da
         }
     });
     test("dartsample_generate_test_ko_KR", function() {
-        expect.assertions(6);
+        expect.assertions(7);
         filePath = path.join(resourcePath, 'ko.json');
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
@@ -85,5 +88,6 @@ describe('[integration] test the localization result (generate mode) of webos-da
         expect(jsonData["Delete All"]).toBe("모두 삭제");
         expect(jsonData["Live TV"]).toBe("현재 방송");
         expect(jsonData["Search"]).toBe("통합 검색");
+        expect(jsonData["Internal Speaker"]).toBe("내부 스피커");
     });
 });

@@ -30,23 +30,26 @@ describe('[integration] test the localization result of webos-js app', () => {
             fs.rmSync(defaultRSPath, { recursive: true });
         }
         const projectSettings = {
-            "rootDir": projectRoot,
-            "id": "sample-webos-js",
-            "projectType": "webos-js",
-            "sourceLocale": "en-KR",
-            "pseudoLocale" : {
+            rootDir: projectRoot,
+            id: "sample-webos-js",
+            projectType: "webos-js",
+            sourceLocale: "en-KR",
+            pseudoLocale : {
                 "zxx-XX": "debug"
             },
-            "resourceDirs" : { "json": "resources" },
-            "resourceFileTypes": { "json":"ilib-loctool-webos-json-resource" },
-            "plugins": [ "ilib-loctool-webos-javascript" ],
-            "xliffStyle": "custom",
-            "xliffVersion": 2,
+            resourceDirs : { "json": "resources" },
+            resourceFileTypes: { "json":"ilib-loctool-webos-json-resource" },
+            plugins: [ "ilib-loctool-webos-javascript" ]
         };
         const appSettings = {
             localizeOnly: true,
             translationsDir: "./xliffs",
             mode: "localize",
+            metadata : {
+                "device-type": "Monitor"
+            },
+            xliffStyle: "webOS",
+            xliffVersion: 2,
             nopseudo: false,
             webos: {
                 "commonXliff": path.join(projectRoot, "./common")
@@ -90,7 +93,7 @@ describe('[integration] test the localization result of webos-js app', () => {
         }
     });
     test("jssample_test_ko_KR", function() {
-        expect.assertions(5);
+        expect.assertions(6);
         let rb = new ResBundle({
             locale:"ko-KR",
             basePath : defaultRSPath
@@ -100,6 +103,7 @@ describe('[integration] test the localization result of webos-js app', () => {
         expect(rb.getString("Thank you").toString()).toBe("고마워");
         expect(rb.getString("Bye").toString()).toBe("잘가");
         expect(rb.getString("Time Settings").toString()).toBe("시간 설정");
+        expect(rb.getString("Internal Speaker + Wired Headphones").toString()).toBe("모니터 스피커 + 유선 헤드폰");
     });
     test("jssample_test_es_CO", function() {
         expect.assertions(2);

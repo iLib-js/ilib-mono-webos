@@ -99,6 +99,7 @@ QMLFileType.prototype._getTranslationWithNewline = function(db, translated, res,
 
     var newlinerestored = res.getSource().replace(/\n/g, "\\n");
     this.logger.debug("_getTranslationWithNewline: " + newlinerestored);
+    var deviceType = pluginUtils.getDeviceType(this.project.settings);
     var newres = res.clone();
     newres.source = newlinerestored;
     newres.sourcehash = this.API.utils.hashKey(newlinerestored);
@@ -113,7 +114,8 @@ QMLFileType.prototype._getTranslationWithNewline = function(db, translated, res,
         if (translated) {
             translated.source = res.source;
             translated.reskey = res.reskey;
-            translated.setTarget(translated.getTarget().replace(/\\n/g, "\n"));
+            var target = pluginUtils.getTarget(translated, deviceType);
+            translated.setTarget(target.replace(/\\n/g, "\n"));
             newtranslated = translated;
         }
     }.bind(this));
@@ -137,7 +139,8 @@ QMLFileType.prototype.write = function(translations, locales) {
     // and then let them write themselves out
 
     var resFileType = this.project.getResourceFileType(this.resourceType);
-
+    var deviceType = pluginUtils.getDeviceType(this.project.settings);
+    var newlineChar = '\n';
     var res, file,
         resources = this.extracted.getAll(),
         db = this.project.db,
@@ -168,12 +171,13 @@ QMLFileType.prototype.write = function(translations, locales) {
 
             db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(locale), function(err, translated) {
                 var r = translated;
+                var temp = deviceType;
                 if (!translated) {
                     var manipulateKey = res.cleanHashKeyForTranslation(locale).replace(res.getContext(), "");
                     db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
                     var r = translated;
 
-                    if (!translated && res.getSource().includes("\n")) {
+                    if (!translated && res.getSource().includes(newlineChar)) {
                         translated = this._getTranslationWithNewline(db, translated, res, locale, false);
                         r = translated;
                     }
@@ -181,7 +185,7 @@ QMLFileType.prototype.write = function(translations, locales) {
                     if (!translated && this.isloadCommonData) {
                         var manipulateKey = ResourceString.hashKey(this.commonPrjName, locale, res.getKey(), this.commonPrjType, res.getFlavor());
                         db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
-                            if (!translated && res.getSource().includes("\n")) {
+                            if (!translated && res.getSource().includes(newlineChar)) {
                                 translated = this._getTranslationWithNewline(db, translated, res, locale, true);
                                 r = translated;
                             }
@@ -190,7 +194,7 @@ QMLFileType.prototype.write = function(translations, locales) {
                             } else if(!translated && customInheritLocale){
                                 var manipulateKey = res.cleanHashKeyForTranslation(customInheritLocale).replace(res.getContext(), "");
                                 db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
-                                    if (!translated && res.getSource().includes("\n")) {
+                                    if (!translated && res.getSource().includes(newlineChar)) {
                                         translated = this._getTranslationWithNewline(db, translated, res, customInheritLocale, false);
                                         r = translated;
                                     }
@@ -198,7 +202,7 @@ QMLFileType.prototype.write = function(translations, locales) {
                                     if (!translated){
                                         var manipulateKey = ResourceString.hashKey(this.commonPrjName, customInheritLocale, res.getKey(), this.commonPrjType, res.getFlavor());
                                         db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
-                                            if (!translated && res.getSource().includes("\n")) {
+                                            if (!translated && res.getSource().includes(newlineChar)) {
                                                 translated = this._getTranslationWithNewline(db, translated, res, customInheritLocale, true);
                                                 r = translated;
                                             }
@@ -221,7 +225,7 @@ QMLFileType.prototype.write = function(translations, locales) {
                         var manipulateKey = res.cleanHashKeyForTranslation(customInheritLocale).replace(res.getContext(),"");
                         db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
                             var r = translated;
-                            if (!translated && res.getSource().includes("\n")) {
+                            if (!translated && res.getSource().includes(newlineChar)) {
                                 translated = this._getTranslationWithNewline(db, translated, res, customInheritLocale, false);
                                 r = translated;
                             }
@@ -272,6 +276,7 @@ QMLFileType.prototype.write = function(translations, locales) {
                                 r.reskey = res.reskey;
                             }
                             var storeResource = r.clone();
+                            storeResource.setTarget(pluginUtils.getTarget(r, deviceType));
 
                             // To keep the extracted source's filename.  If not, xliff file name will be wrote to ts resource file.
                             storeResource.pathName = res.getPath();
@@ -296,8 +301,9 @@ QMLFileType.prototype.write = function(translations, locales) {
 
     for (var i = 0; i < resources.length; i++) {
         res = resources[i];
-        if (res.getTargetLocale() !== this.project.sourceLocale && res.getSource() !== res.getTarget()) {
+        if (res.getTargetLocale() !== this.project.sourceLocale && res.getSource() !== pluginUtils.getTarget(res, deviceType)) {
             file = resFileType.getResourceFile(res.getTargetLocale());
+            res.setTarget(pluginUtils.getTarget(res, deviceType));
             file.addResource(res);
             this.logger.trace("Added " + res.reskey + " to " + file.pathName);
         }
@@ -392,11 +398,11 @@ QMLFileType.prototype.generatePseudo = function(locale, pb) {
         sourceLocale: pb.getSourceLocale()
     });
     this.logger.trace("Found " + resources.length + " source resources for " + pb.getSourceLocale());
-
+    var deviceType = pluginUtils.getDeviceType(this.project.settings);
     resources.forEach(function(resource) {
         this.logger.trace("Generating pseudo for " + resource.getKey());
         var res = resource.generatePseudo(locale, pb);
-        if (res && res.getSource() !== res.getTarget()) {
+        if (res && res.getSource() !== pluginUtils.getTarget(res, deviceType)) {
             this.pseudo.add(res);
         }
     }.bind(this));
