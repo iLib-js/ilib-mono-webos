@@ -26,6 +26,19 @@
           <target>시간 설정</target>
         </segment>
       </unit>
+      <unit id="7">
+        <mda:metadata>
+            <mda:metaGroup category="device-type">
+            <mda:meta type="Monitor">"Monitor" 이용이 불가능합니다</mda:meta>
+            <mda:meta type="Box">"Box" 이용이 불가능합니다</mda:meta>
+            <mda:meta type="SoundBar">"SoundBar" 이용이 불가능합니다</mda:meta>
+            </mda:metaGroup>
+        </mda:metadata>
+        <segment>
+            <source>NOT AVAILABLE</source>
+            <target>이용이 불가능합니다</target>
+        </segment>
+    </unit>
     </group>
   </file>
 </xliff>
