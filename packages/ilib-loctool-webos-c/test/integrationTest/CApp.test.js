@@ -51,7 +51,7 @@ describe("[integration] test the localization result of webos-c app", () => {
             translationsDir: "./xliffs",
             mode: "localize",
             metadata : {
-                "device-type": "SoundBar"
+                "device-type": "Monitor"
             },
             xliffVersion: 2,
             xliffStyle: "webOS",
@@ -65,6 +65,7 @@ describe("[integration] test the localization result of webos-c app", () => {
                 "en-GB",
                 "en-US",
                 "es-CO",
+                "es-ES",
                 "ko-KR"
             ],
             localeMap: {
@@ -76,7 +77,7 @@ describe("[integration] test the localization result of webos-c app", () => {
         };
         const project = ProjectFactory.newProject(projectSettings, appSettings);
         project.addPath("src/test.c");
-
+        debugger;
         if (project) {
             project.init(function() {
                 project.extract(function() {
@@ -105,16 +106,25 @@ describe("[integration] test the localization result of webos-c app", () => {
         expect(jsonData["No"]).toBe("아니오");
         expect(jsonData["OK"]).toBe("확인");
         expect(jsonData["Yes"]).toBe("예");
-        expect(jsonData["NOT AVAILABLE"]).toBe("\"SoundBar\" 이용이 불가능합니다");
+        expect(jsonData["NOT AVAILABLE"]).toBe("\"Monitor\" 이용이 불가능합니다");
     });
     test("csample_test_es_CO", function() {
-        expect.assertions(3);
+        expect.assertions(4);
         filePath = path.join(resourcePath, 'es', fileName);
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
         jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["Sound Out"]).toBe("Salida de Audio");
         expect(jsonData["OK"]).toBe("Aceptar");
+        expect(jsonData["TV Name"]).toBe("Nombre del Monitor");
+    });
+    test("csample_test_es_ES", function() {
+        expect.assertions(2);
+        filePath = path.join(resourcePath, 'es/ES', fileName);
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
+
+        jsonData = pluginUtils.loadData(filePath);
+        expect(jsonData["TV Name"]).toBe("Nombre del monitor");
     });
     test("csample_test_en_US", function() {
         expect.assertions(2);

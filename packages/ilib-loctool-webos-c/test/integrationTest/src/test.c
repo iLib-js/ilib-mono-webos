@@ -4,3 +4,4 @@ char *localized_string = (gchar*)resBundle_getLocString(_g_res_bundle_object, "O
 char *localized_string2 = (gchar*)resBundle_getLocString(_g_res_bundle_object, "Programme");
 char *localized_string3 = (gchar*)resBundle_getLocString(_g_res_bundle_object, "Sound Out");
 char *localized_string4 = (gchar*)resBundle_getLocString(_g_res_bundle_object, "NOT AVAILABLE");
+char *localized_string5 = (gchar*)resBundle_getLocString(_g_res_bundle_object, "TV Name");

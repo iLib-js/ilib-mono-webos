@@ -73,7 +73,7 @@ module.exports.isExistKey = function(filepath, key) {
 *
 * @returns {boolean} true if the resource is added succesfully.
 */
-module.exports.addResource = function (resFileType, translated, res, locale, resPath) {
+module.exports.addResource = function (resFileType, translated, res, locale, resPath, deviceType) {
     if (!resFileType || !translated || !res || !locale) return false;
 
     var file;
@@ -89,6 +89,7 @@ module.exports.addResource = function (resFileType, translated, res, locale, res
     resource.setTargetLocale(locale);
     resource.pathName = res.getPath();
     resource.context = res.getContext() || res.getPath().replace(/^.*[\\\/]/, '').replace(/\.(qml|js)/, "");
+    resource.setTarget(this.getTarget(translated, deviceType));
     file = resFileType.getResourceFile(locale, resPath);
     file.addResource(resource);
 
