@@ -171,7 +171,6 @@ QMLFileType.prototype.write = function(translations, locales) {
 
             db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(locale), function(err, translated) {
                 var r = translated;
-                var temp = deviceType;
                 if (!translated) {
                     var manipulateKey = res.cleanHashKeyForTranslation(locale).replace(res.getContext(), "");
                     db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
@@ -254,7 +253,7 @@ QMLFileType.prototype.write = function(translations, locales) {
                         // To keep the extracted source's filename.  If not, xliff file name will be wrote to ts resource file.
                         storeResource.pathName = res.getPath();
                         storeResource.context = res.getContext() || res.getPath().replace(/^.*[\\\/]/, '').replace(/\.(qml|js)/, "");
-
+                        storeResource.setTarget(pluginUtils.getTarget(r, deviceType));
                         file = resFileType.getResourceFile(locale);
                         file.addResource(storeResource);
                         this.logger.trace("Added " + r.reskey + " to " + file.pathName);
@@ -281,7 +280,7 @@ QMLFileType.prototype.write = function(translations, locales) {
                             // To keep the extracted source's filename.  If not, xliff file name will be wrote to ts resource file.
                             storeResource.pathName = res.getPath();
                             storeResource.context = res.getContext() || res.getPath().replace(/^.*[\\\/]/, '').replace(/\.(qml|js)/, "");
-
+                            storeResource.setTarget(pluginUtils.getTarget(r, deviceType));
                             file = resFileType.getResourceFile(locale);
                             file.addResource(storeResource);
                             this.logger.trace("Added " + r.reskey + " to " + file.pathName);
