@@ -225,7 +225,7 @@ describe("utils", function() {
         var result = utils.getTarget(translated, deviceType);
         expect(result).toBe("\"SoundBar\" 이용이 불가능합니다");
     });
-    test("test_getTarget_NoDeviceType", function() {
+    test("test_getTarget_NoDeviceTypeInfo", function() {
         expect.assertions(1);
 
         var translated = new ResourceString({
@@ -260,7 +260,7 @@ describe("utils", function() {
         var result = utils.getTarget(translated);
         expect(result).toBe("이용이 불가능합니다");
     });
-    test("test_getTarget_wrongDeviceType", function() {
+    test("test_getTarget_wrongDeviceTypeName", function() {
         expect.assertions(1);
 
         var translated = new ResourceString({

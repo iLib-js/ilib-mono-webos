@@ -8,6 +8,19 @@
           <target>Aceptar</target>
         </segment>
       </unit>
+      <unit id="3">
+        <mda:metadata>
+          <mda:metaGroup category="device-type">
+            <mda:meta type="Monitor">Nombre del Monitor</mda:meta>
+            <mda:meta type="Projector">Nombre del Proyector</mda:meta>
+            <mda:meta type="StanbyME">Nombre del dispositivo</mda:meta>
+          </mda:metaGroup>
+        </mda:metadata>
+        <segment>
+          <source>TV Name</source>
+          <target>Nombre de la TV</target>
+        </segment>
+      </unit>
     </group>
   </file>
 </xliff>

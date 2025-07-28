@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="es-ES" version="2.0">
+  <file id="sample-webos-js_f1" original="sample-webos-c">
+    <group id="sample-webos-js_g1" name="c">
+       <unit id="3">
+         <mda:metadata>
+           <mda:metaGroup category="device-type">
+             <mda:meta type="Monitor">Nombre del monitor</mda:meta>
+             <mda:meta type="Projector">Nombre del proyector</mda:meta>
+             <mda:meta type="StanbyME">Nombre del dispositivo</mda:meta>
+           </mda:metaGroup>
+         </mda:metadata>
+         <segment>
+          <source>TV Name</source>
+          <target>Nombre TV</target>
+        </segment>
+       </unit>
+    </group>
+  </file>
+</xliff>
