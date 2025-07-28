@@ -225,7 +225,7 @@ describe("utils", function() {
         var result = utils.getTarget(translated, deviceType);
         expect(result).toBe("\"SoundBar\" 이용이 불가능합니다");
     });
-    test("test_getTarget2", function() {
+    test("test_getTarget_NoDeviceType", function() {
         expect.assertions(1);
 
         var translated = new ResourceString({
@@ -260,7 +260,7 @@ describe("utils", function() {
         var result = utils.getTarget(translated);
         expect(result).toBe("이용이 불가능합니다");
     });
-    test("test_getTarget3", function() {
+    test("test_getTarget_wrongDeviceType", function() {
         expect.assertions(1);
 
         var translated = new ResourceString({
@@ -296,5 +296,33 @@ describe("utils", function() {
         var deviceType = "SoundBarrrrr"
         var result = utils.getTarget(translated, deviceType);
         expect(result).toBe("이용이 불가능합니다");
+    });
+    test("test_getTarget_OnlyOneMetadata", function() {
+        expect.assertions(1);
+
+        var translated = new ResourceString({
+            id: "app",
+            sourceLocale: "en-US",
+            targetLocale: "ko-KR",
+            key: "NOT AVAILABLE",
+            source: "NOT AVAILABLE",
+            target: "이용이 불가능합니다",
+            metadata: {
+                "mda:metaGroup": {
+                    "mda:meta":
+                        {
+                            "_attributes" : {"type": "Monitor"},
+                            "_text": "\"Monitor\" 이용이 불가능합니다"
+                        },
+                    "_attributes": {
+                        "category": "device-type"
+                    }
+                }
+            }
+        });
+
+        var deviceType = "Monitor"
+        var result = utils.getTarget(translated, deviceType);
+        expect(result).toBe("\"Monitor\" 이용이 불가능합니다");
     });
 });

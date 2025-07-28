@@ -49,6 +49,7 @@ describe('[integration] test the localization result of webos-qml app', () => {
         if (fs.existsSync(resourcePath)) {
             fs.rmSync(resourcePath, { recursive: true });
         }
+
         const projectSettings = {
             rootDir: projectRoot, 
             id: "sample-webos-qml",
@@ -113,7 +114,7 @@ describe('[integration] test the localization result of webos-qml app', () => {
     });
     test("qmlsample_test_ko_KR", function() {
         expect.assertions(7);
-        debugger;
+
         const expected = {
             "test": [ "오디오",
                  "'예약 목록'으로 가서 현재 등록되어 있는 예약을 변경하시겠습니까?",

@@ -143,6 +143,7 @@ module.exports.getTarget = function (translated, deviceType) {
                   translated.metadata["mda:metaGroup"]["mda:meta"]: undefined;
 
     if (!dataArr) return defaultTarget;
+    else if (!Array.isArray(dataArr)) dataArr = [dataArr];
 
     var matchItem = dataArr.find(function(item) {
         return item['_attributes']['type'] === deviceType;
