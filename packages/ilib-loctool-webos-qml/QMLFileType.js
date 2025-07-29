@@ -189,7 +189,7 @@ QMLFileType.prototype.write = function(translations, locales) {
                                 r = translated;
                             }
                             if (translated) {
-                                pluginUtils.addResource(resFileType, translated, res, locale);
+                                pluginUtils.addResource(resFileType, translated, res, locale, undefined, deviceType);
                             } else if(!translated && customInheritLocale){
                                 var manipulateKey = res.cleanHashKeyForTranslation(customInheritLocale).replace(res.getContext(), "");
                                 db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
@@ -207,13 +207,13 @@ QMLFileType.prototype.write = function(translations, locales) {
                                             }
 
                                             if (translated){
-                                                pluginUtils.addResource(resFileType, translated, res, locale);
+                                                pluginUtils.addResource(resFileType, translated, res, locale, undefined, deviceType);
                                             } else {
                                                 pluginUtils.addNewResource(this.newres, res, locale);
                                             }
                                         }.bind(this));
                                     } else {
-                                        pluginUtils.addResource(resFileType, translated, res, locale);
+                                        pluginUtils.addResource(resFileType, translated, res, locale, undefined, deviceType);
                                     }
                                 }.bind(this));
                             } else {
@@ -229,7 +229,7 @@ QMLFileType.prototype.write = function(translations, locales) {
                                 r = translated;
                             }
                             if (translated){
-                                pluginUtils.addResource(resFileType, translated, res, locale);
+                                pluginUtils.addResource(resFileType, translated, res, locale, undefined, deviceType);
                             } else {
                                 pluginUtils.addNewResource(this.newres, res, locale);
                             }

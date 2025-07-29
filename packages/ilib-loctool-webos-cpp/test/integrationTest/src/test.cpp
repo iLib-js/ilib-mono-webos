@@ -7,3 +7,4 @@ std::string test6_label = ResBundleAdaptor::instance().getLocString("Sound Out")
 std::string test7_label = ResBundleAdaptor::instance().getLocString("OK");
 std::string test8_label = ResBundleAdaptor::instance().getLocString("* This feature is applied once and only once when the TV is turned off.");
 std::string test9_label = ResBundleAdaptor::instance().getLocString("TV Information");
+std::string test10_label = ResBundleAdaptor::instance().getLocString("TV Name");

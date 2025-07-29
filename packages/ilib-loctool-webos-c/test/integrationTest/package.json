@@ -8,7 +8,7 @@
     "scripts": {
         "test": "pnpm test:jest",
         "test:jest": "LANG=en_US.UTF8 node node_modules/jest/bin/jest.js",
-        "test-debug": "node --inspect-brk node_modules/jest/bin/jest.js -i"
+        "debug": "node --inspect-brk node_modules/jest/bin/jest.js -i"
     },
     "dependencies": {
         "ilib-loctool-webos-c": "workspace:*",

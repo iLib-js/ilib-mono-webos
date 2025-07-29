@@ -70,6 +70,7 @@ module.exports.isExistKey = function(filepath, key) {
 * @param {Resource} res a source resource for the translation resource
 * @param {String} locale a resource of the locale
 * @param {String} resPath localization resource path. It is optional
+* @param {String} deviceType Information on which device is currently being targeted for localization
 *
 * @returns {boolean} true if the resource is added succesfully.
 */
@@ -89,7 +90,7 @@ module.exports.addResource = function (resFileType, translated, res, locale, res
     resource.setTargetLocale(locale);
     resource.pathName = res.getPath();
     resource.context = res.getContext() || res.getPath().replace(/^.*[\\\/]/, '').replace(/\.(qml|js)/, "");
-    resource.setTarget(this.getTarget(translated, deviceType));
+    resource.setTarget(module.exports.getTarget(translated, deviceType));
     file = resFileType.getResourceFile(locale, resPath);
     file.addResource(resource);
 

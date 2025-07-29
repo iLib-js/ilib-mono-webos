@@ -56,8 +56,12 @@ describe("[integration] test the localization result of webos-c app", () => {
             nopseudo: false,
             resourceFileNames: { "c": fileName },
             locales:[
+                "en-AU",
                 "ko-KR"
-            ]
+            ],
+            localeInherit: {
+                "en-AU": "en-GB",
+            }
         };
 
         const project = ProjectFactory.newProject(projectSettings, appSettings);
@@ -80,5 +84,14 @@ describe("[integration] test the localization result of webos-c app", () => {
         expect(jsonData["Yes"]).toBe("예");
         expect(jsonData["Time Settings"]).toBe("시간 설정");
         expect(jsonData["NOT AVAILABLE"]).toBe("\"Monitor\" 이용이 불가능합니다");
+    });
+    test("csample_test_en_AU_generate_mode", function() {
+        expect.assertions(3);
+        filePath = path.join(resourcePath, 'en/AU', fileName);
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
+
+        jsonData = pluginUtils.loadData(filePath);
+        expect(jsonData["Programme"]).toBe("Programme");
+        expect(jsonData["TV Name"]).toBe("Monitor Name");
     });
 });
