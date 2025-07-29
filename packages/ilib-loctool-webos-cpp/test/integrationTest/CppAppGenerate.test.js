@@ -57,8 +57,12 @@ describe("[integration] test the localization result of webos-cpp app", () => {
             resourceFileNames: { "cpp": fileName },
             locales:[
                 "ko-KR",
-                "es-CO"
+                "es-CO",
+                "en-AU"
             ],
+            localeInherit: {
+                "en-AU": "en-GB",
+            },
             localeMap: {
                 "es-CO": "es"
             },
@@ -94,5 +98,13 @@ describe("[integration] test the localization result of webos-cpp app", () => {
        jsonData = pluginUtils.loadData(filePath);
        expect(jsonData["Sound Out"]).toBe("Salida de Audio");
        expect(jsonData["TV Information"]).toBe("Información del proyector");
+    });
+    test("cppsample_test_en_AU_generate_mode", function() {
+        expect.assertions(3);
+        filePath = path.join(resourcePath, 'en/AU', fileName);
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
+        jsonData = pluginUtils.loadData(filePath);
+        expect(jsonData["Programme"]).toBe("Programme");
+        expect(jsonData["TV Name"]).toBe("Projector Name");
     });
   });
