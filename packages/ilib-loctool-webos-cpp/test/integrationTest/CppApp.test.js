@@ -164,6 +164,7 @@ describe("[integration] test the localization result of webos-cpp app", () => {
         expect(jsonData["Programme"]).toBe("[Pŕõğŕàmmë43210]");
         expect(jsonData["Sound Out"]).toBe("[Šõüñð Øüţ43210]");
         expect(jsonData["Update"]).toBe("[Úþðàţë210]");
-        expect(jsonData["Yes"]).toBe("[Ŷëš10]");expect(jsonData["* This feature is applied once and only once when the TV is turned off."]).toBe("[* Ťĥíš fëàţüŕë íš àþþľíëð õñçë àñð õñľÿ õñçë ŵĥëñ ţĥë ŤV íš ţüŕñëð õff.32109876543210]");
+        expect(jsonData["Yes"]).toBe("[Ŷëš10]");
+        expect(jsonData["* This feature is applied once and only once when the TV is turned off."]).toBe("[* Ťĥíš fëàţüŕë íš àþþľíëð õñçë àñð õñľÿ õñçë ŵĥëñ ţĥë ŤV íš ţüŕñëð õff.32109876543210]");
     });
   });

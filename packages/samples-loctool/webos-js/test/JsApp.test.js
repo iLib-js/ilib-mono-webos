@@ -23,7 +23,7 @@ const defaultRSPath = path.join(process.cwd(), "resources");
 const pluginUtils = require("ilib-loctool-webos-common/utils.js");
 
 describe('test the localization result of webos-js app', () => {
-    const generalOptions = '-2 --xliffStyle custom --pseudo --localizeOnly';
+    const generalOptions = '-2 --xliffStyle webOS --pseudo --localizeOnly';
     const localeInherit = '--localeInherit en-AU:en-GB';
     const localeMap = '--localeMap es-CO:es,fr-CA:fr';
 

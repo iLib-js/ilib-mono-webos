@@ -33,18 +33,18 @@ describe('test the localization result (generate mode) of webos-js app', () => {
             fs.rmSync(outputPath, { recursive: true });
         }
         const projectSettings = {
-            "rootDir": ".",
-            "id": "sample-webos-js",
-            "projectType": "webos-js",
-            "sourceLocale": "en-KR",
-            "resourceDirs" : { "json": "resources2" },
-            "resourceFileTypes": { "json":"ilib-loctool-webos-json-resource" },
-            "plugins": [ "ilib-loctool-webos-javascript" ],
-            "xliffStyle": "custom",
-            "xliffVersion": 2,
+            rootDir: ".",
+            id: "sample-webos-js",
+            projectType: "webos-js",
+            sourceLocale: "en-KR",
+            resourceDirs : { "json": "resources2" },
+            resourceFileTypes: { "json":"ilib-loctool-webos-json-resource" },
+            plugins: [ "ilib-loctool-webos-javascript" ]
         };
         const appSettings = {
             translationsDir: "./xliffs",
+            xliffStyle: "webOS",
+            xliffVersion: 2,
             locales:[
                 "as-IN",
                 "de-DE",

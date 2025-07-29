@@ -81,6 +81,7 @@ describe('[integration] test the localization result of webos-qml app', () => {
                 "en-GB",
                 "en-US",
                 "es-CO",
+                "es-ES",
                 "ko-KR"
             ],
             localeMap: {
@@ -139,9 +140,9 @@ describe('[integration] test the localization result of webos-qml app', () => {
         });
     });
     test("qmlsample_test_es_CO", function() {
-        expect.assertions(4);
+        expect.assertions(5);
         const expected = {
-            "test": ["Aceptar", "Salida de Audio"]
+            "test": ["Aceptar", "Salida de Audio", "Nombre del dispositivo"]
         };
 
         filePath = path.join(resourcePath, 'sample-webos-qml_es.ts');
@@ -179,10 +180,10 @@ describe('[integration] test the localization result of webos-qml app', () => {
         });
     });
     test("qmlsample_test_en_GB", function() {
-        expect.assertions(3);
+        expect.assertions(4);
       
         const expected = {
-            "test": ["Service Area Postcode"]
+            "test": ["Service Area Postcode", "Device Name"]
         };
       
         filePath = path.join(resourcePath, 'sample-webos-qml_en_GB.ts');
@@ -200,9 +201,9 @@ describe('[integration] test the localization result of webos-qml app', () => {
         });
     });
     test("qmlsample_test_en_AU", function() {
-        expect.assertions(3);
+        expect.assertions(4);
         const expected = {
-            "test": ["Service Area Postcode"]
+            "test": ["Service Area Postcode", "Device Name"]
         };
 
         filePath = path.join(resourcePath, 'sample-webos-qml_en_AU.ts');
