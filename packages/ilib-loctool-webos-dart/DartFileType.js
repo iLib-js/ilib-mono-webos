@@ -211,20 +211,20 @@ DartFileType.prototype.write = function(translations, locales) {
                             var manipulateKey = ResourceString.hashKey(this.commonPrjName, locale, res.getKey(), this.commonPrjType, res.getFlavor());
                             db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
                                 if (translated) {
-                                    pluginUtils.addResource(resFileType, translated, res, locale, resPath);
+                                    pluginUtils.addResource(resFileType, translated, res, locale, undefined, deviceType);
                                 } else if(!translated && customInheritLocale){
                                     db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(customInheritLocale), function(err, translated) {
                                         if (!translated){
                                             var manipulateKey = ResourceString.hashKey(this.commonPrjName, customInheritLocale, res.getKey(), this.commonPrjType, res.getFlavor());
                                             db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
                                                 if (translated){
-                                                    pluginUtils.addResource(resFileType, translated, res, locale, resPath);
+                                                    pluginUtils.addResource(resFileType, translated, res, locale, undefined, deviceType);
                                                 } else {
                                                     pluginUtils.addNewResource(this.newres, res, locale);
                                                 }
                                             }.bind(this));
                                         } else {
-                                            pluginUtils.addResource(resFileType, translated, res, locale, resPath);
+                                            pluginUtils.addResource(resFileType, translated, res, locale, undefined, deviceType);
                                         }
                                     }.bind(this));
                                 } else {
@@ -235,7 +235,7 @@ DartFileType.prototype.write = function(translations, locales) {
                             db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(customInheritLocale), function(err, translated) {
                                 var r = translated;
                                 if (translated){
-                                    pluginUtils.addResource(resFileType, translated, res, locale, resPath);
+                                    pluginUtils.addResource(resFileType, translated, res, locale, undefined, deviceType);
                                 } else {
                                     pluginUtils.addNewResource(this.newres, res, locale);
                                 }
@@ -248,7 +248,7 @@ DartFileType.prototype.write = function(translations, locales) {
                             }
                             pluginUtils.addNewResource(this.newres, res, locale);
                         } else {
-                            pluginUtils.addResource(resFileType, translated, res, locale, resPath);
+                            pluginUtils.addResource(resFileType, translated, res, locale, undefined, deviceType);
                         }
                     }.bind(this));
                     } else {
@@ -261,7 +261,7 @@ DartFileType.prototype.write = function(translations, locales) {
                                 pluginUtils.addNewResource(this.newres, res, locale);
                             } else {
                                 if (translated.metadata) translated.target = pluginUtils.getTarget(translated, deviceType);
-                                pluginUtils.addResource(resFileType, translated, res, locale, resPath);
+                                pluginUtils.addResource(resFileType, translated, res, locale, undefined, deviceType);
                             }
                         }
                     }.bind(this));
@@ -350,12 +350,16 @@ DartFileType.prototype._loadCommonXliff = function() {
     if (fs.existsSync(this.commonPath)){
         var list = fs.readdirSync(this.commonPath);
     }
+
+    var xliffStyle = (this.project.settings && this.project.settings.xliffStyle) ? this.project.settings.xliffStyle : "webOS";
+
     if (list && list.length !== 0) {
         list.forEach(function(file){
             var commonXliff = this.API.newXliff({
                 sourceLocale: this.project.getSourceLocale(),
                 project: this.project.getProjectId(),
                 path: this.commonPath,
+                style: xliffStyle
             });
             var pathName = path.join(this.commonPath, file);
             var data = fs.readFileSync(pathName, "utf-8");

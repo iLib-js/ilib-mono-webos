@@ -51,7 +51,8 @@ describe('[integration] test the localization result (generate mode) of webos-da
             },
             xliffVersion: 2,
             locales:[
-                "ko-KR"
+                "ko-KR",
+                "en-AU"
             ],
             localeMap: {
                 "es-CO": "es"
@@ -89,5 +90,14 @@ describe('[integration] test the localization result (generate mode) of webos-da
         expect(jsonData["Live TV"]).toBe("현재 방송");
         expect(jsonData["Search"]).toBe("통합 검색");
         expect(jsonData["Internal Speaker"]).toBe("내부 스피커");
+    });
+    test("dartsample_generate_test_en_AU", function() {
+        expect.assertions(3);
+        filePath = path.join(resourcePath, 'en_AU.json');
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
+
+        jsonData = pluginUtils.loadData(filePath);
+        expect(jsonData["TV Name"]).toBe("Device Name");
+        expect(jsonData["Programme"]).toBe("Programme");
     });
 });

@@ -59,6 +59,7 @@ describe('[integration] test the localization result of webos-js app', () => {
                 "en-GB",
                 "en-US",
                 "es-CO",
+                "es-ES",
                 "ko-KR",
             ],
             localeMap: {
@@ -85,7 +86,6 @@ describe('[integration] test the localization result of webos-js app', () => {
                 });
             });
         }
-
     }, 50000);
     afterAll(async () => {
         if (fs.existsSync(defaultRSPath)) {
@@ -103,25 +103,36 @@ describe('[integration] test the localization result of webos-js app', () => {
         expect(rb.getString("Thank you").toString()).toBe("고마워");
         expect(rb.getString("Bye").toString()).toBe("잘가");
         expect(rb.getString("Time Settings").toString()).toBe("시간 설정");
-        expect(rb.getString("Internal Speaker + Wired Headphones").toString()).toBe("모니터 스피커 + 유선 헤드폰");
+        expect(rb.getString("Internal Speaker + Wired Headphones").toString()).toBe("모니터 스피커 + 유선 헤드폰"); //metadata
     });
     test("jssample_test_es_CO", function() {
-        expect.assertions(2);
+        expect.assertions(3);
         let rb = new ResBundle({
             locale:"es-CO",
             basePath : defaultRSPath
         });
         expect(rb).toBeTruthy();
         expect(rb.getString("Sound Out").toString()).toBe("Salida de Audio");
+        expect(rb.getString("TV Name").toString()).toBe("Nombre del Monitor"); //metadata-common
+    });
+    test("jssample_test_es_ES", function() {
+        expect.assertions(2);
+        let rb = new ResBundle({
+            locale:"es-ES",
+            basePath : defaultRSPath
+        });
+        expect(rb).toBeTruthy();
+        expect(rb.getString("TV Name").toString()).toBe("Nombre del monitor"); //metadata-localemap
     });
     test("jssample_test_en_AU", function() {
-        expect.assertions(2);
+        expect.assertions(3);
         let rb = new ResBundle({
             locale:"en-AU",
             basePath : defaultRSPath
         });
         expect(rb).toBeTruthy();
         expect(rb.getString("Programme").toString()).toBe("Programme");
+        expect(rb.getString("TV Name").toString()).toBe("Monitor Name");// metadata-localeinherit
     });
     test("jssample_test_en_GB", function() {
         expect.assertions(2);

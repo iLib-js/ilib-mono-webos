@@ -325,12 +325,14 @@ QMLFileType.prototype._loadCommonXliff = function() {
     if (fs.existsSync(this.commonPath)){
         var list = fs.readdirSync(this.commonPath);
     }
+    var xliffStyle = (this.project.settings && this.project.settings.xliffStyle) ? this.project.settings.xliffStyle : "webOS";
     if (list && list.length !== 0) {
         list.forEach(function(file){
             var commonXliff = this.API.newXliff({
                 sourceLocale: this.project.getSourceLocale(),
                 project: this.project.getProjectId(),
                 path: this.commonPath,
+                style: xliffStyle
             });
             var pathName = path.join(this.commonPath, file);
             var data = fs.readFileSync(pathName, "utf-8");
