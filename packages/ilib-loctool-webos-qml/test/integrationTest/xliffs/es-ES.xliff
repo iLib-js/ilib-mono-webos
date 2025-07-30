@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="es-ES" version="2.0">
-  <file id="sample-webos-js_f1" original="sample-webos-cpp">
-    <group id="sample-webos-js_g1" name="cpp">
-      <unit id="1">
-        <segment>
-          <source>Sound Out</source>
-          <target>Salida de sonido</target>
-        </segment>
-      </unit>
+  <file id="sample-webos-qml_f1" original="sample-webos-qml">
+    <group id="sample-webos-qml_g1" name="x-qml">
       <unit id="3">
         <mda:metadata>
           <mda:metaGroup category="device-type">
@@ -17,8 +11,8 @@
           </mda:metaGroup>
         </mda:metadata>
         <segment>
-         <source>TV Name</source>
-         <target>Nombre TV</target>
+          <source>TV Name</source>
+          <target>Nombre TV</target>
         </segment>
       </unit>
     </group>

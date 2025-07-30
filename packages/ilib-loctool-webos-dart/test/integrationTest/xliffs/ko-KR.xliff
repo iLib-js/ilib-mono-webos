@@ -32,6 +32,19 @@
           <target>현재 방송</target>
         </segment>
       </unit>
+      <unit id="6">
+        <mda:metadata>
+          <mda:metaGroup category="device-type">
+            <mda:meta type="Monitor">모니터 스피커</mda:meta>
+            <mda:meta type="Projector">프로젝터 내부 스피커</mda:meta>
+            <mda:meta type="StanbyME">내부 스피커</mda:meta>
+          </mda:metaGroup>
+        </mda:metadata>
+        <segment>
+          <source>Internal Speaker</source>
+          <target>TV 스피커</target>
+        </segment>
+      </unit>
     </group>
   </file>
 </xliff>

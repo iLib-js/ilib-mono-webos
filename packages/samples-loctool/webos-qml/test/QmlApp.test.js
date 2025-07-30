@@ -42,7 +42,7 @@ const loadTSData = (filepath) => {
 describe('test the localization result of webos-qml app', () => {
     const resourcePath = 'resources';
 
-    const generalOptions = '-2 --xliffStyle custom --pseudo --localizeOnly';
+    const generalOptions = '-2 --xliffStyle webOS --pseudo --localizeOnly';
     const localeInherit = '--localeInherit en-AU:en-GB,en-JP:en-GB';
     const localeMap = '--localeMap es-CO:es';
 

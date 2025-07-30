@@ -56,10 +56,10 @@
         "ilib-loctool-webos-common": "workspace:*"
     },
     "peerDependencies": {
-        "loctool": "2.31.0"
+        "loctool": "2.31.1"
     },
     "devDependencies": {
         "jest": "^30.0.5",
-        "loctool": "2.31.0"
+        "loctool": "2.31.1"
     }
 }

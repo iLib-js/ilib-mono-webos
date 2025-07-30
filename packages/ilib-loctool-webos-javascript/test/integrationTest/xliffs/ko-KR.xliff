@@ -26,6 +26,19 @@
           <target>TV 켜짐 화면</target>
         </segment>
       </unit>
+      <unit id="11">
+        <mda:metadata>
+          <mda:metaGroup category="device-type">
+            <mda:meta type="Monitor">모니터 스피커 + 유선 헤드폰</mda:meta>
+            <mda:meta type="Projector">프로젝터 내부 스피커 + 유선 헤드폰</mda:meta>
+            <mda:meta type="StanbyME">내부 스피커 + 유선 헤드폰</mda:meta>
+          </mda:metaGroup>
+        </mda:metadata>
+        <segment>
+          <source>Internal Speaker + Wired Headphones</source>
+          <target>TV 스피커 + 유선 헤드폰</target>
+        </segment>
+      </unit>
     </group>
   </file>
 </xliff>

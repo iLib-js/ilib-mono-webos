@@ -70,10 +70,11 @@ module.exports.isExistKey = function(filepath, key) {
 * @param {Resource} res a source resource for the translation resource
 * @param {String} locale a resource of the locale
 * @param {String} resPath localization resource path. It is optional
+* @param {String} deviceType Information on which device is currently being targeted for localization
 *
 * @returns {boolean} true if the resource is added succesfully.
 */
-module.exports.addResource = function (resFileType, translated, res, locale, resPath) {
+module.exports.addResource = function (resFileType, translated, res, locale, resPath, deviceType) {
     if (!resFileType || !translated || !res || !locale) return false;
 
     var file;
@@ -89,6 +90,7 @@ module.exports.addResource = function (resFileType, translated, res, locale, res
     resource.setTargetLocale(locale);
     resource.pathName = res.getPath();
     resource.context = res.getContext() || res.getPath().replace(/^.*[\\\/]/, '').replace(/\.(qml|js)/, "");
+    resource.setTarget(module.exports.getTarget(translated, deviceType));
     file = resFileType.getResourceFile(locale, resPath);
     file.addResource(resource);
 
@@ -143,6 +145,7 @@ module.exports.getTarget = function (translated, deviceType) {
                   translated.metadata["mda:metaGroup"]["mda:meta"]: undefined;
 
     if (!dataArr) return defaultTarget;
+    else if (!Array.isArray(dataArr)) dataArr = [dataArr];
 
     var matchItem = dataArr.find(function(item) {
         return item['_attributes']['type'] === deviceType;

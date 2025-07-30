@@ -3,3 +3,5 @@ translate("App List");
 translate("Back button");
 translate("Programme");
 translate('App Rating', );
+translate('Internal Speaker', );
+translate('TV Name');

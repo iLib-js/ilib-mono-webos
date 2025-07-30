@@ -25,7 +25,7 @@ describe('test the localization result of webos-c app', () => {
     const resourcePath = 'resources';
     const fileName = 'cstrings.json';
 
-    const generalOptions = '-2 --xliffStyle custom --pseudo --localizeOnly';
+    const generalOptions = '-2 --xliffStyle webOS --pseudo --localizeOnly';
     const localeInherit = '--localeInherit en-AU:en-GB';
     const localeMap = '--localeMap es-CO:es,fr-CA:fr';
 

@@ -34,25 +34,27 @@ describe("[integration] test the localization result of webos-cpp app", () => {
             fs.rmSync(resourcePath, { recursive: true });
         }
         const projectSettings = {
-            "rootDir": projectRoot, 
-            "id": "sample-webos-cpp",
-            "projectType": "webos-cpp",
-            "sourceLocale": "en-KR",
-            "pseudoLocale" : {
+            rootDir: projectRoot,
+            id: "sample-webos-cpp",
+            projectType: "webos-cpp",
+            sourceLocale: "en-KR",
+            pseudoLocale : {
                 "zxx-XX": "debug"
             },
-            "resourceDirs" : { "json": "resources" },
-            "resourceFileTypes": { "json":"ilib-loctool-webos-json-resource" },
-            "plugins": [ "ilib-loctool-webos-cpp" ],
-            "xliffStyle": "custom",
-            "xliffVersion": 2,
+            resourceDirs : { "json": "resources" },
+            resourceFileTypes: { "json":"ilib-loctool-webos-json-resource" },
+            plugins: [ "ilib-loctool-webos-cpp" ]
         };
 
         const appSettings = {
             localizeOnly: true,
             translationsDir: "./xliffs",
             mode: "localize",
+            metadata : {
+                "device-type": "StanbyME"
+            },
             xliffVersion: 2,
+            xliffStyle: "webOS",
             nopseudo: false,
             resourceFileNames: { "cpp": fileName },
             webos: {
@@ -63,6 +65,7 @@ describe("[integration] test the localization result of webos-cpp app", () => {
                 "en-GB",
                 "en-US",
                 "es-CO",
+                "es-ES",
                 "ko-KR"
             ],
             localeMap: {
@@ -95,40 +98,52 @@ describe("[integration] test the localization result of webos-cpp app", () => {
         }
     });
     test("cppsample_test_ko_KR", function() {
-        expect.assertions(5);
+        expect.assertions(6);
         filePath = path.join(resourcePath, 'ko', fileName);
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
         jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["Yes"]).toBe("예");
         expect(jsonData["No"]).toBe("아니오");
-        expect(jsonData["Update"]).toBe("업데이트")
-        expect(jsonData["Cancel"]).toBe("취소")
+        expect(jsonData["Update"]).toBe("업데이트");
+        expect(jsonData["Cancel"]).toBe("취소");
+        expect(jsonData["* This feature is applied once and only once when the TV is turned off."]).toBe("* 이 기능은 기기 전원이 꺼질 때 한번만 실행됩니다."); //metadata
     });
     test("cppsample_test_es_CO", function() {
-        expect.assertions(3);
+        expect.assertions(5);
         filePath = path.join(resourcePath, "es", fileName);
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
         jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["Sound Out"]).toBe("Salida de Audio");
         expect(jsonData["OK"]).toBe("Aceptar"); // common
+        expect(jsonData["TV Information"]).toBe("Información del dispositivo");
+        expect(jsonData["TV Name"]).toBe("Nombre del dispositivo(common)"); //metadata-common
     });
+    test("cppsample_test_es_ES", function() {
+            expect.assertions(2);
+            filePath = path.join(resourcePath, 'es/ES', fileName);
+            expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
+            jsonData = pluginUtils.loadData(filePath);
+            expect(jsonData["TV Name"]).toBe("Nombre del dispositivo");
+        });
     test("cppsample_test_en_US", function() {
-        expect.assertions(2);
+        expect.assertions(3);
         filePath = path.join(resourcePath, fileName);
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
         jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["Programme"]).toBe("Channel");
+        expect(jsonData["TV Name"]).toBe("TV Name(en-US)");
     });
     test("cppsample_test_en_AU", function() {
-        expect.assertions(2);
+        expect.assertions(3);
         filePath = path.join(resourcePath, "en/AU", fileName);
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
         jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["Programme"]).toBe("Programme");
+        expect(jsonData["TV Name"]).toBe("Device Name"); // metadata - customInherit
     });
     test("cppsample_test_en_GB", function() {
         expect.assertions(2);
@@ -139,16 +154,17 @@ describe("[integration] test the localization result of webos-cpp app", () => {
         expect(jsonData["Programme"]).toBe("Programme");
     });
     test("cppsample_test_zxx", function() {
-        expect.assertions(7);
+        expect.assertions(8);
         filePath = path.join(resourcePath, "zxx", fileName);
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
         jsonData = pluginUtils.loadData(filePath);
-        expect(jsonData["Cancel"]).toBe("[Çàñçëľ210]")
+        expect(jsonData["Cancel"]).toBe("[Çàñçëľ210]");
         expect(jsonData["No"]).toBe("[Ňõ0]");
-        expect(jsonData["Programme"]).toBe("[Pŕõğŕàmmë43210]")
-        expect(jsonData["Sound Out"]).toBe("[Šõüñð Øüţ43210]")
-        expect(jsonData["Update"]).toBe("[Úþðàţë210]")
+        expect(jsonData["Programme"]).toBe("[Pŕõğŕàmmë43210]");
+        expect(jsonData["Sound Out"]).toBe("[Šõüñð Øüţ43210]");
+        expect(jsonData["Update"]).toBe("[Úþðàţë210]");
         expect(jsonData["Yes"]).toBe("[Ŷëš10]");
+        expect(jsonData["* This feature is applied once and only once when the TV is turned off."]).toBe("[* Ťĥíš fëàţüŕë íš àþþľíëð õñçë àñð õñľÿ õñçë ŵĥëñ ţĥë ŤV íš ţüŕñëð õff.32109876543210]");
     });
   });

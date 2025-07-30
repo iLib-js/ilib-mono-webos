@@ -49,25 +49,28 @@ describe('[integration] test the localization result of webos-qml app', () => {
         if (fs.existsSync(resourcePath)) {
             fs.rmSync(resourcePath, { recursive: true });
         }
+
         const projectSettings = {
-            "rootDir": projectRoot, 
-            "id": "sample-webos-qml",
-            "projectType": "webos-qml",
-            "sourceLocale": "en-KR",
-            "pseudoLocale" : {
+            rootDir: projectRoot, 
+            id: "sample-webos-qml",
+            projectType: "webos-qml",
+            sourceLocale: "en-KR",
+            pseudoLocale : {
                 "zxx-XX": "debug"
             },
-            "resourceDirs" : { "ts": "resources" },
-            "resourceFileTypes": { "ts": "ilib-loctool-webos-ts-resource" },
-            "plugins": [ "ilib-loctool-webos-qml" ],
-            "xliffStyle": "custom",
-            "xliffVersion": 2,
+            resourceDirs : { "ts": "resources" },
+            resourceFileTypes: { "ts": "ilib-loctool-webos-ts-resource" },
+            plugins: [ "ilib-loctool-webos-qml" ]
         };
 
         const appSettings = {
             localizeOnly: true,
             translationsDir: "./xliffs",
             mode: "localize",
+            metadata : {
+                "device-type": "StanbyME"
+            },
+            xliffStyle: "webOS",
             xliffVersion: 2,
             nopseudo: false,
             webos: {
@@ -78,6 +81,7 @@ describe('[integration] test the localization result of webos-qml app', () => {
                 "en-GB",
                 "en-US",
                 "es-CO",
+                "es-ES",
                 "ko-KR"
             ],
             localeMap: {
@@ -110,10 +114,13 @@ describe('[integration] test the localization result of webos-qml app', () => {
         }
     });
     test("qmlsample_test_ko_KR", function() {
-        expect.assertions(6);
-        
+        expect.assertions(9);
+
         const expected = {
-            "test": [ "오디오","음악",
+            "test": [ "(common) 명칭 순", "오디오",
+                "'예약 목록'으로 가서 현재 등록되어 있는 예약을 변경하시겠습니까?",
+                "컨텐츠 로딩 중입니다.\n잠시만 기다려 주세요.",
+                "음악",
                 "네트워크가 연결되지 않았습니다.\n네트워크 설정 확인 후 다시 시도하세요.",
                 "노래"
             ],
@@ -134,9 +141,9 @@ describe('[integration] test the localization result of webos-qml app', () => {
         });
     });
     test("qmlsample_test_es_CO", function() {
-        expect.assertions(4);
+        expect.assertions(5);
         const expected = {
-            "test": ["Aceptar", "Salida de Audio"]
+            "test": ["Aceptar", "Salida de Audio", "Nombre del dispositivo"]
         };
 
         filePath = path.join(resourcePath, 'sample-webos-qml_es.ts');
@@ -174,10 +181,10 @@ describe('[integration] test the localization result of webos-qml app', () => {
         });
     });
     test("qmlsample_test_en_GB", function() {
-        expect.assertions(3);
+        expect.assertions(4);
       
         const expected = {
-            "test": ["Service Area Postcode"]
+            "test": ["Service Area Postcode", "Device Name"]
         };
       
         filePath = path.join(resourcePath, 'sample-webos-qml_en_GB.ts');
@@ -195,9 +202,9 @@ describe('[integration] test the localization result of webos-qml app', () => {
         });
     });
     test("qmlsample_test_en_AU", function() {
-        expect.assertions(3);
+        expect.assertions(4);
         const expected = {
-            "test": ["Service Area Postcode"]
+            "test": ["Service Area Postcode", "Device Name"]
         };
 
         filePath = path.join(resourcePath, 'sample-webos-qml_en_AU.ts');

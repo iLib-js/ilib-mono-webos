@@ -34,16 +34,16 @@ describe("[integration] test the localization result of webos-c app", () => {
             fs.rmSync(resourcePath, { recursive: true });
         }
         const projectSettings = {
-            "rootDir": projectRoot, 
-            "id": "sample-webos-c",
-            "projectType": "webos-c",
-            "sourceLocale": "en-KR",
-            "pseudoLocale" : {
+            rootDir: projectRoot,
+            id: "sample-webos-c",
+            projectType: "webos-c",
+            sourceLocale: "en-KR",
+            pseudoLocale : {
                 "zxx-XX": "debug"
             },
-            "resourceDirs" : { "json": "resources" },
-            "resourceFileTypes": { "json":"ilib-loctool-webos-json-resource" },
-            "plugins": [ "ilib-loctool-webos-c" ],
+            resourceDirs : { "json": "resources" },
+            resourceFileTypes: { "json":"ilib-loctool-webos-json-resource" },
+            plugins: [ "ilib-loctool-webos-c" ],
         };
 
         const appSettings = {
@@ -51,11 +51,10 @@ describe("[integration] test the localization result of webos-c app", () => {
             translationsDir: "./xliffs",
             mode: "localize",
             metadata : {
-                "device-type": "SoundBar"
+                "device-type": "Monitor"
             },
             xliffVersion: 2,
             xliffStyle: "webOS",
-            "xliffVersion": 2,
             nopseudo: false,
             resourceFileNames: { "c": fileName },
             webos: {
@@ -66,6 +65,7 @@ describe("[integration] test the localization result of webos-c app", () => {
                 "en-GB",
                 "en-US",
                 "es-CO",
+                "es-ES",
                 "ko-KR"
             ],
             localeMap: {
@@ -106,40 +106,51 @@ describe("[integration] test the localization result of webos-c app", () => {
         expect(jsonData["No"]).toBe("아니오");
         expect(jsonData["OK"]).toBe("확인");
         expect(jsonData["Yes"]).toBe("예");
-        expect(jsonData["NOT AVAILABLE"]).toBe("\"SoundBar\" 이용이 불가능합니다");
+        expect(jsonData["NOT AVAILABLE"]).toBe("\"Monitor\" 이용이 불가능합니다"); //metadata
     });
     test("csample_test_es_CO", function() {
-        expect.assertions(3);
+        expect.assertions(4);
         filePath = path.join(resourcePath, 'es', fileName);
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
         jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["Sound Out"]).toBe("Salida de Audio");
         expect(jsonData["OK"]).toBe("Aceptar");
+        expect(jsonData["TV Name"]).toBe("Nombre del Monitor"); //metadata-common
+    });
+    test("csample_test_es_ES", function() {
+        expect.assertions(2);
+        filePath = path.join(resourcePath, 'es/ES', fileName);
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
+        jsonData = pluginUtils.loadData(filePath);
+        expect(jsonData["TV Name"]).toBe("Nombre del monitor");
     });
     test("csample_test_en_US", function() {
-        expect.assertions(2);
+        expect.assertions(3);
         filePath = path.join(resourcePath, fileName);
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
         jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["Programme"]).toBe("Channel");
+        expect(jsonData["TV Name"]).toBe("TV Name(en-US)");
     });
     test("csample_test_en_AU", function() {
-        expect.assertions(2);
+        expect.assertions(3);
         filePath = path.join(resourcePath, 'en/AU', fileName);
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
         jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["Programme"]).toBe("Programme");
+        expect(jsonData["TV Name"]).toBe("Monitor Name"); // metadata - customInherit
     });
     test("csample_test_en_GB", function() {
-        expect.assertions(2);
+        expect.assertions(3);
         filePath = path.join(resourcePath, 'en/GB', fileName);
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
         jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["Programme"]).toBe("Programme");
+        expect(jsonData["TV Name"]).toBe("Monitor Name");
     });
     test("csample_test_zxx", function() {
         expect.assertions(6);

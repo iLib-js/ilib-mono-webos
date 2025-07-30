@@ -135,6 +135,62 @@ describe("utils", function() {
             expect(utils.addResource(jt, translated, res, "de-DE")).toBeTruthy();
         });
     });
+    test("test_addResourceData_deviceType", function() {
+        expect.assertions(4);
+
+        var p = new CustomProject({
+            id: "app",
+            plugins: ["ilib-loctool-mock"],
+            sourceLocale: "en-US",
+            settings: {
+                metadata: {
+                    "device-type": "Monitor"
+                },
+                resourceFileTypes: {
+                    "mock": "mock-resource"
+                }
+            },
+            }, ". ", {
+            locales:["ko-KR"]
+        });
+
+        var res = new ResourceString({
+            id: "app",
+            sourceLocale: "en-US",
+            key: "NOT AVAILABLE",
+            source: "NOT AVAILABLE",
+        });
+
+        var translated = new ResourceString({
+            id: "app",
+            sourceLocale: "en-US",
+            targetLocale: "ko-KR",
+            key: "NOT AVAILABLE",
+            source: "NOT AVAILABLE",
+            target: "이용이 불가능합니다",
+            metadata: {
+                "mda:metaGroup": {
+                    "mda:meta": [
+                        {
+                            "_attributes" : {"type": "Monitor"},
+                            "_text": "\"Monitor\" 이용이 불가능합니다"
+                        }
+                    ],
+                    "_attributes": {
+                        "category": "device-type"
+                    }
+                }
+            }
+        });
+        expect(p).toBeTruthy();
+        expect(res).toBeTruthy();
+        expect(translated).toBeTruthy();
+
+        p.init(function() {
+            var jt = p.getResourceFileType("mock");
+            expect(utils.addResource(jt, translated, res, "ko-KR", undefined, "Monitor")).toBeTruthy();
+        });
+    });
     test("test_isValidPathFalse", function() {
         expect.assertions(2);
 
@@ -225,7 +281,7 @@ describe("utils", function() {
         var result = utils.getTarget(translated, deviceType);
         expect(result).toBe("\"SoundBar\" 이용이 불가능합니다");
     });
-    test("test_getTarget2", function() {
+    test("test_getTarget_NoDeviceTypeInfo", function() {
         expect.assertions(1);
 
         var translated = new ResourceString({
@@ -260,7 +316,7 @@ describe("utils", function() {
         var result = utils.getTarget(translated);
         expect(result).toBe("이용이 불가능합니다");
     });
-    test("test_getTarget3", function() {
+    test("test_getTarget_wrongDeviceTypeName", function() {
         expect.assertions(1);
 
         var translated = new ResourceString({
@@ -296,5 +352,33 @@ describe("utils", function() {
         var deviceType = "SoundBarrrrr"
         var result = utils.getTarget(translated, deviceType);
         expect(result).toBe("이용이 불가능합니다");
+    });
+    test("test_getTarget_OnlyOneMetadata", function() {
+        expect.assertions(1);
+
+        var translated = new ResourceString({
+            id: "app",
+            sourceLocale: "en-US",
+            targetLocale: "ko-KR",
+            key: "NOT AVAILABLE",
+            source: "NOT AVAILABLE",
+            target: "이용이 불가능합니다",
+            metadata: {
+                "mda:metaGroup": {
+                    "mda:meta":
+                        {
+                            "_attributes" : {"type": "Monitor"},
+                            "_text": "\"Monitor\" 이용이 불가능합니다"
+                        },
+                    "_attributes": {
+                        "category": "device-type"
+                    }
+                }
+            }
+        });
+
+        var deviceType = "Monitor"
+        var result = utils.getTarget(translated, deviceType);
+        expect(result).toBe("\"Monitor\" 이용이 불가능합니다");
     });
 });

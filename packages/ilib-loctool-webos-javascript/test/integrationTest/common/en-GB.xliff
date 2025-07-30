@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="en-GB" version="2.0">
-  <file id="sample-webos-json-subdir_f1" original="sample-webos-json-subdir">
-    <group id="sample-webos-json-subdir_g1" name="javascript">
+  <file id="common_f1" original="common">
+    <group id="sample-webos-js_g1" name="javascript">
       <unit id="1">
         <segment>
-          <source>Live TV</source>
-          <target>(en-GB) Live TV</target>
+          <source>Bye</source>
+          <target>Bye(common: en-GB)</target>
         </segment>
       </unit>
     </group>

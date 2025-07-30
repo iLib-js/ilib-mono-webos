@@ -8,6 +8,19 @@
           <target>Salida de Audio</target>
         </segment>
       </unit>
+      <unit id="2">
+        <mda:metadata>
+          <mda:metaGroup category="device-type">
+            <mda:meta type="Monitor">Información del monitor</mda:meta>
+            <mda:meta type="Projector">Información del proyector</mda:meta>
+            <mda:meta type="StanbyME">Información del dispositivo</mda:meta>
+          </mda:metaGroup>
+        </mda:metadata>
+        <segment>
+          <source>TV Information</source>
+          <target>Información de TV</target>
+        </segment>
+      </unit>
     </group>
   </file>
 </xliff>
