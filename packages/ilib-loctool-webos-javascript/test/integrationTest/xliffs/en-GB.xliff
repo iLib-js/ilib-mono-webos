@@ -8,6 +8,12 @@
           <target>Programme</target>
         </segment>
       </unit>
+      <unit id="1">
+        <segment>
+          <source>Time Settings</source>
+          <target>Time Settings(en-GB)</target>
+        </segment>
+      </unit>
       <unit id="3">
         <mda:metadata>
           <mda:metaGroup category="device-type">

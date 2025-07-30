@@ -125,13 +125,15 @@ describe('[integration] test the localization result of webos-js app', () => {
         expect(rb.getString("TV Name").toString()).toBe("Nombre del monitor"); //metadata-localemap
     });
     test("jssample_test_en_AU", function() {
-        expect.assertions(3);
+        expect.assertions(5);
         let rb = new ResBundle({
             locale:"en-AU",
             basePath : defaultRSPath
         });
         expect(rb).toBeTruthy();
         expect(rb.getString("Programme").toString()).toBe("Programme");
+        expect(rb.getString("Time Settings").toString()).toBe("Time Settings(en-GB)");
+        expect(rb.getString("Bye").toString()).toBe("Bye(common: en-GB)");
         expect(rb.getString("TV Name").toString()).toBe("Monitor Name");// metadata-localeinherit
     });
     test("jssample_test_en_GB", function() {
