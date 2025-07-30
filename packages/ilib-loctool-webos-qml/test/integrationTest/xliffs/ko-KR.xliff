@@ -39,6 +39,12 @@ Please check the Network Settings and try again.</source>
       <target>'예약 목록'으로 가서 등록된 예약을 변경하시겠습니까?</target>
     </segment>
   </unit>
+  <unit id="15">
+        <segment>
+            <source>Loading.\nPlease wait.</source>
+            <target>컨텐츠 로딩 중입니다.\n잠시만 기다려 주세요.</target>
+        </segment>
+      </unit>
     </group>
   </file>
 </xliff>
