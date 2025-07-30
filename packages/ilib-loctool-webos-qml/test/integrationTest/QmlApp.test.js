@@ -114,11 +114,12 @@ describe('[integration] test the localization result of webos-qml app', () => {
         }
     });
     test("qmlsample_test_ko_KR", function() {
-        expect.assertions(7);
+        expect.assertions(9);
 
         const expected = {
-            "test": [ "오디오",
-                 "'예약 목록'으로 가서 현재 등록되어 있는 예약을 변경하시겠습니까?",
+            "test": [ "(common) 명칭 순", "오디오",
+                "'예약 목록'으로 가서 현재 등록되어 있는 예약을 변경하시겠습니까?",
+                "컨텐츠 로딩 중입니다.\n잠시만 기다려 주세요.",
                 "음악",
                 "네트워크가 연결되지 않았습니다.\n네트워크 설정 확인 후 다시 시도하세요.",
                 "노래"

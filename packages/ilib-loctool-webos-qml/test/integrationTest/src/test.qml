@@ -8,3 +8,6 @@ qsTr("Network is not connected.\nPlease check the Network Settings and try again
 
 qsTr("Do you want to go to TV Scheduler now to change schedules?") + es,
 qsTr("TV Name") + es,
+
+text: qsTr("Loading.\nPlease wait.") + Settings.l10n.tr
+text: qsTr("App Name\n(A to Z)") + Settings.l10n.tr
