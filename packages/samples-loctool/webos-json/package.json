@@ -6,8 +6,8 @@
     "license": "Apache-2.0",
     "version": "1.1.4",
     "scripts": {
-        "loc": "loctool -2 --xliffStyle custom --localeMap es-CO:es --localeInherit en-AU:en-GB --pseudo",
-        "debug": "node --inspect-brk node_modules/loctool/loctool.js -2 --xliffStyle custom --localeMap es-CO:es --localeInherit en-AU:en-GB",
+        "loc": "loctool -2 --xliffStyle webOS --localeMap es-CO:es --localeInherit en-AU:en-GB --pseudo",
+        "debug": "node --inspect-brk node_modules/loctool/loctool.js -2 --xliffStyle webOS --localeMap es-CO:es --localeInherit en-AU:en-GB",
         "clean": "rm -rf *.xliff resources subDirCase/app1/resources subDirCase/app2/resources",
         "testSampleApp": "pnpm execute-all",
         "coverage": "pnpm test --coverage",
@@ -18,7 +18,7 @@
     "dependencies": {
         "ilib-loctool-webos-json": "workspace:*",
         "ilib-loctool-webos-common": "workspace:*",
-        "loctool": "^2.31.0"
+        "loctool": "^2.31.1"
     },
     "devDependencies": {
         "jest": "^30.0.5"

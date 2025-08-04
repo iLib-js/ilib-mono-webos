@@ -4,8 +4,8 @@
     <group id="common_g1" name="javascript">
       <unit id="common_1">
         <segment>
-          <source>Live TV</source>
-          <target>[common]현재 방송</target>
+            <source>App Name\n(A to Z)</source>
+            <target>(common) 명칭 순</target>
         </segment>
       </unit>
     </group>

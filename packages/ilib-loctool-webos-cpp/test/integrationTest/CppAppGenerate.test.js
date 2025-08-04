@@ -35,27 +35,37 @@ describe("[integration] test the localization result of webos-cpp app", () => {
             fs.rmSync(resourcePath, { recursive: true });
         }
         const projectSettings = {
-            "rootDir": projectRoot, 
-            "id": "sample-webos-cpp",
-            "projectType": "webos-cpp",
-            "sourceLocale": "en-KR",
-            "resourceDirs" : { "json": "resources2" },
-            "resourceFileTypes": { "json":"ilib-loctool-webos-json-resource" },
-            "plugins": [ "ilib-loctool-webos-cpp" ],
-            "xliffStyle": "custom",
-            "xliffVersion": 2,
+            rootDir: projectRoot,
+            id: "sample-webos-cpp",
+            projectType: "webos-cpp",
+            sourceLocale: "en-KR",
+            resourceDirs : { "json": "resources2" },
+            resourceFileTypes: { "json":"ilib-loctool-webos-json-resource" },
+            plugins: [ "ilib-loctool-webos-cpp" ]
         };
 
         const appSettings = {
             localizeOnly: true,
             translationsDir: "./xliffs",
             mode: "generate",
+            metadata : {
+                "device-type": "Projector"
+            },
             xliffVersion: 2,
+            xliffStyle: "webOS",
             nopseudo: true,
             resourceFileNames: { "cpp": fileName },
             locales:[
-                "ko-KR"
-            ]
+                "ko-KR",
+                "es-CO",
+                "en-AU"
+            ],
+            localeInherit: {
+                "en-AU": "en-GB",
+            },
+            localeMap: {
+                "es-CO": "es"
+            },
         };
         const project = ProjectFactory.newProject(projectSettings, appSettings);
         process = GenerateModeProcess(project);
@@ -66,18 +76,35 @@ describe("[integration] test the localization result of webos-cpp app", () => {
         }
     });
     test("cppsample_test_ko_KR_generate_mode", function() {
-        expect.assertions(8);
+        expect.assertions(9);
         filePath = path.join(resourcePath, 'ko', fileName);
 
         expect(process).toBeTruthy();
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
         jsonData = pluginUtils.loadData(filePath);
 
-        expect(Object.keys(jsonData).length).toBe(5);
+        expect(Object.keys(jsonData).length).toBe(6);
         expect(jsonData["No"]).toBe("아니오");
         expect(jsonData["Yes"]).toBe("예");
         expect(jsonData["Update"]).toBe("업데이트");
         expect(jsonData["Cancel"]).toBe("취소");
         expect(jsonData["Time Settings"]).toBe("시간 설정");
+        expect(jsonData["* This feature is applied once and only once when the TV is turned off."]).toBe("* 이 기능은 프로젝터가 꺼질 때 한번만 실행됩니다.");
+    });
+    test("cppsample_test_es_CO_generate_mode", function() {
+       expect.assertions(3);
+       filePath = path.join(resourcePath, "es", fileName);
+       expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
+       jsonData = pluginUtils.loadData(filePath);
+       expect(jsonData["Sound Out"]).toBe("Salida de Audio");
+       expect(jsonData["TV Information"]).toBe("Información del proyector");
+    });
+    test("cppsample_test_en_AU_generate_mode", function() {
+        expect.assertions(3);
+        filePath = path.join(resourcePath, 'en/AU', fileName);
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
+        jsonData = pluginUtils.loadData(filePath);
+        expect(jsonData["Programme"]).toBe("Programme");
+        expect(jsonData["TV Name"]).toBe("Projector Name");
     });
   });

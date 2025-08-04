@@ -32,19 +32,22 @@ describe('[integration] test the localization result (generate mode) of webos-js
             fs.rmSync(defaultRSPath, { recursive: true });
         }
         const projectSettings = {
-            "rootDir": projectRoot,
-            "id": "sample-webos-js",
-            "projectType": "webos-js",
-            "sourceLocale": "en-KR",
-            "resourceDirs" : { "json": "resources2" },
-            "resourceFileTypes": { "json":"ilib-loctool-webos-json-resource" },
-            "plugins": [ "ilib-loctool-webos-javascript" ],
-            "xliffStyle": "custom",
-            "xliffVersion": 2,
+            rootDir: projectRoot,
+            id: "sample-webos-js",
+            projectType: "webos-js",
+            sourceLocale: "en-KR",
+            resourceDirs : { "json": "resources2" },
+            resourceFileTypes: { "json":"ilib-loctool-webos-json-resource" },
+            plugins: [ "ilib-loctool-webos-javascript" ]
         };
         const appSettings = {
             localizeOnly: true,
             translationsDir: "./xliffs",
+            xliffStyle: "webOS",
+            metadata : {
+                "device-type": "Projector"
+            },
+            xliffVersion: 2,
             locales:[
                 "ko-KR"
             ],
@@ -67,7 +70,7 @@ describe('[integration] test the localization result (generate mode) of webos-js
         }
     });
     test("jssample_generate_test_ko_KR", function() {
-        expect.assertions(5);
+        expect.assertions(6);
         let rb = new ResBundle({
             locale:"ko-KR",
             basePath : defaultRSPath
@@ -77,5 +80,6 @@ describe('[integration] test the localization result (generate mode) of webos-js
         expect(rb.getString("Thank you").toString()).toBe("고마워");
         expect(rb.getString("Bye").toString()).toBe("잘가");
         expect(rb.getString("TV On Screen").toString()).toBe("TV 켜짐 화면");
+        expect(rb.getString("Internal Speaker + Wired Headphones").toString()).toBe("프로젝터 내부 스피커 + 유선 헤드폰");
     });
 });

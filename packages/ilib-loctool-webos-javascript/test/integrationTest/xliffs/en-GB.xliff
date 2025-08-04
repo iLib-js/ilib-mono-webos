@@ -8,6 +8,25 @@
           <target>Programme</target>
         </segment>
       </unit>
+      <unit id="1">
+        <segment>
+          <source>Time Settings</source>
+          <target>Time Settings(en-GB)</target>
+        </segment>
+      </unit>
+      <unit id="3">
+        <mda:metadata>
+          <mda:metaGroup category="device-type">
+            <mda:meta type="Monitor">Monitor Name</mda:meta>
+            <mda:meta type="Projector">Projector Name</mda:meta>
+            <mda:meta type="StanbyME">Device Name</mda:meta>
+          </mda:metaGroup>
+        </mda:metadata>
+        <segment>
+          <source>TV Name</source>
+          <target>TV Name(en-GB)</target>
+        </segment>
+      </unit>
     </group>
   </file>
 </xliff>

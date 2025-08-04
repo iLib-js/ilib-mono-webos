@@ -34,18 +34,18 @@ describe('test the localization result (generate mode) of webos-dart app', () =>
             fs.rmSync(outputPath, { recursive: true });
         }
         const projectSettings = {
-            "rootDir": ".",
-            "id": "sample-webos-dart",
-            "projectType": "webos-dart",
-            "sourceLocale": "en-KR",
-            "resourceDirs" : { "json": "assets2/i18n" },
-            "resourceFileTypes": { "json":"ilib-loctool-webos-json-resource" },
-            "plugins": [ "ilib-loctool-webos-dart" ],
-            "xliffStyle": "custom",
-            "xliffVersion": 2,
+            rootDir: ".",
+            id: "sample-webos-dart",
+            projectType: "webos-dart",
+            sourceLocale: "en-KR",
+            resourceDirs : { "json": "assets2/i18n" },
+            resourceFileTypes: { "json":"ilib-loctool-webos-json-resource" },
+            plugins: [ "ilib-loctool-webos-dart" ]
         };
         const appSettings = {
             translationsDir: "./xliffs",
+            xliffStyle: "webOS",
+            xliffVersion: 2,
             locales:[
                 "en-US",
                 "en-US",
