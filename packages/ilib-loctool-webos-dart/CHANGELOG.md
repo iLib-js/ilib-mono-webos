@@ -1,5 +1,23 @@
 # ilib-loctool-webos-dart
 
+## 1.4.0
+
+### Minor Changes
+
+- 850a0f7: - Updated dependencies. (loctool: 2.31.1)
+  - Updated to correctly generate resources even when XLIFF files include metadata, using the new APIs (`getDeviceType()`, `getTarget()`) from `ilib-loctool-webos-common`
+    - If the webOS XLIFF file contains metadata and a device‑type value is specified—such as `device‑type=Monitor`— the tool now correctly generates the appropriate target entries and produces the corresponding resources.
+
+### Patch Changes
+
+- 7ea2310: Updated dependencies. (loctool: 2.31.0)
+- Updated dependencies [7ea2310]
+- Updated dependencies [850a0f7]
+- Updated dependencies [8f3072b]
+- Updated dependencies [4f25215]
+  - ilib-loctool-webos-json-resource@1.7.5
+  - ilib-loctool-webos-common@1.2.0
+
 ## 1.3.2
 
 ### Patch Changes
