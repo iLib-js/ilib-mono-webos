@@ -148,6 +148,22 @@ pnpm install
 You do NOT need to run `pnpm install` from package directories, as the monorepo is set up to handle dependencies for all
 packages automatically.
 
+#### 4. Install Git Hooks
+
+The project comes with a set of Git Hooks that are automatically installed as part of the post-installation process.
+You do not need to run a separate command for this. The hooks are set up when you run:
+
+```bash
+pnpm install
+```
+
+In case you need to install Git Hooks manually, you can run:
+
+```bash
+pnpm postinstall
+```
+
+
 
 ## Testing
 
