@@ -6,6 +6,7 @@
   "description": "Monorepo for containing the loctool and lint plugins for webOS Platform",
   "scripts": {
     "build": "turbo build",
+    "postinstall": "cp git-hooks/* .git/hooks/",
     "test": "pnpm test:affected",
     "test:affected": "turbo test --affected --output-logs=new-only",
     "test:all": "turbo test",
