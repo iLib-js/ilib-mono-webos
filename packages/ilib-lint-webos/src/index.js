@@ -25,6 +25,7 @@ class webOSPlugin extends Plugin {
     constructor(options) {
         super(options);
     }
+
     /** @override */
     init() {
         //console.log("webOSPlugin.init() called");
