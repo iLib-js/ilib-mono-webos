@@ -1,7 +1,7 @@
 /*
  * HtmlFormatter.js - Formats result output
  *
- * Copyright (c) 2024 JEDLSoft
+ * Copyright (c) 2024-2025 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -133,7 +133,8 @@ class HtmlFormatter extends Formatter {
         if (errorsOnly && result.severity !== "error") return "";
 
         let levelTextColor = (result.severity === "error") ? "color:white;black;background-color:maroon;" : "color:white;background-color:orange;";
-        let autofix = (result.fix === undefined) ? "unavailable" : result.fix.applied;
+        let autofix = result.fix === undefined ? "unavailable" : (result.fix && result.fix.applied) ? "applied" : "not applied";
+
         let targetText = (result.highlight !== undefined) ? result.highlight.replaceAll(/<e\d>/g, '<span style="color:red">').replaceAll(/<\/e\d>/g, '</span>') : "";
         let cellBackground = "background:#eee;border-bottom:1px solid #ccc;border-top:1px solid #fff;"
         let htmlText = '<table>\n' +
