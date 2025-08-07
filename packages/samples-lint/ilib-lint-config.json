@@ -11,7 +11,7 @@
             "resource-named-params": true,
             "resource-unique-keys": true,
             "resource-sentence-ending": {
-                 "bn-IN" : {
+                "bn-IN" : {
                     "period": "।"
                 },
                 "fa-IR" : {
@@ -19,6 +19,9 @@
                 },
                 "ku-Arab-IQ" : {
                     "question": "؟"
+                },
+                "am-ET" :{
+                    "question": "?"
                 }
             },
             "resource-edge-whitespace": true,
