@@ -434,7 +434,7 @@ describe("jsonfile", function() {
             "id": "app",
             "title": "%deviceType% Speaker",
         });
-        debugger;
+
         var translations = new TranslationSet();
         var resource2 = new ResourceString({
             project: "app",
