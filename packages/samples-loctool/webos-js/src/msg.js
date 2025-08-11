@@ -28,6 +28,8 @@ export function findMsgByCode (code) {
         case 9:
             msg.reason = $L('Restart');
             break;
+        case 10:
+            msg.reason = $L('%deviceType% Speaker');
         default:
             msg.reason = $L('Bye');
             break;

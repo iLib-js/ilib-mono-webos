@@ -2,18 +2,6 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="ko-KR" version="2.0">
   <file id="common_f1" original="common">
     <group id="common_g1" name="javascript">
-      <unit id="common_1">
-        <segment>
-          <source>Time Settings</source>
-          <target>[common] 시간 설정</target>
-        </segment>
-      </unit>
-      <unit id="common_2">
-        <segment>
-          <source>Please enter password.</source>
-          <target>[common] 비밀번호를 입력해 주세요.</target>
-        </segment>
-      </unit>
       <unit id="common_34">
         <mda:metadata>
           <mda:metaGroup category="device-type">

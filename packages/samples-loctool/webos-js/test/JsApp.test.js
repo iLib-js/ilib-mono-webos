@@ -26,12 +26,12 @@ describe('test the localization result of webos-js app', () => {
     const generalOptions = '-2 --xliffStyle webOS --pseudo --localizeOnly';
     const localeInherit = '--localeInherit en-AU:en-GB';
     const localeMap = '--localeMap es-CO:es,fr-CA:fr';
-
+    const deviceOption = '--metadata device-type=Monitor';
     let fullPath = '';
 
     beforeAll(async() => {
         await new Promise((resolve, reject) => {
-            exec(`npm run clean; loctool ${generalOptions} ${localeMap} ${localeInherit}`, (error, stdout, stderr) => {
+            exec(`npm run clean; loctool ${generalOptions} ${localeMap} ${localeInherit} ${deviceOption}`, (error, stdout, stderr) => {
                 if (error) {
                     return reject(error);
                 }
@@ -40,7 +40,7 @@ describe('test the localization result of webos-js app', () => {
         });
     }, 50000);
     test("jssample_test_ko_KR", function() {
-        expect.assertions(8);
+        expect.assertions(9);
         let rb = new ResBundle({
             locale:"ko-KR",
             basePath : defaultRSPath
@@ -55,6 +55,8 @@ describe('test the localization result of webos-js app', () => {
 
         // common data
         expect(rb.getString("Please enter password.").toString()).toBe("[common] 비밀번호를 입력해 주세요.");
+        // common-metadata
+        expect(rb.getString("%deviceType% Speaker").toString()).toBe("모니터 스피커");
     });
     test("jssample_test_ko_US", function() {
         expect.assertions(2);
