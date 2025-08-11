@@ -1,0 +1,9 @@
+{
+    "id": "com.app.speaker",
+    "version": "4.0.1",
+    "type": "web",
+    "main": "index.html",
+    "title": "%deviceType% Speaker",
+    "icon": "icon.png",
+    "vendor": "test"
+}

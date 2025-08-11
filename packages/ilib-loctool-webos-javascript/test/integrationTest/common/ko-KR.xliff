@@ -8,6 +8,22 @@
           <target>시간 설정</target>
         </segment>
       </unit>
+      <unit id="common_34">
+        <mda:metadata>
+          <mda:metaGroup category="device-type">
+            <mda:meta type="Monitor">모니터 스피커</mda:meta>
+            <mda:meta type="Projector">프로젝터 스피커</mda:meta>
+            <mda:meta type="StanbyMe">내부 스피커</mda:meta>
+          </mda:metaGroup>
+        </mda:metadata>
+        <notes>
+          <note>copy strings from settings by WEBOSLOCAL-7415</note>
+        </notes>
+        <segment>
+          <source>%deviceType% Speaker</source>
+          <target>TV 스피커</target>
+        </segment>
+      </unit>
     </group>
   </file>
 </xliff>
