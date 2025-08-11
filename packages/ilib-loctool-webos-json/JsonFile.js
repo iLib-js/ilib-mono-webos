@@ -359,7 +359,7 @@ JsonFile.prototype.localizeText = function(translations, locale) {
                         if (translated2) {
                             baseTranslation = this._getBaseTranslation(locale, translations, tester);
                             if (baseTranslation !== translated2.target) {
-                                output[property] = translated2.target;
+                                output[property] = pluginUtils.getTarget(translated2, deviceType);
                             }
                         } else {
                             this.logger.trace("New string found: " + text);
@@ -374,8 +374,8 @@ JsonFile.prototype.localizeText = function(translations, locale) {
                     var alternativeKey2 = ResourceString.hashKey(tester.getProject(), customInheritLocale, tester.getKey(), "javascript", tester.getFlavor());
                     var translated2 = translations.getClean(hashkey2) || translations.getClean(alternativeKey2);
                     if (translated2) {
-                        baseTranslation = translated2.target;
-                        output[property] = translated2.target;
+                        baseTranslation = pluginUtils.getTarget(translated2, deviceType);;
+                        output[property] = pluginUtils.getTarget(translated2, deviceType);;
                     } else {
                         this.logger.trace("New string found: " + text);
                         this._addNewResource(text, key, locale);
