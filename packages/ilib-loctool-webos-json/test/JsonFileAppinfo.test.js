@@ -35,6 +35,9 @@ var p = new CustomProject({
     },
     }, "./test/testfiles", {
     locales:["en-GB", "ko-KR"],
+    metadata: {
+        "device-type": "Monitor"
+    },
     jsonMap: {
         "mappings": {
             "**/appinfo.json": {
@@ -418,6 +421,47 @@ describe("jsonfile", function() {
 
         var actual = ajf.localizeText(translations, "ko-KR");
         var expected = '{\n    "title": "사진 &amp; 동영상2"\n}';
+        expect(actual).toBe(expected);
+    });
+    test("JsonLocalizeTextxJsonKey4", function() {
+        expect.assertions(2);
+        var ajf = new JsonFile({
+            project: p,
+            type: ajft
+        });
+        expect(ajf).toBeTruthy();
+        ajf.parse({
+            "id": "app",
+            "title": "%deviceType% Speaker",
+        });
+        debugger;
+        var translations = new TranslationSet();
+        var resource2 = new ResourceString({
+            project: "app",
+            source: "%deviceType% Speaker",
+            sourceLocale: "en-KR",
+            key: "%deviceType% Speaker",
+            target: "TV 스피커",
+            targetLocale: "ko-KR",
+            datatype: "javascript",
+            metadata: {
+                "mda:metaGroup": {
+                    "mda:meta": [
+                        {
+                            "_attributes" : {"type": "Monitor"},
+                            "_text": "모니터 스피커"
+                        }
+                    ],
+                    "_attributes": {
+                        "category": "device-type"
+                    }
+                }
+            }
+        })
+        translations.add(resource2);
+
+        var actual = ajf.localizeText(translations, "ko-KR");
+        var expected = '{\n    "title": "모니터 스피커"\n}';
         expect(actual).toBe(expected);
     });
     test("JsonLocalizeTextMultiple", function() {

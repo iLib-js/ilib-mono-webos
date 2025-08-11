@@ -233,6 +233,9 @@ importers:
         specifier: ^4.0.8
         version: 4.0.8
     devDependencies:
+      ilib-loctool-webos-common:
+        specifier: workspace:*
+        version: link:../ilib-loctool-webos-common
       jest:
         specifier: ^30.0.5
         version: 30.0.5(@types/node@12.20.55)(node-notifier@8.0.2)
@@ -252,6 +255,19 @@ importers:
       loctool:
         specifier: 2.31.1
         version: 2.31.1
+
+  packages/ilib-loctool-webos-json/test/integrationTest:
+    dependencies:
+      ilib-loctool-webos-json:
+        specifier: workspace:*
+        version: link:../..
+      loctool:
+        specifier: ^2.31.1
+        version: 2.31.1
+    devDependencies:
+      jest:
+        specifier: ^30.0.5
+        version: 30.0.5(@types/node@12.20.55)(node-notifier@8.0.2)
 
   packages/ilib-loctool-webos-qml:
     dependencies:

@@ -23,6 +23,8 @@ var Utils = require("loctool/lib/utils.js");
 var ResourceString = require("loctool/lib/ResourceString.js");
 var PseudoFactory = require("loctool/lib/PseudoFactory.js");
 var Locale = require("ilib/lib/Locale");
+var pluginUtils = require("ilib-loctool-webos-common/utils.js");
+
 /**
  * Create a new json file with the given path name and within
  * the given project.
@@ -307,6 +309,7 @@ JsonFile.prototype._getBaseTranslation = function(locale, translations, tester) 
  * @returns {String} the localized text of this file
  */
 JsonFile.prototype.localizeText = function(translations, locale) {
+    var deviceType = pluginUtils.getDeviceType(this.project.settings);
     var output = {};
     var stringifyOuput = "";
     var baseTranslation;
@@ -339,7 +342,7 @@ JsonFile.prototype.localizeText = function(translations, locale) {
                 if (translated) {
                     baseTranslation = this._getBaseTranslation(locale, translations, tester);
                     if (baseTranslation !== translated.target) {
-                        output[property] = translated.target;
+                        output[property] = pluginUtils.getTarget(translated, deviceType);
                     }
                 } else if (!translated && this.isloadCommonData){
                     var comonDataKey = ResourceString.hashKey(this.commonPrjName, locale, tester.getKey(), this.commonPrjType, tester.getFlavor());
@@ -347,7 +350,7 @@ JsonFile.prototype.localizeText = function(translations, locale) {
                     if (translated) {
                         baseTranslation = this._getBaseTranslation(locale, translations, tester);
                         if (baseTranslation !== translated.target) {
-                            output[property] = translated.target;
+                            output[property] = pluginUtils.getTarget(translated, deviceType);
                         }
                     } else if (!translated && customInheritLocale) {
                         var hashkey2 = tester.hashKeyForTranslation(customInheritLocale);
@@ -444,12 +447,14 @@ JsonFile.prototype._loadCommonXliff = function(tsdata) {
     if (fs.existsSync(this.commonPath)){
         var list = fs.readdirSync(this.commonPath);
     }
+    var xliffStyle = (this.project.settings && this.project.settings.xliffStyle) ? this.project.settings.xliffStyle : "webOS";
     if (list && list.length !== 0) {
         list.forEach(function(file){
             var commonXliff = this.API.newXliff({
                 sourceLocale: this.project.getSourceLocale(),
                 project: this.project.getProjectId(),
                 path: this.commonPath,
+                style: xliffStyle
             });
             var pathName = path.join(this.commonPath, file);
             var data = fs.readFileSync(pathName, "utf-8");
