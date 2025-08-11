@@ -1,5 +1,11 @@
 # ilib-loctool-webos-json
 
+## 1.1.12
+
+### Patch Changes
+
+- 413e0b0: Fix a bug where the JSON file type localization does not handle metadata from the common XLIFF file.
+
 ## 1.1.11
 
 ### Patch Changes
