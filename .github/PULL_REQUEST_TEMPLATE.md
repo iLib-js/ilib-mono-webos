@@ -1,11 +1,11 @@
 ### Checklist
 
 The following lists affects Pub Points on pub.dev when the package is published.
-* [ ] Passed the all tests.
-* [ ] At least one test case is included for this feature or bug fix.
-* [ ] Add a changelog for the changes.  
-      If the changes are related to the loctool, also update the changelog in `ilib‑loctool‑webos‑dist`
-* [ ] Added the API description is added if necessary.
+* [ ] Pass the all tests.
+* [ ] Include at least one test case for this feature or bug fix.
+* [ ] Add a changeset for the changes.  
+      If the changes are related to the loctool, make sure to update the changelog for `ilib‑loctool‑webos‑dist`.
+* [ ] Add API documentation if necessary.
 
 ### Issue Resolved / Feature Added
 [//]: # (Describe the issue resolved or feature added by this pull request)
