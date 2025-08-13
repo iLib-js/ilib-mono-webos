@@ -7,7 +7,7 @@ The following lists affects Pub Points on pub.dev when the package is published.
       If the changes are related to the loctool, make sure to update the changelog for `ilib‑loctool‑webos‑dist`.
 * [ ] Add API documentation if necessary.
 
-### Issue Resolved / Feature Added
+### Description
 [//]: # (Describe the issue resolved or feature added by this pull request)
 
 
