@@ -5,6 +5,7 @@
     "plugins": [
         "ilib-lint-webos"
     ],
+    "autofix": true,
     "rulesets": {
         "webos-translation-rules": {
             "resource-url-match": true,
