@@ -2,7 +2,7 @@
 /*
  * webOSXliff.js - model an xliff file for the webOS
  *
- * Copyright © 2025, JEDLSoft
+ * Copyright (c) 2025, JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@
 
 import xmljs from 'ilib-xml-js';
 import { JSUtils } from 'ilib-common';
+import TranslationUnit from './TranslationUnit.js';
 
 /**
  * Return a string that can be used as an HTML attribute value.
@@ -228,7 +229,7 @@ class webOSXliff {
         const targetLocale = this.tu[0].targetLocale;
         let hasMetadata = false;
 
-        const units = units
+        const units = this.tu
             .filter(unit => unit.sourceLocale === sourceLocale && (!targetLocale || unit.targetLocale === targetLocale))
             .sort((a, b) => {
                 if (a.project < b.project) return -1;
@@ -387,7 +388,7 @@ class webOSXliff {
             position: true
         });
 
-        this.parse(json.xliff);
+        this.parse(json.xliff, resfile);
         return this.tu;
     }
 
@@ -474,7 +475,8 @@ class webOSXliff {
                                         state: state,
                                         datatype: datatype,
                                         flavor: fileSettings.flavor,
-                                        metadata: tu['mda:metadata'] || undefined
+                                        metadata: tu['mda:metadata'] || undefined,
+                                        resfile
                                     };
 
                                     let unit = new TranslationUnit(commonProperties);
@@ -490,6 +492,7 @@ class webOSXliff {
                 }
             }
         }
+        return this.tu;
     }
 
     /**
