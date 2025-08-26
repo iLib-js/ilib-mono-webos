@@ -1,1 +1,4 @@
-{"type": "module"}
+{
+    "name": "ilib-xliff:test",
+    "type": "module"
+}
