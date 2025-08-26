@@ -69,6 +69,7 @@ function versionString(num) {
     return integral + '.' + fraction;
 }
 
+const newline = /[^\n]*\n/g;
 
 /**
  * @class A class that represents an xliff file for webOS. Xliff stands for Xml
@@ -216,7 +217,37 @@ class webOSXliff {
      */
     serialize(untranslated) {
         const xml = this.toStringData();
+        this.countLines(xml);
         return xml
+    }
+
+    /**
+     * Return the line and character number on the line for any character
+     * position in the file. Assumes that countLines() has already been
+     * called to set up the line index;
+     * @private
+     */
+    charPositionToLocation(pos) {
+        // simple binary search
+        let left = 0, right = this.lineIndex.length-1;
+
+        while ((right - left) > 1) {
+            let middle = Math.trunc((left + right) / 2);
+            if (pos < this.lineIndex[middle]) {
+                right = middle;
+            } else if (pos > this.lineIndex[middle]) {
+                left = middle;
+            } else if (pos === this.lineIndex[middle]) {
+                return {
+                   line: middle,
+                   char: 0
+                };
+            }
+        }
+        return {
+            line: left,
+            char: pos - this.lineIndex[left]
+        };
     }
 
     /**
@@ -387,7 +418,7 @@ class webOSXliff {
             compact: true,
             position: true
         });
-
+        this.countLines(xml);
         this.parse(json.xliff, resfile);
         return this.tu;
     }
@@ -426,7 +457,7 @@ class webOSXliff {
                         let transUnits = makeArray(groups[j].unit);
                         let groupName = groups[j]["_attributes"].name;
                         transUnits.forEach((tu) => {
-                            let comment, state;
+                            let comment, state, location;
                             let datatype = tu._attributes["l:datatype"] || groupName;
                             let source = "", target = "";
                             if (tu.notes && tu.notes.note) {
@@ -438,6 +469,9 @@ class webOSXliff {
                             let restype = "string";
                             if (tu._attributes.type && tu._attributes.type.startsWith("res:")) {
                                 restype = tu._attributes.type.substring(4);
+                            }
+                            if (tu._position) {
+                                location = this.charPositionToLocation(tu._position);
                             }
                             if (tu.segment) {
                                 let segments = makeArray(tu.segment);
@@ -476,6 +510,7 @@ class webOSXliff {
                                         datatype: datatype,
                                         flavor: fileSettings.flavor,
                                         metadata: tu['mda:metadata'] || undefined,
+                                        location,
                                         resfile
                                     };
 
@@ -493,6 +528,43 @@ class webOSXliff {
             }
         }
         return this.tu;
+    }
+
+    /**
+     * @private
+     */
+    countLines(text) {
+        newline.lastIndex = 0;
+        this.lines = 1;
+        this.lineIndex = [];
+        this.fileLength = text.length;
+
+        // set up the line index with the index of the
+        // start of each line in the text
+        let match;
+        let index = 0;
+        while ((match = newline.exec(text)) !== null) {
+            this.lines++;
+            this.lineIndex.push(index);
+            index += match[0].length;
+        }
+        this.lineIndex.push(index);
+    }
+
+    /**
+     * Return the number of lines in the file. This is only really
+     * accurate after it has been serialized or deserialized.
+     */
+    getLines() {
+        return this.lines || 0;
+    }
+
+    /**
+     * Return the number of bytes in the file. This is only really
+     * accurate after it has been serialized or deserialized.
+     */
+    getBytes() {
+        return this.fileLength || 0;
     }
 
     /**

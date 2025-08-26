@@ -39,6 +39,20 @@ describe("webOSXliff", () => {
         expect(x).toBeTruthy();
         expect(x.size()).toBe(0);
     });
+    test('should get default lines count', () => {
+        const x = new webOSXliff();
+        expect(x).toBeTruthy();
+
+        // default value
+        expect(x.getLines()).toBe(0);
+    });
+    test('should get default bytes count', () => {
+        const x = new webOSXliff();
+        expect(x).toBeTruthy();
+
+        // default value
+        expect(x.getBytes()).toBe(0);
+    });
     test("should create webOSXliff instance with configuration", () => {
         expect.assertions(5);
         var x = new webOSXliff({
@@ -365,6 +379,121 @@ describe("webOSXliff", () => {
 
         expect(actual).toBe(expected);
     });
+    test('should get lines count after deserialization', () => {
+        const x = new webOSXliff();
+        expect(x).toBeTruthy();
+        expect(x.getLines()).toBe(0);
+
+        x.deserialize(
+        '<?xml version="1.0" encoding="utf-8"?>\n' +
+        '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="de-DE" version="2.0">\n' +
+        '  <file id="sample_f1" original="sample-webos-c">\n' +
+        '      <group id="sample_g1" name="c">\n' +
+        '        <unit id="1">\n' +
+        '          <segment>\n' +
+        '            <source>Asdf asdf</source>\n' +
+        '            <target>foobarfoo</target>\n' +
+        '          </segment>\n' +
+        '        </unit>\n' +
+        '      </group>\n' +
+        '  </file>\n' +
+        '</xliff>');
+
+        expect(x.getLines()).toBe(13);
+    });
+    test('should get lines count after serialization', () => {
+        const x = new webOSXliff();
+        expect(x).toBeTruthy();
+
+        expect(x.getLines()).toBe(0);
+
+        x.addTranslationUnits([
+            new TranslationUnit({
+                source: "Asdf asdf",
+                sourceLocale: "en-US",
+                target: "Asdf",
+                targetLocale: "de-DE",
+                key: 'foobar asdf',
+                file: "foo/bar/asdf.java",
+                project: "androidapp",
+                origin: "target",
+                datatype: "plaintext"
+            }),
+            new TranslationUnit({
+                source: "baby baby",
+                sourceLocale: "en-US",
+                target: "baby",
+                targetLocale: "de-DE",
+                key: "huzzah asdf test",
+                file: "foo/bar/j.java",
+                project: "webapp",
+                origin: "target",
+                datatype: "plaintext"
+            })
+        ]);
+
+        let actual = x.serialize();
+        expect(actual).toBeTruthy();
+        expect(x.getLines()).toBe(23);
+    });
+    test('should get bytes count after deserialization', () => {
+        const x = new webOSXliff();
+        expect(x).toBeTruthy();
+
+        expect(x.getBytes()).toBe(0);
+
+        x.deserialize(
+        '<?xml version="1.0" encoding="utf-8"?>\n' +
+        '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="de-DE" version="2.0">\n' +
+        '  <file id="sample_f1" original="sample-webos-c">\n' +
+        '      <group id="sample_g1" name="c">\n' +
+        '        <unit id="1">\n' +
+        '          <segment>\n' +
+        '            <source>Asdf asdf</source>\n' +
+        '            <target>foobarfoo</target>\n' +
+        '          </segment>\n' +
+        '        </unit>\n' +
+        '      </group>\n' +
+        '  </file>\n' +
+        '</xliff>');
+
+        expect(x.getBytes()).toBe(417);
+    });
+    test('should get bytes count after serialization', () => {
+        const x = new webOSXliff();
+        expect(x).toBeTruthy();
+
+        expect(x.getBytes()).toBe(0);
+
+        x.addTranslationUnits([
+            new TranslationUnit({
+                source: "Asdf asdf",
+                sourceLocale: "en-US",
+                target: "Asdf",
+                targetLocale: "de-DE",
+                key: 'foobar asdf',
+                file: "foo/bar/asdf.java",
+                project: "androidapp",
+                origin: "target",
+                datatype: "plaintext"
+            }),
+            new TranslationUnit({
+                source: "baby baby",
+                sourceLocale: "en-US",
+                target: "baby",
+                targetLocale: "de-DE",
+                key: "huzzah asdf test",
+                file: "foo/bar/j.java",
+                project: "webapp",
+                origin: "target",
+                datatype: "plaintext"
+            })
+        ]);
+
+        let actual = x.serialize();
+        expect(actual).toBeTruthy();
+        expect(x.getBytes()).toBe(700);
+    });
     test('should deserialize webOS XLIFF', () => {
         const x = new webOSXliff();
         expect(x).toBeTruthy();
@@ -592,5 +721,73 @@ describe("webOSXliff", () => {
         expect(tulist[1].project).toBe("sample-webos-js");
         expect(tulist[1].resType).toBe("string");
         expect(tulist[1].id).toBe("2");
+    });
+    test('webOSXliffDeserialize_metadata', () => {
+        const x = new webOSXliff({
+            metadata: {"device-type": "SoundBar"}
+        });
+        expect(x).toBeTruthy();
+
+        x.deserialize(
+        '<?xml version="1.0" encoding="utf-8"?>\n' +
+        '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0"\n' +
+        'xmlns:mda="urn:oasis:names:tc:xliff:metadata:2.0"\n' +
+        'srcLang="en-KR" trgLang="ko-KR">\n' +
+        '  <file id="sample-webos-cs_f1" original="sample-webos-c">\n' +
+        '      <group id="sample-webos-c_g1" name="c">\n' +
+        '        <unit id="1">\n' +
+        '          <mda:metadata>\n' +
+        '            <mda:metaGroup category="device-type">\n' +
+        '              <mda:meta type="Monitor">"Monitor" 이용이 불가능합니다</mda:meta>\n' +
+        '              <mda:meta type="Box">"Box" 이용이 불가능합니다</mda:meta>\n' +
+        '              <mda:meta type="SoundBar">"SoundBar" 이용이 불가능합니다</mda:meta>\n' +
+        '            </mda:metaGroup>\n' +
+        '          </mda:metadata>\n' +
+        '          <segment>\n' +
+        '            <source>NOT AVAILABLE</source>\n' +
+        '            <target>이용이 불가능합니다</target>\n' +
+        '          </segment>\n' +
+        '        </unit>\n' +
+        '      </group>\n' +
+        '  </file>\n' +
+        '</xliff>');
+
+        let tulist = x.getTranslationUnits();
+        expect(tulist).toBeTruthy();
+        expect(tulist.length).toBe(1);
+
+        const expectedMetadata = {
+            "_position": 327,
+            "mda:metaGroup": {
+                "_position": 354,
+                "mda:meta": [
+                    {
+                        "_position": 407,
+                        "_attributes" : {"type": "Monitor"},
+                        "_text": "\"Monitor\" 이용이 불가능합니다"
+                    },
+                    {
+                        "_position": 478,
+                        "_attributes" : {"type": "Box"},
+                        "_text": "\"Box\" 이용이 불가능합니다"
+                    },
+                    {
+                        "_position": 541,
+                        "_attributes" : {"type": "SoundBar"},
+                        "_text": "\"SoundBar\" 이용이 불가능합니다"
+                    }
+                ],
+                "_attributes": {
+                    "category": "device-type"
+                }
+            }
+        }
+
+        expect(tulist[0].source).toBe("NOT AVAILABLE");
+        expect(tulist[0].sourceLocale).toBe("en-KR");
+        expect(tulist[0].targetLocale).toBe("ko-KR");
+        expect(tulist[0].key).toBe("NOT AVAILABLE");
+        expect(tulist[0].target).toBe("이용이 불가능합니다");
+        expect(tulist[0].metadata).toStrictEqual(expectedMetadata);
     });
 });
