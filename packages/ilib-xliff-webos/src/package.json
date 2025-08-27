@@ -1,4 +1,5 @@
 {
-    "name": "ilib-xliff:src",
+    "private": true,
+    "name": "ilib-xliff-src",
     "type": "module"
 }
