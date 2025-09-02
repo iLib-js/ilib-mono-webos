@@ -1,5 +1,8 @@
 ############ Common ############
 
+# Build Outputs
+packages/*/lib/
+
 # Dependencie
 node_modules/
 
