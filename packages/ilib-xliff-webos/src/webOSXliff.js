@@ -153,7 +153,7 @@ class webOSXliff {
      */
     addTranslationUnit = function(unit) {
         let oldUnit;
-        
+
         const hashKeySource = this._hashKey(unit.project, unit.context, unit.sourceLocale, "", unit.source, unit.key, unit.resType, unit.file, unit.ordinal, unit.quantity, unit.flavor, unit.datatype),
         hashKeyTarget = this._hashKey(unit.project, unit.context, unit.sourceLocale, unit.targetLocale, unit.source, unit.key, unit.resType, unit.file, unit.ordinal, unit.quantity, unit.flavor, unit.datatype);
 
@@ -277,10 +277,9 @@ class webOSXliff {
         };
         // now finally add each of the units to the json
         let files = {};
-        let index = 1;
         let fileIndex = 1;
-        let datatype;
-        let groupIndex = 1;
+        let groupIndexMap = {}; // key: project+datatype, value: groupIndex
+        let unitIndexMap = {};  // key: project+groupIndex, value: unitIndex
 
         for (let i = 0; i < units.length; i++) {
             let tu = units[i];
@@ -288,6 +287,14 @@ class webOSXliff {
                 console.log("undefined?");
             }
             let hashKey = tu.project;
+            let datatype = tu.datatype || "javascript";
+            let groupKey = hashKey + "_" + datatype;
+
+            if (!groupIndexMap[groupKey]) {
+                groupIndexMap[groupKey] = Object.keys(groupIndexMap).length + 1;
+            }
+            let groupIndex = groupIndexMap[groupKey];
+
             let file = files[hashKey];
             if (!file) {
                 files[hashKey] = file = {
@@ -295,85 +302,68 @@ class webOSXliff {
                         "id": tu.project + "_f" + fileIndex++,
                         "original": tu.project
                     },
-                    group : [
-                        {
-                            _attributes: {
-                                "id": tu.project + "_g" + groupIndex++,
-                                "name": tu.datatype || "javascript"
-                        },
-                        unit: []
-                    }
-                ]
-            };
-        }
-
-        let tujson = {
-            _attributes: {
-                "id": (tu.id || index++),
-                 "name": (tu.source !== tu.key) ? escapeAttr(tu.key) : undefined,
+                    group: []
+                };
             }
-        };
 
-        if (tu.metadata) {
-            tujson["mda:metadata"] = tu.metadata
-            hasMetadata = true;
-        }
-
-        if (tu.comment) {
-            tujson.notes = {
-                "note": [
-                    {
-                        "_text": tu.comment
-                    }
-                ]
-            };
-        }
-
-        tujson.segment = [
-            {
-                "source": {
-                    "_text": tu.source
-                }
+            let groupSet = file.group.find(g => g._attributes.name === datatype);
+            if (!groupSet) {
+                groupSet = {
+                    _attributes: {
+                        "id": tu.project + "_g" + groupIndex,
+                        "name": datatype
+                    },
+                    unit: []
+                };
+                file.group.push(groupSet);
             }
-        ];
 
-        if (tu.id && tu.id > index) {
-            index = tu.id + 1;
-        }
+            let unitKey = tu.project + "_g" + groupIndex;
+            if (!unitIndexMap[unitKey]) {
+                unitIndexMap[unitKey] = 1;
+            }
+            let unitIndex = unitIndexMap[unitKey]++;
 
-        if (tu.target) {
-            tujson.segment[0].target = {
+            let tujson = {
                 _attributes: {
-                    state: tu.state,
-                },
-                "_text": tu.target
+                    "id": tu.project + "_g" + groupIndex + "_" + unitIndex,
+                    "name": (tu.source !== tu.key) ? escapeAttr(tu.key) : undefined,
+                }
             };
-        }
 
-        datatype = tu.datatype || "javascript";
-        if (!files[hashKey].group) {
-            files[hashKey].group = [];
-        }
-
-        let groupSet = {
-            _attributes: {},
-            unit: []
-        }
-
-        let existGroup = files[hashKey].group.filter(function(item) {
-            if (item._attributes.name === datatype) {
-                return item;
+            if (tu.metadata) {
+                tujson["mda:metadata"] = tu.metadata
+                hasMetadata = true;
             }
-        })
 
-        if (existGroup.length > 0) {
-            existGroup[0].unit.push(tujson);
-        } else {
-            groupSet._attributes.id = tu.project+ "_g" + groupIndex++;
-            groupSet._attributes.name = datatype;
-            files[hashKey].group.push(groupSet);
+            if (tu.comment) {
+                tujson.notes = {
+                    "note": [
+                        {
+                            "_text": tu.comment
+                        }
+                    ]
+                };
+            }
+
+            tujson.segment = [
+                {
+                    "source": {
+                        "_text": tu.source
+                    }
+                }
+            ];
+
+            if (tu.target) {
+                tujson.segment[0].target = {
+                    _attributes: {
+                        state: tu.state,
+                    },
+                    "_text": tu.target
+                };
+            }
+
             groupSet.unit.push(tujson);
-        }
         }
 
         // sort the file tags so that they come out in the same order each time
@@ -587,7 +577,7 @@ class webOSXliff {
         this.tu = [];
         this.tuhash = {};
     }
-    
+
 }
 
 export default webOSXliff;

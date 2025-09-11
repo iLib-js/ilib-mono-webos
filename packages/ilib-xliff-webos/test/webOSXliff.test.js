@@ -140,7 +140,7 @@ describe("webOSXliff", () => {
         expect(tulist[0].sourceLocale).toBe("en-KR");
         expect(tulist[0].key).toBe("foobar");
         expect(tulist[0].file).toBe("foo/bar/asdf.js");
-        expect(tulist[0].state).toBe("new"); 
+        expect(tulist[0].state).toBe("new");
         expect(tulist[0].comment).toBe("This is a comment");
         expect(tulist[0].project).toBe("webapp");
         expect(tulist[0].datatype).toBe("javascript");
@@ -325,7 +325,7 @@ describe("webOSXliff", () => {
             '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" version="2.0">\n' +
             '  <file id="webapp_f1" original="webapp">\n' +
             '    <group id="webapp_g1" name="javascript">\n' +
-            '      <unit id="1" name="foobar">\n' +
+            '      <unit id="webapp_g1_1" name="foobar">\n' +
             '        <notes>\n' +
             '          <note>This is a comment</note>\n' +
             '        </notes>\n' +
@@ -364,7 +364,7 @@ describe("webOSXliff", () => {
             '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="de-DE" version="2.0">\n' +
             '  <file id="webapp_f1" original="webapp">\n' +
             '    <group id="webapp_g1" name="javascript">\n' +
-            '      <unit id="1" name="foobar">\n' +
+            '      <unit id="webapp_g1_1" name="foobar">\n' +
             '        <notes>\n' +
             '          <note>This is a comment</note>\n' +
             '        </notes>\n' +
@@ -389,7 +389,7 @@ describe("webOSXliff", () => {
         '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="de-DE" version="2.0">\n' +
         '  <file id="sample_f1" original="sample-webos-c">\n' +
         '      <group id="sample_g1" name="c">\n' +
-        '        <unit id="1">\n' +
+        '        <unit id="webapp_g1_1">\n' +
         '          <segment>\n' +
         '            <source>Asdf asdf</source>\n' +
         '            <target>foobarfoo</target>\n' +
@@ -447,7 +447,7 @@ describe("webOSXliff", () => {
         '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="de-DE" version="2.0">\n' +
         '  <file id="sample_f1" original="sample-webos-c">\n' +
         '      <group id="sample_g1" name="c">\n' +
-        '        <unit id="1">\n' +
+        '        <unit id="webapp_g1_1">\n' +
         '          <segment>\n' +
         '            <source>Asdf asdf</source>\n' +
         '            <target>foobarfoo</target>\n' +
@@ -457,7 +457,7 @@ describe("webOSXliff", () => {
         '  </file>\n' +
         '</xliff>');
 
-        expect(x.getBytes()).toBe(417);
+        expect(x.getBytes()).toBe(427);
     });
     test('should get bytes count after serialization', () => {
         const x = new webOSXliff();
@@ -492,7 +492,7 @@ describe("webOSXliff", () => {
 
         let actual = x.serialize();
         expect(actual).toBeTruthy();
-        expect(x.getBytes()).toBe(700);
+        expect(x.getBytes()).toBe(724);
     });
     test('should deserialize webOS XLIFF', () => {
         const x = new webOSXliff();
@@ -503,7 +503,7 @@ describe("webOSXliff", () => {
         '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="de-DE" version="2.0">\n' +
         '  <file id="sample_f1" original="sample-webos-c">\n' +
         '      <group id="sample_g1" name="c">\n' +
-        '        <unit id="1">\n' +
+        '        <unit id="webapp_g1_1">\n' +
         '          <segment>\n' +
         '            <source>Asdf asdf</source>\n' +
         '            <target>foobarfoo</target>\n' +
@@ -532,7 +532,7 @@ describe("webOSXliff", () => {
                 '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="de-DE" version="2.0">\n' +
                 '  <file id="sample_f1" original="sample-webos-c">\n' +
                 '    <group id="sample_g1" name="c">\n' +
-                '      <unit id="1" name="foobar">\n' +
+                '      <unit id="webapp_g1_1" name="foobar">\n' +
                 '        <segment>\n' +
                 '          <source>Asdf asdf</source>\n' +
                 '          <target>foobarfoo</target>\n' +
@@ -542,7 +542,7 @@ describe("webOSXliff", () => {
                 '  </file>\n' +
                 '  <file id="sample_f2" original="sample-webos-c">\n' +
                 '    <group id="sample_g2" name="c">\n' +
-                '      <unit id="2" name="huzzah">\n' +
+                '      <unit id="sample_g2_1" name="huzzah">\n' +
                 '        <segment>\n' +
                 '          <source>baby baby</source>\n' +
                 '          <target>bebe bebe</target>\n' +
@@ -563,7 +563,7 @@ describe("webOSXliff", () => {
         expect(tulist[0].file).toBe("sample-webos-c");
         expect(tulist[0].project).toBe("sample-webos-c");
         expect(tulist[0].resType).toBe("string");
-        expect(tulist[0].id).toBe("1");
+        expect(tulist[0].id).toBe("webapp_g1_1");
         expect(tulist[0].target).toBe("foobarfoo");
         expect(tulist[0].targetLocale).toBe("de-DE");
         expect(tulist[0].resfile).toBe("a/b/c/resfile.xliff");
@@ -574,7 +574,7 @@ describe("webOSXliff", () => {
         expect(tulist[1].file).toBe("sample-webos-c");
         expect(tulist[1].project).toBe("sample-webos-c");
         expect(tulist[1].resType).toBe("string");
-        expect(tulist[1].id).toBe("2");
+        expect(tulist[1].id).toBe("sample_g2_1");
         expect(tulist[1].target).toBe("bebe bebe");
         expect(tulist[1].targetLocale).toBe("de-DE");
         expect(tulist[1].resfile).toBe("a/b/c/resfile.xliff");
@@ -588,7 +588,7 @@ describe("webOSXliff", () => {
                 '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="en-CA" version="2.0">\n' +
                 '  <file id="sample_f1" original="sample-webos-js">\n' +
                 '    <group id="sample_g1" name="javascript">\n' +
-                '      <unit id="1" name="foobar\\nbar\\t">\n' +
+                '      <unit id="sample_g1_1" name="foobar\\nbar\\t">\n' +
                 '        <segment>\n' +
                 '          <source>a\\nb</source>\n' +
                 '        </segment>\n' +
@@ -596,8 +596,8 @@ describe("webOSXliff", () => {
                 '    </group>\n' +
                 '  </file>\n' +
                 '  <file id="sample_f2" original="sample-webos-js">\n' +
-                '    <group id="sample_g1" name="javascript">\n' +
-                '      <unit id="2" name="huzzah\\n\\na plague on both your houses">\n' +
+                '    <group id="sample_g2" name="javascript">\n' +
+                '      <unit id="sample_g2_1" name="huzzah\\n\\na plague on both your houses">\n' +
                 '        <segment>\n' +
                 '          <source>e\\nh</source>\n' +
                 '        </segment>\n' +
@@ -617,7 +617,7 @@ describe("webOSXliff", () => {
         expect(tulist[0].file).toBe("sample-webos-js");
         expect(tulist[0].project).toBe("sample-webos-js");
         expect(tulist[0].resType).toBe("string");
-        expect(tulist[0].id).toBe("1");
+        expect(tulist[0].id).toBe("sample_g1_1");
 
         expect(tulist[1].source).toBe("e\\nh");
         expect(tulist[1].sourceLocale).toBe("en-KR");
@@ -625,7 +625,7 @@ describe("webOSXliff", () => {
         expect(tulist[1].file).toBe("sample-webos-js");
         expect(tulist[1].project).toBe("sample-webos-js");
         expect(tulist[1].resType).toBe("string");
-        expect(tulist[1].id).toBe("2");
+        expect(tulist[1].id).toBe("sample_g2_1");
     });
     test('should deserialize XLIFF 2.0 with empty source', () => {
         const x = new webOSXliff();
@@ -636,7 +636,7 @@ describe("webOSXliff", () => {
                 '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="fr-FR" version="2.0">\n' +
                 '  <file id="sample_f1" original="sample-webos-js">\n' +
                 '    <group id="sample_g1" name="javascript">\n' +
-                '      <unit id="1" name="foobar">\n' +
+                '      <unit id="sample_g1_1" name="foobar">\n' +
                 '        <segment>\n' +
                 '          <source></source>\n' +
                 '          <target>Baby Baby</target>\n' +
@@ -645,8 +645,8 @@ describe("webOSXliff", () => {
                 '    </group>\n' +
                 '  </file>\n' +
                 '  <file id="sample_f2" original="sample-webos-js">\n' +
-                '    <group id="sample_g1" name="javascript">\n' +
-                '      <unit id="2" name="huzzah">\n' +
+                '    <group id="sample_g2" name="javascript">\n' +
+                '      <unit id="sample_g2_1" name="huzzah">\n' +
                 '        <segment>\n' +
                 '          <source>baby baby</source>\n' +
                 '          <target>bebe bebe</target>\n' +
@@ -667,7 +667,7 @@ describe("webOSXliff", () => {
         expect(tulist[0].file).toBe("sample-webos-js");
         expect(tulist[0].project).toBe("sample-webos-js");
         expect(tulist[0].resType).toBe("string");
-        expect(tulist[0].id).toBe("2");
+        expect(tulist[0].id).toBe("sample_g2_1");
 
         expect(tulist[0].target).toBe("bebe bebe");
         expect(tulist[0].targetLocale).toBe("fr-FR");
@@ -682,7 +682,7 @@ describe("webOSXliff", () => {
                 '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="fr-FR" version="2.0">\n' +
                 '  <file id="sample_f1" original="sample-webos-js">\n' +
                 '    <group id="sample_g1" name="javascript">\n' +
-                '      <unit id="1" name="foobar">\n' +
+                '      <unit id="sample_g1_1" name="foobar">\n' +
                 '        <segment>\n' +
                 '          <source>Asdf asdf</source>\n' +
                 '        </segment>\n' +
@@ -691,7 +691,7 @@ describe("webOSXliff", () => {
                 '  </file>\n' +
                 '  <file id="sample_f2" original="sample-webos-js">\n' +
                 '    <group id="sample_g1" name="javascript">\n' +
-                '      <unit id="2" name="huzzah">\n' +
+                '      <unit id="sample_g2_1" name="huzzah">\n' +
                 '        <segment>\n' +
                 '          <source>baby baby</source>\n' +
                 '          <target></target>\n' +
@@ -712,7 +712,7 @@ describe("webOSXliff", () => {
         expect(tulist[0].file).toBe("sample-webos-js");
         expect(tulist[0].project).toBe("sample-webos-js");
         expect(tulist[0].resType).toBe("string");
-        expect(tulist[0].id).toBe("1");
+        expect(tulist[0].id).toBe("sample_g1_1");
 
         expect(tulist[1].source).toBe("baby baby");
         expect(tulist[1].sourceLocale).toBe("en-KR");
@@ -720,7 +720,7 @@ describe("webOSXliff", () => {
         expect(tulist[1].file).toBe("sample-webos-js");
         expect(tulist[1].project).toBe("sample-webos-js");
         expect(tulist[1].resType).toBe("string");
-        expect(tulist[1].id).toBe("2");
+        expect(tulist[1].id).toBe("sample_g2_1");
     });
     test('webOSXliffDeserialize_metadata', () => {
         const x = new webOSXliff({
