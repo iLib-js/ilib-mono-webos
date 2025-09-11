@@ -58,8 +58,9 @@ check_status() {
   check_file_exists $test_name ./output_merge/appA/ko-KR.xliff
 
   # Compare the output file with the testfiles/Expected result
-  check_diff $test_name ./output_merge/appA/ko-KR.xliff ./testfiles/Expected/exp_merge/appA/ko-KR.xliff
+  check_diff $test_name ./output_merge/appA/ko-KR.xliff ./testfiles/Expected/output_merge/appA/ko-KR.xliff
 }
+
 
 # Test the 'merge_language' command with a single file
 @test "Test - xliff_split_merge.sh merge_language" {
@@ -75,8 +76,8 @@ check_status() {
   check_file_exists $test_name ./output_merge_language/ko-KR.xliff
 
   # Compare the output file with the expected results
-  check_diff "merge_language" ./output_merge_language/en-US.xliff ./testfiles/Expected/exp_merge_language/en-US.xliff
-  check_diff "merge_language" ./output_merge_language/ko-KR.xliff ./testfiles/Expected/exp_merge_language/ko-KR.xliff
+  check_diff "merge_language" ./output_merge_language/en-US.xliff ./testfiles/Expected/output_merge_language/en-US.xliff
+  check_diff "merge_language" ./output_merge_language/ko-KR.xliff ./testfiles/Expected/output_merge_language/ko-KR.xliff
 }
 
 # Test the 'split_component' command
@@ -94,8 +95,7 @@ check_status() {
   check_file_exists $test_name ./output_split_component/appC/ko-KR.xliff
 
   # Compare the output file with the expected results
-  check_diff $test_name ./output_split_component/appA/ko-KR.xliff ./testfiles/Expected/exp_split_component/appA/ko-KR.xliff
-  check_diff $test_name ./output_split_component/appB/ko-KR.xliff ./testfiles/Expected/exp_split_component/appB/ko-KR.xliff
-  check_diff $test_name ./output_split_component/appC/ko-KR.xliff ./testfiles/Expected/exp_split_component/appC/ko-KR.xliff
+  check_diff $test_name ./output_split_component/appA/ko-KR.xliff ./testfiles/Expected/output_split_component/appA/ko-KR.xliff
+  check_diff $test_name ./output_split_component/appB/ko-KR.xliff ./testfiles/Expected/output_split_component/appB/ko-KR.xliff
+  check_diff $test_name ./output_split_component/appC/ko-KR.xliff ./testfiles/Expected/output_split_component/appC/ko-KR.xliff
 }
-

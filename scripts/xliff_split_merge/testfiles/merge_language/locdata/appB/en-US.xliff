@@ -2,19 +2,19 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:mda="urn:oasis:names:tc:xliff:metadata:2.0" version="2.0" srcLang="en-KR" trgLang="en-US">
   <file id="appB_f1" original="appB">
     <group id="appB_g1" name="cpp">
-      <unit id="appB_1">
+      <unit id="appB_g1_1">
         <segment>
           <source>No</source>
           <target>No</target>
         </segment>
       </unit>
-      <unit id="appB_2">
+      <unit id="appB_g1_2">
         <segment>
           <source>Yes</source>
           <target>Yes</target>
         </segment>
       </unit>
-      <unit id="appB_3">
+      <unit id="appB_g1_3">
         <mda:metadata>
             <mda:metaGroup category="device-type">
             <mda:meta type="Monitor">"Monitor" NOT AVAILABLE</mda:meta>
