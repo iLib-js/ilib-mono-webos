@@ -40,11 +40,13 @@
     "scripts": {
         "lint": "ilib-lint -c ilib-lint-config.json -f html-formatter -o webos-result.html",
         "debug": "node --inspect-brk node_modules/ilib-lint/src/index.js -c ilib-lint-config.json -f html-formatter -o webos-result.html",
+        "lint-autofix": "ilib-lint -c ilib-lint-config.json -f html-formatter -o webos-result.html --fix --write",
+        "lint-debug-autofix": "ilib-lint -c ilib-lint-config.json -f html-formatter -o webos-result.html --fix --write",
         "clean": "rm -rf webos-result.html",
         "test": "echo success"
     },
     "dependencies": {
-        "ilib-lint": "^2.16.0",
+        "ilib-lint": "^2.18.1",
         "ilib-lint-webos": "workspace:*"
     }
 }
