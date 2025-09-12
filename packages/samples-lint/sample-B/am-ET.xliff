@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="am-ET" version="2.0">
  <file id="sample-B_f1" original="sample-B">
   <group id="sample-B_g1" name="javascript">
@@ -52,8 +52,8 @@
    </unit>
    <unit id="sample-B_374">
     <segment>
-     <source>Note:&lt;br>1. If your TV is turned on while Clear Panel Noise is in progress, it will stop the process and you have to start over.&lt;br>2. While processing, a white line may appear in the screen. This is normal when clearing your screen.</source>
-     <target>ማስታወሻ፦&lt;br>1. Clear Panel Noise በሥራ ሂደት ላይ እያለ የእርስዎ TV በርቶ ከሆነ፣ ሂደቱን ያቆማል እንዲሁም እንደገና ከመጀመሪያው መጀመር አለብዎት።&lt;br>2. በሂደት ላይ እያለ፣ በማያ ገጹ ላይ ነጭ መስመር ብቅ ሊል ይችላል። ይህ የእርስዎን ማያ ገጽ በማጽዳት ወቅት ጤናማ ነገር ነው።</target>
+     <source>Note:&lt;br&gt;1. If your %deviceType% is turned on while Clear Panel Noise is in progress, it will stop the process and you have to start over.&lt;br&gt;2. While processing, a white line may appear in the screen. This is normal when clearing your screen.</source>
+     <target>ማስታወሻ፦&lt;br&gt;1. Clear Panel Noise በሥራ ሂደት ላይ እያለ የእርስዎ TV በርቶ ከሆነ፣ ሂደቱን ያቆማል እንዲሁም እንደገና ከመጀመሪያው መጀመር አለብዎት።&lt;br&gt;2. በሂደት ላይ እያለ፣ በማያ ገጹ ላይ ነጭ መስመር ብቅ ሊል ይችላል። ይህ የእርስዎን ማያ ገጽ በማጽዳት ወቅት ጤናማ ነገር ነው።</target>
     </segment>
    </unit>
    <unit id="sample-B_385">
@@ -136,8 +136,8 @@
    </unit>
    <unit id="sample-B_1864">
     <segment>
-     <source>Note:&lt;br>1. If your TV is turned on while Pixel Refresher is in progress, it will stop the process and you have to start over.&lt;br>2. While processing, a white line may appear in the screen. This is normal when clearing your screen.</source>
-     <target>ማስታወሻ፦&lt;br>1. የፒክሰል አዳሽ በሂደት ላይ ሳለ TVዎ በርቶ ከሆነ፤ ሂደቱን ስለሚያስቆመው እንደገና መጀመር ይኖርብዎታል።&lt;br>2. በሂደቱ ጊዜ በማያ ገጹ ላይ ነጭ መስመር ሊታይ ይችላል። ማያ ሰሌዳዎን በማጥራት ጊዜ ይህ ደንብ ነው።</target>
+     <source>Note:&lt;br&gt;1. If your %deviceType% is turned on while Pixel Refresher is in progress, it will stop the process and you have to start over.&lt;br&gt;2. While processing, a white line may appear in the screen. This is normal when clearing your screen.</source>
+     <target>ማስታወሻ፦&lt;br&gt;1. የፒክሰል አዳሽ በሂደት ላይ ሳለ TVዎ በርቶ ከሆነ፤ ሂደቱን ስለሚያስቆመው እንደገና መጀመር ይኖርብዎታል።&lt;br&gt;2. በሂደቱ ጊዜ በማያ ገጹ ላይ ነጭ መስመር ሊታይ ይችላል። ማያ ሰሌዳዎን በማጥራት ጊዜ ይህ ደንብ ነው።</target>
     </segment>
    </unit>
    <unit id="sample-B_2386">
@@ -202,8 +202,8 @@
    </unit>
    <unit id="sample-B_3203">
     <segment>
-     <source>Note:&lt;br>1. If your TV is turned on while Pixel Cleaning is in progress, it will stop the process and you have to start over.&lt;br>2. While processing, a white line may appear in the screen. This is normal when clearing your screen.</source>
-     <target>ማስታወሻ፡&lt;br>1. የፒክሰል ማጥራት በሂደት ላይ ሳለ TVዎ በርቶ ከሆነ፤ ሂደቱን ስለሚያስቆመው እንደገና መጀመር ይኖርብዎታል።&lt;br>2. በሂደቱ ጊዜ በማያ ገጹ ላይ ነጭ መስመር ሊታይ ይችላል። ማያ ሰሌዳዎን በማጥራት ወቅት ይህ መደበኛ ነው።</target>
+     <source>Note:&lt;br/1. If your TV is turned on while Pixel Cleaning is in progress, it will stop the process and you have to start over.&lt;br/2. While processing, a white line may appear in the screen. This is normal when clearing your screen.</source>
+     <target>ማስታወሻ፡&lt;br/1. የፒክሰል ማጥራት በሂደት ላይ ሳለ TVዎ በርቶ ከሆነ፤ ሂደቱን ስለሚያስቆመው እንደገና መጀመር ይኖርብዎታል።&lt;br/2. በሂደቱ ጊዜ በማያ ገጹ ላይ ነጭ መስመር ሊታይ ይችላል። ማያ ሰሌዳዎን በማጥራት ወቅት ይህ መደበኛ ነው።</target>
     </segment>
    </unit>
    <unit id="sample-B_3495" name="basic">
