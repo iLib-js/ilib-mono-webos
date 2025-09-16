@@ -369,6 +369,9 @@ importers:
       ilib-lint-webos:
         specifier: workspace:*
         version: link:../ilib-lint-webos
+      jest:
+        specifier: ^30.0.5
+        version: 30.0.5(@types/node@12.20.55)(node-notifier@8.0.2)
 
   packages/samples-loctool/webos-c:
     dependencies:
