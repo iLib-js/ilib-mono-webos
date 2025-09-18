@@ -17,7 +17,6 @@
  * limitations under the License.
  */
 
-
 const path = require('path');
 const fs = require('fs');
 const xmljs = require("xml-js");
@@ -52,14 +51,13 @@ const findTarget = (units, srcString) => {
 
 describe('test if the resource is modifed properly', () => {
     let filePath;
-    
     test("test resource-edge-whitespace (am-ET)", function() {
         expect.assertions(3);
         const source = "You can use your Magic Remote to determine the room’s acoustics and optimize your TV’s sound quality based on the results."
         const target = "MAGIC REMOTE በመጠቀም የክፍሉን የድምጽ ማስተጋባት አና በውጤቶቹ መሰረት የቲቪዎን የድምጽ ጥራት ማሰተካከል እና መቆጣጠር ይችላሉ፡፡";
         let result;
         
-        filePath = path.join('sample-B', 'am-ET.xliff.modified'); // autofix
+        filePath = path.join('sample-rs-edge-whitespace', 'am-ET.xliff.modified'); // autofix
         xliffData = pluginUtils.isValidPath(filePath) ? loadXliffData(filePath) : {};
         expect(xliffData).toBeTruthy();
         
@@ -67,9 +65,16 @@ describe('test if the resource is modifed properly', () => {
         expect(result).toBe(target);
 
 
-        filePath = path.join('sample-B', 'am-ET.xliff'); //original
+        filePath = path.join('sample-rs-edge-whitespace', 'am-ET.xliff'); //original
         xliffData = pluginUtils.isValidPath(filePath) ? loadXliffData(filePath) : {};
         result = findTarget(xliffData.group.unit, source);        
         expect(result).not.toBe(target);
+    });
+    test("test am-ET.xliff.modified file", function() {
+        expect.assertions(1);
+
+        filePath = path.join('sample-rs-edge-whitespace', 'am-ET.xliff.modified'); // autofix
+        xliffData = pluginUtils.isValidPath(filePath) ? loadXliffData(filePath) : {};
+        expect(xliffData).toMatchSnapshot();
     });
 });
