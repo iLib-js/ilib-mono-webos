@@ -778,6 +778,7 @@ describe("webOSXliff", () => {
         expect(tulist[0].project).toBe("sample1");
         expect(tulist[0].resType).toBe("string");
         expect(tulist[0].id).toBe("sample1_g1_1");
+        expect(tulist[0].target).toBe("");
 
         expect(tulist[1].source).toBe("baby baby");
         expect(tulist[1].sourceLocale).toBe("en-KR");
@@ -785,6 +786,7 @@ describe("webOSXliff", () => {
         expect(tulist[1].file).toBe("sample2");
         expect(tulist[1].project).toBe("sample2");
         expect(tulist[1].resType).toBe("string");
+        expect(tulist[1].target).toBe("");
         expect(tulist[1].id).toBe("sample2_g2_1");
     });
     test('webOSXliffDeserialize_metadata', () => {
