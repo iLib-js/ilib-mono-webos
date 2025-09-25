@@ -471,9 +471,9 @@ class webOSXliff {
                                         source += segment.source["_text"] ?? "";
                                         if (segment.target) {
                                             target += segment.target["_text"] ?? "";
-                                            if (segment.target.state) {
-                                                state = segment.target._attributes.state;
-                                            }
+                                            state = segment.target?._attributes?.state;
+                                        } else {
+                                            target = undefined;
                                         }
                                     }
                                 }
