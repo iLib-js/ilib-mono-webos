@@ -38,7 +38,8 @@
         "url": "git@github.com:iLib-js/ilib-mono-webos.git"
     },
     "scripts": {
-        "lint": "ilib-lint -c ilib-lint-config.json -f html-formatter -o webos-result.html --fix --write",
+        "lint": "ilib-lint -c ilib-lint-config.json -f html-formatter -o webos-result.html",
+        "lint-autofix": "ilib-lint -c ilib-lint-config.json -f html-formatter -o webos-result.html --fix --write",
         "debug": "node --inspect-brk node_modules/ilib-lint/src/index.js -c ilib-lint-config.json -f html-formatter -o webos-result.html --fix --write",
         "clean": "rm -rf webos-result.html",
         "test": "npm run lint;pnpm test:jest",
