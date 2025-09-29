@@ -38,18 +38,18 @@
         "url": "git@github.com:iLib-js/ilib-mono-webos.git"
     },
     "scripts": {
-        "lint": "ilib-lint -c ilib-lint-config.json -f html-formatter -o webos-result.html",
-        "debug": "node --inspect-brk node_modules/ilib-lint/src/index.js -c ilib-lint-config.json -f html-formatter -o webos-result.html",
-        "lint-autofix": "ilib-lint -c ilib-lint-config.json -f html-formatter -o webos-result.html --fix --write",
-        "debug-autofix": "node --inspect-brk node_modules/ilib-lint/src/index.js -c ilib-lint-config.json -f html-formatter -o webos-result.html --fix --write",
+        "lint": "ilib-lint -c ilib-lint-config.json -f html-formatter -o webos-result.html --fix --write",
+        "debug": "node --inspect-brk node_modules/ilib-lint/src/index.js -c ilib-lint-config.json -f html-formatter -o webos-result.html --fix --write",
         "clean": "rm -rf webos-result.html",
-        "test-autofix": "pnpm test:jest",
-        "test:jest": "LANG=en_US.UTF8 node node_modules/jest/bin/jest.js",
-        "test-debug": "node --inspect-brk node_modules/jest/bin/jest.js -i"
+        "test": "pnpm test:jest",
+        "test:jest": "LANG=en_US.UTF8 node --experimental-vm-modules node_modules/jest/bin/jest.js",
+        "test-debug": "node --experimental-vm-modules --inspect-brk node_modules/jest/bin/jest.js -i",
+        "test-snapshot-update": "pnpm test:jest -u"
     },
     "dependencies": {
         "ilib-lint": "^2.18.2",
         "ilib-lint-webos": "workspace:*",
+        "xml-js": "^1.6.11",
         "jest": "^30.0.5"
     }
 }

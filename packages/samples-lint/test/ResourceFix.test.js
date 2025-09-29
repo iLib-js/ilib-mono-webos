@@ -17,64 +17,97 @@
  * limitations under the License.
  */
 
-const path = require('path');
-const fs = require('fs');
-const xmljs = require("xml-js");
-const pluginUtils = require("ilib-loctool-webos-common/utils.js");
-
-const loadXliffData = (filepath) => {
-    const options = { trim: false, nativeTypeAttribute: true, compact: true };
-
-    if (!pluginUtils.isValidPath(filepath)) {
-        return undefined;
-    }
-
-    try {
-        const tsFile = fs.readFileSync(filepath, "utf-8");
-        if (!tsFile) return undefined;
-
-        const parsed = xmljs.xml2js(tsFile, options);
-        return parsed?.xliff?.file;
-    } catch (error) {
-        return undefined;
-    }
-};
+import path from 'path';
+import { loadFileData, isValidPath } from "./utils.js";
 
 const findTarget = (units, srcString) => {
     for (const unit of units) {
         if (unit?.segment?.source?._text === srcString) {
-            return unit.segment.target?._text || '';
+            return unit.segment.target?._text ?? '';
         }
     }
     return '';
 };
 
 describe('test if the resource is modifed properly', () => {
-    let filePath;
+    let filePath, result;
     test("test resource-edge-whitespace (am-ET)", function() {
         expect.assertions(3);
         const source = "You can use your Magic Remote to determine the room’s acoustics and optimize your TV’s sound quality based on the results."
         const target = "MAGIC REMOTE በመጠቀም የክፍሉን የድምጽ ማስተጋባት አና በውጤቶቹ መሰረት የቲቪዎን የድምጽ ጥራት ማሰተካከል እና መቆጣጠር ይችላሉ፡፡";
-        let result;
-        
+
         filePath = path.join('sample-rs-edge-whitespace', 'am-ET.xliff.modified'); // autofix
-        xliffData = pluginUtils.isValidPath(filePath) ? loadXliffData(filePath) : {};
+        xliffData = isValidPath(filePath) ? loadFileData(filePath) : {};
         expect(xliffData).toBeTruthy();
-        
-        result = findTarget(xliffData.group.unit, source);        
+
+        result = findTarget(xliffData.group.unit, source);
         expect(result).toBe(target);
 
-
         filePath = path.join('sample-rs-edge-whitespace', 'am-ET.xliff'); //original
-        xliffData = pluginUtils.isValidPath(filePath) ? loadXliffData(filePath) : {};
-        result = findTarget(xliffData.group.unit, source);        
+        xliffData = isValidPath(filePath) ? loadFileData(filePath) : {};
+        result = findTarget(xliffData.group.unit, source);
         expect(result).not.toBe(target);
     });
+
     test("test am-ET.xliff.modified file", function() {
         expect.assertions(1);
 
         filePath = path.join('sample-rs-edge-whitespace', 'am-ET.xliff.modified'); // autofix
-        xliffData = pluginUtils.isValidPath(filePath) ? loadXliffData(filePath) : {};
+        xliffData = isValidPath(filePath) ? loadFileData(filePath) : {};
         expect(xliffData).toMatchSnapshot();
+    });
+
+    test("test resource-edge-whitespace (zh-Hans-CN) 1", function() {
+        expect.assertions(3);
+        const source = "Select your remote's cursor speed and appearance."
+        const target = "选择您遥控器的光标速度和外观。";
+
+        filePath = path.join('sample-rs-edge-whitespace', 'zh-Hans-CN.xliff.modified'); // autofix
+        xliffData = isValidPath(filePath) ? loadFileData(filePath) : {};
+        expect(xliffData).toBeTruthy();
+
+        result = findTarget(xliffData.group.unit, source);
+        expect(result).toBe(target);
+
+        filePath = path.join('sample-rs-edge-whitespace', 'zh-Hans-CN.xliff'); //original
+        xliffData = isValidPath(filePath) ? loadFileData(filePath) : {};
+        result = findTarget(xliffData.group.unit, source);
+        expect(result).not.toBe(target);
+    });
+
+    test("test resource-edge-whitespace (zh-Hans-CN) 2", function() {
+        expect.assertions(3);
+        const source = "press OK button to go to next menu"
+        const target = "按“确定”按钮以前往下一个菜单";
+
+        filePath = path.join('sample-rs-edge-whitespace', 'zh-Hans-CN.xliff.modified'); // autofix
+        xliffData = isValidPath(filePath) ? loadFileData(filePath) : {};
+        expect(xliffData).toBeTruthy();
+
+        result = findTarget(xliffData.group.unit, source);
+        expect(result).toBe(target);
+
+        filePath = path.join('sample-rs-edge-whitespace', 'zh-Hans-CN.xliff'); //original
+        xliffData = isValidPath(filePath) ? loadFileData(filePath) : {};
+        result = findTarget(xliffData.group.unit, source);
+        expect(result).not.toBe(target);
+    });
+
+    test("test resource-edge-whitespace (zh-Hans-CN) 3", function() {
+        expect.assertions(3);
+        const source = "If the image isn't clear, select another pattern until the picture improves."
+        const target = "如果图像不清晰，请选择另一模式，直至图片更加清晰。";
+
+        filePath = path.join('sample-rs-edge-whitespace', 'zh-Hans-CN.xliff.modified'); // autofix
+        xliffData = isValidPath(filePath) ? loadFileData(filePath) : {};
+        expect(xliffData).toBeTruthy();
+
+        result = findTarget(xliffData.group.unit, source);
+        expect(result).toBe(target);
+
+        filePath = path.join('sample-rs-edge-whitespace', 'zh-Hans-CN.xliff'); //original
+        xliffData = isValidPath(filePath) ? loadFileData(filePath) : {};
+        result = findTarget(xliffData.group.unit, source);
+        expect(result).not.toBe(target);
     });
 });

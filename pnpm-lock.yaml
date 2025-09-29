@@ -357,6 +357,8 @@ importers:
         specifier: ^5.1.0
         version: 5.1.0(grunt@1.6.1)
 
+  packages/ilib-xliff-webos/lib: {}
+
   packages/ilib-xliff-webos/src: {}
 
   packages/ilib-xliff-webos/test: {}
@@ -364,14 +366,19 @@ importers:
   packages/samples-lint:
     dependencies:
       ilib-lint:
-        specifier: ^2.18.1
-        version: 2.18.1
+        specifier: ^2.18.2
+        version: 2.18.2
       ilib-lint-webos:
         specifier: workspace:*
         version: link:../ilib-lint-webos
       jest:
         specifier: ^30.0.5
         version: 30.0.5(@types/node@12.20.55)(node-notifier@8.0.2)
+      xml-js:
+        specifier: ^1.6.11
+        version: 1.6.11
+
+  packages/samples-lint/test: {}
 
   packages/samples-loctool/webos-c:
     dependencies:
@@ -2599,8 +2606,8 @@ packages:
     resolution: {integrity: sha512-Nu3xXkbmn4ZemDQrhtPgDTo3MAz9eQ52QBrMwPxOvbrJClc8aouIhe25wMHymbsDe100pmIs8S+Tn/emGUPB7Q==}
     engines: {node: '>=14.0.0'}
 
-  ilib-lint@2.18.1:
-    resolution: {integrity: sha512-P/eIu7HOXyHzg+OSE+QSVkWG9rzsKiJgHwsnYg4c994gCWcVXgT4r+WAdJIRgBUuGdOiUk2JOXFcjs6WrTmjNg==}
+  ilib-lint@2.18.2:
+    resolution: {integrity: sha512-EKGEilWFJcvGhHqFuDMeqScbKfsFOihNT5ZOZCJtKBBz2WIvVKEr9aVfu8jJ+4ogSI8S4XCp9OcX4/TuRSK5OQ==}
     engines: {node: '>=14.0.0'}
     hasBin: true
 
@@ -7081,7 +7088,7 @@ snapshots:
 
   ilib-lint-common@3.6.0: {}
 
-  ilib-lint@2.18.1:
+  ilib-lint@2.18.2:
     dependencies:
       '@formatjs/intl': 2.10.15
       ilib-common: 1.1.6
