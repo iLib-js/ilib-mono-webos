@@ -19,14 +19,18 @@
 
 import path from 'path';
 import { loadFileData, isValidPath } from "./utils.js";
+import * as cheerio from 'cheerio';
 
-describe('test the result of the lint', () => {
+describe('webOS output for the lint', () => {
     let filePath, fileData;
 
-    test("test lint result (webos-resulkt.html)", function() {
+    test("test lint result (webos-result.html)", function() {
         expect.assertions(1);
         filePath = path.join('./', 'webos-result.html');
         fileData = isValidPath(filePath) ? loadFileData(filePath, "html") : {};
-        expect(fileData).toMatchSnapshot();
+        const $ = cheerio.load(fileData);
+        const targetSection = $('#detail-section').html();
+
+        expect(targetSection).toMatchSnapshot();
     });
 });

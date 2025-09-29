@@ -1,7 +1,7 @@
 /*
  * HtmlFormatter.js - Formats result output
  *
- * Copyright (c) 2024 JEDLSoft
+ * Copyright (c) 2024-2025 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -84,8 +84,7 @@ class HtmlFormatter extends Formatter {
                            '</thead>\n' +
                            '</table>\n' +
                            '<br/>\n' +
-                           '<hr align="left" width="1100px"/>\n' +
-                           '<p style="color:#714AFF;text-align:left;font-size:30px;font-weight:bold" width=320px;>Detailed Information</p>\n';
+                           '<hr align="left" width="1100px"/>\n';
         return summaryTable;
     }
     /**
@@ -119,7 +118,8 @@ class HtmlFormatter extends Formatter {
                 resultAll += this.format(result, errorsOnly);
             })
         }
-        return resultAll;
+        let title = '<div id="detail-section"><p style="color:#714AFF; text-align:left; font-size:30px; font-weight:bold" width=320px;>Detailed Information</p>';
+        return title + resultAll + '</div>';
     }
     /**
      * Format the given result with the current formatter and return the
