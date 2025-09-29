@@ -21,11 +21,10 @@ import path from 'path';
 import { loadFileData, isValidPath } from "./utils.js";
 
 describe('test the result of the lint', () => {
-    let filePath;
+    let filePath, fileData;
 
     test("test lint result (webos-resulkt.html)", function() {
         expect.assertions(1);
-        debugger;
         filePath = path.join('./', 'webos-result.html');
         fileData = isValidPath(filePath) ? loadFileData(filePath, "html") : {};
         expect(fileData).toMatchSnapshot();
