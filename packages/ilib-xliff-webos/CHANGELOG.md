@@ -1,5 +1,11 @@
 # ilib-xliff-webos
 
+## 1.0.3
+
+### Patch Changes
+
+- d9fb65f: Fix a bug where the target is stored incorrectly when the value is empty
+
 ## 1.0.2
 
 ### Patch Changes
