@@ -741,7 +741,6 @@ describe("webOSXliff", () => {
     test('should deserialize XLIFF 2.0 with empty target', () => {
         const x = new webOSXliff();
         expect(x).toBeTruthy();
-
         x.deserialize(
                 '<?xml version="1.0" encoding="utf-8"?>\n' +
                 '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="fr-FR" version="2.0">\n' +
@@ -778,6 +777,7 @@ describe("webOSXliff", () => {
         expect(tulist[0].project).toBe("sample1");
         expect(tulist[0].resType).toBe("string");
         expect(tulist[0].id).toBe("sample1_g1_1");
+        expect(tulist[0].target).toBeUndefined();
 
         expect(tulist[1].source).toBe("baby baby");
         expect(tulist[1].sourceLocale).toBe("en-KR");
@@ -785,6 +785,7 @@ describe("webOSXliff", () => {
         expect(tulist[1].file).toBe("sample2");
         expect(tulist[1].project).toBe("sample2");
         expect(tulist[1].resType).toBe("string");
+        expect(tulist[1].target).toBe("");
         expect(tulist[1].id).toBe("sample2_g2_1");
     });
     test('webOSXliffDeserialize_metadata', () => {

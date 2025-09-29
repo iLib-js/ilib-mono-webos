@@ -468,12 +468,12 @@ class webOSXliff {
                                 for (let j = 0; j < segments.length; j++) {
                                     let segment = segments[j];
                                     if (segment.source["_text"]) {
-                                        source += segment.source["_text"];
+                                        source += segment.source["_text"] ?? "";
                                         if (segment.target) {
-                                            target += segment.target["_text"];
-                                            if (segment.target.state) {
-                                                state = segment.target._attributes.state;
-                                            }
+                                            target += segment.target["_text"] ?? "";
+                                            state = segment.target?._attributes?.state;
+                                        } else {
+                                            target = undefined;
                                         }
                                     }
                                 }
