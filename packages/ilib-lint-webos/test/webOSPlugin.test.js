@@ -66,20 +66,52 @@ describe("testwebOSPlugin", () => {
         }));
 
         const expected =
-            '<table>\n' +
-            '<thead>\n' +
-            '<tr><th colspan="2" style=padding-left:8px;color:white;black;background-color:maroon;text-align:left;font-size:22px; width=280px;>[error]</th><th style="text-align:left"></th></tr>\n' +
-            '<tr><td style="padding-left:8px;background:#eee;border-bottom:1px solid #ccc;border-top:1px solid #fff;text-align:left;color:Cadetblue;font-weight:bold">filepath</td><td style="background:#eee;border-bottom:1px solid #ccc;border-top:1px solid #fff;padding-left:8px;padding-right:30px;color:Cadetblue;font-weight:bold">test.txt</td></tr>\n' +
-            '<tr><td style="padding-left:8px;background:#eee;border-bottom:1px solid #ccc;border-top:1px solid #fff;color:red; text-align:left">Descriptions</td><td style="background:#eee;border-bottom:1px solid #ccc;border-top:1px solid #fff;padding-left:8px;color:red;">A description for testing purposes</td></tr>\n' +
-            '<tr><td style="padding-left:8px;background:#eee;border-bottom:1px solid #ccc;border-top:1px solid #fff;">key</td><td style="background:#eee;border-bottom:1px solid #ccc;border-top:1px solid #fff;padding-left:8px;padding-right:30px">test.id</td></tr>\n' +
-            '<tr><td style="padding-left:8px;background:#eee;border-bottom:1px solid #ccc;border-top:1px solid #fff;">source</td><td style="background:#eee;border-bottom:1px solid #ccc;border-top:1px solid #fff;padding-left:8px;padding-right:30px">test</td></tr>\n' +
-            '<tr><td style="padding-left:8px;background:#eee;border-bottom:1px solid #ccc;border-top:1px solid #fff;">target</td><td style="background:#eee;border-bottom:1px solid #ccc;border-top:1px solid #fff;padding-left:8px;padding-right:30px">This is just <span style="color:red">me</span> testing.</td></tr>\n' +
-            '<tr><td style="padding-left:8px;background:#eee;border-bottom:1px solid #ccc;border-top:1px solid #fff;padding-right:20px">mock</td><td style="background:#eee;border-bottom:1px solid #ccc;border-top:1px solid #fff;padding-left:8px;padding-right:30px">asdf asdf</td></tr>\n' +
-            '<tr><td style="padding-left:8px;background:#eee;border-bottom:1px solid #ccc;border-top:1px solid #fff;">More info</td><td style="background:#eee;border-bottom:1px solid #ccc;border-top:1px solid #fff;padding-left:8px;"><a href=https://github.com/docs/rule.md>https://github.com/docs/rule.md</td></tr>\n' +
-            '<tr><td style="padding-left:8px;background:#eee;border-bottom:1px solid #ccc;border-top:1px solid #fff;">Auto-fix</td><td style="background:#eee;border-bottom:1px solid #ccc;border-top:1px solid #fff;padding-left:8px;">unavailable</td></tr>\n' +
-            '<thead>\n' +
-            '<table>\n' +
-            '<br>\n';
+            '<table style="border-collapse:collapse;">\n' +
+            '  <thead>\n' +
+            '    <tr>\n' +
+            '      <th colspan="2" style="color:white; background-color:maroon; text-align:left; font-size:22px; width:280px; padding-left:8px;">[error]</th>\n' +
+            '      <th style="text-align:left;"></th>\n' +
+            '    </tr>\n' +
+            '  </thead>\n' +
+            '  <tbody>\n' +
+            '    <tr>\n' +
+            '      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">filepath</td>\n' +
+            '      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">test.txt</td>\n' +
+            '    </tr>\n' +
+            '    <tr>\n' +
+            '      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;" style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; color:red;">Descriptions</td>\n' +
+            '      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;" style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; color:red;">A description for testing purposes</td>\n' +
+            '    </tr>\n' +
+            '    <tr>\n' +
+            '      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">key</td>\n' +
+            '      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">test.id</td>\n' +
+            '    </tr>\n' +
+            '    <tr>\n' +
+            '      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">source</td>\n' +
+            '      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">test</td>\n' +
+            '    </tr>\n' +
+            '    <tr>\n' +
+            '      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">target</td>\n' +
+            '      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">This is just <span style="color:red">me</span> testing.</td>\n' +
+            '    </tr>\n' +
+            '    <tr>\n' +
+            '      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">mock</td>\n' +
+            '      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">asdf asdf</td>\n' +
+            '    </tr>\n' +
+            '    <tr>\n' +
+            '      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">More info</td>\n' +
+            '      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">\n' +
+            '        <a href="https://github.com/docs/rule.md">https://github.com/docs/rule.md</a>\n' +
+            '      </td>\n' +
+            '    </tr>\n' +
+            '    <tr>\n' +
+            '      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">Auto-fix</td>\n' +
+            '      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">unavailable</td>\n' +
+            '    </tr>\n' +
+            '  </tbody>\n' +
+            '</table>\n' +
+            '<br>'
+
         expect(result).toBe(expected);
     });
 
@@ -90,7 +122,8 @@ describe("testwebOSPlugin", () => {
         const formatter = new HtmlFormatter();
 
         let options = {
-            prjName: "sample-app",
+            name: "sample-app",
+            time: "0.12345",
             results: [
                 new Result({
                     description: "A description for testing purposes",
@@ -115,9 +148,10 @@ describe("testwebOSPlugin", () => {
             },
             resultStats: {
                 errors:11,
-                warning: 0,
+                warning: 1,
                 suggestions: 0
-            }
+            },
+            score: 89
         }
 
         const actual = formatter.formatOutput(options);
@@ -125,70 +159,109 @@ describe("testwebOSPlugin", () => {
             '<!DOCTYPE html>\n' +
             '<html>\n' +
             '<head>\n' +
-            '<title>ilib-lint Result for webOS Apps</title>\n' +
-            '<meta charset=\"UTF-8\">\n' +
+            '  <title>ilib-lint Result for webOS Apps</title>\n' +
+            '  <meta charset=\"UTF-8\">\n' +
             '</head>\n' +
             '<body>\n' +
-            '<p style=\"color:#714AFF;text-align:left;font-size:30px;font-weight:bold\" width=300px;> [undefined] Summary</p>\n' +
+            '<p style=\"color:#714AFF;text-align:left;font-size:30px;font-weight:bold\" width=\"300px\">\n' +
+            '    [sample-app] Summary\n' +
+            '</p>\n' +
             '<table>\n' +
-            '<thead>\n' +
-            '<tr><td style=\"font-size:20px\">Total Elapsed Time : </td>\n' +
-            '<td style=\"font-size:20px;color:green;font-weight:bold\">undefinedseconds</td></tr>\n' +
-            '<tr><td></td><td></td>\n' +
-            '<td style=\"border-bottom:2px solid #ddd;\"width=150px;>Average over</td>\n' +
-            '<td style=\"border-bottom:2px solid #ddd;\"width=150px;>Average over</td>\n' +
-            '<td style=\"border-bottom:2px solid #ddd;\"width=150px;>Average over</td>\n' +
-            '</tr><tr>\n' +
-            '<td></td><td style=\"border-bottom:2px solid #ddd;\">Total</td>\n' +
-            '<td style=\"border-bottom:2px solid #ddd;\">1 Files</td>\n' +
-            '<td style=\"border-bottom:2px solid #ddd;\">1 Modules</td>\n' +
-            '<td style=\"border-bottom:2px solid #ddd;\">10 Lines</td></tr>\n' +
-            '<tr>\n' +
-            '<td style=\"border-bottom:2px solid #ddd;font-size:20px\">Errors:</td>\n' +
-            '<td style=\"border-bottom:2px solid #ddd;font-weight:bold;font-size:20px;color:red\">11</td>\n' +
-            '<td style=\"border-bottom:2px solid #ddd;\">11             </td>\n' +
-            '<td style=\"border-bottom:2px solid #ddd;\">11             </td>\n' +
-            '<td style=\"border-bottom:2px solid #ddd;\">1.1            </td>\n' +
-            '</tr><tr>\n' +
-            '<td style=\"border-bottom:2px solid #ddd;font-size:20px\">Warnings:</td>\n' +
-            '<td style=\"border-bottom:2px solid #ddd;font-weight:bold;font-size:20px;color:orange\">undefined</td>\n' +
-            '<td style=\"border-bottom:2px solid #ddd;\">NaN            </td>\n' +
-            '<td style=\"border-bottom:2px solid #ddd;\">NaN            </td>\n' +
-            '<td style=\"border-bottom:2px solid #ddd;\">NaN            </td>\n' +
-            '</tr><tr>\n' +
-            '<td>Suggestions:</td>\n' +
-            '<td style=\"border-bottom:2px solid #ddd;\">0</td>\n' +
-            '<td style=\"border-bottom:2px solid #ddd;\">0              </td>\n' +
-            '<td style=\"border-bottom:2px solid #ddd;\">0              </td>\n' +
-            '<td style=\"border-bottom:2px solid #ddd;\">0              </td>\n' +
-            '</tr><tr>\n' +
-            '<td style=\"border-bottom:2px solid #ddd;\">I18N Score(0-100)</td>\n' +
-            '<td style=\"border-bottom:2px solid #ddd;\">NaN</td>\n' +
-            '<td style=\"border-bottom:2px solid #ddd;\"></td>\n' +
-            '<td style=\"border-bottom:2px solid #ddd;\"></td>\n' +
-            '<td style=\"border-bottom:2px solid #ddd;\"></td>\n' +
-            '</tr>\n' +
-            '</thead>\n' +
+            '  <thead>\n' +
+            '    <tr>\n' +
+            '      <td style=\"font-size:20px\">Total Elapsed Time : </td>\n' +
+            '      <td style=\"font-size:20px;color:green;font-weight:bold\">0.12345 seconds</td>\n' +
+            '    </tr>\n' +
+            '    <tr>\n' +
+            '      <td></td><td></td>\n' +
+            '      <td style=\"border-bottom:2px solid #ddd;\" width=\"150px\">Average over</td>\n' +
+            '      <td style=\"border-bottom:2px solid #ddd;\" width=\"150px\">Average over</td>\n' +
+            '      <td style=\"border-bottom:2px solid #ddd;\" width=\"150px\">Average over</td>\n' +
+            '    </tr>\n' +
+            '    <tr>\n' +
+            '      <td></td>\n' +
+            '      <td style=\"border-bottom:2px solid #ddd;\">Total</td>\n' +
+            '      <td style=\"border-bottom:2px solid #ddd;\">1 Files</td>\n' +
+            '      <td style=\"border-bottom:2px solid #ddd;\">1 Modules</td>\n' +
+            '      <td style=\"border-bottom:2px solid #ddd;\">10 Lines</td>\n' +
+            '    </tr>\n' +
+            '    <tr>\n' +
+            '      <td style=\"border-bottom:2px solid #ddd;font-size:20px\">Errors:</td>\n' +
+            '      <td style=\"border-bottom:2px solid #ddd;font-weight:bold;font-size:20px;color:red\">11</td>\n' +
+            '      <td style=\"border-bottom:2px solid #ddd;\">11</td>\n' +
+            '      <td style=\"border-bottom:2px solid #ddd;\">11</td>\n' +
+            '      <td style=\"border-bottom:2px solid #ddd;\">1.1</td>\n' +
+            '    </tr>\n' +
+            '    <tr>\n' +
+            '      <td style=\"border-bottom:2px solid #ddd;font-size:20px\">Warnings:</td>\n' +
+            '      <td style=\"border-bottom:2px solid #ddd;font-weight:bold;font-size:20px;color:orange\">undefined</td>\n' +
+            '      <td style=\"border-bottom:2px solid #ddd;\">NaN</td>\n' +
+            '      <td style=\"border-bottom:2px solid #ddd;\">NaN</td>\n' +
+            '      <td style=\"border-bottom:2px solid #ddd;\">NaN</td>\n' +
+            '    </tr>\n' +
+            '    <tr>\n' +
+            '      <td>Suggestions:</td>\n' +
+            '      <td style=\"border-bottom:2px solid #ddd;\">0</td>\n' +
+            '      <td style=\"border-bottom:2px solid #ddd;\">0</td>\n' +
+            '      <td style=\"border-bottom:2px solid #ddd;\">0</td>\n' +
+            '      <td style=\"border-bottom:2px solid #ddd;\">0</td>\n' +
+            '    </tr>\n' +
+            '    <tr>\n' +
+            '      <td style=\"border-bottom:2px solid #ddd;\">I18N Score (0–100)</td>\n' +
+            '      <td style=\"border-bottom:2px solid #ddd;\">89</td>\n' +
+            '      <td style=\"border-bottom:2px solid #ddd;\"></td>\n' +
+            '      <td style=\"border-bottom:2px solid #ddd;\"></td>\n' +
+            '      <td style=\"border-bottom:2px solid #ddd;\"></td>\n' +
+            '    </tr>\n' +
+            '  </thead>\n' +
             '</table>\n' +
-            '<br/>\n' +
             '<hr align=\"left\" width=\"1100px\"/>\n' +
-            '<div id=\"detail-section\"><p style=\"color:#714AFF; text-align:left; font-size:30px; font-weight:bold\" width=320px;>Detailed Information</p><table>\n' +
-            '<thead>\n' +
-            '<tr><th colspan=\"2\" style=padding-left:8px;color:white;black;background-color:maroon;text-align:left;font-size:22px; width=280px;>[error]</th><th style=\"text-align:left\"></th></tr>\n' +
-            '<tr><td style=\"padding-left:8px;background:#eee;border-bottom:1px solid #ccc;border-top:1px solid #fff;text-align:left;color:Cadetblue;font-weight:bold\">filepath</td><td style=\"background:#eee;border-bottom:1px solid #ccc;border-top:1px solid #fff;padding-left:8px;padding-right:30px;color:Cadetblue;font-weight:bold\">test.txt</td></tr>\n' +
-            '<tr><td style=\"padding-left:8px;background:#eee;border-bottom:1px solid #ccc;border-top:1px solid #fff;color:red; text-align:left\">Descriptions</td><td style=\"background:#eee;border-bottom:1px solid #ccc;border-top:1px solid #fff;padding-left:8px;color:red;\">A description for testing purposes</td></tr>\n' +
-            '<tr><td style=\"padding-left:8px;background:#eee;border-bottom:1px solid #ccc;border-top:1px solid #fff;\">key</td><td style=\"background:#eee;border-bottom:1px solid #ccc;border-top:1px solid #fff;padding-left:8px;padding-right:30px\">test.id</td></tr>\n' +
-            '<tr><td style=\"padding-left:8px;background:#eee;border-bottom:1px solid #ccc;border-top:1px solid #fff;\">source</td><td style=\"background:#eee;border-bottom:1px solid #ccc;border-top:1px solid #fff;padding-left:8px;padding-right:30px\">test</td></tr>\n' +
-            '<tr><td style=\"padding-left:8px;background:#eee;border-bottom:1px solid #ccc;border-top:1px solid #fff;\">target</td><td style=\"background:#eee;border-bottom:1px solid #ccc;border-top:1px solid #fff;padding-left:8px;padding-right:30px\">This is just <span style=\"color:red\">me</span> testing.</td></tr>\n' +
-            '<tr><td style=\"padding-left:8px;background:#eee;border-bottom:1px solid #ccc;border-top:1px solid #fff;padding-right:20px\">mock</td><td style=\"background:#eee;border-bottom:1px solid #ccc;border-top:1px solid #fff;padding-left:8px;padding-right:30px\">asdf asdf</td></tr>\n' +
-            '<tr><td style=\"padding-left:8px;background:#eee;border-bottom:1px solid #ccc;border-top:1px solid #fff;\">More info</td><td style=\"background:#eee;border-bottom:1px solid #ccc;border-top:1px solid #fff;padding-left:8px;\"><a href=https://github.com/docs/rule.md>https://github.com/docs/rule.md</td></tr>\n' +
-            '<tr><td style=\"padding-left:8px;background:#eee;border-bottom:1px solid #ccc;border-top:1px solid #fff;\">Auto-fix</td><td style=\"background:#eee;border-bottom:1px solid #ccc;border-top:1px solid #fff;padding-left:8px;\">false</td></tr>\n' +
-            '<thead>\n' +
-            '<table>\n' +
-            '<br>\n' +
-            '</div></body>\n' +
-            '</html>\n';
-        expect(actual).toBe(expected);
+            '<div id=\"detail-section\"><p style=\"color:#714AFF; text-align:left; font-size:30px; font-weight:bold; width:320px;\">Detailed Information</p><table style=\"border-collapse:collapse;\">\n' +
+            '  <thead>\n' +
+            '    <tr>\n' +
+            '      <th colspan=\"2\" style=\"color:white; background-color:maroon; text-align:left; font-size:22px; width:280px; padding-left:8px;\">[error]</th>\n' +
+            '      <th style=\"text-align:left;\"></th>\n' +
+            '    </tr>\n' +
+            '  </thead>\n' +
+            '  <tbody>\n' +
+            '    <tr>\n' +
+            '      <td style=\"background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;\">filepath</td>\n' +
+            '      <td style=\"background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;\">test.txt</td>\n' +
+            '    </tr>\n' +
+            '    <tr>\n' +
+            '      <td style=\"background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;\" style=\"background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; color:red;\">Descriptions</td>\n' +
+            '      <td style=\"background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;\" style=\"background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; color:red;\">A description for testing purposes</td>\n' +
+            '    </tr>\n' +
+            '    <tr>\n' +
+            '      <td style=\"background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;\">key</td>\n' +
+            '      <td style=\"background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;\">test.id</td>\n' +
+            '    </tr>\n' +
+            '    <tr>\n' +
+            '      <td style=\"background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;\">source</td>\n' +
+            '      <td style=\"background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;\">test</td>\n' +
+            '    </tr>\n' +
+            '    <tr>\n' +
+            '      <td style=\"background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;\">target</td>\n' +
+            '      <td style=\"background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;\">This is just <span style=\"color:red\">me</span> testing.</td>\n' +
+            '    </tr>\n' +
+            '    <tr>\n' +
+            '      <td style=\"background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;\">mock</td>\n' +
+            '      <td style=\"background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;\">asdf asdf</td>\n' +
+            '    </tr>\n' +
+            '    <tr>\n' +
+            '      <td style=\"background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;\">More info</td>\n' +
+            '      <td style=\"background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;\">\n' +
+            '        <a href=\"https://github.com/docs/rule.md\">https://github.com/docs/rule.md</a>\n' +
+            '      </td>\n' +
+            '    </tr>\n' +
+            '    <tr>\n' +
+            '      <td style=\"background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;\">Auto-fix</td>\n' +
+            '      <td style=\"background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;\">false</td>\n' +
+            '    </tr>\n' +
+            '  </tbody>\n' +
+            '</table>\n' +
+            '<br></div></body></html>'
 
+        expect(actual).toBe(expected);
     });
 });

@@ -18,7 +18,6 @@
  */
 
 import { Plugin } from 'ilib-lint-common';
-
 import HtmlFormatter from './HtmlFormatter.js';
 
 class webOSPlugin extends Plugin {
