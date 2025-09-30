@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`test if the resource is modifed properly test am-ET.xliff.modified file 1`] = `
+{
+  "_attributes": {
+    "id": "sample-rs-edge-whitespace_f1",
+    "original": "sample-rs-edge-whitespace",
+  },
+  "group": {
+    "_attributes": {
+      "id": "sample-rs-edge-whitespace_g1",
+      "name": "javascript",
+    },
+    "unit": [
+      {
+        "_attributes": {
+          "id": "sample-rs-edge-whitespace_g1_1",
+        },
+        "segment": {
+          "source": {
+            "_text": "{%1} hour(s)",
+          },
+          "target": {
+            "_text": "{%1} ሰዓት(ታት)",
+          },
+        },
+      },
+      {
+        "_attributes": {
+          "id": "sample-rs-edge-whitespace_g1_2",
+        },
+        "segment": {
+          "source": {
+            "_text": "{%1} min(s)",
+          },
+          "target": {
+            "_text": "{%1} ደቂቃ(ዎች)",
+          },
+        },
+      },
+      {
+        "_attributes": {
+          "id": "sample-rs-edge-whitespace_g1_3",
+        },
+        "segment": {
+          "source": {
+            "_text": "Loading...",
+          },
+          "target": {
+            "_text": "በመጫን ላይ...",
+          },
+        },
+      },
+      {
+        "_attributes": {
+          "id": "sample-rs-edge-whitespace_g1_4",
+        },
+        "segment": {
+          "source": {
+            "_text": "You can use your Magic Remote to determine the room’s acoustics and optimize your TV’s sound quality based on the results.",
+          },
+          "target": {
+            "_text": "MAGIC REMOTE በመጠቀም የክፍሉን የድምጽ ማስተጋባት አና በውጤቶቹ መሰረት የቲቪዎን የድምጽ ጥራት ማሰተካከል እና መቆጣጠር ይችላሉ፡፡",
+          },
+        },
+      },
+    ],
+  },
+}
+`;

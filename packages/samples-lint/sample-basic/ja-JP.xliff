@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="ja-JP" version="2.0">
+ <file id="sample-basic_f1" original="sample-basic">
+  <group id="sample-basic_g1" name="javascript">
+   <unit id="sample-basic_g1_1">
+    <segment>
+     <source>{%1} hour(s)</source>
+     <target>{%1}時間</target>
+    </segment>
+   </unit>
+   <unit id="sample-basic_g1_2">
+    <segment>
+     <source>{%1} min(s)</source>
+     <target>{%1}分</target>
+    </segment>
+   </unit>
+   <unit id="sample-basic_g1_27">
+    <segment>
+     <source>Monday~Friday</source>
+     <target>月～金</target>
+    </segment>
+   </unit>
+   <unit id="sample-basic_g1_28"> <!-- rule: resource-named-param -->
+    <segment>
+     <source>{freeSpace}{capaString} Free / {totalSpace}{capaString}</source>
+     <target>{freeSpace}{capaString}空き/totalSpace}{capaString}</target>
+    </segment>
+   </unit>
+  </group>
+ </file>
+</xliff>
