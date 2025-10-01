@@ -8,6 +8,12 @@
      <target>{%1} 小时</target>
     </segment>
    </unit>
+   <unit id="sample-B_2">
+    <segment>
+     <source>LG Electronics Inc.</source>
+     <target>LG Electronics Inc.</target>
+    </segment>
+   </unit>
    <unit id="sample-B_58">
     <segment>
      <source>Select your remote's cursor speed and appearance.</source>
