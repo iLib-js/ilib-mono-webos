@@ -13,10 +13,10 @@
     "dependencies": {
         "ilib-loctool-webos-json": "workspace:*",
         "ilib-loctool-webos-common": "workspace:*",
-        "loctool": "^2.31.1",
+        "loctool": "^2.31.3",
         "micromatch": "^4.0.8"
     },
     "devDependencies": {
-        "jest": "^30.0.5"
+        "jest": "^30.2.0"
     }
 }
