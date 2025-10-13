@@ -1,5 +1,11 @@
 # ilib-loctool-webos-common
 
+## 1.2.1
+
+### Patch Changes
+
+- fce7199: Update dependencies. (loctool: 2.31.3)
+
 ## 1.2.0
 
 ### Minor Changes
