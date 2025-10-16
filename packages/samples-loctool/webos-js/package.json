@@ -4,7 +4,7 @@
     "description": "Sample localization project",
     "repository": "git@github.com:iLib-js/ilib-mono-webos.git",
     "license": "Apache-2.0",
-    "version": "1.1.6",
+    "version": "1.1.7",
     "scripts": {
         "loc": "loctool -2 --xliffStyle webOS --localeMap es-CO:es,fr-CA:fr --localeInherit en-AU:en-GB --pseudo",
         "debug": "node --inspect-brk node_modules/loctool/loctool.js -2 --xliffStyle webOS --localeMap es-CO:es --localeInherit en-AU:en-GB --pseudo",
@@ -21,10 +21,10 @@
         "ilib-loctool-webos-json": "workspace:*",
         "ilib-loctool-webos-json-resource": "workspace:*",
         "ilib-loctool-webos-common": "workspace:*",
-        "loctool": "^2.31.1"
+        "loctool": "^2.31.3"
     },
     "devDependencies": {
         "ilib": "^14.21.1",
-        "jest": "^30.0.5"
+        "jest": "^30.2.0"
     }
 }

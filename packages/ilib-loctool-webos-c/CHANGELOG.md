@@ -1,5 +1,14 @@
 # ilib-loctool-webos-c
 
+## 1.9.1
+
+### Patch Changes
+
+- fce7199: Update dependencies. (loctool: 2.31.3)
+- Updated dependencies [fce7199]
+  - ilib-loctool-webos-json-resource@1.7.6
+  - ilib-loctool-webos-common@1.2.1
+
 ## 1.9.0
 
 ### Minor Changes
