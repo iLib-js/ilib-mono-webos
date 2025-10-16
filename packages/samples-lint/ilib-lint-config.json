@@ -5,25 +5,30 @@
     "plugins": [
         "ilib-lint-webos"
     ],
+    "autofix": true,
     "rulesets": {
         "webos-translation-rules": {
+            "resource-edge-whitespace": true,
             "resource-url-match": true,
             "resource-named-params": true,
-            "resource-quote-style": true,
             "resource-unique-keys": true,
-            "resource-edge-whitespace": true,
             "resource-completeness": true,
-            "resource-no-fullwidth-latin": true,
-            "resource-no-fullwidth-digits": true,
-            "resource-no-fullwidth-punctuation-subset": true,
-            "resource-no-space-between-double-and-single-byte-character": true,
-            "resource-no-halfwidth-kana-characters": true,
-            "resource-no-double-byte-space": true,
-            "resource-no-space-with-fullwidth-punctuation": true
+            "resource-quote-style": false,
+            "resource-no-fullwidth-latin": false,
+            "resource-no-fullwidth-digits": false,
+            "resource-no-fullwidth-punctuation-subset": false,
+            "resource-no-space-between-double-and-single-byte-character": false,
+            "resource-no-halfwidth-kana-characters": false,
+            "resource-no-double-byte-space": false,
+            "resource-no-space-with-fullwidth-punctuation": false
         }
     },
     "filetypes":{
         "xliff" : {
+            "parsers": [
+                "xliff"
+            ],
+            "serializer": "xliff",
             "ruleset": [ 
                 "webos-translation-rules"
             ]
