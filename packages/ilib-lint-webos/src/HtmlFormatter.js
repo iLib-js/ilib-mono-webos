@@ -19,7 +19,7 @@
 import { Formatter, Result } from 'ilib-lint-common';
 
 /**
- * @class Represent an output formatter for an ANSI console/terminal
+ * @class Represent an output formatter for a HTML style
  */
 class HtmlFormatter extends Formatter {
     /**
