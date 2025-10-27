@@ -36,12 +36,15 @@ export const loadFileData = (filepath, type) => {
         
         if (!fileContent) return undefined;
 
-        if (type === "html") {
-            return fileContent;
+        switch (type) {
+            case "html":
+                return fileContent;
+            case "json":
+                return JSON.parse(fileContent);
+            default:
+                const parsedData = xmljs.xml2js(fileContent, options);
+                return parsedData?.xliff?.file;
         }
-
-        const parsedData = xmljs.xml2js(fileContent, options);
-        return parsedData?.xliff?.file;
 
     } catch {
         return undefined;

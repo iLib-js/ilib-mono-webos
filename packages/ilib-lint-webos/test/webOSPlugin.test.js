@@ -18,13 +18,14 @@
  */
 import webOSPlugin from '../src/index.js';
 import HtmlFormatter from '../src/HtmlFormatter.js';
+import webOSJsonFormatter from '../src/webOSJsonFormatter.js';
 import { Rule, Result } from 'ilib-lint-common';
 
 class MockRule extends Rule {
     constructor(options) {
         super(options);
         this.name = "mock";
-        this.description = "asdf asdf";
+        this.description = "mock rule description";
         this.link = "https://github.com/docs/rule.md";
     }
 }
@@ -38,14 +39,15 @@ describe("testwebOSPlugin", () => {
     });
 
     test("webOSPluginGetFormatters", () => {
-        expect.assertions(4);
+        expect.assertions(5);
 
         const xp = new webOSPlugin();
         expect(xp).toBeTruthy();
         const formatters = xp.getFormatters();
         expect(formatters).toBeTruthy();
-        expect(formatters.length).toBe(1);
+        expect(formatters.length).toBe(2);
         expect(formatters[0].name).toBe("HtmlFormatter");
+        expect(formatters[1].name).toBe("webOSJsonFormatter");
     });
 
     test('test format() of HtmlFormatter', () => {
@@ -96,7 +98,7 @@ describe("testwebOSPlugin", () => {
             '    </tr>\n' +
             '    <tr>\n' +
             '      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">mock</td>\n' +
-            '      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">asdf asdf</td>\n' +
+            '      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">mock rule description</td>\n' +
             '    </tr>\n' +
             '    <tr>\n' +
             '      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">More info</td>\n' +
@@ -246,7 +248,7 @@ describe("testwebOSPlugin", () => {
             '    </tr>\n' +
             '    <tr>\n' +
             '      <td style=\"background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;\">mock</td>\n' +
-            '      <td style=\"background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;\">asdf asdf</td>\n' +
+            '      <td style=\"background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;\">mock rule description</td>\n' +
             '    </tr>\n' +
             '    <tr>\n' +
             '      <td style=\"background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;\">More info</td>\n' +
@@ -263,5 +265,94 @@ describe("testwebOSPlugin", () => {
             '<br></div></body></html>'
 
         expect(actual).toBe(expected);
+    });
+
+    test('test format() of webOSJsonFormatter', () => {
+        expect.assertions(10);
+        let mockRule =  new MockRule();
+        const formatter = new webOSJsonFormatter();
+        const result = formatter.format(new Result({
+            description: "A description for testing purposes",
+            highlight: "This is just <e0>me</e0> testing.",
+            id: "test.id",
+            lineNumber: 123,
+            pathName: "test.txt",
+            rule: mockRule,
+            severity: "error",
+            source: "test",
+            key: "test",
+            locale: "de-DE"
+        }));
+
+        expect(result["autofix"]).toBe("unavailable");
+        expect(result["description"]).toBe("A description for testing purposes");
+        expect(result["highlight"]).toBe("This is just <e0>me</e0> testing.");
+        expect(result["key"]).toBe("test.id");
+        expect(result["link"]).toBe("https://github.com/docs/rule.md");
+        expect(result["locale"]).toBe("de-DE");
+        expect(result["path"]).toBe("test.txt");
+        expect(result["ruleName"]).toBe("mock");
+        expect(result["severity"]).toBe("error");
+        expect(result["source"]).toBe("test");
+    });
+
+    test('test formatOutput() of webOSJsonFormatter', () => {
+        expect.assertions(19);
+
+        let mockRule =  new MockRule();
+        const formatter = new webOSJsonFormatter();
+
+        let options = {
+            name: "sample-app",
+            time: "0.12345",
+            results: [
+                new Result({
+                    description: "A description for testing purposes",
+                    highlight: "This is just <e0>me</e0> testing.",
+                    id: "test.id",
+                    lineNumber: 123,
+                    pathName: "test.txt",
+                    rule: mockRule,
+                    severity: "error",
+                    source: "test",
+                    locale: "de-DE"
+                })
+            ],
+            fileStats: {
+                files: 1,
+                lines: 10,
+                bytes: 100,
+                modules: 1
+            },
+            resultStats: {
+                errors:11,
+                warnings: 1,
+                suggestions: 0
+            },
+            score: 89
+        }
+
+        const actual = JSON.parse(formatter.formatOutput(options));
+        console.log(formatter.formatOutput(options));
+        expect(actual["summary"]["projectName"]).toBe("sample-app");
+        expect(actual["summary"]["score"]).toBe(89);
+        expect(actual["summary"]["resultStats"]["errors"]).toBe(11);
+        expect(actual["summary"]["resultStats"]["warnings"]).toBe(1);
+        expect(actual["summary"]["resultStats"]["suggestions"]).toBe(0);
+        expect(actual["summary"]["fileStats"]["files"]).toBe(1);
+        expect(actual["summary"]["fileStats"]["lines"]).toBe(10);
+        expect(actual["summary"]["fileStats"]["bytes"]).toBe(100);
+        expect(actual["summary"]["fileStats"]["modules"]).toBe(1);
+
+        expect(actual["details"][0]["autofix"]).toBe("unavailable");
+        expect(actual["details"][0]["description"]).toBe("A description for testing purposes");
+        expect(actual["details"][0]["highlight"]).toBe("This is just <e0>me</e0> testing.");
+        expect(actual["details"][0]["key"]).toBe("test.id");
+        expect(actual["details"][0]["link"]).toBe("https://github.com/docs/rule.md");
+        expect(actual["details"][0]["locale"]).toBe("de-DE");
+        expect(actual["details"][0]["path"]).toBe("test.txt");
+        expect(actual["details"][0]["ruleName"]).toBe("mock");
+        expect(actual["details"][0]["severity"]).toBe("error");
+        expect(actual["details"][0]["source"]).toBe("test");
     });
 });

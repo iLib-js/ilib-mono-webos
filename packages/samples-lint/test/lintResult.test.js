@@ -33,4 +33,11 @@ describe('webOS output for the lint', () => {
 
         expect(targetSection).toMatchSnapshot();
     });
+    test("test lint result (webos-result.json)", function() {
+        expect.assertions(1);
+        filePath = path.join('./', 'webos-result.json');
+        fileData = isValidPath(filePath) ? loadFileData(filePath, "json") : {};
+
+        expect(fileData.details).toMatchSnapshot();
+    });
 });

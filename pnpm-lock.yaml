@@ -357,8 +357,6 @@ importers:
         specifier: ^5.1.0
         version: 5.1.0(grunt@1.6.1)
 
-  packages/ilib-xliff-webos/lib: {}
-
   packages/ilib-xliff-webos/src: {}
 
   packages/ilib-xliff-webos/test: {}
@@ -369,8 +367,8 @@ importers:
         specifier: ^1.1.2
         version: 1.1.2
       ilib-lint:
-        specifier: ^2.19.0
-        version: 2.19.0
+        specifier: ^2.19.1
+        version: 2.19.1
       ilib-lint-webos:
         specifier: workspace:*
         version: link:../ilib-lint-webos
@@ -2481,8 +2479,8 @@ packages:
     resolution: {integrity: sha512-Nu3xXkbmn4ZemDQrhtPgDTo3MAz9eQ52QBrMwPxOvbrJClc8aouIhe25wMHymbsDe100pmIs8S+Tn/emGUPB7Q==}
     engines: {node: '>=14.0.0'}
 
-  ilib-lint@2.19.0:
-    resolution: {integrity: sha512-Le38szbqafv29LtQmQO3ho2yKLjMacVVi18UjRubicKnKEL3sZ0HBHQMmiviqRR6PNj9Oxwi2bB4o43VycBlpw==}
+  ilib-lint@2.19.1:
+    resolution: {integrity: sha512-CsJoAJOwYrTzU5gbYQGQra9YB+ZDg17HWLFy14iakacBrqp2TNT8jj5Ya7VJkp3jgPXRIz9k1Y8fyLY7JHLuwA==}
     engines: {node: '>=14.0.0'}
     hasBin: true
 
@@ -6610,7 +6608,7 @@ snapshots:
 
   ilib-lint-common@3.6.0: {}
 
-  ilib-lint@2.19.0:
+  ilib-lint@2.19.1:
     dependencies:
       '@formatjs/intl': 2.10.15
       ilib-casemapper: 1.0.2
