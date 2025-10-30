@@ -1,5 +1,11 @@
 # ilib-xliff-webos
 
+## 1.0.4
+
+### Patch Changes
+
+- c0b9cf6: Add a `target` value to the Babel options in the Gruntfile to make the build more efficient.
+
 ## 1.0.3
 
 ### Patch Changes
