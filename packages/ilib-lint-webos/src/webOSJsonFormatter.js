@@ -1,5 +1,5 @@
 /*
- * webOSJsonFormatter.js - Formats result output
+ * webOSJsonFormatter.js - Formats result output as a JSON style
  *
  * Copyright (c) 2025 JEDLSoft
  *
