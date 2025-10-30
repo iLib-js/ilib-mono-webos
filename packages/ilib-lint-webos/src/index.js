@@ -1,7 +1,7 @@
 /*
  * index.js - main program of webos plugin
  *
- * Copyright (c) 2024 JEDLSoft
+ * Copyright (c) 2024-2025 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@
 
 import { Plugin } from 'ilib-lint-common';
 import HtmlFormatter from './HtmlFormatter.js';
+import webOSJsonFormatter from './webOSJsonFormatter.js';
 
 class webOSPlugin extends Plugin {
     constructor(options) {
@@ -41,7 +42,7 @@ class webOSPlugin extends Plugin {
     }
 
     getFormatters() {
-        return [HtmlFormatter];
+        return [HtmlFormatter, webOSJsonFormatter];
     }
 }
 
