@@ -1,5 +1,17 @@
 # ilib-lint-webos
 
+## 1.1.0
+
+### Minor Changes
+
+- 2907ec5: Implement the new `webOSJsonFormatter` to format results in JSON format.
+
+### Patch Changes
+
+- 5505aa4: - Refactor the part that constructs tags to generate HTML output.
+  - Add section IDs so that the Jest's `toMatchSnapshot()` snapshots capture only the detailed descriptions section, excluding the total summary.
+  - Add test cases to verify the `format()` and `formatOutput()` methods of the HtmlFormatter class.
+
 ## 1.0.3
 
 ### Patch Changes
