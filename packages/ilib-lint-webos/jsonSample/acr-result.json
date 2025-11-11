@@ -1,0 +1,19 @@
+{
+  "summary": {
+    "projectName": "./acr",
+    "totalTime": 0.264,
+    "score": 100,
+    "resultStats": {
+      "errors": 0,
+      "warnings": 0,
+      "suggestions": 0
+    },
+    "fileStats": {
+      "files": 149,
+      "lines": 10378,
+      "bytes": 145181,
+      "modules": 1225,
+      "words": 23714
+    }
+  }
+}

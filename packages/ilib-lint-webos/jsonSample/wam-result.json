@@ -1,0 +1,69 @@
+{
+  "summary": {
+    "projectName": "./wam",
+    "totalTime": 0.841,
+    "score": 99.65505346671266,
+    "resultStats": {
+      "errors": 4,
+      "warnings": 0,
+      "suggestions": 0
+    },
+    "fileStats": {
+      "files": 149,
+      "lines": 47616,
+      "bytes": 193208,
+      "modules": 5778,
+      "words": 32510
+    }
+  },
+  "details": [
+    {
+      "severity": "error",
+      "description": "Trailing whitespace in target does not match trailing whitespace in source",
+      "path": "pa-IN.xliff",
+      "locale": "pa-IN",
+      "autofix": true,
+      "source": "Server certificate has expired or is not yet valid as the set time on %deviceType% is different from the current time.",
+      "key": "Server certificate has expired or is not yet valid as the set time on %deviceType% is different from the current time.",
+      "highlight": "Source: …ime.<e0></e0> Target: … ਹੈ।<e1>⎵</e1>",
+      "ruleName": "resource-edge-whitespace",
+      "link": "https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md"
+    },
+    {
+      "severity": "error",
+      "description": "Trailing whitespace in target does not match trailing whitespace in source",
+      "path": "te-IN.xliff",
+      "locale": "te-IN",
+      "autofix": true,
+      "source": "Error Code",
+      "key": "Error Code",
+      "highlight": "Source: …Code<e0></e0> Target: …కోడ్<e1>⎵</e1>",
+      "ruleName": "resource-edge-whitespace",
+      "link": "https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md"
+    },
+    {
+      "severity": "error",
+      "description": "Leading whitespace in target does not match leading whitespace in source",
+      "path": "ur-IN.xliff",
+      "locale": "ur-IN",
+      "autofix": true,
+      "source": "A secure connection (SSL) cannot be made. It may occur when the set time on %deviceType% is different from the current time. Please check time settings.",
+      "key": "A secure connection (SSL) cannot be made. It may occur when the set time on %deviceType% is different from the current time. Please check time settings.",
+      "highlight": "Source: <e0></e0>A se… Target: <e1>⎵⎵</e1>ایک …",
+      "ruleName": "resource-edge-whitespace",
+      "link": "https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md"
+    },
+    {
+      "severity": "error",
+      "description": "Leading whitespace in target does not match leading whitespace in source",
+      "path": "ur-IN.xliff",
+      "locale": "ur-IN",
+      "autofix": true,
+      "source": "Network is not connected. Please check network settings.",
+      "key": "Network is not connected. Please check network settings.",
+      "highlight": "Source: <e0></e0>Netw… Target: <e1>⎵</e1>براہ…",
+      "ruleName": "resource-edge-whitespace",
+      "link": "https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md"
+    }
+  ]
+}

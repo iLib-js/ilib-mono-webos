@@ -39,6 +39,9 @@ importers:
       npm-run-all:
         specifier: ^4.1.5
         version: 4.1.5
+      options-parser:
+        specifier: ^0.4.0
+        version: 0.4.0
 
   packages/ilib-loctool-webos-c:
     dependencies:
@@ -356,6 +359,8 @@ importers:
       load-grunt-tasks:
         specifier: ^5.1.0
         version: 5.1.0(grunt@1.6.1)
+
+  packages/ilib-xliff-webos/lib: {}
 
   packages/ilib-xliff-webos/src: {}
 
