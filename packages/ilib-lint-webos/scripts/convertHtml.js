@@ -62,6 +62,7 @@ const optionConfig = {
 const options = OptionsParser.parse(optionConfig);
 const errorsOnly = options.opt.errorsOnly || false;
 const outDir = options.opt.ourputDirectory || "./";
+let totalSummary = [];
 
 if (options.opt.ourputDirectory) {
     if (!fs.existsSync(options.opt.ourputDirectory)) {
@@ -100,24 +101,98 @@ function walk(dir) {
             }
         }
     });
+
+    //let resultName = options.opt.outputFileName || total + "-result.html";
+    fs.writeFileSync(path.join(outDir, 'total.json'), JSON.stringify(totalSummary, null, 2), "utf8");
+    writeTotalSummaryResult(totalSummary);
 }
-let totalSummary = {};
+
+function writeTotalSummaryResult(sumJsonData) {
+    console.log("!");
+    let header = formatHeader("total Summary");
+    const borderStyle = "border-bottom:2px solid #ddd;";
+    const cellStyle = (extra = "") => `style="${borderStyle}${extra}"`;
+
+    let details = `<!DOCTYPE html>
+<html>
+<head>
+  <title>eeeeee</title>
+  <meta charset="UTF-8">
+</head>
+<body>
+    <p style="color:#714AFF;text-align:left;font-size:30px;font-weight:bold" width="300px">Total Summary</p>
+    <table>
+  <thead>
+   <tr>
+      <td ${cellStyle()}width="150px">Name</td>
+      <td ${cellStyle()}width="150px">Number of Errors</td>
+      <td ${cellStyle()}width="150px">Number of Warnings</td>
+      <td ${cellStyle()}width="250px">Details</td>
+    </tr>
+`;
+
+    sumJsonData.forEach(function(item){
+        let ruleInfo = '';
+        if (item.details && typeof item.details ==  'object') {
+            Object.entries(item.details).forEach(function([key, value]) {
+                ruleInfo += key + ": " + value + '<br>';
+            })
+        }
+
+        details +=`<tr>
+<td ${cellStyle()}>${item.name}</td>
+<td ${cellStyle()}>${item.errors}</td>
+<td ${cellStyle()}>${item.warnings}</td>
+<td ${cellStyle()}>${ruleInfo}</td>
+</tr>
+`
+    });
+
+    let middleString = `</thead>
+</table>`
+    let fotter = formatFooter();
+    let finalResult = [header, details, middleString, fotter
+    ].join('');
+
+    let resultName = "total-result.html";
+    fs.writeFileSync(path.join(outDir, resultName), finalResult, "utf8");
+}
 
 function convertToHtml(jsonFile) {
     const jsonContent = JSON.parse(fs.readFileSync(jsonFile, "utf-8"));
-    console.log("!");
-    
-    if (jsonContent.summary.score === 100) return;
+    const sumInfo = {};
+
     let projectName = jsonContent.summary.projectName.replace('./', '');
+
+    sumInfo.name = projectName;
+    sumInfo.errors = jsonContent.summary.resultStats.errors;
+    sumInfo.warnings = jsonContent.summary.resultStats.warnings;
+
+    if (jsonContent.summary.score !== 100) {
+        sumInfo.details ={};
+        jsonContent.details.forEach(function(result) {
+
+            if(sumInfo.details[result.ruleName] == undefined) {
+                sumInfo.details[result.ruleName]=1;
+            } else {
+                sumInfo.details[result.ruleName]++;
+            }
+        });
+
+        totalSummary.push(sumInfo);
+    } else {
+        totalSummary.push(sumInfo);
+        return;
+    }
+
     let resultAll = [
-        formatHeader(),
+        formatHeader("ilib-lint Result for webOS Apps"),
         formatSummary(jsonContent.summary),
         formatResult(jsonContent.details, errorsOnly),
         formatFooter()
     ].join('');
-    console.log("!");
+
     let resultName = options.opt.outputFileName || projectName + "-result.html";
-    
     fs.writeFileSync(path.join(outDir, resultName), resultAll, "utf8");
 }
 
@@ -193,6 +268,124 @@ function formatSummary(summmaryInfo) {
 `;
 }
 
+function getHTmlStyle() {
+    return `
+ <style>
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background-color: #f7f8fa;
+      color: #333;
+      margin: 40px;
+    }
+
+    h1, h2 {
+      color: #4B3AFF;
+      font-weight: 700;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-size: 26px;
+      margin-top: 40px;
+      margin-bottom: 15px;
+    }
+
+    .summary, .detail {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 25px;
+      margin-bottom: 30px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th, td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    th {
+      background-color: #6b1b1b;
+      color: white;
+      font-size: 18px;
+    }
+
+    tr:hover td {
+      background-color: #f3f3f3;
+    }
+
+    .highlight {
+      font-weight: bold;
+      font-size: 20px;
+    }
+
+    .green {
+      color: #2e8b57;
+      font-weight: bold;
+    }
+
+    .red {
+      color: #d9534f;
+      font-weight: bold;
+    }
+
+    .orange {
+      color: #f0ad4e;
+      font-weight: bold;
+    }
+
+    a {
+      color: #4B3AFF;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .error-block {
+      margin-top: 25px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .error-header {
+      background-color: #6b1b1b;
+      color: white;
+      padding: 10px 15px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .error-table td {
+      background-color: #fafafa;
+    }
+
+    .error-table td:first-child {
+      font-weight: bold;
+      width: 200px;
+      background-color: #f0f0f0;
+    }
+
+    hr {
+      border: none;
+      border-top: 2px solid #ddd;
+      margin: 30px 0;
+    }
+  </style>
+    `;
+}
 function formatResult(detailInfo, errorsOnly) {
     if (!detailInfo || detailInfo.length === 0) return '';
 
@@ -272,14 +465,14 @@ function format(result, errorsOnly){
   </tbody>
 </table>
 <br>`;
-        return htmlText;
+    return htmlText;
 }
 
-function formatHeader() {
+function formatHeader(headerTitle) {
     return `<!DOCTYPE html>
 <html>
 <head>
-  <title>ilib-lint Result for webOS Apps</title>
+  <title>${headerTitle}</title>
   <meta charset="UTF-8">
 </head>
 <body>`;
