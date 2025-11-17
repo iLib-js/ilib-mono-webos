@@ -187,6 +187,8 @@ function convertToHtml(jsonFile) {
 
     let resultAll = [
         formatHeader("ilib-lint Result for webOS Apps"),
+        getHtmlStyle(),
+        '<body>',
         formatSummary(jsonContent.summary),
         formatResult(jsonContent.details, errorsOnly),
         formatFooter()
@@ -198,8 +200,6 @@ function convertToHtml(jsonFile) {
 
 function formatSummary(summmaryInfo) {
     const fmt = new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 });
-    const borderStyle = "border-bottom:2px solid #ddd;";
-    const cellStyle = (extra = "") => `style="${borderStyle}${extra}"`;
 
     const formatRatio = (value) => [
         fmt.format(value / summmaryInfo.fileStats.files),
@@ -212,55 +212,53 @@ function formatSummary(summmaryInfo) {
     const [suggFile, suggModule, suggLine] = formatRatio(summmaryInfo.resultStats.suggestions);
 
     return `
-<p style="color:#714AFF;text-align:left;font-size:30px;font-weight:bold" width="300px">
-    [${summmaryInfo.projectName}] Summary
-</p>
+<h1>[${summmaryInfo.projectName}] Summary </h1>
 <table>
   <thead>
     <tr>
-      <td style="font-size:20px">Total Elapsed Time : </td>
-      <td style="font-size:20px;color:green;font-weight:bold">${summmaryInfo.totalTime} seconds</td>
+      <td class="highlight">Total Elapsed Time : </td>
+      <td class="green">${summmaryInfo.totalTime} seconds</td>
     </tr>
     <tr>
       <td></td><td></td>
-      <td ${cellStyle()} width="150px">Average over</td>
-      <td ${cellStyle()} width="150px">Average over</td>
-      <td ${cellStyle()} width="150px">Average over</td>
+      <td width="150px">Average over</td>
+      <td width="150px">Average over</td>
+      <td width="150px">Average over</td>
     </tr>
     <tr>
       <td></td>
-      <td ${cellStyle()}>Total</td>
-      <td ${cellStyle()}>${summmaryInfo.fileStats.files} Files</td>
-      <td ${cellStyle()}>${summmaryInfo.fileStats.modules} Modules</td>
-      <td ${cellStyle()}>${summmaryInfo.fileStats.lines} Lines</td>
+      <td>Total</td>
+      <td>${summmaryInfo.fileStats.files} Files</td>
+      <td>${summmaryInfo.fileStats.modules} Modules</td>
+      <td>${summmaryInfo.fileStats.lines} Lines</td>
     </tr>
     <tr>
-      <td ${cellStyle("font-size:20px")}>Errors:</td>
-      <td ${cellStyle("font-weight:bold;font-size:20px;color:red")}>${summmaryInfo.resultStats.errors}</td>
-      <td ${cellStyle()}>${errFile}</td>
-      <td ${cellStyle()}>${errModule}</td>
-      <td ${cellStyle()}>${errLine}</td>
+      <td class="highlight">Errors:</td>
+      <td class="red")}>${summmaryInfo.resultStats.errors}</td>
+      <td>${errFile}</td>
+      <td>${errModule}</td>
+      <td>${errLine}</td>
     </tr>
     <tr>
-      <td ${cellStyle("font-size:20px")}>Warnings:</td>
-      <td ${cellStyle("font-weight:bold;font-size:20px;color:orange")}>${summmaryInfo.resultStats.warnings}</td>
-      <td ${cellStyle()}>${warnFile}</td>
-      <td ${cellStyle()}>${warnModule}</td>
-      <td ${cellStyle()}>${warnLine}</td>
+      <td class="highlight">Warnings:</td>
+      <td class="orange">${summmaryInfo.resultStats.warnings}</td>
+      <td>${warnFile}</td>
+      <td>${warnModule}</td>
+      <td>${warnLine}</td>
     </tr>
     <tr>
-      <td ${cellStyle("font-size:20px")}>Suggestions:</td>
-      <td ${cellStyle("font-weight:bold;font-size:20px")}>${summmaryInfo.resultStats.suggestions}</td>
-      <td ${cellStyle()}>${suggFile}</td>
-      <td ${cellStyle()}>${suggModule}</td>
-      <td ${cellStyle()}>${suggLine}</td>
+      <td class="highlight">Suggestions:</td>
+      <td>${summmaryInfo.resultStats.suggestions}</td>
+      <td>${suggFile}</td>
+      <td>${suggModule}</td>
+      <td>${suggLine}</td>
     </tr>
     <tr>
-      <td ${cellStyle("font-size:19px")}>I18N Score (0–100)</td>
-      <td ${cellStyle("font-size:19px;color:black")}>${fmt.format(summmaryInfo.score)}</td>
-      <td ${cellStyle()}></td>
-      <td ${cellStyle()}></td>
-      <td ${cellStyle()}></td>
+      <td class="highlight"}>I18N Score (0–100)</td>
+      <td>${fmt.format(summmaryInfo.score)}</td>
+      <td></td>
+      <td></td>
+      <td></td>
     </tr>
   </thead>
 </table>
@@ -268,7 +266,7 @@ function formatSummary(summmaryInfo) {
 `;
 }
 
-function getHTmlStyle() {
+function getHtmlStyle() {
     return `
  <style>
     body {
@@ -414,53 +412,46 @@ function format(result, errorsOnly){
             .replaceAll(/<\/e\d>/g, '</span>')
             : "";
 
-        const cellStyle = "background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px;";
-        const tableStyle = "border-collapse:collapse;";
-        const thStyle = `style="${levelTextColor} text-align:left; font-size:22px; width:280px; padding-left:8px;"`;
-        const tdLabelStyle = `style="${cellStyle} font-weight:bold;"`;
-        const tdValueStyle = `style="${cellStyle} padding-right:30px;"`;
-
-        const htmlText = `<table style="${tableStyle}">
+        const htmlText = `<table>
   <thead>
     <tr>
-      <th colspan="2" ${thStyle}>[${result.severity}]</th>
-      <th style="text-align:left;"></th>
+      <th colspan="2" style="${levelTextColor}">[${result.severity}]</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td ${tdLabelStyle}>filepath</td>
-      <td ${tdValueStyle}>${result.path}</td>
+      <td>filepath</td>
+      <td>${result.path}</td>
     </tr>
     <tr>
-      <td ${tdLabelStyle} style="${cellStyle} color:red;">Descriptions</td>
-      <td ${tdValueStyle} style="${cellStyle} color:red;">${result.description}</td>
+      <td>Descriptions</td>
+      <td>${result.description}</td>
     </tr>
     <tr>
-      <td ${tdLabelStyle}>key</td>
-      <td ${tdValueStyle}>${result.key}</td>
+      <td>key</td>
+      <td>${result.key}</td>
     </tr>
     <tr>
-      <td ${tdLabelStyle}>source</td>
-      <td ${tdValueStyle}>${result.source}</td>
+      <td>source</td>
+      <td>${result.source}</td>
     </tr>
     <tr>
-      <td ${tdLabelStyle}>target</td>
-      <td ${tdValueStyle}>${targetText}</td>
+      <td>target</td>
+      <td>${targetText}</td>
     </tr>
     <tr>
-      <td ${tdLabelStyle}>${result.ruleName}</td>
-      <td ${tdValueStyle}>${result.description}</td>
+      <td>${result.ruleName}</td>
+      <td>${result.description}</td>
     </tr>
     <tr>
-      <td ${tdLabelStyle}>More info</td>
-      <td ${tdValueStyle}>
+      <td>More info</td>
+      <td>
         <a href="${result.link}">${result.link}</a>
       </td>
     </tr>
     <tr>
-      <td ${tdLabelStyle}>Auto-fix</td>
-      <td ${tdValueStyle}>${autofix}</td>
+      <td>Auto-fix</td>
+      <td>${autofix}</td>
     </tr>
   </tbody>
 </table>
@@ -475,7 +466,7 @@ function formatHeader(headerTitle) {
   <title>${headerTitle}</title>
   <meta charset="UTF-8">
 </head>
-<body>`;
+`;
 }
 
 function formatFooter() {
