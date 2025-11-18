@@ -20,207 +20,212 @@
 
 import path from 'node:path';
 import fs from 'fs';
-
 import OptionsParser from 'options-parser';
 
+// Constants
+const DEFAULT_OUTPUT_DIR = './';
+const TOTAL_RESULT_FILENAME = 'total-result.html';
+
+// Configuration
 const optionConfig = {
     help: {
-        short: "h",
-        help: "This help message",
+        short: 'h',
+        help: 'This help message',
         showHelp: {
             banner: 'Usage: ilib-lint [-h] [options] path [path ...]'
         }
     },
     files: {
-        short: "f",
-        varName: "f",
-        help: "Specify files"
+        short: 'f',
+        varName: 'f',
+        help: 'Specify files'
     },
     directory: {
-        short: "d",
-        varName: "Specify folder",
-        help: "Specify folder"
+        short: 'd',
+        varName: 'Specify folder',
+        help: 'Specify folder'
     },
     ourputDirectory: {
-        short: "o",
-        varName: "output folder",
-        help: "Specify output folder"
+        short: 'o',
+        varName: 'output folder',
+        help: 'Specify output folder'
     },
     outputFileName: {
-        short: "name",
-        varName: "output filen name",
-        help: "Specify output file name"
+        short: 'name',
+        varName: 'output filen name',
+        help: 'Specify output file name'
     },
     errorsOnly: {
-        short: "e",
+        short: 'e',
         flag: true,
-        "default": false,
-        help: "Only return errors and supress warnings"
+        'default': false,
+        help: 'Only return errors and supress warnings'
     }
 };
 
+// Initialize options
 const options = OptionsParser.parse(optionConfig);
 const errorsOnly = options.opt.errorsOnly || false;
-const outDir = options.opt.ourputDirectory || "./";
+const outDir = options.opt.ourputDirectory || DEFAULT_OUTPUT_DIR;
 let totalSummary = [];
 
-if (options.opt.ourputDirectory) {
-    if (!fs.existsSync(options.opt.ourputDirectory)) {
-        fs.mkdirSync(options.opt.ourputDirectory);
-    }
+// Ensure output directory exists
+if (options.opt.ourputDirectory && !fs.existsSync(outDir)) {
+    fs.mkdirSync(outDir, { recursive: true });
 }
 
-// node convertHtml.js -d ../jsonSample -e
- 
+// Main execution
 if (options.opt.files) {
     console.log("!");
 }
 
 if (options.opt.directory) {
-    const dir = options.opt.directory;
-    const stat = fs.statSync(dir);
+    processDirectory(options.opt.directory);
+}
 
-    if (stat && stat.isDirectory()) {
-        walk(dir);
-    } else {
-        console.log("Invalid directory");
+function processDirectory(dir) {
+    try {
+        const stat = fs.statSync(dir);
+        if (!stat.isDirectory()) {
+            console.log("Invalid directory");
+            process.exit(1);
+        }
+        walkDirectory(dir);
+    } catch (err) {
+        console.error(`Error processing directory: ${err.message}`);
         process.exit(1);
     }
 }
 
-function walk(dir) {
-    let list = fs.readdirSync(dir);
-    list.forEach(function(file){
-        let fullPath = path.join(dir, file);
-        let stat = fs.statSync(fullPath);
-        if (stat && stat.isDirectory()){
-            walk(file);
-        } else {
-            if (path.extname(file).toLocaleLowerCase() === '.json') {
-                convertToHtml(fullPath);
-            }
+function walkDirectory(dir) {
+    const files = fs.readdirSync(dir);
+
+    files.forEach(file => {
+        const fullPath = path.join(dir, file);
+        const stat = fs.statSync(fullPath);
+
+        if (stat.isDirectory()) {
+            walkDirectory(fullPath);
+        } else if (path.extname(file).toLowerCase() === '.json') {
+            convertToHtml(fullPath);
         }
     });
-
-    //let resultName = options.opt.outputFileName || total + "-result.html";
-    fs.writeFileSync(path.join(outDir, 'total.json'), JSON.stringify(totalSummary, null, 2), "utf8");
     writeTotalSummaryResult(totalSummary);
 }
 
 function writeTotalSummaryResult(sumJsonData) {
-    console.log("!");
-    let header = formatHeader("total Summary");
-    const borderStyle = "border-bottom:2px solid #ddd;";
-    const cellStyle = (extra = "") => `style="${borderStyle}${extra}"`;
+    const header = getHeader("Summary of all app results");
+    const style = getHtmlStyle();
+    const details = buildTotalSummaryTable(sumJsonData);
+    const footer = getFooter();
 
-    let details = `<!DOCTYPE html>
-<html>
-<head>
-  <title>eeeeee</title>
-  <meta charset="UTF-8">
-</head>
+    const finalResult = [header, style, details, footer].join('');
+    const resultPath = path.join(outDir, TOTAL_RESULT_FILENAME);
+
+    fs.writeFileSync(resultPath, finalResult, 'utf8');
+}
+
+function buildTotalSummaryTable(data) {
+    let details = `
 <body>
-    <p style="color:#714AFF;text-align:left;font-size:30px;font-weight:bold" width="300px">Total Summary</p>
-    <table>
-  <thead>
-   <tr>
-      <td ${cellStyle()}width="150px">Name</td>
-      <td ${cellStyle()}width="150px">Number of Errors</td>
-      <td ${cellStyle()}width="150px">Number of Warnings</td>
-      <td ${cellStyle()}width="250px">Details</td>
-    </tr>
-`;
+<h1>Summary of all app results</h1>
+<hr><table><thead>
+<tr>
+  <td class="highlight cell-bg" width="100px">Name</td>
+  <td class="highlight cell-bg" width="50px">Errors</td>
+  <td class="highlight cell-bg" width="50px">Warnings</td>
+  <td class="highlight cell-bg" width="250px">Details</td>
+</tr>`;
 
-    sumJsonData.forEach(function(item){
-        let ruleInfo = '';
-        if (item.details && typeof item.details ==  'object') {
-            Object.entries(item.details).forEach(function([key, value]) {
-                ruleInfo += key + ": " + value + '<br>';
-            })
-        }
+    data.forEach(item => {
+        const ruleInfo = buildRuleInfo(item.details);
 
-        details +=`<tr>
-<td ${cellStyle()}>${item.name}</td>
-<td ${cellStyle()}>${item.errors}</td>
-<td ${cellStyle()}>${item.warnings}</td>
-<td ${cellStyle()}>${ruleInfo}</td>
-</tr>
-`
+        details += `<tr>
+          <td class="highlight">${item.errors === 0 && item.warnings === 0
+              ? item.name
+              : `<a href="./${item.name}-result.html">${item.name}</a>`}</td>
+          <td class="highlight2 red">${item.errors}</td>
+          <td class="highlight2 orange">${item.warnings}</td>
+          <td class="highlight2">${ruleInfo}</td>
+        </tr>`;
     });
 
-    let middleString = `</thead>
-</table>`
-    let fotter = formatFooter();
-    let finalResult = [header, details, middleString, fotter
-    ].join('');
+    details += '</thead></table>';
+    return details;
+}
 
-    let resultName = "total-result.html";
-    fs.writeFileSync(path.join(outDir, resultName), finalResult, "utf8");
+function buildRuleInfo(details) {
+    if (!details || typeof details !== 'object') return '';
+
+    return Object.entries(details)
+        .map(([key, value]) => `${key}: ${value} <br>`)
+        .join('');
 }
 
 function convertToHtml(jsonFile) {
-    const jsonContent = JSON.parse(fs.readFileSync(jsonFile, "utf-8"));
-    const sumInfo = {};
+    try {
+        const jsonContent = JSON.parse(fs.readFileSync(jsonFile, 'utf-8'));
+        const sumInfo = createSummaryInfo(jsonContent.summary);
 
-    let projectName = jsonContent.summary.projectName.replace('./', '');
-
-    sumInfo.name = projectName;
-    sumInfo.errors = jsonContent.summary.resultStats.errors;
-    sumInfo.warnings = jsonContent.summary.resultStats.warnings;
-
-    if (jsonContent.summary.score !== 100) {
-        sumInfo.details ={};
-        jsonContent.details.forEach(function(result) {
-
-            if(sumInfo.details[result.ruleName] == undefined) {
-                sumInfo.details[result.ruleName]=1;
-            } else {
-                sumInfo.details[result.ruleName]++;
-            }
-        });
+        if (jsonContent.summary.score !== 100) {
+            sumInfo.details = countRuleViolations(jsonContent.details);
+        }
 
         totalSummary.push(sumInfo);
-    } else {
-        totalSummary.push(sumInfo);
-        return;
+        generateHtmlOutput(jsonContent, sumInfo);
+    } catch (err) {
+        console.error(`Error processing ${jsonFile}: ${err.message}`);
     }
-
-    let resultAll = [
-        formatHeader("ilib-lint Result for webOS Apps"),
-        getHtmlStyle(),
-        '<body>',
-        formatSummary(jsonContent.summary),
-        formatResult(jsonContent.details, errorsOnly),
-        formatFooter()
-    ].join('');
-
-    let resultName = options.opt.outputFileName || projectName + "-result.html";
-    fs.writeFileSync(path.join(outDir, resultName), resultAll, "utf8");
 }
 
-function formatSummary(summmaryInfo) {
-    const fmt = new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 });
+function createSummaryInfo(summary) {
+    return {
+        name: summary.projectName,
+        errors: summary.resultStats.errors,
+        warnings: summary.resultStats.warnings
+    };
+}
 
-    const formatRatio = (value) => [
-        fmt.format(value / summmaryInfo.fileStats.files),
-        fmt.format(value / summmaryInfo.fileStats.modules),
-        fmt.format(value / summmaryInfo.fileStats.lines)
+function countRuleViolations(details) {
+    return details.reduce((violations, result) => {
+        const count = (violations[result.ruleName] || 0) + 1;
+        return { ...violations, [result.ruleName]: count };
+    }, {});
+}
+
+function generateHtmlOutput(jsonContent, sumInfo) {
+    const resultAll = [
+        getHeader(`ilib-lint Result for webOS Apps`),
+        getHtmlStyle(),
+        getSummary(jsonContent.summary),
+        getDetailResults(jsonContent.details, errorsOnly),
+        getFooter()
+    ].join('');
+
+    const resultName = options.opt.outputFileName ||
+                      `${jsonContent.summary.projectName}-result.html`;
+    const outputPath = path.join(outDir, resultName);
+    fs.writeFileSync(outputPath, resultAll, 'utf8');
+}
+
+function getSummary(summaryInfo) {
+    const fmt = new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 });
+    const formatRatio = value => [
+        fmt.format(value / summaryInfo.fileStats.files),
+        fmt.format(value / summaryInfo.fileStats.modules),
+        fmt.format(value / summaryInfo.fileStats.lines)
     ];
 
-    const [errFile, errModule, errLine] = formatRatio(summmaryInfo.resultStats.errors);
-    const [warnFile, warnModule, warnLine] = formatRatio(summmaryInfo.resultStats.warnings);
-    const [suggFile, suggModule, suggLine] = formatRatio(summmaryInfo.resultStats.suggestions);
+    const [errFile, errModule, errLine] = formatRatio(summaryInfo.resultStats.errors);
+    const [warnFile, warnModule, warnLine] = formatRatio(summaryInfo.resultStats.warnings);
+    const [suggFile, suggModule, suggLine] = formatRatio(summaryInfo.resultStats.suggestions);
 
-    return `
-<h1>[${summmaryInfo.projectName}] Summary </h1>
+    return `<body>
+<h1> [${summaryInfo.projectName}] Summary </h1>
 <table>
   <thead>
     <tr>
-      <td class="highlight">Total Elapsed Time : </td>
-      <td class="green">${summmaryInfo.totalTime} seconds</td>
-    </tr>
-    <tr>
-      <td></td><td></td>
+      <td></td>
       <td width="150px">Average over</td>
       <td width="150px">Average over</td>
       <td width="150px">Average over</td>
@@ -228,37 +233,34 @@ function formatSummary(summmaryInfo) {
     <tr>
       <td></td>
       <td>Total</td>
-      <td>${summmaryInfo.fileStats.files} Files</td>
-      <td>${summmaryInfo.fileStats.modules} Modules</td>
-      <td>${summmaryInfo.fileStats.lines} Lines</td>
+      <td>${summaryInfo.fileStats.files} Files</td>
+      <td>${summaryInfo.fileStats.modules} Modules</td>
+      <td>${summaryInfo.fileStats.lines} Lines</td>
     </tr>
     <tr>
       <td class="highlight">Errors:</td>
-      <td class="red")}>${summmaryInfo.resultStats.errors}</td>
+      <td class="red">${summaryInfo.resultStats.errors}</td>
       <td>${errFile}</td>
       <td>${errModule}</td>
       <td>${errLine}</td>
     </tr>
     <tr>
       <td class="highlight">Warnings:</td>
-      <td class="orange">${summmaryInfo.resultStats.warnings}</td>
+      <td class="orange">${summaryInfo.resultStats.warnings}</td>
       <td>${warnFile}</td>
       <td>${warnModule}</td>
       <td>${warnLine}</td>
     </tr>
     <tr>
       <td class="highlight">Suggestions:</td>
-      <td>${summmaryInfo.resultStats.suggestions}</td>
+      <td>${summaryInfo.resultStats.suggestions}</td>
       <td>${suggFile}</td>
       <td>${suggModule}</td>
       <td>${suggLine}</td>
     </tr>
     <tr>
-      <td class="highlight"}>I18N Score (0–100)</td>
-      <td>${fmt.format(summmaryInfo.score)}</td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td class="highlight">I18N Score (0–100)</td>
+      <td>${fmt.format(summaryInfo.score)}</td>
     </tr>
   </thead>
 </table>
@@ -266,156 +268,35 @@ function formatSummary(summmaryInfo) {
 `;
 }
 
-function getHtmlStyle() {
-    return `
- <style>
-    body {
-      font-family: "Segoe UI", Arial, sans-serif;
-      background-color: #f7f8fa;
-      color: #333;
-      margin: 40px;
-    }
+function getDetailResults(detailInfo, errorsOnly) {
+    if (!detailInfo?.length) return '';
 
-    h1, h2 {
-      color: #4B3AFF;
-      font-weight: 700;
-    }
-
-    h1 {
-      font-size: 32px;
-      margin-bottom: 10px;
-    }
-
-    h2 {
-      font-size: 26px;
-      margin-top: 40px;
-      margin-bottom: 15px;
-    }
-
-    .summary, .detail {
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      padding: 25px;
-      margin-bottom: 30px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-    }
-
-    th, td {
-      padding: 10px 12px;
-      text-align: left;
-      border-bottom: 1px solid #e0e0e0;
-    }
-
-    th {
-      background-color: #6b1b1b;
-      color: white;
-      font-size: 18px;
-    }
-
-    tr:hover td {
-      background-color: #f3f3f3;
-    }
-
-    .highlight {
-      font-weight: bold;
-      font-size: 20px;
-    }
-
-    .green {
-      color: #2e8b57;
-      font-weight: bold;
-    }
-
-    .red {
-      color: #d9534f;
-      font-weight: bold;
-    }
-
-    .orange {
-      color: #f0ad4e;
-      font-weight: bold;
-    }
-
-    a {
-      color: #4B3AFF;
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    .error-block {
-      margin-top: 25px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-
-    .error-header {
-      background-color: #6b1b1b;
-      color: white;
-      padding: 10px 15px;
-      font-size: 20px;
-      font-weight: bold;
-    }
-
-    .error-table td {
-      background-color: #fafafa;
-    }
-
-    .error-table td:first-child {
-      font-weight: bold;
-      width: 200px;
-      background-color: #f0f0f0;
-    }
-
-    hr {
-      border: none;
-      border-top: 2px solid #ddd;
-      margin: 30px 0;
-    }
-  </style>
-    `;
-}
-function formatResult(detailInfo, errorsOnly) {
-    if (!detailInfo || detailInfo.length === 0) return '';
-
-    const resultAll = detailInfo
-        .map(result => format(result, errorsOnly))
+    const formattedResults = detailInfo
+        .filter(result => !errorsOnly || result.severity === 'error')
+        .map(result => formatResult(result, errorsOnly))
         .join('');
 
-    const title = `<div id="detail-section"><p style="color:#714AFF; text-align:left; font-size:30px; font-weight:bold; width:320px;">Detailed Information</p>`;
-    return resultAll ? `${title}${resultAll}</div>` : '';
+    return formattedResults
+        ? `<div id="detail-section"><h2>Detailed Information</h2>${formattedResults}</div>`
+        : '';
 }
 
-function format(result, errorsOnly){
-    if (errorsOnly && result.severity !== "error") return "";
+function formatResult(result, errorsOnly) {
+    const levelStyle = result.severity === 'error'
+        ? 'color:white; background-color:maroon;'
+        : 'color:white; background-color:orange;';
 
-    const levelTextColor = (result.severity === "error")
-            ? "color:white; background-color:maroon;"
-            : "color:white; background-color:orange;";
+    const autofix = result.fix?.applied || 'unavailable';
+    const targetText = result.highlight
+        ? result.highlight
+            .replace(/<e\d>/g, '<span style="color:red">')
+            .replace(/<\/e\d>/g, '</span>')
+        : '';
 
-        const autofix = (result.fix === undefined)
-            ? "unavailable"
-            : result.fix.applied;
-
-        const targetText = (result.highlight !== undefined)
-            ? result.highlight
-            .replaceAll(/<e\d>/g, '<span style="color:red">')
-            .replaceAll(/<\/e\d>/g, '</span>')
-            : "";
-
-        const htmlText = `<table>
+    return `<table>
   <thead>
     <tr>
-      <th colspan="2" style="${levelTextColor}">[${result.severity}]</th>
+      <th colspan="2" style="${levelStyle}">[${result.severity}]</th>
     </tr>
   </thead>
   <tbody>
@@ -445,9 +326,7 @@ function format(result, errorsOnly){
     </tr>
     <tr>
       <td>More info</td>
-      <td>
-        <a href="${result.link}">${result.link}</a>
-      </td>
+      <td><a href="${result.link}">${result.link}</a></td>
     </tr>
     <tr>
       <td>Auto-fix</td>
@@ -456,19 +335,103 @@ function format(result, errorsOnly){
   </tbody>
 </table>
 <br>`;
-    return htmlText;
 }
 
-function formatHeader(headerTitle) {
+function getHeader(headerTitle) {
     return `<!DOCTYPE html>
-<html>
-<head>
-  <title>${headerTitle}</title>
-  <meta charset="UTF-8">
-</head>
-`;
+<html><head>
+  <title>${headerTitle}</title><meta charset="UTF-8">
+</head>`;
 }
 
-function formatFooter() {
+function getFooter() {
     return `</body></html>`;
+}
+
+function getHtmlStyle() {
+    return `
+<style>
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background-color: #f7f8fa;
+  color: #333;
+  margin: 40px;
+}
+h1, h2 {
+  color: #4B3AFF;
+  font-weight: 700;
+}
+h1 {
+  font-size: 32px;
+  margin-bottom: 10px;
+  border-left: 5px solid #4B3AFF;
+  padding-left: 10px;
+}
+h2 {
+  font-size: 26px;
+  margin-top: 40px;
+  margin-bottom: 15px;
+}
+.summary, .detail {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 25px;
+  margin-bottom: 30px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+th, td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+th {
+  background-color: #6b1b1b;
+  color: white;
+  font-size: 18px;
+}
+tr:hover td {
+  background-color: #f3f3f3;
+}
+.highlight {
+  font-weight: bold;
+  font-size: 20px;
+}
+.highlight2 {
+  font-weight: bold;
+  font-size: 18px;
+}
+.green {
+  color: #2e8b57;
+  font-weight: bold;
+}
+.red {
+  color: #d9534f;
+  font-weight: bold;
+}
+.orange {
+  color: #f0ad4e;
+  font-weight: bold;
+}
+.cell-bg {
+  background-color: #91b9e3ff;
+}
+a {
+  color: #4B3AFF;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+hr {
+  border: none;
+  border-top: 2px solid #ddd;
+  margin: 30px 0;
+}
+</style>
+`;
 }
