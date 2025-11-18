@@ -271,8 +271,7 @@ function getSummary(summaryInfo) {
       <td>${fmt.format(summaryInfo.score)}</td>
     </tr>
   </thead>
-</table>
-<hr align="left" width="1100px"/>
+</table><hr>
 `;
 }
 
@@ -388,7 +387,7 @@ h2 {
   margin-bottom: 30px;
 }
 table {
-  width: 80%;
+  width: 90%;
   border-collapse: collapse;
   margin-top: 10px;
 }
@@ -439,6 +438,7 @@ hr {
   border: none;
   border-top: 2px solid #ddd;
   margin: 30px 0;
+  width: 90%;
 }
 </style>
 `;
