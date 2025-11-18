@@ -28,13 +28,6 @@ const TOTAL_RESULT_FILENAME = '0.total-result.html';
 
 // Configuration
 const optionConfig = {
-    help: {
-        short: 'h',
-        help: 'This help message',
-        showHelp: {
-            banner: 'Usage: ilib-lint [-h] [options] path [path ...]'
-        }
-    },
     files: {
         short: 'f',
         varName: 'f',
@@ -43,12 +36,12 @@ const optionConfig = {
     directory: {
         short: 'd',
         varName: 'Specify folder',
-        help: 'Specify folder'
+        help: 'Specifies the directory where the JSON files are located'
     },
     ourputDirectory: {
         short: 'o',
         varName: 'output folder',
-        help: 'Specify output folder'
+        help: 'Specifies the location of the folder where the output will be generated.'
     },
     outputFileName: {
         short: 'name',
@@ -76,7 +69,7 @@ if (options.opt.ourputDirectory && !fs.existsSync(outDir)) {
 
 // Main execution
 if (options.opt.files) {
-    console.log("!");
+    console.log("It has not been implemented yet; an update will be provided soon");
 }
 
 if (options.opt.directory) {
