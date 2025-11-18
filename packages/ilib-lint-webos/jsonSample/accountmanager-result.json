@@ -1,0 +1,45 @@
+{
+  "summary": {
+    "projectName": "accountmanager",
+    "totalTime": 0.376,
+    "score": 99.29971988795518,
+    "resultStats": {
+      "errors": 2,
+      "warnings": 0,
+      "suggestions": 0
+    },
+    "fileStats": {
+      "files": 149,
+      "lines": 12237,
+      "bytes": 107323,
+      "modules": 1418,
+      "words": 18089
+    }
+  },
+  "details": [
+    {
+      "severity": "error",
+      "description": "Trailing whitespace in target does not match trailing whitespace in source",
+      "path": "bn-IN.xliff",
+      "locale": "bn-IN",
+      "autofix": true,
+      "source": "According to our policy to protect privacy of children, you are not able to access and use smart %deviceType% membership service.",
+      "key": "According to our policy to protect privacy of children, you are not able to access and use smart %deviceType% membership service.",
+      "highlight": "Source: …ice.<e0></e0> Target: …ন না<e1>⎵</e1>",
+      "ruleName": "resource-edge-whitespace",
+      "link": "https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md"
+    },
+    {
+      "severity": "error",
+      "description": "Trailing whitespace in target does not match trailing whitespace in source",
+      "path": "pa-IN.xliff",
+      "locale": "pa-IN",
+      "autofix": true,
+      "source": "For more information please contact tv.privacy@lge.com.",
+      "key": "For more information please contact tv.privacy@lge.com.",
+      "highlight": "Source: …com.<e0></e0> Target: …ਕਰੋ।<e1>⎵</e1>",
+      "ruleName": "resource-edge-whitespace",
+      "link": "https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md"
+    }
+  ]
+}
