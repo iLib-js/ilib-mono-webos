@@ -229,7 +229,7 @@ function getSummary(summaryInfo) {
     const [suggFile, suggModule, suggLine] = formatRatio(summaryInfo.resultStats.suggestions);
 
     return `<body>
-<h1> [${summaryInfo.projectName}] Summary </h1>
+<h1> [${summaryInfo.projectName}] Summary </h1><hr>
 <table>
   <thead>
     <tr>
