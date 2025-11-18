@@ -24,7 +24,7 @@ import OptionsParser from 'options-parser';
 
 // Constants
 const DEFAULT_OUTPUT_DIR = './';
-const TOTAL_RESULT_FILENAME = 'total-result.html';
+const TOTAL_RESULT_FILENAME = '0.total-result.html';
 
 // Configuration
 const optionConfig = {
@@ -102,6 +102,8 @@ function walkDirectory(dir) {
 
     files.forEach(file => {
         const fullPath = path.join(dir, file);
+
+        if (fullPath.includes(".git")) return;
         const stat = fs.statSync(fullPath);
 
         if (stat.isDirectory()) {
@@ -114,9 +116,12 @@ function walkDirectory(dir) {
 }
 
 function writeTotalSummaryResult(sumJsonData) {
+    // Sort the data by name in alphabetical order
+    const sortedData = [...sumJsonData].sort((a, b) => a.name.localeCompare(b.name));
+
     const header = getHeader("Summary of all app results");
     const style = getHtmlStyle();
-    const details = buildTotalSummaryTable(sumJsonData);
+    const details = buildTotalSummaryTable(sortedData);
     const footer = getFooter();
 
     const finalResult = [header, style, details, footer].join('');
@@ -126,27 +131,30 @@ function writeTotalSummaryResult(sumJsonData) {
 }
 
 function buildTotalSummaryTable(data) {
+    let count = 0;
     let details = `
 <body>
 <h1>Summary of all app results</h1>
 <hr><table><thead>
 <tr>
-  <td class="highlight cell-bg" width="100px">Name</td>
-  <td class="highlight cell-bg" width="50px">Errors</td>
-  <td class="highlight cell-bg" width="50px">Warnings</td>
-  <td class="highlight cell-bg" width="250px">Details</td>
+  <td class="highlight cell-bg" "style=width:10px"></td>
+  <td class="highlight cell-bg" "style=width:10px">Name</td>
+  <td class="highlight cell-bg" "style=width:50px">Errors</td>
+  <td class="highlight cell-bg" "style=width:50px">Warnings</td>
+  <td class="highlight cell-bg" "style=width:250px">Details</td>
 </tr>`;
 
     data.forEach(item => {
         const ruleInfo = buildRuleInfo(item.details);
 
         details += `<tr>
-          <td class="highlight">${item.errors === 0 && item.warnings === 0
-              ? item.name
-              : `<a href="./${item.name}-result.html">${item.name}</a>`}</td>
-          <td class="highlight2 red">${item.errors}</td>
-          <td class="highlight2 orange">${item.warnings}</td>
-          <td class="highlight2">${ruleInfo}</td>
+            <td class="highlight2">${++count}</td>
+            <td class="highlight">${item.errors === 0 && item.warnings === 0
+                ? item.name
+                : `<a href="./${item.name}-result.html">${item.name}</a>`}</td>
+            <td class="highlight2 red">${item.errors}</td>
+            <td class="highlight2 orange">${item.warnings}</td>
+            <td class="highlight2">${ruleInfo}</td>
         </tr>`;
     });
 
@@ -158,7 +166,7 @@ function buildRuleInfo(details) {
     if (!details || typeof details !== 'object') return '';
 
     return Object.entries(details)
-        .map(([key, value]) => `${key}: ${value} <br>`)
+        .map(([key, value]) => `${key} [ ${value} ] <br>`)
         .join('');
 }
 
@@ -380,7 +388,7 @@ h2 {
   margin-bottom: 30px;
 }
 table {
-  width: 100%;
+  width: 80%;
   border-collapse: collapse;
   margin-top: 10px;
 }
