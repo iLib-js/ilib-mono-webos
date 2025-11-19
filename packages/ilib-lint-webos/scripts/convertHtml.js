@@ -26,7 +26,7 @@ import OptionsParser from 'options-parser';
 const DEFAULT_OUTPUT_DIR = './';
 const TOTAL_RESULT_FILENAME = '0.total-result.html';
 
-// Configuration
+// Option configuration
 const optionConfig = {
     files: {
         short: 'f',
@@ -35,57 +35,65 @@ const optionConfig = {
     },
     directory: {
         short: 'd',
-        varName: 'Specify folder',
-        help: 'Specifies the directory where the JSON files are located'
+        varName: 'directory',
+        help: 'Directory where JSON files are located'
     },
-    ourputDirectory: {
+    outputDirectory: {
         short: 'o',
         varName: 'output folder',
-        help: 'Specifies the location of the folder where the output will be generated.'
+        help: 'Folder where output HTML files will be generated.'
     },
     outputFileName: {
         short: 'name',
-        varName: 'output filen name',
-        help: 'Specify output file name'
+        varName: 'output file name',
+        help: 'Specify output HTML file name'
     },
     errorsOnly: {
         short: 'e',
         flag: true,
-        'default': false,
-        help: 'Only return errors and supress warnings'
+        default: false,
+        help: 'Only return errors and suppress warnings'
     }
 };
 
-// Initialize options
-const options = OptionsParser.parse(optionConfig);
-const errorsOnly = options.opt.errorsOnly || false;
-const outDir = options.opt.ourputDirectory || DEFAULT_OUTPUT_DIR;
+// Parse options
+const options = OptionsParser.parse(optionConfig).opt;
+const errorsOnly = options.errorsOnly ?? false;
+const outDir = options.outputDirectory || DEFAULT_OUTPUT_DIR;
+
 let totalSummary = [];
 
 // Ensure output directory exists
-if (options.opt.ourputDirectory && !fs.existsSync(outDir)) {
-    fs.mkdirSync(outDir, { recursive: true });
+ensureOutputDirectory(outDir);
+
+// Entry point
+if (options.files) {
+    console.log("File input is not implemented yet.");
 }
 
-// Main execution
-if (options.opt.files) {
-    console.log("It has not been implemented yet; an update will be provided soon");
+if (options.directory) {
+    processDirectory(options.directory);
 }
 
-if (options.opt.directory) {
-    processDirectory(options.opt.directory);
+/* ----------------------------------------
+ * Directory Processing
+ * --------------------------------------*/
+
+function ensureOutputDirectory(directory) {
+    if (!fs.existsSync(directory)) {
+        fs.mkdirSync(directory, { recursive: true });
+    }
 }
 
 function processDirectory(dir) {
     try {
         const stat = fs.statSync(dir);
-        if (!stat.isDirectory()) {
-            console.log("Invalid directory");
-            process.exit(1);
-        }
+        if (!stat.isDirectory()) throw new Error("Invalid directory");
+
         walkDirectory(dir);
+        writeTotalSummaryResult(totalSummary);
     } catch (err) {
-        console.error(`Error processing directory: ${err.message}`);
+        console.error(`Directory error: ${err.message}`);
         process.exit(1);
     }
 }
@@ -93,89 +101,99 @@ function processDirectory(dir) {
 function walkDirectory(dir) {
     const files = fs.readdirSync(dir);
 
-    files.forEach(file => {
+    for (const file of files) {
         const fullPath = path.join(dir, file);
+        if (fullPath.includes(".git")) continue;
 
-        if (fullPath.includes(".git")) return;
         const stat = fs.statSync(fullPath);
 
         if (stat.isDirectory()) {
             walkDirectory(fullPath);
-        } else if (path.extname(file).toLowerCase() === '.json') {
+        } else if (file.toLowerCase().endsWith('.json')) {
             convertToHtml(fullPath);
         }
-    });
-    writeTotalSummaryResult(totalSummary);
+    }
 }
 
+/* ----------------------------------------
+ * HTML Summary Generation
+ * --------------------------------------*/
+
 function writeTotalSummaryResult(sumJsonData) {
-    // Sort the data by name in alphabetical order
-    const sortedData = [...sumJsonData].sort((a, b) => a.name.localeCompare(b.name));
+    const sorted = [...sumJsonData].sort((a, b) => a.name.localeCompare(b.name));
 
-    const header = getHeader("Summary of all app results");
-    const style = getHtmlStyle();
-    const details = buildTotalSummaryTable(sortedData);
-    const footer = getFooter();
+    const html = [
+        getHeader("Summary of all app results"),
+        getHtmlStyle(),
+        buildTotalSummaryTable(sorted),
+        getFooter()
+    ].join('');
 
-    const finalResult = [header, style, details, footer].join('');
     const resultPath = path.join(outDir, TOTAL_RESULT_FILENAME);
-
-    fs.writeFileSync(resultPath, finalResult, 'utf8');
+    fs.writeFileSync(resultPath, html, 'utf8');
 }
 
 function buildTotalSummaryTable(data) {
     let count = 0;
-    let details = `
-<body>
-<h1>Summary of all app results</h1>
-<hr><table><thead>
-<tr>
-  <td class="highlight cell-bg" "style=width:10px"></td>
-  <td class="highlight cell-bg" "style=width:10px">Name</td>
-  <td class="highlight cell-bg" "style=width:50px">Errors</td>
-  <td class="highlight cell-bg" "style=width:50px">Warnings</td>
-  <td class="highlight cell-bg" "style=width:250px">Details</td>
-</tr>`;
-
-    data.forEach(item => {
+    const rows = data.map(item => {
         const ruleInfo = buildRuleInfo(item.details);
 
-        details += `<tr>
-            <td class="highlight2">${++count}</td>
-            <td class="highlight">${item.errors === 0 && item.warnings === 0
+        const nameColumn =
+            item.errors === 0 && item.warnings === 0
                 ? item.name
-                : `<a href="./${item.name}-result.html">${item.name}</a>`}</td>
+                : `<a href="./${item.name}-result.html">${item.name}</a>`;
+
+        return `
+        <tr>
+            <td class="highlight2">${++count}</td>
+            <td class="highlight">${nameColumn}</td>
             <td class="highlight2 red">${item.errors}</td>
             <td class="highlight2 orange">${item.warnings}</td>
             <td class="highlight2">${ruleInfo}</td>
         </tr>`;
-    });
+    }).join('');
 
-    details += '</thead></table>';
-    return details;
+    return `
+<body>
+<h1>Summary of all app results</h1>
+<hr>
+<table><thead>
+<tr>
+  <td class="highlight cell-bg"></td>
+  <td class="highlight cell-bg">Name</td>
+  <td class="highlight cell-bg">Errors</td>
+  <td class="highlight cell-bg">Warnings</td>
+  <td class="highlight cell-bg">Details</td>
+</tr>
+${rows}
+</thead></table>`;
 }
 
 function buildRuleInfo(details) {
-    if (!details || typeof details !== 'object') return '';
-
+    if (!details) return '';
     return Object.entries(details)
-        .map(([key, value]) => `${key} [ ${value} ] <br>`)
+        .map(([rule, count]) => `${rule} [ ${count} ]<br>`)
         .join('');
 }
 
+/* ----------------------------------------
+ * JSON → Individual HTML Generator
+ * --------------------------------------*/
+
 function convertToHtml(jsonFile) {
     try {
-        const jsonContent = JSON.parse(fs.readFileSync(jsonFile, 'utf-8'));
-        const sumInfo = createSummaryInfo(jsonContent.summary);
+        const json = JSON.parse(fs.readFileSync(jsonFile, 'utf-8'));
+        const summary = createSummaryInfo(json.summary);
 
-        if (jsonContent.summary.score !== 100) {
-            sumInfo.details = countRuleViolations(jsonContent.details);
+        if (json.summary.score !== 100) {
+            summary.details = countRuleViolations(json.details);
         }
 
-        totalSummary.push(sumInfo);
-        generateHtmlOutput(jsonContent, sumInfo);
+        totalSummary.push(summary);
+        generateHtmlOutput(json, summary);
+
     } catch (err) {
-        console.error(`Error processing ${jsonFile}: ${err.message}`);
+        console.error(`Error in ${jsonFile}: ${err.message}`);
     }
 }
 
@@ -188,160 +206,101 @@ function createSummaryInfo(summary) {
 }
 
 function countRuleViolations(details) {
-    return details.reduce((violations, result) => {
-        const count = (violations[result.ruleName] || 0) + 1;
-        return { ...violations, [result.ruleName]: count };
+    return details.reduce((acc, cur) => {
+        acc[cur.ruleName] = (acc[cur.ruleName] || 0) + 1;
+        return acc;
     }, {});
 }
 
-function generateHtmlOutput(jsonContent, sumInfo) {
-    const resultAll = [
+function generateHtmlOutput(json, summaryInfo) {
+    const html = [
         getHeader(`ilib-lint Result for webOS Apps`),
         getHtmlStyle(),
-        getSummary(jsonContent.summary),
-        getDetailResults(jsonContent.details, errorsOnly),
+        getSummary(json.summary),
+        getDetailResults(json.details, errorsOnly),
         getFooter()
     ].join('');
 
-    const resultName = options.opt.outputFileName ||
-                      `${jsonContent.summary.projectName}-result.html`;
-    const outputPath = path.join(outDir, resultName);
-    fs.writeFileSync(outputPath, resultAll, 'utf8');
+    const resultFile = options.outputFileName ||
+        `${json.summary.projectName}-result.html`;
+
+    fs.writeFileSync(path.join(outDir, resultFile), html, 'utf8');
 }
 
-function getSummary(summaryInfo) {
+/* ----------------------------------------
+ * HTML Formatting Helpers
+ * --------------------------------------*/
+
+function getSummary(summary) {
     const fmt = new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 });
-    const formatRatio = value => [
-        fmt.format(value / summaryInfo.fileStats.files),
-        fmt.format(value / summaryInfo.fileStats.modules),
-        fmt.format(value / summaryInfo.fileStats.lines)
+
+    const ratio = num => [
+        fmt.format(num / summary.fileStats.files),
+        fmt.format(num / summary.fileStats.modules),
+        fmt.format(num / summary.fileStats.lines),
     ];
 
-    const [errFile, errModule, errLine] = formatRatio(summaryInfo.resultStats.errors);
-    const [warnFile, warnModule, warnLine] = formatRatio(summaryInfo.resultStats.warnings);
-    const [suggFile, suggModule, suggLine] = formatRatio(summaryInfo.resultStats.suggestions);
+    const [errFile, errMod, errLine] = ratio(summary.resultStats.errors);
+    const [warnFile, warnMod, warnLine] = ratio(summary.resultStats.warnings);
+    const [sgFile, sgMod, sgLine] = ratio(summary.resultStats.suggestions);
 
-    return `<body>
-<h1> [${summaryInfo.projectName}] Summary </h1><hr>
+    return `
+<body>
+<h1>[${summary.projectName}] Summary</h1><hr>
 <table>
   <thead>
     <tr>
-      <td></td>
-      <td width="150px">Average over</td>
-      <td width="150px">Average over</td>
-      <td width="150px">Average over</td>
+      <td></td><td>Total</td><td>${summary.fileStats.files} Files</td>
+      <td>${summary.fileStats.modules} Modules</td>
+      <td>${summary.fileStats.lines} Lines</td>
     </tr>
-    <tr>
-      <td></td>
-      <td>Total</td>
-      <td>${summaryInfo.fileStats.files} Files</td>
-      <td>${summaryInfo.fileStats.modules} Modules</td>
-      <td>${summaryInfo.fileStats.lines} Lines</td>
-    </tr>
-    <tr>
-      <td class="highlight">Errors:</td>
-      <td class="red">${summaryInfo.resultStats.errors}</td>
-      <td>${errFile}</td>
-      <td>${errModule}</td>
-      <td>${errLine}</td>
-    </tr>
-    <tr>
-      <td class="highlight">Warnings:</td>
-      <td class="orange">${summaryInfo.resultStats.warnings}</td>
-      <td>${warnFile}</td>
-      <td>${warnModule}</td>
-      <td>${warnLine}</td>
-    </tr>
-    <tr>
-      <td class="highlight">Suggestions:</td>
-      <td>${summaryInfo.resultStats.suggestions}</td>
-      <td>${suggFile}</td>
-      <td>${suggModule}</td>
-      <td>${suggLine}</td>
-    </tr>
-    <tr>
-      <td class="highlight">I18N Score (0–100)</td>
-      <td>${fmt.format(summaryInfo.score)}</td>
-    </tr>
+    <tr><td class="highlight">Errors:</td><td class="red">${summary.resultStats.errors}</td><td>${errFile}</td><td>${errMod}</td><td>${errLine}</td></tr>
+    <tr><td class="highlight">Warnings:</td><td class="orange">${summary.resultStats.warnings}</td><td>${warnFile}</td><td>${warnMod}</td><td>${warnLine}</td></tr>
+    <tr><td class="highlight">Suggestions:</td><td>${summary.resultStats.suggestions}</td><td>${sgFile}</td><td>${sgMod}</td><td>${sgLine}</td></tr>
+    <tr><td class="highlight">I18N Score</td><td>${fmt.format(summary.score)}</td></tr>
   </thead>
-</table><hr>
-`;
+</table><hr>`;
 }
 
-function getDetailResults(detailInfo, errorsOnly) {
-    if (!detailInfo?.length) return '';
-
-    const formattedResults = detailInfo
-        .filter(result => !errorsOnly || result.severity === 'error')
-        .map(result => formatResult(result, errorsOnly))
+function getDetailResults(details, onlyErrors) {
+    const rows = details
+        .filter(item => !onlyErrors || item.severity === 'error')
+        .map(formatDetailResult)
         .join('');
 
-    return formattedResults
-        ? `<div id="detail-section"><h2>Detailed Information</h2>${formattedResults}</div>`
-        : '';
+    return rows ? `<div id="detail-section"><h2>Detailed Information</h2>${rows}</div>` : '';
 }
 
-function formatResult(result, errorsOnly) {
-    const levelStyle = result.severity === 'error'
-        ? 'color:white; background-color:maroon;'
-        : 'color:white; background-color:orange;';
+function formatDetailResult(res) {
+    const color =
+        res.severity === 'error'
+            ? 'color:white;background-color:maroon;'
+            : 'color:white;background-color:orange;';
 
-    const autofix = result.fix?.applied || 'unavailable';
-    const targetText = result.highlight
-        ? result.highlight
-            .replace(/<e\d>/g, '<span style="color:red">')
-            .replace(/<\/e\d>/g, '</span>')
-        : '';
+    const targetHighlighted = (res.highlight || '')
+        .replace(/<e\d>/g, '<span style="color:red">')
+        .replace(/<\/e\d>/g, '</span>');
 
-    return `<table>
-  <thead>
-    <tr>
-      <th colspan="2" style="${levelStyle}">[${result.severity}]</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>filepath</td>
-      <td>${result.path}</td>
-    </tr>
-    <tr>
-      <td>Descriptions</td>
-      <td>${result.description}</td>
-    </tr>
-    <tr>
-      <td>key</td>
-      <td>${result.key}</td>
-    </tr>
-    <tr>
-      <td>source</td>
-      <td>${result.source}</td>
-    </tr>
-    <tr>
-      <td>target</td>
-      <td>${targetText}</td>
-    </tr>
-    <tr>
-      <td>${result.ruleName}</td>
-      <td>${result.description}</td>
-    </tr>
-    <tr>
-      <td>More info</td>
-      <td><a href="${result.link}">${result.link}</a></td>
-    </tr>
-    <tr>
-      <td>Auto-fix</td>
-      <td>${autofix}</td>
-    </tr>
-  </tbody>
-</table>
-<br>`;
+    const autofix = res?.fix?.applied || 'unavailable';
+
+    return `
+<table>
+<thead><tr><th colspan="2" style="${color}">[${res.severity}]</th></tr></thead>
+<tbody>
+  <tr><td>filepath</td><td>${res.path}</td></tr>
+  <tr><td>Descriptions</td><td>${res.description}</td></tr>
+  <tr><td>key</td><td>${res.key}</td></tr>
+  <tr><td>source</td><td>${res.source}</td></tr>
+  <tr><td>target</td><td>${targetHighlighted}</td></tr>
+  <tr><td>${res.ruleName}</td><td>${res.description}</td></tr>
+  <tr><td>More info</td><td><a href="${res.link}">${res.link}</a></td></tr>
+  <tr><td>Auto-fix</td><td>${autofix}</td></tr>
+</tbody>
+</table><br>`;
 }
 
-function getHeader(headerTitle) {
-    return `<!DOCTYPE html>
-<html><head>
-  <title>${headerTitle}</title><meta charset="UTF-8">
-</head>`;
+function getHeader(title) {
+    return `<!DOCTYPE html><html><head><title>${title}</title><meta charset="UTF-8"></head>`;
 }
 
 function getFooter() {
