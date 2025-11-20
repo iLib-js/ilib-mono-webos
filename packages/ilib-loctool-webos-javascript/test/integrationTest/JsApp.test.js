@@ -195,9 +195,9 @@ describe('[integration] test the localization result of webos-js app', () => {
             basePath : defaultRSPath
         });
         expect(rb).toBeTruthy();
-        expect(rb.getString("Hello").toString()).toBe("你好");
-        expect(rb.getString("Thank you").toString()).toBe("謝謝");
-        expect(rb.getString("Bye").toString()).toBe("再見");
-        expect(rb.getString("Time Settings").toString()).toBe("時間設定");
+        expect(rb.getString("Hello").toString()).toBe("你好"); // generated based on zh-Hans-CN translation
+        expect(rb.getString("Thank you").toString()).toBe("謝謝"); // generated based on zh-Hans-CN translation
+        expect(rb.getString("Bye").toString()).toBe("再見"); // generated based on zh-Hans-CN translation
+        expect(rb.getString("Time Settings").toString()).toBe("時間設定"); // generated based on zh-Hans-CN translation
     });
 });
