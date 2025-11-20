@@ -132,8 +132,8 @@ class webOSXliff {
      * @param path
      * @returns {String} the hash of the above parameters
      */
-    _hashKey(project, context, sourceLocale, targetLocale, source, key, type, path, ordinal, quantity, flavor) {
-        const hashkey = [source, key, type || "string", sourceLocale || this.sourceLocale, targetLocale || "", context || "", project, path || "", ordinal || "", quantity || "", flavor || ""].join("_");
+    _hashKey(project, context, sourceLocale, targetLocale, source, key, type, path, ordinal, quantity, flavor, datatype) {
+        const hashkey = [source, key, type || "string", sourceLocale || this.sourceLocale, targetLocale || "", context || "", project, path || "", ordinal || "", quantity || "", flavor || "", datatype].join("_");
         return hashkey;
     }
 
@@ -406,7 +406,7 @@ class webOSXliff {
             trim: false,
             nativeTypeAttribute: true,
             compact: true,
-            position: true
+            position: false
         });
         this.countLines(xml);
         this.parse(json.xliff, resfile);
