@@ -1,5 +1,12 @@
 # lint-webos-sample
 
+## 1.0.4
+
+### Patch Changes
+
+- Updated dependencies [6000b27]
+  - ilib-lint-webos@1.2.0
+
 ## 1.0.3
 
 ### Patch Changes
