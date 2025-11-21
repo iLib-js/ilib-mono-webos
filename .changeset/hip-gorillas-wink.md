@@ -1,5 +1,5 @@
 ---
-"ilib-xliff-webos": minor
+"ilib-xliff-webos": patch
 ---
 
 Update the XLIFF file deserialization process to exclude position information.
