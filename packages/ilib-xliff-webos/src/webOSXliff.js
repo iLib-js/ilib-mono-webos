@@ -226,35 +226,6 @@ class webOSXliff {
     }
 
     /**
-     * Return the line and character number on the line for any character
-     * position in the file. Assumes that countLines() has already been
-     * called to set up the line index;
-     * @private
-     */
-    charPositionToLocation(pos) {
-        // simple binary search
-        let left = 0, right = this.lineIndex.length-1;
-
-        while ((right - left) > 1) {
-            let middle = Math.trunc((left + right) / 2);
-            if (pos < this.lineIndex[middle]) {
-                right = middle;
-            } else if (pos > this.lineIndex[middle]) {
-                left = middle;
-            } else if (pos === this.lineIndex[middle]) {
-                return {
-                   line: middle,
-                   char: 0
-                };
-            }
-        }
-        return {
-            line: left,
-            char: pos - this.lineIndex[left]
-        };
-    }
-
-    /**
      * Serialize this xliff instance as an customized xliff 2.0 format string.
      * @return {String} the current instance encoded as an customized xliff 2.0
      * format string
@@ -464,9 +435,7 @@ class webOSXliff {
                             if (tu._attributes.type && tu._attributes.type.startsWith("res:")) {
                                 restype = tu._attributes.type.substring(4);
                             }
-                            if (tu._position) {
-                                location = this.charPositionToLocation(tu._position);
-                            }
+
                             if (tu.segment) {
                                 let segments = makeArray(tu.segment);
                                 for (let j = 0; j < segments.length; j++) {
