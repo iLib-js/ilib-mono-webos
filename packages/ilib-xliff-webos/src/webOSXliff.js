@@ -130,10 +130,14 @@ class webOSXliff {
      * @param key
      * @param type
      * @param path
+     * @param ordinal
+     * @param quantity
+     * @param flavor
+     * @param datatype
      * @returns {String} the hash of the above parameters
      */
-    _hashKey(project, context, sourceLocale, targetLocale, source, key, type, path, ordinal, quantity, flavor) {
-        const hashkey = [source, key, type || "string", sourceLocale || this.sourceLocale, targetLocale || "", context || "", project, path || "", ordinal || "", quantity || "", flavor || ""].join("_");
+    _hashKey(project, context, sourceLocale, targetLocale, source, key, type, path, ordinal, quantity, flavor, datatype) {
+        const hashkey = [source, key, type || "string", sourceLocale || this.sourceLocale, targetLocale || "", context || "", project, path || "", ordinal || "", quantity || "", flavor || "", datatype].join("_");
         return hashkey;
     }
 
@@ -219,35 +223,6 @@ class webOSXliff {
         const xml = this.toStringData();
         this.countLines(xml);
         return xml
-    }
-
-    /**
-     * Return the line and character number on the line for any character
-     * position in the file. Assumes that countLines() has already been
-     * called to set up the line index;
-     * @private
-     */
-    charPositionToLocation(pos) {
-        // simple binary search
-        let left = 0, right = this.lineIndex.length-1;
-
-        while ((right - left) > 1) {
-            let middle = Math.trunc((left + right) / 2);
-            if (pos < this.lineIndex[middle]) {
-                right = middle;
-            } else if (pos > this.lineIndex[middle]) {
-                left = middle;
-            } else if (pos === this.lineIndex[middle]) {
-                return {
-                   line: middle,
-                   char: 0
-                };
-            }
-        }
-        return {
-            line: left,
-            char: pos - this.lineIndex[left]
-        };
     }
 
     /**
@@ -406,7 +381,7 @@ class webOSXliff {
             trim: false,
             nativeTypeAttribute: true,
             compact: true,
-            position: true
+            position: false
         });
         this.countLines(xml);
         this.parse(json.xliff, resfile);
@@ -460,9 +435,7 @@ class webOSXliff {
                             if (tu._attributes.type && tu._attributes.type.startsWith("res:")) {
                                 restype = tu._attributes.type.substring(4);
                             }
-                            if (tu._position) {
-                                location = this.charPositionToLocation(tu._position);
-                            }
+
                             if (tu.segment) {
                                 let segments = makeArray(tu.segment);
                                 for (let j = 0; j < segments.length; j++) {

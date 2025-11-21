@@ -823,22 +823,17 @@ describe("webOSXliff", () => {
         expect(tulist.length).toBe(1);
 
         const expectedMetadata = {
-            "_position": 344,
             "mda:metaGroup": {
-                "_position": 371,
                 "mda:meta": [
                     {
-                        "_position": 424,
                         "_attributes" : {"type": "Monitor"},
                         "_text": "\"Monitor\" 이용이 불가능합니다"
                     },
                     {
-                        "_position": 495,
                         "_attributes" : {"type": "Box"},
                         "_text": "\"Box\" 이용이 불가능합니다"
                     },
                     {
-                        "_position": 558,
                         "_attributes" : {"type": "SoundBar"},
                         "_text": "\"SoundBar\" 이용이 불가능합니다"
                     }
