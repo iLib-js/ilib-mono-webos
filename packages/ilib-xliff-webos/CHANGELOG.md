@@ -1,5 +1,12 @@
 # ilib-xliff-webos
 
+## 1.0.5
+
+### Patch Changes
+
+- 2204f52: Update the XLIFF file deserialization process to exclude position information.
+  Update to include datatype information when generating the hash key.
+
 ## 1.0.4
 
 ### Patch Changes
