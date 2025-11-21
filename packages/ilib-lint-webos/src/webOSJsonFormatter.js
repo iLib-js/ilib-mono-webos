@@ -104,7 +104,7 @@ class webOSJsonFormatter extends Formatter {
             errorsOnly
         } = options;
 
-        const summary = this._formatSummary(prjName, totalTime, fileStats, resultStats, score);
+        const summary = this._formatSummary(prjName.replace('./', ''), totalTime, fileStats, resultStats, score);
         const result = this._formatResult(results, errorsOnly);
         const final = { ...summary, ...result };
 

@@ -1,0 +1,151 @@
+{
+  "summary": {
+    "projectName": "sample-lint",
+    "totalTime": 0.109,
+    "score": 27.63157894736842,
+    "resultStats": {
+      "errors": 11,
+      "warnings": 0,
+      "suggestions": 0
+    },
+    "fileStats": {
+      "files": 11,
+      "lines": 163,
+      "bytes": 718,
+      "modules": 21,
+      "words": 110
+    }
+  },
+  "details": [
+    {
+      "severity": "error",
+      "description": "URL 'http://www.box.com' from the source string does not appear in the target string",
+      "path": "sample-basic/de-DE.xliff",
+      "locale": "de-DE",
+      "autofix": "unavailable",
+      "source": "This string has multiple URLs in it: http://www.box.com and http://www.google.com",
+      "key": "This string has multiple URLs in it: http://www.box.com and http://www.google.com",
+      "highlight": "Target: This string is missing one URL: http://www.google.com<e0></e0>",
+      "ruleName": "resource-url-match",
+      "link": "https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-url-match.md"
+    },
+    {
+      "severity": "error",
+      "description": "The named parameter '{params}' from the source string does not appear in the target string",
+      "path": "sample-basic/de-DE.xliff",
+      "locale": "de-DE",
+      "autofix": "unavailable",
+      "source": "This string has multiple {params} in it: {sub}",
+      "key": "This string has multiple {params} in it: {sub}",
+      "highlight": "Target: This string is missing one URL: {sub}<e0></e0>",
+      "ruleName": "resource-named-params",
+      "link": "https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-named-params.md"
+    },
+    {
+      "severity": "error",
+      "description": "The named parameter '{totalSpace}' from the source string does not appear in the target string",
+      "path": "sample-basic/ja-JP.xliff",
+      "locale": "ja-JP",
+      "autofix": "unavailable",
+      "source": "{freeSpace}{capaString} Free / {totalSpace}{capaString}",
+      "key": "{freeSpace}{capaString} Free / {totalSpace}{capaString}",
+      "highlight": "Target: {freeSpace}{capaString}空き/totalSpace}{capaString}<e0></e0>",
+      "ruleName": "resource-named-params",
+      "link": "https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-named-params.md"
+    },
+    {
+      "severity": "error",
+      "description": "The named parameter '{num}' from the source string does not appear in the target string",
+      "path": "sample-basic/ko-KR.xliff",
+      "locale": "ko-KR",
+      "autofix": "unavailable",
+      "source": "{num} Hz Booster",
+      "key": "{num} Hz Booster",
+      "highlight": "Target: 144 Hz 부스터<e0></e0>",
+      "ruleName": "resource-named-params",
+      "link": "https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-named-params.md"
+    },
+    {
+      "severity": "error",
+      "description": "Missing target string in resource",
+      "path": "sample-basic/ko-KR.xliff",
+      "locale": "ko-KR",
+      "autofix": "unavailable",
+      "source": "{%1} mimute(s)",
+      "key": "{%1} mimute(s)",
+      "ruleName": "resource-completeness",
+      "link": "https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-completeness.md"
+    },
+    {
+      "severity": "error",
+      "description": "Missing target string in resource",
+      "path": "sample-basic/ko-KR.xliff",
+      "locale": "ko-KR",
+      "autofix": "unavailable",
+      "source": "{%1} second(s)",
+      "key": "{%1} second(s)",
+      "ruleName": "resource-completeness",
+      "link": "https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-completeness.md"
+    },
+    {
+      "severity": "error",
+      "description": "Trailing whitespace in target does not match trailing whitespace in source",
+      "path": "sample-rs-edge-whitespace/am-ET.xliff",
+      "locale": "am-ET",
+      "autofix": true,
+      "source": "You can use your Magic Remote to determine the room’s acoustics and optimize your TV’s sound quality based on the results.",
+      "key": "You can use your Magic Remote to determine the room’s acoustics and optimize your TV’s sound quality based on the results.",
+      "highlight": "Source: …lts.<e0></e0> Target: …ላሉ፡፡<e1>⎵</e1>",
+      "ruleName": "resource-edge-whitespace",
+      "link": "https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md"
+    },
+    {
+      "severity": "error",
+      "description": "Trailing whitespace in target does not match trailing whitespace in source",
+      "path": "sample-rs-edge-whitespace/zh-Hans-CN.xliff",
+      "locale": "zh-Hans-CN",
+      "autofix": true,
+      "source": "Select your remote's cursor speed and appearance.",
+      "key": "Select your remote's cursor speed and appearance.",
+      "highlight": "Source: …nce.<e0></e0> Target: …和外观。<e1>⎵⎵</e1>",
+      "ruleName": "resource-edge-whitespace",
+      "link": "https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md"
+    },
+    {
+      "severity": "error",
+      "description": "Leading whitespace in target does not match leading whitespace in source",
+      "path": "sample-rs-edge-whitespace/zh-Hans-CN.xliff",
+      "locale": "zh-Hans-CN",
+      "autofix": true,
+      "source": "press OK button to go to next menu",
+      "key": "press OK button to go to next menu",
+      "highlight": "Source: <e0></e0>pres… Target: <e1>⎵⎵</e1>按“确定…",
+      "ruleName": "resource-edge-whitespace",
+      "link": "https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md"
+    },
+    {
+      "severity": "error",
+      "description": "Trailing whitespace in target does not match trailing whitespace in source",
+      "path": "sample-rs-edge-whitespace/zh-Hans-CN.xliff",
+      "locale": "zh-Hans-CN",
+      "autofix": true,
+      "source": "press OK button to go to next menu",
+      "key": "press OK button to go to next menu",
+      "highlight": "Source: …menu<e0></e0> Target: …一个菜单<e1>⎵</e1>",
+      "ruleName": "resource-edge-whitespace",
+      "link": "https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md"
+    },
+    {
+      "severity": "error",
+      "description": "Leading whitespace in target does not match leading whitespace in source",
+      "path": "sample-rs-edge-whitespace/zh-Hans-CN.xliff",
+      "locale": "zh-Hans-CN",
+      "autofix": true,
+      "source": "If the image isn't clear, select another pattern until the picture improves.",
+      "key": "If the image isn't clear, select another pattern until the picture improves.",
+      "highlight": "Source: <e0></e0>If t… Target: <e1>⎵⎵</e1>如果图像…",
+      "ruleName": "resource-edge-whitespace",
+      "link": "https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md"
+    }
+  ]
+}

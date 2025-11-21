@@ -1,0 +1,93 @@
+{
+  "summary": {
+    "projectName": "Billing",
+    "totalTime": 0.348,
+    "score": 99.04397705544932,
+    "resultStats": {
+      "errors": 6,
+      "warnings": 0,
+      "suggestions": 0
+    },
+    "fileStats": {
+      "files": 149,
+      "lines": 28647,
+      "bytes": 66600,
+      "modules": 3108,
+      "words": 10656
+    }
+  },
+  "details": [
+    {
+      "severity": "error",
+      "description": "Trailing whitespace in target does not match trailing whitespace in source",
+      "path": "ar-SA.xliff",
+      "locale": "ar-SA",
+      "autofix": true,
+      "source": "Password",
+      "key": "l.password",
+      "highlight": "Source: …word<e0></e0> Target: …مرور<e1>⎵</e1>",
+      "ruleName": "resource-edge-whitespace",
+      "link": "https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md"
+    },
+    {
+      "severity": "error",
+      "description": "Trailing whitespace in target does not match trailing whitespace in source",
+      "path": "ha-Latn-NG.xliff",
+      "locale": "ha-Latn-NG",
+      "autofix": true,
+      "source": "Privacy Policy",
+      "key": "l.privacyPolicy",
+      "highlight": "Source: …licy<e0></e0> Target: …irri<e1>⎵</e1>",
+      "ruleName": "resource-edge-whitespace",
+      "link": "https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md"
+    },
+    {
+      "severity": "error",
+      "description": "Trailing whitespace in target does not match trailing whitespace in source",
+      "path": "ha-Latn-NG.xliff",
+      "locale": "ha-Latn-NG",
+      "autofix": true,
+      "source": "PRIVACY POLICY",
+      "key": "account.legalCopy.header.privacyPolicy",
+      "highlight": "Source: …LICY<e0></e0> Target: …irri<e1>⎵</e1>",
+      "ruleName": "resource-edge-whitespace",
+      "link": "https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md"
+    },
+    {
+      "severity": "error",
+      "description": "Trailing whitespace in target does not match trailing whitespace in source",
+      "path": "ml-IN.xliff",
+      "locale": "ml-IN",
+      "autofix": true,
+      "source": "Recurring",
+      "key": "Recurring",
+      "highlight": "Source: …ring<e0></e0> Target: …ുന്ന<e1>⎵</e1>",
+      "ruleName": "resource-edge-whitespace",
+      "link": "https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md"
+    },
+    {
+      "severity": "error",
+      "description": "Trailing whitespace in target does not match trailing whitespace in source",
+      "path": "nl-NL.xliff",
+      "locale": "nl-NL",
+      "autofix": true,
+      "source": "Are you sure you want to request cancellation?",
+      "key": "Are you sure you want to request cancellation?",
+      "highlight": "Source: …ion?<e0></e0> Target: …ren?<e1>⎵</e1>",
+      "ruleName": "resource-edge-whitespace",
+      "link": "https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md"
+    },
+    {
+      "severity": "error",
+      "description": "Trailing whitespace in target does not match trailing whitespace in source",
+      "path": "ur-IN.xliff",
+      "locale": "ur-IN",
+      "autofix": true,
+      "source": "Privacy Policy",
+      "key": "l.privacyPolicy",
+      "highlight": "Source: …licy<e0></e0> Target: …لیسی<e1>⎵</e1>",
+      "ruleName": "resource-edge-whitespace",
+      "link": "https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md"
+    }
+  ]
+}
