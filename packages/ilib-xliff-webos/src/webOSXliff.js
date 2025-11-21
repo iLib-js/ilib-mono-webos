@@ -130,6 +130,10 @@ class webOSXliff {
      * @param key
      * @param type
      * @param path
+     * @param ordinal
+     * @param quantity
+     * @param flavor
+     * @param datatype
      * @returns {String} the hash of the above parameters
      */
     _hashKey(project, context, sourceLocale, targetLocale, source, key, type, path, ordinal, quantity, flavor, datatype) {
