@@ -131,6 +131,8 @@ function writeTotalSummaryResult(sumJsonData) {
     ].join('');
 
     const resultPath = path.join(outDir, TOTAL_RESULT_FILENAME);
+
+    fs.writeFileSync(path.join(outDir, "total-result.json"), JSON.stringify(sorted, null, 2), 'utf8');
     fs.writeFileSync(resultPath, html, 'utf8');
 }
 
@@ -288,14 +290,15 @@ function formatDetailResult(res) {
 
     return `
 <table>
-<thead><tr><th colspan="2" style="${color}">[${res.severity}]</th></tr></thead>
+<thead><tr><th colspan="2" style="${color}">${res.severity.toUpperCase()}</th></tr></thead>
 <tbody>
   <tr><td>filepath</td><td>${res.path}</td></tr>
-  <tr><td>Descriptions</td><td>${res.description}</td></tr>
+  <tr><td>Description</td><td>${res.description}</td></tr>
   <tr><td>key</td><td>${res.key}</td></tr>
   <tr><td>source</td><td>${res.source}</td></tr>
   <tr><td>target</td><td>${targetHighlighted}</td></tr>
-  <tr><td>${res.ruleName}</td><td>${res.description}</td></tr>
+  <tr><td>rule</td><td>${res.ruleName}</td></tr>
+  <tr><td>rule Description</td><td>${res.description}</td></tr>
   <tr><td>More info</td><td><a href="${res.link}">${res.link}</a></td></tr>
   <tr><td>Auto-fix</td><td>${autofix}</td></tr>
 </tbody>

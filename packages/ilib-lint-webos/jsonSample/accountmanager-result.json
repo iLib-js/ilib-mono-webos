@@ -1,7 +1,7 @@
 {
   "summary": {
     "projectName": "accountmanager",
-    "totalTime": 0.376,
+    "totalTime": 0.387,
     "score": 99.29971988795518,
     "resultStats": {
       "errors": 2,
@@ -16,6 +16,9 @@
       "words": 18089
     }
   },
+  "rules": [
+    "resource-edge-whitespace"
+  ],
   "details": [
     {
       "severity": "error",

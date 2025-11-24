@@ -24,7 +24,7 @@ import { Rule, Result } from 'ilib-lint-common';
 class MockRule extends Rule {
     constructor(options) {
         super(options);
-        this.name = "mock";
+        this.name = "mock rule";
         this.description = "mock rule description";
         this.link = "https://github.com/docs/rule.md";
     }
@@ -97,7 +97,7 @@ describe("testwebOSPlugin", () => {
             '      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">This is just <span style="color:red">me</span> testing.</td>\n' +
             '    </tr>\n' +
             '    <tr>\n' +
-            '      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">mock</td>\n' +
+            '      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">mock rule</td>\n' +
             '      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">mock rule description</td>\n' +
             '    </tr>\n' +
             '    <tr>\n' +
@@ -247,7 +247,7 @@ describe("testwebOSPlugin", () => {
             '      <td style=\"background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;\">This is just <span style=\"color:red\">me</span> testing.</td>\n' +
             '    </tr>\n' +
             '    <tr>\n' +
-            '      <td style=\"background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;\">mock</td>\n' +
+            '      <td style=\"background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;\">mock rule</td>\n' +
             '      <td style=\"background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;\">mock rule description</td>\n' +
             '    </tr>\n' +
             '    <tr>\n' +
@@ -291,17 +291,16 @@ describe("testwebOSPlugin", () => {
         expect(result["link"]).toBe("https://github.com/docs/rule.md");
         expect(result["locale"]).toBe("de-DE");
         expect(result["path"]).toBe("test.txt");
-        expect(result["ruleName"]).toBe("mock");
+        expect(result["ruleName"]).toBe("mock rule");
         expect(result["severity"]).toBe("error");
         expect(result["source"]).toBe("test");
     });
 
     test('test formatOutput() of webOSJsonFormatter', () => {
-        expect.assertions(19);
+        expect.assertions(21);
 
         let mockRule =  new MockRule();
         const formatter = new webOSJsonFormatter();
-
         let options = {
             name: "sample-app",
             time: "0.12345",
@@ -333,7 +332,7 @@ describe("testwebOSPlugin", () => {
         }
 
         const actual = JSON.parse(formatter.formatOutput(options));
-        console.log(formatter.formatOutput(options));
+        //console.log(formatter.formatOutput(options));
         expect(actual["summary"]["projectName"]).toBe("sample-app");
         expect(actual["summary"]["score"]).toBe(89);
         expect(actual["summary"]["resultStats"]["errors"]).toBe(11);
@@ -351,8 +350,11 @@ describe("testwebOSPlugin", () => {
         expect(actual["details"][0]["link"]).toBe("https://github.com/docs/rule.md");
         expect(actual["details"][0]["locale"]).toBe("de-DE");
         expect(actual["details"][0]["path"]).toBe("test.txt");
-        expect(actual["details"][0]["ruleName"]).toBe("mock");
+        expect(actual["details"][0]["ruleName"]).toBe("mock rule");
         expect(actual["details"][0]["severity"]).toBe("error");
         expect(actual["details"][0]["source"]).toBe("test");
+
+        expect(actual["rules"].length).toBe(1);
+        expect(actual["rules"][0]).toBe("mock rule");
     });
 });

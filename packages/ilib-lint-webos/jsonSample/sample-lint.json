@@ -1,7 +1,7 @@
 {
   "summary": {
     "projectName": "sample-lint",
-    "totalTime": 0.109,
+    "totalTime": 0.032,
     "score": 27.63157894736842,
     "resultStats": {
       "errors": 11,
@@ -16,6 +16,12 @@
       "words": 110
     }
   },
+  "rules": [
+    "resource-url-match",
+    "resource-named-params",
+    "resource-completeness",
+    "resource-edge-whitespace"
+  ],
   "details": [
     {
       "severity": "error",
