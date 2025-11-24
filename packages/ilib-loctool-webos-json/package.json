@@ -50,15 +50,15 @@
         "node": ">=10.0.0"
     },
     "dependencies": {
-        "ilib": "^14.21.1",
+        "ilib": "^14.21.2",
         "micromatch": "^4.0.8"
     },
     "peerDependencies": {
-        "loctool": "2.31.3"
+        "loctool": "2.31.5"
     },
     "devDependencies": {
         "jest": "^30.2.0",
-        "loctool": "2.31.3",
+        "loctool": "2.31.5",
         "ilib-loctool-webos-common": "workspace:*"
     }
 }

@@ -37,6 +37,6 @@
         "ilib-loctool-webos-json-resource": "workspace:*",
         "ilib-loctool-webos-qml": "workspace:*",
         "ilib-loctool-webos-ts-resource": "workspace:*",
-        "loctool": "2.31.3"
+        "loctool": "2.31.5"
     }
 }

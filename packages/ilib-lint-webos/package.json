@@ -71,7 +71,7 @@
         "options-parser": "^0.4.0"
     },
     "dependencies": {
-        "ilib-lint-common": "^3.6.0",
+        "ilib-lint-common": "^3.7.0",
         "log4js": "^6.9.1"
     }
 }
