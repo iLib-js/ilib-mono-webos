@@ -126,6 +126,7 @@ function writeTotalSummaryResult(sumJsonData) {
     const html = [
         getHeader("Summary of all app results"),
         getHtmlStyle(),
+        getScript("case-filter.js"),
         buildTotalSummaryTable(sorted),
         getFooter()
     ].join('');
@@ -143,8 +144,11 @@ function buildTotalSummaryTable(data) {
                 ? escapeHtml(item.name)
                 : `<a href="./${escapeHtml(item.name)}-result.html">${escapeHtml(item.name)}</a>`;
 
+        //Add the 'no-issues' class to entries that have no errors or warnings
+        const rowClass = (item.errors === 0 && item.warnings === 0) ? 'no-issues' : '';
+
         return `
-        <tr>
+        <tr class="${rowClass}">
             <td class="highlight2">${++count}</td>
             <td class="highlight">${nameColumn}</td>
             <td class="highlight2 red">${item.errors}</td>
@@ -157,6 +161,7 @@ function buildTotalSummaryTable(data) {
 <body>
 <h1>Summary of all app results</h1>
 <hr>
+<label><input type="checkbox" id="toggleNoIssues"> Showing only cases with errors/warnings</label>
 <table><thead>
 <tr>
   <td class="highlight cell-bg"></td>
@@ -213,7 +218,7 @@ function generateHtmlOutput(json, summaryInfo) {
     const html = [
         getHeader(`ilib-lint Result for webOS Apps`),
         getHtmlStyle(),
-        getScript(),
+        getScript("rule-filter.js"),
         getSummary(json.summary),
         getRules(json.rules),
         getDetailResults(json.details, errorsOnly),
@@ -316,8 +321,9 @@ function getFooter() {
     return `</body></html>`;
 }
 
-function getScript() {
-    const scriptCode = fs.readFileSync("./scripts/rule-filter.js", "utf8");
+function getScript(filename) {
+    if (!filename) return;
+    const scriptCode = fs.readFileSync(path.join("./scripts", filename), "utf8");
     return `<script>\n${scriptCode}\n</script>`;
 }
 
