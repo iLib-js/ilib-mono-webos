@@ -219,7 +219,9 @@ function generateHtmlOutput(json, summaryInfo) {
     const html = [
         getHeader(`ilib-lint Result for webOS Apps`),
         getHtmlStyle(),
+        getScript(),
         getSummary(json.summary),
+        getRules(json.rules),
         getDetailResults(json.details, errorsOnly),
         getFooter()
     ].join('');
@@ -305,6 +307,32 @@ function formatDetailResult(res) {
 </table><br>`;
 }
 
+
+
+function getRules(rules) {
+    if (!Array.isArray(rules) || rules.length === 0) return '';
+    let contents = '<h2>rules</h2><button id="select-all">Select All</button><button id="unselect-all">Dselect All</button><table><thead>';
+    rules.forEach(function(item){
+        contents += `<tr><td class="highlight"><label><input type="checkbox" class="rule-check" value=${item}>${item}<label></td></tr>`
+    })
+    contents += '</thead></table>'
+    return contents;
+}
+/*
+function getRules(rules) {
+  if (!Array.isArray(rules) || rules.length === 0) return '';
+
+  return `
+    <h2>rules</h2>
+    <table>
+      <thead>
+        ${rules.map(item => `<tr><td class="highlight">${item}</td></tr>`).join('')}
+      </thead>
+    </table>
+  `;
+}
+*/
+
 function getHeader(title) {
     return `<!DOCTYPE html><html><head><title>${title}</title><meta charset="UTF-8"></head>`;
 }
@@ -312,92 +340,17 @@ function getHeader(title) {
 function getFooter() {
     return `</body></html>`;
 }
-
+function getScript() {
+    const scriptCode = fs.readFileSync("./scripts/rule-filter.js", "utf8");
+    // process.cwd
+return `<script>
+${scriptCode}
+</script>`;
+}
 function getHtmlStyle() {
-    return `
-<style>
-body {
-  font-family: "Segoe UI", Arial, sans-serif;
-  background-color: #f7f8fa;
-  color: #333;
-  margin: 40px;
-}
-h1, h2 {
-  color: #4B3AFF;
-  font-weight: 700;
-}
-h1 {
-  font-size: 32px;
-  margin-bottom: 10px;
-  border-left: 5px solid #4B3AFF;
-  padding-left: 10px;
-}
-h2 {
-  font-size: 26px;
-  margin-top: 40px;
-  margin-bottom: 15px;
-}
-.summary, .detail {
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  padding: 25px;
-  margin-bottom: 30px;
-}
-table {
-  width: 90%;
-  border-collapse: collapse;
-  margin-top: 10px;
-}
-th, td {
-  padding: 10px 12px;
-  text-align: left;
-  border-bottom: 1px solid #e0e0e0;
-}
-th {
-  background-color: #6b1b1b;
-  color: white;
-  font-size: 18px;
-}
-tr:hover td {
-  background-color: #f3f3f3;
-}
-.highlight {
-  font-weight: bold;
-  font-size: 20px;
-}
-.highlight2 {
-  font-weight: bold;
-  font-size: 18px;
-}
-.green {
-  color: #2e8b57;
-  font-weight: bold;
-}
-.red {
-  color: #d9534f;
-  font-weight: bold;
-}
-.orange {
-  color: #f0ad4e;
-  font-weight: bold;
-}
-.cell-bg {
-  background-color: #91b9e3ff;
-}
-a {
-  color: #4B3AFF;
-  text-decoration: none;
-}
-a:hover {
-  text-decoration: underline;
-}
-hr {
-  border: none;
-  border-top: 2px solid #ddd;
-  margin: 30px 0;
-  width: 90%;
-}
-</style>
-`;
+    const styleCode = fs.readFileSync("./scripts/style.css", "utf8");
+
+    return `<style>
+${styleCode}
+</style>`;
 }
