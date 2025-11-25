@@ -5,7 +5,6 @@
  *
  * Copyright (c) 2025 JEDLSoft
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
@@ -68,18 +67,25 @@ let totalSummary = [];
 ensureOutputDirectory(outDir);
 
 // Entry point
-if (options.files) {
-    console.log("File input is not implemented yet.");
-}
+if (options.files) console.log("File input is not implemented yet.");
+if (options.directory) processDirectory(options.directory);
 
-if (options.directory) {
-    processDirectory(options.directory);
+/* ----------------------------------------
+ * HTML Escape Helper
+ * --------------------------------------*/
+function escapeHtml(str) {
+    if (typeof str !== 'string') return str;
+    return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
 }
 
 /* ----------------------------------------
  * Directory Processing
  * --------------------------------------*/
-
 function ensureOutputDirectory(directory) {
     if (!fs.existsSync(directory)) {
         fs.mkdirSync(directory, { recursive: true });
@@ -90,7 +96,6 @@ function processDirectory(dir) {
     try {
         const stat = fs.statSync(dir);
         if (!stat.isDirectory()) throw new Error("Invalid directory");
-
         walkDirectory(dir);
         writeTotalSummaryResult(totalSummary);
     } catch (err) {
@@ -101,13 +106,10 @@ function processDirectory(dir) {
 
 function walkDirectory(dir) {
     const files = fs.readdirSync(dir);
-
     for (const file of files) {
         const fullPath = path.join(dir, file);
         if (fullPath.includes(".git")) continue;
-
         const stat = fs.statSync(fullPath);
-
         if (stat.isDirectory()) {
             walkDirectory(fullPath);
         } else if (file.toLowerCase().endsWith('.json')) {
@@ -119,10 +121,8 @@ function walkDirectory(dir) {
 /* ----------------------------------------
  * HTML Summary Generation
  * --------------------------------------*/
-
 function writeTotalSummaryResult(sumJsonData) {
     const sorted = [...sumJsonData].sort((a, b) => a.name.localeCompare(b.name));
-
     const html = [
         getHeader("Summary of all app results"),
         getHtmlStyle(),
@@ -130,21 +130,18 @@ function writeTotalSummaryResult(sumJsonData) {
         getFooter()
     ].join('');
 
-    const resultPath = path.join(outDir, TOTAL_RESULT_FILENAME);
-
     fs.writeFileSync(path.join(outDir, "total-result.json"), JSON.stringify(sorted, null, 2), 'utf8');
-    fs.writeFileSync(resultPath, html, 'utf8');
+    fs.writeFileSync(path.join(outDir, TOTAL_RESULT_FILENAME), html, 'utf8');
 }
 
 function buildTotalSummaryTable(data) {
     let count = 0;
     const rows = data.map(item => {
         const ruleInfo = buildRuleInfo(item.details);
-
         const nameColumn =
             item.errors === 0 && item.warnings === 0
-                ? item.name
-                : `<a href="./${item.name}-result.html">${item.name}</a>`;
+                ? escapeHtml(item.name)
+                : `<a href="./${escapeHtml(item.name)}-result.html">${escapeHtml(item.name)}</a>`;
 
         return `
         <tr>
@@ -175,22 +172,19 @@ ${rows}
 function buildRuleInfo(details) {
     if (!details) return '';
     return Object.entries(details)
-        .map(([rule, count]) => `${rule} [ ${count} ]<br>`)
+        .map(([rule, count]) => `${escapeHtml(rule)} [ ${count} ]<br>`)
         .join('');
 }
 
 /* ----------------------------------------
  * JSON → Individual HTML Generator
  * --------------------------------------*/
-
 function convertToHtml(jsonFile) {
     try {
         const json = JSON.parse(fs.readFileSync(jsonFile, 'utf-8'));
         const summary = createSummaryInfo(json.summary);
 
-        if (json.summary.score !== 100) {
-            summary.details = countRuleViolations(json.details);
-        }
+        if (json.summary.score !== 100) summary.details = countRuleViolations(json.details);
 
         totalSummary.push(summary);
         generateHtmlOutput(json, summary);
@@ -235,23 +229,20 @@ function generateHtmlOutput(json, summaryInfo) {
 /* ----------------------------------------
  * HTML Formatting Helpers
  * --------------------------------------*/
-
 function getSummary(summary) {
     const fmt = new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 });
-
     const ratio = num => [
         fmt.format(num / summary.fileStats.files),
         fmt.format(num / summary.fileStats.modules),
         fmt.format(num / summary.fileStats.lines),
     ];
-
     const [errFile, errMod, errLine] = ratio(summary.resultStats.errors);
     const [warnFile, warnMod, warnLine] = ratio(summary.resultStats.warnings);
     const [sgFile, sgMod, sgLine] = ratio(summary.resultStats.suggestions);
 
     return `
 <body>
-<h1>[${summary.projectName}] Summary</h1><hr>
+<h1>[${escapeHtml(summary.projectName)}] Summary</h1><hr>
 <table>
   <thead>
     <tr>
@@ -284,7 +275,7 @@ function formatDetailResult(res) {
             ? 'color:white;background-color:maroon;'
             : 'color:white;background-color:orange;';
 
-    const targetHighlighted = (res.highlight || '')
+    const targetHighlighted = escapeHtml(res.highlight || '')
         .replace(/<e\d>/g, '<span style="color:red">')
         .replace(/<\/e\d>/g, '</span>');
 
@@ -292,65 +283,45 @@ function formatDetailResult(res) {
 
     return `
 <table>
-<thead><tr><th colspan="2" style="${color}">${res.severity.toUpperCase()}</th></tr></thead>
+<thead><tr><th colspan="2" style="${color}">${escapeHtml(res.severity.toUpperCase())}</th></tr></thead>
 <tbody>
-  <tr><td>filepath</td><td>${res.path}</td></tr>
-  <tr><td>Description</td><td>${res.description}</td></tr>
-  <tr><td>key</td><td>${res.key}</td></tr>
-  <tr><td>source</td><td>${res.source}</td></tr>
+  <tr><td>filepath</td><td>${escapeHtml(res.path)}</td></tr>
+  <tr><td>Description</td><td>${escapeHtml(res.description)}</td></tr>
+  <tr><td>key</td><td>${escapeHtml(res.key)}</td></tr>
+  <tr><td>source</td><td>${escapeHtml(res.source)}</td></tr>
   <tr><td>target</td><td>${targetHighlighted}</td></tr>
-  <tr><td>rule</td><td>${res.ruleName}</td></tr>
-  <tr><td>rule Description</td><td>${res.description}</td></tr>
-  <tr><td>More info</td><td><a href="${res.link}">${res.link}</a></td></tr>
-  <tr><td>Auto-fix</td><td>${autofix}</td></tr>
+  <tr><td>rule</td><td>${escapeHtml(res.ruleName)}</td></tr>
+  <tr><td>rule Description</td><td>${escapeHtml(res.description)}</td></tr>
+  <tr><td>More info</td><td><a href="${escapeHtml(res.link)}">${escapeHtml(res.link)}</a></td></tr>
+  <tr><td>Auto-fix</td><td>${escapeHtml(autofix)}</td></tr>
 </tbody>
 </table><br>`;
 }
 
-
-
 function getRules(rules) {
     if (!Array.isArray(rules) || rules.length === 0) return '';
-    let contents = '<h2>rules</h2><button id="select-all">Select All</button><button id="unselect-all">Dselect All</button><table><thead>';
-    rules.forEach(function(item){
-        contents += `<tr><td class="highlight"><label><input type="checkbox" class="rule-check" value=${item}>${item}<label></td></tr>`
-    })
-    contents += '</thead></table>'
+    let contents = '<h2>rules</h2><button id="select-all">Select All</button><button id="unselect-all">Deselect All</button><table><thead>';
+    rules.forEach(item => {
+        contents += `<tr><td class="highlight"><label><input type="checkbox" class="rule-check" value="${escapeHtml(item)}">${escapeHtml(item)}</label></td></tr>`;
+    });
+    contents += '</thead></table>';
     return contents;
 }
-/*
-function getRules(rules) {
-  if (!Array.isArray(rules) || rules.length === 0) return '';
-
-  return `
-    <h2>rules</h2>
-    <table>
-      <thead>
-        ${rules.map(item => `<tr><td class="highlight">${item}</td></tr>`).join('')}
-      </thead>
-    </table>
-  `;
-}
-*/
 
 function getHeader(title) {
-    return `<!DOCTYPE html><html><head><title>${title}</title><meta charset="UTF-8"></head>`;
+    return `<!DOCTYPE html><html><head><title>${escapeHtml(title)}</title><meta charset="UTF-8"></head>`;
 }
 
 function getFooter() {
     return `</body></html>`;
 }
+
 function getScript() {
     const scriptCode = fs.readFileSync("./scripts/rule-filter.js", "utf8");
-    // process.cwd
-return `<script>
-${scriptCode}
-</script>`;
+    return `<script>\n${scriptCode}\n</script>`;
 }
+
 function getHtmlStyle() {
     const styleCode = fs.readFileSync("./scripts/style.css", "utf8");
-
-    return `<style>
-${styleCode}
-</style>`;
+    return `<style>\n${styleCode}\n</style>`;
 }

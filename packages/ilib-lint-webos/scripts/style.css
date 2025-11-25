@@ -112,6 +112,6 @@ button.secondary:hover {
 }
 
 input.rule-check {
-  margin-right: 10px; /* 체크박스와 글자 사이 간격 */
-  vertical-align: middle; /* 텍스트와 세로 정렬 맞추기 */
+  margin-right: 10px;
+  vertical-align: middle;
 }

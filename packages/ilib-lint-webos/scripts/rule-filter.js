@@ -4,29 +4,29 @@ document.addEventListener("DOMContentLoaded", function () {
   const selectAllBtn = document.getElementById("select-all");
   const unselectAllBtn = document.getElementById("unselect-all");
 
-  // DEFAULT: 모든 체크박스 체크 → 모든 detail 보임
+  // Default: check all rules → show all details
   ruleChecks.forEach(c => c.checked = true);
 
-  // 체크박스 변경 시 필터링
+  // Update visible tables when checkboxes change
   ruleChecks.forEach(chk => chk.addEventListener("change", filterDetails));
 
-  // 전체 선택
+  // Select all rules
   selectAllBtn.addEventListener("click", () => {
     ruleChecks.forEach(c => c.checked = true);
     filterDetails();
   });
 
-  // 전체 해제
+  // Deselect all rules
   unselectAllBtn.addEventListener("click", () => {
     ruleChecks.forEach(c => c.checked = false);
     filterDetails();
   });
 
+  // Show only tables that match selected rules
   function filterDetails() {
     const selected = [...document.querySelectorAll(".rule-check:checked")]
       .map(c => c.value);
 
-    // 선택된 rule이 없으면 숨기기
     if (selected.length === 0) {
       detailTables.forEach(t => (t.style.display = "none"));
       return;
@@ -53,6 +53,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // DEFAULT: 전체 표시
+  // Initial display: show all tables
   filterDetails();
 });
