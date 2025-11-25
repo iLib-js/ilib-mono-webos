@@ -332,7 +332,6 @@ describe("testwebOSPlugin", () => {
         }
 
         const actual = JSON.parse(formatter.formatOutput(options));
-        //console.log(formatter.formatOutput(options));
         expect(actual["summary"]["projectName"]).toBe("sample-app");
         expect(actual["summary"]["score"]).toBe(89);
         expect(actual["summary"]["resultStats"]["errors"]).toBe(11);
