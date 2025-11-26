@@ -22,7 +22,7 @@ import webOSXliff from "../src/webOSXliff.js";
 import TranslationUnit from "../src/TranslationUnit.js";
 
 describe("webOSXliff", () => {
-    test("should create webOSXliffinstance", () => {
+    test("should create webOSXliff instance", () => {
         expect.assertions(1);
         var x = new webOSXliff();
         expect(x).toBeTruthy();
