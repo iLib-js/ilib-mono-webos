@@ -40,7 +40,7 @@ describe('[integration] test the localization result of webos-js app', () => {
             },
             resourceDirs : { "json": "resources" },
             resourceFileTypes: { "json":"ilib-loctool-webos-json-resource" },
-            plugins: [ "ilib-loctool-webos-javascript" ]
+            plugins: [ "ilib-loctool-webos-javascript", "ilib-loctool-webos-json" ]
         };
         const appSettings = {
             localizeOnly: true,
@@ -74,6 +74,7 @@ describe('[integration] test the localization result of webos-js app', () => {
         };
         const project = ProjectFactory.newProject(projectSettings, appSettings);
         project.addPath("src/sample.js");
+        project.addPath("appinfo.json");
 
         if (project) {
             project.init(function() {

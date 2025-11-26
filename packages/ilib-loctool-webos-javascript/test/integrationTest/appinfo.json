@@ -1,0 +1,10 @@
+{
+    "id": "sample-webos-js",
+    "version": "4.0.1",
+    "type": "web",
+    "main": "index.html",
+    "title": "Hello",
+    "transparent": true,
+    "visible": false,
+    "lockable": false
+}
