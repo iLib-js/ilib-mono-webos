@@ -7,7 +7,6 @@ LINTPATH = /home/goun/Source/ilib-samples/lint-webos/node_modules/ilib-lint
 OUTPUTPATH = /home/goun/Source/swp/lintResult-swp
 
 ./execute.sh ~/Source/swp/localization-data/ /home/goun/Source/ilib-samples/lint-webos/ilib-lint-config.json /home/goun/Source/ilib-samples/lint-webos/node_modules/.bin/ilib-lint /home/goun/Source/swp/lintResult-swp-json
-./execute.sh ~/Source/swp/localization-data/ /home/goun/Source/ilib-mono-webos4/packages/samples-lint/ilib-lint-config.json /home/goun/Source/ilib-mono-webos4/packages/samples-lint/node_modules/ilib-lint/src/index.js /home/goun/Source/swp/lintResult-json2
 END
 
 SAVEIFS=$IFS
