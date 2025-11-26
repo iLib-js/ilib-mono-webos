@@ -27,19 +27,22 @@ class webOSPlugin extends Plugin {
     }
 
     /** @override */
-    init() {
-        //console.log("webOSPlugin.init() called");
-    }
+    /*init() {
+        console.log("webOSPlugin.init() called");
+    }*/
 
     /** @override */
+    /*
     getRules() {
-        //console.log("webOSPlugin.getRules() called");
-        //return [ FStringMatchRule, FStringNumberedRule, LegacyMatchRule ];
-    }
+        /*
+        console.log("webOSPlugin.getRules() called");
+        return [ FStringMatchRule, FStringNumberedRule, LegacyMatchRule ];
+    }*/
 
     /** @override */
+    /*
     getRuleSets() {
-    }
+    }*/
 
     getFormatters() {
         return [HtmlFormatter, webOSJsonFormatter];
