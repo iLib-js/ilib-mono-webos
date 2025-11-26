@@ -9,8 +9,8 @@ coverage:
     patch:
       default:
         #basic
-        target: 30%
-        threshold: 0%
+        target: 30
+        threshold: 0
         layout: "condensed_header, condensed_files, condensed_footer"
         if_ci_failed: ignore #success, failure, error, ignore
         hide_project_coverage: TRUE
@@ -18,7 +18,7 @@ coverage:
       default:
         # basic
         default: yes
-        target: auto
+        target: 80
         threshold: 0
         # advanced settings
         informational: false
