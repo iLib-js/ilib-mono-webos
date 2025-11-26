@@ -40,7 +40,7 @@ describe('[integration] test the localization result of webos-js app', () => {
             },
             resourceDirs : { "json": "resources" },
             resourceFileTypes: { "json":"ilib-loctool-webos-json-resource" },
-            plugins: [ "ilib-loctool-webos-javascript"]
+            plugins: [ "ilib-loctool-webos-javascript" ]
         };
         const appSettings = {
             localizeOnly: true,
