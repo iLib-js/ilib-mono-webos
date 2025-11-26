@@ -300,7 +300,7 @@ function formatDetailResult(res) {
   <tr><td>More info</td><td><a href="${escapeHtml(res.link)}">${escapeHtml(res.link)}</a></td></tr>
   <tr><td>Auto-fix</td><td>${escapeHtml(autofix)}</td></tr>
 </tbody>
-</table><br>`;
+</table>`;
 }
 
 function getRules(rules) {
