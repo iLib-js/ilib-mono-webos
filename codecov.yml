@@ -16,8 +16,8 @@ coverage:
     project:
       default:
         target: 80
-        threshold: 0
-        informational: false
+        threshold: 0.5
+        informational: true
         only_pulls: false
 
 comment:                  #this is a top-level key
