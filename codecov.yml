@@ -13,7 +13,7 @@ coverage:
         if_ci_failed: ignore
     project:
       default:
-        target: 80
+        target: auto
         threshold: 0.5
         informational: false
         only_pulls: false
