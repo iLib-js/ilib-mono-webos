@@ -8,9 +8,6 @@ The following lists affects Pub Points on pub.dev when the package is published.
 * [ ] Add API documentation if necessary.
 
 ### Description
-[//]: # (Describe the issue resolved or feature added by this pull request)
 
 
 ### Links
-[//]: # (Related issues, references)
-

@@ -60,7 +60,8 @@
         "clean": "git clean -f -d tmp",
         "doc": "mkdir -p docs ; jsdoc2md -c jsdoc.json --separators --source src/* -m table > docs/ilibLint.md ; npm run doc:html",
         "doc:html": "jsdoc -c jsdoc.json",
-        "convertHtml": "node scripts/convertHtml.js -d jsonSample/ -o tmp"
+        "convertHtml": "node scripts/convertHtml.js -d jsonSample/ -o tmp",
+        "debug-convertHtml": "node --inspect-brk scripts/convertHtml.js -d jsonSample/ -o tmp"
     },
     "devDependencies": {
         "docdash": "^2.0.2",

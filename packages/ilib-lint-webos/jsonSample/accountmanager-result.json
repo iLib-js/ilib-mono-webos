@@ -16,6 +16,9 @@
       "words": 18089
     }
   },
+  "rules": [
+    "resource-edge-whitespace"
+  ],
   "details": [
     {
       "severity": "error",
