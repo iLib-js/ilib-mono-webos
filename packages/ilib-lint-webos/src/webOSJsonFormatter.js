@@ -39,7 +39,9 @@ class webOSJsonFormatter extends Formatter {
     _formatResult(results) {
         if (!Array.isArray(results) || results.length === 0) return {};
 
+        const ruleList = [...new Set(results.map(item => item.rule.name))];
         return {
+            rules: ruleList,
             details: results.map(item => this.format(item))
         };
     }
@@ -87,6 +89,7 @@ class webOSJsonFormatter extends Formatter {
 
         return { summary };
     }
+
     /**
      * Provide the Information that the method can use to format the output
      *

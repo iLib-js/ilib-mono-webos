@@ -1,7 +1,7 @@
 /*
- * index.js - main program of webos plugin
+ * case-filter.js - filter out cases with no issues on the summary page
  *
- * Copyright (c) 2024-2025 JEDLSoft
+ * Copyright (c) 2025 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,18 +17,15 @@
  * limitations under the License.
  */
 
-import { Plugin } from 'ilib-lint-common';
-import HtmlFormatter from './HtmlFormatter.js';
-import webOSJsonFormatter from './webOSJsonFormatter.js';
-
-class webOSPlugin extends Plugin {
-    constructor(options) {
-        super(options);
-    }
-
-    getFormatters() {
-        return [HtmlFormatter, webOSJsonFormatter];
-    }
-}
-
-export default webOSPlugin;
+document.addEventListener("DOMContentLoaded", function () {
+  const toggleNoIssues = document.getElementById("toggleNoIssues");
+   // Toggle no-issues rows
+  if (toggleNoIssues) {
+    toggleNoIssues.addEventListener("change", function () {
+      const noIssueRows = document.querySelectorAll("tr.no-issues");
+      noIssueRows.forEach(row => {
+        row.style.display = this.checked ? "none" : "";
+      });
+    });
+  }
+});

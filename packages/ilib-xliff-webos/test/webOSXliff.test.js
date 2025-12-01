@@ -22,7 +22,7 @@ import webOSXliff from "../src/webOSXliff.js";
 import TranslationUnit from "../src/TranslationUnit.js";
 
 describe("webOSXliff", () => {
-    test("should create webOSXliffinstance", () => {
+    test("should create webOSXliff instance", () => {
         expect.assertions(1);
         var x = new webOSXliff();
         expect(x).toBeTruthy();
@@ -67,7 +67,7 @@ describe("webOSXliff", () => {
         expect(x.sourceLocale).toBe("en-KR");
         expect(x.path).toBe("a/b/ko-KR.xliff");
     });
-    test("should add translation unit to webOS  xliff", () => {
+    test("should add translation unit to webOS xliff", () => {
         expect.assertions(11);
         const x = new webOSXliff();
         expect(x).toBeTruthy();
@@ -99,7 +99,7 @@ describe("webOSXliff", () => {
         expect(tulist[0].project).toBe("webapp");
         expect(tulist[0].datatype).toBe("javascript");
     });
-    test("should add multiple translation units to webOS  xliff", () => {
+    test("should add multiple translation units to webOS xliff", () => {
         expect.assertions(19);
         const x = new webOSXliff();
         expect(x).toBeTruthy();
@@ -154,7 +154,7 @@ describe("webOSXliff", () => {
         expect(tulist[1].project).toBe("webapp");
         expect(tulist[1].datatype).toBe("javascript");
     });
-    test("should handle adding same translation unit twice in webOS  xliff", () => {
+    test("should handle adding same translation unit twice in webOS xliff", () => {
         expect.assertions(11);
         const x = new webOSXliff();
         expect(x).toBeTruthy();
@@ -850,5 +850,38 @@ describe("webOSXliff", () => {
         expect(tulist[0].key).toBe("NOT AVAILABLE");
         expect(tulist[0].target).toBe("이용이 불가능합니다");
         expect(tulist[0].metadata).toStrictEqual(expectedMetadata);
+    });
+    test('should clear correctly in webOS xliff', () => {
+        const x = new webOSXliff();
+        expect(x).toBeTruthy();
+        expect(x.size()).toBe(0);
+
+        x.addTranslationUnits([
+            new TranslationUnit({
+                source: "Asdf asdf",
+                sourceLocale: "en-KR",
+                key: "foobar",
+                file: "foo/bar/asdf.js",
+                project: "webapp",
+                resType: "string",
+                state: "new",
+                comment: "This is a comment",
+                datatype: "javascript"
+            }),
+            new TranslationUnit({
+                source: "foobar",
+                sourceLocale: "en-KR",
+                key: "asdf",
+                file: "x.javascript",
+                project: "webapp",
+                resType: "array",
+                state: "translated",
+                comment: "No comment",
+                datatype: "javascript"
+            })
+        ]);
+        expect(x.size()).toBe(2);
+        x.clear();
+        expect(x.size()).toBe(0);
     });
 });
