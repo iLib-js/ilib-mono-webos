@@ -19,7 +19,7 @@
         "ilib-loctool-webos-qml": "workspace:*",
         "ilib-loctool-webos-ts-resource": "workspace:*",
         "ilib-loctool-webos-common": "workspace:*",
-        "loctool": "^2.31.6",
+        "loctool": "^2.31.7",
         "xml-js": "^1.6.11"
     },
     "devDependencies": {
