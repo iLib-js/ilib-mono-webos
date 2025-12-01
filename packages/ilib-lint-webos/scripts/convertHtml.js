@@ -281,7 +281,7 @@ function formatDetailResult(res) {
             ? 'color:white;background-color:maroon;'
             : 'color:white;background-color:orange;';
 
-    const targetHighlighted = escapeHtml(res.highlight || '')
+    const targetHighlighted = (res.highlight || '')
         .replace(/<e\d>/g, '<span style="color:red">')
         .replace(/<\/e\d>/g, '</span>');
 
