@@ -11,4 +11,4 @@
 "ilib-loctool-webos-c": patch
 ---
 
-Update dependencies (loctool: 2.31.3)
+Update dependencies (loctool: 2.31.7)
