@@ -1,5 +1,15 @@
 # sample-webos-qml
 
+## 1.1.8
+
+### Patch Changes
+
+- Updated dependencies [8c93a03]
+  - ilib-loctool-webos-ts-resource@1.5.10
+  - ilib-loctool-webos-common@1.2.2
+  - ilib-loctool-webos-json@1.1.14
+  - ilib-loctool-webos-qml@1.9.2
+
 ## 1.1.7
 
 ### Patch Changes
