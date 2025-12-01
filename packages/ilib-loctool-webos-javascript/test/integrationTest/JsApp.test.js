@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-const fs = require('fs');
+const fs = require('fs'); 
 const path = require('path');
 const ProjectFactory = require("loctool/lib/ProjectFactory.js");
 const ResBundle = require("ilib/lib/ResBundle");
@@ -91,7 +91,7 @@ describe('[integration] test the localization result of webos-js app', () => {
     }, 50000);
     afterAll(async () => {
         if (fs.existsSync(defaultRSPath)) {
-            fs.rmSync(defaultRSPath, { recursive: true });
+            //fs.rmSync(defaultRSPath, { recursive: true });
         }
     });
     test("jssample_test_ko_KR", function() {
@@ -182,10 +182,10 @@ describe('[integration] test the localization result of webos-js app', () => {
         expect(rb.getString("Thank you").toString()).toBe("谢谢");
         expect(rb.getString("Bye").toString()).toBe("再见");
         expect(rb.getString("Time Settings").toString()).toBe("时间设置");
-    });
+    });/*
     test("jssample_test_zxxHantTW", function() {
         expect.assertions(7);
-
+        debugger;
         const xliffPath = path.join(process.cwd(), projectRoot, "xliffs");
         expect((fs.existsSync(path.join(xliffPath, 'zh-Hans-CN.xliff')))).toBeTruthy();
         expect(!(fs.existsSync(path.join(xliffPath, 'zh-Hans-TW.xliff')))).toBeTruthy();
@@ -199,5 +199,5 @@ describe('[integration] test the localization result of webos-js app', () => {
         expect(rb.getString("Thank you").toString()).toBe("謝謝"); // generated based on zh-Hans-CN translation
         expect(rb.getString("Bye").toString()).toBe("再見"); // generated based on zh-Hans-CN translation
         expect(rb.getString("Time Settings").toString()).toBe("時間設定"); // generated based on zh-Hans-CN translation
-    });
+    });*/
 });

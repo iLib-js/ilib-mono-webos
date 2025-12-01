@@ -56,8 +56,8 @@ importers:
         specifier: ^30.2.0
         version: 30.2.0(@types/node@12.20.55)(node-notifier@8.0.2)
       loctool:
-        specifier: 2.31.5
-        version: 2.31.5
+        specifier: 2.31.6
+        version: 2.31.6
 
   packages/ilib-loctool-webos-c/test/integrationTest:
     dependencies:
@@ -68,8 +68,8 @@ importers:
         specifier: workspace:*
         version: link:../../../ilib-loctool-webos-json-resource
       loctool:
-        specifier: ^2.31.5
-        version: 2.31.5
+        specifier: ^2.31.6
+        version: 2.31.6
     devDependencies:
       jest:
         specifier: ^30.2.0
@@ -81,8 +81,8 @@ importers:
         specifier: ^30.2.0
         version: 30.2.0(@types/node@12.20.55)(node-notifier@8.0.2)
       loctool:
-        specifier: 2.31.5
-        version: 2.31.5
+        specifier: 2.31.6
+        version: 2.31.6
 
   packages/ilib-loctool-webos-common/test/ilib-loctool-mock: {}
 
@@ -105,8 +105,8 @@ importers:
         specifier: ^30.2.0
         version: 30.2.0(@types/node@12.20.55)(node-notifier@8.0.2)
       loctool:
-        specifier: 2.31.5
-        version: 2.31.5
+        specifier: 2.31.6
+        version: 2.31.6
 
   packages/ilib-loctool-webos-cpp/test/integrationTest:
     dependencies:
@@ -117,8 +117,8 @@ importers:
         specifier: workspace:*
         version: link:../../../ilib-loctool-webos-json-resource
       loctool:
-        specifier: ^2.31.5
-        version: 2.31.5
+        specifier: ^2.31.6
+        version: 2.31.6
     devDependencies:
       jest:
         specifier: ^30.2.0
@@ -143,8 +143,8 @@ importers:
         specifier: ^30.2.0
         version: 30.2.0(@types/node@12.20.55)(node-notifier@8.0.2)
       loctool:
-        specifier: 2.31.5
-        version: 2.31.5
+        specifier: 2.31.6
+        version: 2.31.6
 
   packages/ilib-loctool-webos-dart/test/integrationTest:
     dependencies:
@@ -155,8 +155,8 @@ importers:
         specifier: workspace:*
         version: link:../../../ilib-loctool-webos-ts-resource
       loctool:
-        specifier: ^2.31.5
-        version: 2.31.5
+        specifier: ^2.31.6
+        version: 2.31.6
     devDependencies:
       jest:
         specifier: ^30.2.0
@@ -189,8 +189,8 @@ importers:
         specifier: workspace:*
         version: link:../ilib-loctool-webos-ts-resource
       loctool:
-        specifier: 2.31.5
-        version: 2.31.5
+        specifier: 2.31.6
+        version: 2.31.6
 
   packages/ilib-loctool-webos-javascript:
     dependencies:
@@ -205,8 +205,8 @@ importers:
         specifier: ^30.2.0
         version: 30.2.0(@types/node@12.20.55)(node-notifier@8.0.2)
       loctool:
-        specifier: 2.31.5
-        version: 2.31.5
+        specifier: 2.31.6
+        version: 2.31.6
 
   packages/ilib-loctool-webos-javascript/test/integrationTest:
     dependencies:
@@ -217,8 +217,8 @@ importers:
         specifier: workspace:*
         version: link:../../../ilib-loctool-webos-json-resource
       loctool:
-        specifier: ^2.31.5
-        version: 2.31.5
+        specifier: ^2.31.6
+        version: 2.31.6
     devDependencies:
       ilib:
         specifier: ^14.21.2
@@ -243,8 +243,8 @@ importers:
         specifier: ^30.2.0
         version: 30.2.0(@types/node@12.20.55)(node-notifier@8.0.2)
       loctool:
-        specifier: 2.31.5
-        version: 2.31.5
+        specifier: 2.31.6
+        version: 2.31.6
 
   packages/ilib-loctool-webos-json-resource:
     dependencies:
@@ -256,8 +256,8 @@ importers:
         specifier: ^30.2.0
         version: 30.2.0(@types/node@12.20.55)(node-notifier@8.0.2)
       loctool:
-        specifier: 2.31.5
-        version: 2.31.5
+        specifier: 2.31.6
+        version: 2.31.6
 
   packages/ilib-loctool-webos-json/test/integrationTest:
     dependencies:
@@ -265,8 +265,8 @@ importers:
         specifier: workspace:*
         version: link:../..
       loctool:
-        specifier: ^2.31.5
-        version: 2.31.5
+        specifier: ^2.31.6
+        version: 2.31.6
     devDependencies:
       jest:
         specifier: ^30.2.0
@@ -285,8 +285,8 @@ importers:
         specifier: ^30.2.0
         version: 30.2.0(@types/node@12.20.55)(node-notifier@8.0.2)
       loctool:
-        specifier: 2.31.5
-        version: 2.31.5
+        specifier: 2.31.6
+        version: 2.31.6
 
   packages/ilib-loctool-webos-qml/test/integrationTest:
     dependencies:
@@ -297,8 +297,8 @@ importers:
         specifier: workspace:*
         version: link:../../../ilib-loctool-webos-ts-resource
       loctool:
-        specifier: ^2.31.5
-        version: 2.31.5
+        specifier: ^2.31.6
+        version: 2.31.6
       xml-js:
         specifier: ^1.6.11
         version: 1.6.11
@@ -323,8 +323,8 @@ importers:
         specifier: ^30.2.0
         version: 30.2.0(@types/node@12.20.55)(node-notifier@8.0.2)
       loctool:
-        specifier: 2.31.5
-        version: 2.31.5
+        specifier: 2.31.6
+        version: 2.31.6
 
   packages/ilib-xliff-webos:
     dependencies:
@@ -398,8 +398,8 @@ importers:
         specifier: workspace:*
         version: link:../../ilib-loctool-webos-json-resource
       loctool:
-        specifier: ^2.31.5
-        version: 2.31.5
+        specifier: ^2.31.6
+        version: 2.31.6
     devDependencies:
       jest:
         specifier: ^30.2.0
@@ -417,8 +417,8 @@ importers:
         specifier: workspace:*
         version: link:../../ilib-loctool-webos-json-resource
       loctool:
-        specifier: ^2.31.5
-        version: 2.31.5
+        specifier: ^2.31.6
+        version: 2.31.6
     devDependencies:
       jest:
         specifier: ^30.2.0
@@ -439,8 +439,8 @@ importers:
         specifier: workspace:*
         version: link:../../ilib-loctool-webos-json-resource
       loctool:
-        specifier: ^2.31.5
-        version: 2.31.5
+        specifier: ^2.31.6
+        version: 2.31.6
     devDependencies:
       jest:
         specifier: ^30.2.0
@@ -461,8 +461,8 @@ importers:
         specifier: workspace:*
         version: link:../../ilib-loctool-webos-json-resource
       loctool:
-        specifier: ^2.31.5
-        version: 2.31.5
+        specifier: ^2.31.6
+        version: 2.31.6
     devDependencies:
       ilib:
         specifier: ^14.21.2
@@ -480,8 +480,8 @@ importers:
         specifier: workspace:*
         version: link:../../ilib-loctool-webos-json
       loctool:
-        specifier: ^2.31.5
-        version: 2.31.5
+        specifier: ^2.31.6
+        version: 2.31.6
     devDependencies:
       jest:
         specifier: ^30.2.0
@@ -496,8 +496,8 @@ importers:
         specifier: workspace:*
         version: link:../../../ilib-loctool-webos-json
       loctool:
-        specifier: ^2.31.5
-        version: 2.31.5
+        specifier: ^2.31.6
+        version: 2.31.6
       micromatch:
         specifier: ^4.0.8
         version: 4.0.8
@@ -521,8 +521,8 @@ importers:
         specifier: workspace:*
         version: link:../../ilib-loctool-webos-ts-resource
       loctool:
-        specifier: ^2.31.5
-        version: 2.31.5
+        specifier: ^2.31.6
+        version: 2.31.6
       xml-js:
         specifier: ^1.6.11
         version: 1.6.11
@@ -3042,8 +3042,8 @@ packages:
     resolution: {integrity: sha512-t7hw9pI+WvuwNJXwk5zVHpyhIqzg2qTlklJOf0mVxGSbe3Fp2VieZcduNYjaLDoy6p9uGpQEGWG87WpMKlNq8g==}
     engines: {node: '>=8'}
 
-  loctool@2.31.5:
-    resolution: {integrity: sha512-Bk92y//YUwDS0vQ6W+c710Cj6yTTuumWzDOwIOYJZYinmHJ78qUOQaEezL2p1Z39nzCKClIFtG1bIQz9nHVRCg==}
+  loctool@2.31.6:
+    resolution: {integrity: sha512-HT8NQtZ0rR2xEWuB/cXeOyLpl39viQT+G8KMvWmeaWI5GYHfHKl1qJUR4KtXIRpgYUmZkwu+h7emYU2UzIyrig==}
     engines: {node: '>=12 <23'}
     hasBin: true
 
@@ -7444,7 +7444,7 @@ snapshots:
     dependencies:
       p-locate: 4.1.0
 
-  loctool@2.31.5:
+  loctool@2.31.6:
     dependencies:
       '@formatjs/intl': 2.10.15
       build-gradle-reader: 1.0.0
