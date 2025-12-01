@@ -360,8 +360,6 @@ importers:
         specifier: ^5.1.0
         version: 5.1.0(grunt@1.6.1)
 
-  packages/ilib-xliff-webos/lib: {}
-
   packages/ilib-xliff-webos/src: {}
 
   packages/ilib-xliff-webos/test: {}
