@@ -18,6 +18,7 @@
  */
 
 var fs = require("fs");
+var ResourceFactory = require("loctool/lib/ResourceFactory.js");
 
 /**
 * Check whether a file exists at the given path.
@@ -151,4 +152,38 @@ module.exports.getTarget = function (translated, deviceType) {
         return item['_attributes']['type'] === deviceType;
     });
     return matchItem ? matchItem['_text']: defaultTarget;
+};
+
+// input translationSet. output. Resources
+module.exports.getResources = function (tsSet) {
+    // if there are translation units, convert them to
+    // resources in a translation set before returning the set.
+    var resArr = [];
+
+    if (tsSet) {
+        for (var i = 0; i < tsSet.length; i++) {
+            var tu = tsSet[i];
+            res = ResourceFactory({
+                pathName: tu.file,
+                project: tu.project,
+                id: tu.id,
+                key: tu.key,
+                sourceLocale: tu.sourceLocale,
+                source: tu.source,
+                targetLocale: tu.targetLocale,
+                context: tu.context,
+                comment: tu.comment,
+                resType: tu.resType,
+                datatype: tu.datatype,
+                state: tu.state,
+                flavor: tu.flavor,
+                metadata: tu.metadata
+            });
+            if (tu.target) {
+                res.setTarget(tu.target);
+            }
+            resArr.push(res);
+        }
+    }
+    return resArr;
 };

@@ -356,16 +356,24 @@ JavaScriptFileType.prototype._loadCommonXliff = function() {
             });
             var pathName = path.join(this.commonPath, file);
             var data = fs.readFileSync(pathName, "utf-8");
-            commonXliff.deserialize(data);
-            var resources = commonXliff.getResources();
+
             var localts = this.project.getRepository().getTranslationSet();
+            var tuSet = commonXliff.deserialize(data);
+            var resources = pluginUtils.getResources(tuSet);
+            if (resources && resources.length > 0) {
+                resources.forEach(function(res) {
+                    localts.add(res);
+                });
+            }
+
+            /*var resources = commonXliff.getResources();
             if (resources.length > 0){
                 this.commonPrjName = resources[0].getProject();
                 this.commonPrjType = resources[0].getDataType();
                 resources.forEach(function(res){
                     localts.add(res);
                 }.bind(this));
-            }
+            }*/
         }.bind(this));
     }
 };

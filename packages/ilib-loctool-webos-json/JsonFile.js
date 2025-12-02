@@ -458,16 +458,23 @@ JsonFile.prototype._loadCommonXliff = function(tsdata) {
             });
             var pathName = path.join(this.commonPath, file);
             var data = fs.readFileSync(pathName, "utf-8");
-            commonXliff.deserialize(data);
-            var resources = commonXliff.getResources();
-            
+
+            var tuSet = commonXliff.deserialize(data);
+            var resources = pluginUtils.getResources(tuSet);
+            if (resources && resources.length > 0) {
+                resources.forEach(function(res) {
+                    tsdata.add(res);
+                });
+            }
+
+            /*var resources = commonXliff.getResources();
             if (resources.length > 0){
                 this.commonPrjName = resources[0].getProject();
                 this.commonPrjType = resources[0].getDataType();
                 resources.forEach(function(res){
                     tsdata.add(res);
                 }.bind(this));
-            }
+            }*/
         }.bind(this));
     }
 };
