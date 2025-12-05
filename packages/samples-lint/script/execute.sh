@@ -6,7 +6,7 @@ CONFIG = /home/goun/Source/swp/lintScript/ilib-lint-config.json
 LINTPATH = /home/goun/Source/ilib-samples/lint-webos/node_modules/ilib-lint
 OUTPUTPATH = /home/goun/Source/swp/lintResult-swp
 
-./execute.sh ~/Source/swp/localization-data/ /home/goun/Source/ilib-samples/lint-webos/ilib-lint-config.json /home/goun/Source/ilib-samples/lint-webos/node_modules/.bin/ilib-lint /home/goun/Source/swp/lintResult-swp-json
+./execute.sh ~/Source/swp/localization-data/ /home/goun/Source/ilib-mono-webos2/packages/samples-lint/ilib-lint-config.json /home/goun/Source/ilib-mono-webos2/packages/samples-lint/node_modules/ilib-lint/src/index.js /home/goun/Source/ilib-mono-webos2/packages/samples-lint/lintResult-swp-json
 END
 
 SAVEIFS=$IFS
@@ -24,18 +24,23 @@ invalidCnt=0
 START_TIME=$(date +%s)
 arrInvalidDir=()
 
-for appDir in `find . -type d`
-do
+if [ ! -d "$OUTPUTPATH" ]; then
+  mkdir -p "$OUTPUTPATH"
+fi
+
+for appDir in $(find . -type d); do
   if [ "$appDir" == "." ]; then
-    arrInvalidDir+=($appDir)
-  elif [ "$appDir" == "./git" ]; then
-    arrInvalidDir+=($appDir)
+    arrInvalidDir+=("$appDir")
+  elif [[ "$appDir" == *"/.git"* ]]; then
+    # Skip the .git directory and all of its subfolders.
+    arrInvalidDir+=("$appDir")
+    continue
   else
-    cd $appDir
-    appCnt=$((appCnt+1))
-    echo "<<< ("$appCnt")" $appDir " >>>"
-    node $LINTPATH -c $CONFIG -i -f webos-json-formatter -o $OUTPUTPATH/$appDir-result.json -n $appDir
-    cd ..
+    cd "$appDir" || continue
+    appCnt=$((appCnt + 1))
+    echo "<<< ($appCnt) $appDir >>>"
+    node "$LINTPATH" -c "$CONFIG" -i -f webos-json-formatter -o "$OUTPUTPATH/$appDir-result.json" -n "$appDir"
+    cd - >/dev/null || exit
     echo "==========================================================================="
   fi
 done
