@@ -29,6 +29,7 @@ describe('[integration] test the localization result of webos-js app', () => {
         if (fs.existsSync(defaultRSPath)) {
             fs.rmSync(defaultRSPath, { recursive: true });
         }
+
         const projectSettings = {
             rootDir: projectRoot,
             id: "sample-webos-js",
@@ -42,9 +43,10 @@ describe('[integration] test the localization result of webos-js app', () => {
             resourceFileTypes: { "json":"ilib-loctool-webos-json-resource" },
             plugins: [ "ilib-loctool-webos-javascript" ]
         };
+
         const appSettings = {
             localizeOnly: true,
-            translationsDir: "./xliffs",
+            translationsDir : ["./xliffs", "./common"],
             mode: "localize",
             metadata : {
                 "device-type": "Monitor"
@@ -52,9 +54,6 @@ describe('[integration] test the localization result of webos-js app', () => {
             xliffStyle: "webOS",
             xliffVersion: 2,
             nopseudo: false,
-            webos: {
-                "commonXliff": path.join(projectRoot, "./common")
-            },
             locales:[
                 "en-AU",
                 "en-GB",

@@ -29,7 +29,7 @@ var QMLFileType = function(project) {
     this.datatype = "x-qml";
     this.resourceType = "ts";
     this.extensions = [ ".qml", ".js"];
-    this.isloadCommonData = false;
+    this.isCommonDataLoaded = false;
     this.project = project;
     this.API = project.getAPI();
     this.extracted = this.API.newTranslationSet(project.getSourceLocale());
@@ -64,10 +64,6 @@ var QMLFileType = function(project) {
     if (!project.settings.nopseudo) {
         this.missingPseudo = this.API.getPseudoBundle(project.pseudoLocale, this, project);
     }
-
-    if (project.settings.webos && project.settings.webos["commonXliff"]){
-        this.commonPath = project.settings.webos["commonXliff"];
-    }
 };
 
 /**
@@ -84,7 +80,7 @@ QMLFileType.prototype.handles = function(pathName) {
     if ((pathName.length > 4 && pathName.substring(pathName.length - 4) === ".qml") ||
         (pathName.length > 3 && pathName.substring(pathName.length - 3) === ".js")) {
         ret = true;
-    } 
+    }
 
     this.logger.debug(ret ? "Yes" : "No");
     return ret;
@@ -150,15 +146,14 @@ QMLFileType.prototype.write = function(translations, locales) {
     var customInheritLocale;
 
     if ((typeof(translations) !== 'undefined') && (typeof(translations.getProjects()) !== 'undefined') && (translations.getProjects().indexOf("common") !== -1)) {
-        this.isloadCommonData = true;
+        this.isCommonDataLoaded = true;
     }
 
-    if (this.commonPath) {
-        if (!this.isloadCommonData) {
-            this._loadCommonXliff();
-            this.isloadCommonData = true;
-        } else {
-            this._addComonDatatoTranslationSet(translations);
+    if (this.isCommonDataLoaded) {
+        var commonts = translations.getBy({project: "common"});
+        if (commonts.length > 0){
+            this.commonPrjName = "common";
+            this.commonPrjType = commonts[0].getDataType();
         }
     }
 
@@ -181,7 +176,7 @@ QMLFileType.prototype.write = function(translations, locales) {
                         r = translated;
                     }
 
-                    if (!translated && this.isloadCommonData) {
+                    if (!translated && this.isCommonDataLoaded) {
                         var manipulateKey = ResourceString.hashKey(this.commonPrjName, locale, res.getKey(), this.commonPrjType, res.getFlavor());
                         db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
                             if (!translated && res.getSource().includes(newlineChar)) {
@@ -306,47 +301,6 @@ QMLFileType.prototype.write = function(translations, locales) {
             file.addResource(res);
             this.logger.trace("Added " + res.reskey + " to " + file.pathName);
         }
-    }
-};
-
-QMLFileType.prototype._addComonDatatoTranslationSet = function(tsdata) {
-    var prots = this.project.getRepository().getTranslationSet();
-    var commonts = tsdata.getBy({project: "common"});
-    if (commonts.length > 0){
-        this.commonPrjName = commonts[0].getProject();
-        this.commonPrjType = commonts[0].getDataType();
-        commonts.forEach(function(ts){
-            prots.add(ts);
-        }.bind(this));
-    }
-}
-
-QMLFileType.prototype._loadCommonXliff = function() {
-    if (fs.existsSync(this.commonPath)){
-        var list = fs.readdirSync(this.commonPath);
-    }
-    var xliffStyle = (this.project.settings && this.project.settings.xliffStyle) ? this.project.settings.xliffStyle : "webOS";
-    if (list && list.length !== 0) {
-        list.forEach(function(file){
-            var commonXliff = this.API.newXliff({
-                sourceLocale: this.project.getSourceLocale(),
-                project: this.project.getProjectId(),
-                path: this.commonPath,
-                style: xliffStyle
-            });
-            var pathName = path.join(this.commonPath, file);
-            var data = fs.readFileSync(pathName, "utf-8");
-            commonXliff.deserialize(data);
-            var resources = commonXliff.getResources();
-            var localts = this.project.getRepository().getTranslationSet();
-            if (resources.length > 0){
-                this.commonPrjName = resources[0].getProject();
-                this.commonPrjType = resources[0].getDataType();
-                resources.forEach(function(res){
-                    localts.add(res);
-                }.bind(this));
-            }
-        }.bind(this));
     }
 };
 

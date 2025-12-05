@@ -32,7 +32,7 @@ var DartFileType = function(project) {
     this.datatype = "x-dart";
     this.resourceType = "json";
     this.extensions = [".dart"];
-    this.isloadCommonData = false;
+    this.isCommonDataLoaded = false;
     this.project = project;
     this.API = project.getAPI();
     this.extracted = this.API.newTranslationSet(project.getSourceLocale());
@@ -64,10 +64,6 @@ var DartFileType = function(project) {
     // for use with missing strings
     if (!project.settings.nopseudo) {
         this.missingPseudo = this.API.getPseudoBundle(project.pseudoLocale, this, project);
-    }
-
-    if (project.settings.webos && project.settings.webos["commonXliff"]){
-        this.commonPath = project.settings.webos["commonXliff"];
     }
 
     if (Object.keys(project.localeMap).length > 0){
@@ -182,14 +178,14 @@ DartFileType.prototype.write = function(translations, locales) {
         }.bind(this));
 
     if ((typeof(translations) !== 'undefined') && (typeof(translations.getProjects()) !== 'undefined') && (translations.getProjects().indexOf("common") !== -1)) {
-        this.isloadCommonData = true;
+        this.isCommonDataLoaded = true;
     }
-    if (this.commonPath) {
-        if (!this.isloadCommonData) {
-            this._loadCommonXliff();
-            this.isloadCommonData = true;
-        } else {
-            this._addComonDatatoTranslationSet(translations);
+
+    if (this.isCommonDataLoaded) {
+        var commonts = translations.getBy({project: "common"});
+        if (commonts.length > 0){
+            this.commonPrjName = "common";
+            this.commonPrjType = commonts[0].getDataType();
         }
     }
 
@@ -207,7 +203,7 @@ DartFileType.prototype.write = function(translations, locales) {
                     if (!translated) {
                         db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(locale), function(err, translated) {
                         var r = translated;
-                        if (!translated && this.isloadCommonData) {
+                        if (!translated && this.isCommonDataLoaded) {
                             var manipulateKey = ResourceString.hashKey(this.commonPrjName, locale, res.getKey(), this.commonPrjType, res.getFlavor());
                             db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
                                 if (translated) {
@@ -332,49 +328,6 @@ DartFileType.prototype.newFile = function(path) {
 
 DartFileType.prototype.getDataType = function() {
     return this.datatype;
-};
-
-DartFileType.prototype._addComonDatatoTranslationSet = function(tsdata) {
-    var prots = this.project.getRepository().getTranslationSet();
-    var commonts = tsdata.getBy({project: "common"});
-    if (commonts.length > 0){
-        this.commonPrjName = commonts[0].getProject();
-        this.commonPrjType = commonts[0].getDataType();
-        commonts.forEach(function(ts){
-            prots.add(ts);
-        }.bind(this));
-    }
-}
-
-DartFileType.prototype._loadCommonXliff = function() {
-    if (fs.existsSync(this.commonPath)){
-        var list = fs.readdirSync(this.commonPath);
-    }
-
-    var xliffStyle = (this.project.settings && this.project.settings.xliffStyle) ? this.project.settings.xliffStyle : "webOS";
-
-    if (list && list.length !== 0) {
-        list.forEach(function(file){
-            var commonXliff = this.API.newXliff({
-                sourceLocale: this.project.getSourceLocale(),
-                project: this.project.getProjectId(),
-                path: this.commonPath,
-                style: xliffStyle
-            });
-            var pathName = path.join(this.commonPath, file);
-            var data = fs.readFileSync(pathName, "utf-8");
-            commonXliff.deserialize(data);
-            var resources = commonXliff.getResources();
-            var localts = this.project.getRepository().getTranslationSet();
-            if (resources.length > 0){
-                this.commonPrjName = resources[0].getProject();
-                this.commonPrjType = resources[0].getDataType();
-                resources.forEach(function(res){
-                    localts.add(res);
-                }.bind(this));
-            }
-        }.bind(this));
-    }
 };
 
 DartFileType.prototype.getResourceTypes = function() {

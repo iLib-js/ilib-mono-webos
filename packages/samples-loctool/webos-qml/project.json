@@ -26,7 +26,7 @@
         "resources"
     ],
     "settings": {
-        "translationsDir": "./xliffs",
+        "translationsDir": ["./xliffs", "./common"],
         "locales":[
             "as-IN",
             "en-AU",
@@ -42,9 +42,6 @@
         ],
         "localeMap": {
             "fr-CA": "fr"
-        },
-        "webos": {
-            "commonXliff": "./common"
         },
         "jsonMap": {
             "mappings": {
