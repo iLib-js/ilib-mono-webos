@@ -110,4 +110,29 @@ describe('test if the resource is modifed properly', () => {
         result = findTarget(xliffData.group.unit, source);
         expect(result).not.toBe(target);
     });
+    test("test resource-edge-whitespace (cs-CZ)", function() {
+        expect.assertions(3);
+        const source = "Password"
+        const target = "Heslo";
+
+        filePath = path.join('sample-rs-edge-whitespace', 'cs-CZ.xliff.modified'); // autofix
+        xliffData = isValidPath(filePath) ? loadFileData(filePath) : {};
+        expect(xliffData).toBeTruthy();
+
+        result = findTarget(xliffData.group.unit, source);
+        expect(result).toBe(target);
+
+        filePath = path.join('sample-rs-edge-whitespace', 'cs-CZ.xliff'); //original
+        xliffData = isValidPath(filePath) ? loadFileData(filePath) : {};
+        result = findTarget(xliffData.group.unit, source);
+        expect(result).not.toBe(target);
+    });
+
+    test("test cs-CZ.xliff.modified file", function() {
+        expect.assertions(1);
+
+        filePath = path.join('sample-rs-edge-whitespace', 'cs-CZ.xliff.modified'); // autofix
+        xliffData = isValidPath(filePath) ? loadFileData(filePath) : {};
+        expect(xliffData).toMatchSnapshot();
+    });
 });

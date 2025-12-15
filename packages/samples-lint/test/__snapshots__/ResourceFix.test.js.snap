@@ -68,3 +68,61 @@ exports[`test if the resource is modifed properly test am-ET.xliff.modified file
   },
 }
 `;
+
+exports[`test if the resource is modifed properly test cs-CZ.xliff.modified file 1`] = `
+{
+  "_attributes": {
+    "id": "sample-rs-edge-whitespace_f1",
+    "original": "sample-rs-edge-whitespace",
+  },
+  "group": {
+    "_attributes": {
+      "id": "sample-rs-edge-whitespace_g1",
+      "name": "javascript",
+    },
+    "unit": [
+      {
+        "_attributes": {
+          "id": "sample-rs-edge-whitespace_g1_1",
+          "name": "pictureControlHigh_Male",
+        },
+        "segment": {
+          "source": {
+            "_text": "Auto",
+          },
+          "target": {
+            "_text": "Vysoká",
+          },
+        },
+      },
+      {
+        "_attributes": {
+          "id": "sample-rs-edge-whitespace_g1_2",
+          "name": "pictureControlHigh_Male",
+        },
+        "segment": {
+          "source": {
+            "_text": "High",
+          },
+          "target": {
+            "_text": "High",
+          },
+        },
+      },
+      {
+        "_attributes": {
+          "id": "sample-rs-edge-whitespace_g1_3",
+        },
+        "segment": {
+          "source": {
+            "_text": "Password",
+          },
+          "target": {
+            "_text": "Heslo",
+          },
+        },
+      },
+    ],
+  },
+}
+`;

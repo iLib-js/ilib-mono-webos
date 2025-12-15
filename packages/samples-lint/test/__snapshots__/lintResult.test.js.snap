@@ -319,6 +319,138 @@ exports[`webOS output for the lint test lint result (webos-result.html) 1`] = `
   <tbody>
     <tr>
       <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">filepath</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">sample-rs-edge-whitespace/cs-CZ.xliff</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">Descriptions</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Trailing whitespace in target does not match trailing whitespace in source</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">key</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">pictureControlHigh_Male</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">source</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Auto</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">target</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Source: Auto<span style="color:red"></span> Target: …soká<span style="color:red">⎵</span></td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">resource-edge-whitespace</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Ensure that if there are whitespaces on edges of source string, matching ones are there in target as well</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">More info</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">
+        <a href="https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md">https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md</a>
+      </td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">Auto-fix</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">true</td>
+    </tr>
+  </tbody>
+</table>
+<br><table style="border-collapse:collapse;">
+  <thead>
+    <tr>
+      <th colspan="2" style="color:white; background-color:maroon; text-align:left; font-size:22px; width:280px; padding-left:8px;">[error]</th>
+      <th style="text-align:left;"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">filepath</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">sample-rs-edge-whitespace/cs-CZ.xliff</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">Descriptions</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Leading whitespace in target does not match leading whitespace in source</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">key</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Password</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">source</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Password</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">target</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Source: <span style="color:red"></span>Pass… Target: <span style="color:red">⎵</span>Hesl…</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">resource-edge-whitespace</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Ensure that if there are whitespaces on edges of source string, matching ones are there in target as well</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">More info</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">
+        <a href="https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md">https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md</a>
+      </td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">Auto-fix</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">true</td>
+    </tr>
+  </tbody>
+</table>
+<br><table style="border-collapse:collapse;">
+  <thead>
+    <tr>
+      <th colspan="2" style="color:white; background-color:maroon; text-align:left; font-size:22px; width:280px; padding-left:8px;">[error]</th>
+      <th style="text-align:left;"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">filepath</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">sample-rs-edge-whitespace/cs-CZ.xliff</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">Descriptions</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Trailing whitespace in target does not match trailing whitespace in source</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">key</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Password</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">source</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Password</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">target</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Source: …word<span style="color:red"></span> Target: …eslo<span style="color:red">⎵⎵</span></td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">resource-edge-whitespace</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Ensure that if there are whitespaces on edges of source string, matching ones are there in target as well</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">More info</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">
+        <a href="https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md">https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md</a>
+      </td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">Auto-fix</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">true</td>
+    </tr>
+  </tbody>
+</table>
+<br><table style="border-collapse:collapse;">
+  <thead>
+    <tr>
+      <th colspan="2" style="color:white; background-color:maroon; text-align:left; font-size:22px; width:280px; padding-left:8px;">[error]</th>
+      <th style="text-align:left;"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">filepath</td>
       <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">sample-rs-edge-whitespace/zh-Hans-CN.xliff</td>
     </tr>
     <tr>
@@ -571,6 +703,42 @@ exports[`webOS output for the lint test lint result (webos-result.json) 1`] = `
     "ruleName": "resource-edge-whitespace",
     "severity": "error",
     "source": "You can use your Magic Remote to determine the room’s acoustics and optimize your TV’s sound quality based on the results.",
+  },
+  {
+    "autofix": true,
+    "description": "Trailing whitespace in target does not match trailing whitespace in source",
+    "highlight": "Source: Auto<e0></e0> Target: …soká<e1>⎵</e1>",
+    "key": "pictureControlHigh_Male",
+    "link": "https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md",
+    "locale": "cs-CZ",
+    "path": "sample-rs-edge-whitespace/cs-CZ.xliff",
+    "ruleName": "resource-edge-whitespace",
+    "severity": "error",
+    "source": "Auto",
+  },
+  {
+    "autofix": true,
+    "description": "Leading whitespace in target does not match leading whitespace in source",
+    "highlight": "Source: <e0></e0>Pass… Target: <e1>⎵</e1>Hesl…",
+    "key": "Password",
+    "link": "https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md",
+    "locale": "cs-CZ",
+    "path": "sample-rs-edge-whitespace/cs-CZ.xliff",
+    "ruleName": "resource-edge-whitespace",
+    "severity": "error",
+    "source": "Password",
+  },
+  {
+    "autofix": true,
+    "description": "Trailing whitespace in target does not match trailing whitespace in source",
+    "highlight": "Source: …word<e0></e0> Target: …eslo<e1>⎵⎵</e1>",
+    "key": "Password",
+    "link": "https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md",
+    "locale": "cs-CZ",
+    "path": "sample-rs-edge-whitespace/cs-CZ.xliff",
+    "ruleName": "resource-edge-whitespace",
+    "severity": "error",
+    "source": "Password",
   },
   {
     "autofix": true,
