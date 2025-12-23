@@ -1,5 +1,16 @@
 # ilib-loctool-webos-qml
 
+## 1.10.0
+
+### Minor Changes
+
+- 9622569: - Remove common xliff loading logic
+  `commonXliff` of settings is deprecated.
+  Instead, add the common data path to `translationsDir` as shown below.
+  ```
+   translationsDir : ["./xliffs", "./common"],
+  ```
+
 ## 1.9.2
 
 ### Patch Changes
