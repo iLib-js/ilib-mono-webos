@@ -28,7 +28,7 @@ describe("[integration] test the localization result of webos-c app", () => {
     const resourcePath = path.join(projectRoot, "resources");
     const fileName = "cstrings.json";
     let filePath, jsonData = {};
-    
+
     beforeAll(async() => {
         if (fs.existsSync(resourcePath)) {
             fs.rmSync(resourcePath, { recursive: true });
@@ -48,7 +48,7 @@ describe("[integration] test the localization result of webos-c app", () => {
 
         const appSettings = {
             localizeOnly: true,
-            translationsDir: "./xliffs",
+            translationsDir : ["./xliffs", "./common"],
             mode: "localize",
             metadata : {
                 "device-type": "Monitor"
@@ -57,9 +57,6 @@ describe("[integration] test the localization result of webos-c app", () => {
             xliffStyle: "webOS",
             nopseudo: false,
             resourceFileNames: { "c": fileName },
-            webos: {
-                "commonXliff": path.join(projectRoot, "./common")
-            },
             locales:[
                 "en-AU",
                 "en-GB",
@@ -96,7 +93,7 @@ describe("[integration] test the localization result of webos-c app", () => {
         if (fs.existsSync(resourcePath)) {
             fs.rmSync(resourcePath, { recursive: true });
         }
-     }); 
+     });
     test("csample_test_ko_KR", function() {
         expect.assertions(5);
         filePath = path.join(resourcePath, 'ko', fileName);

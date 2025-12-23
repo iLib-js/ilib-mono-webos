@@ -27,7 +27,7 @@
         "common"
     ],
     "settings": {
-        "translationsDir": "./xliffs",
+        "translationsDir": ["./xliffs", "./common"],
         "locales":[
             "as-IN",
             "de-DE",
@@ -49,9 +49,6 @@
         "localeInherit": {
             "en-CN": "en-GB",
             "en-AU": "en-GB"
-        },
-        "webos": {
-            "commonXliff": "./common"
         },
         "jsonMap": {
             "mappings": {

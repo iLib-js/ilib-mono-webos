@@ -26,7 +26,7 @@
         "resources"
     ],
     "settings": {
-        "translationsDir": "./xliffs",
+        "translationsDir": ["./xliffs", "./common"],
         "locales":[
             "en-AU",
             "en-GB",
@@ -40,9 +40,6 @@
         ],
         "resourceFileNames": {
             "cpp": "cppstrings.json"
-        },
-        "webos": {
-            "commonXliff": "./common"
         }
     }
 }

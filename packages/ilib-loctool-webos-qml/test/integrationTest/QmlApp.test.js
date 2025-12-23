@@ -51,7 +51,7 @@ describe('[integration] test the localization result of webos-qml app', () => {
         }
 
         const projectSettings = {
-            rootDir: projectRoot, 
+            rootDir: projectRoot,
             id: "sample-webos-qml",
             projectType: "webos-qml",
             sourceLocale: "en-KR",
@@ -65,7 +65,7 @@ describe('[integration] test the localization result of webos-qml app', () => {
 
         const appSettings = {
             localizeOnly: true,
-            translationsDir: "./xliffs",
+            translationsDir : ["./xliffs", "./common"],
             mode: "localize",
             metadata : {
                 "device-type": "StanbyME"
@@ -73,9 +73,6 @@ describe('[integration] test the localization result of webos-qml app', () => {
             xliffStyle: "webOS",
             xliffVersion: 2,
             nopseudo: false,
-            webos: {
-                "commonXliff": path.join(projectRoot, "./common")
-            },
             locales:[
                 "en-AU",
                 "en-GB",
@@ -182,15 +179,15 @@ describe('[integration] test the localization result of webos-qml app', () => {
     });
     test("qmlsample_test_en_GB", function() {
         expect.assertions(4);
-      
+
         const expected = {
             "test": ["Service Area Postcode", "Device Name"]
         };
-      
+
         filePath = path.join(resourcePath, 'sample-webos-qml_en_GB.ts');
         tsData = pluginUtils.isValidPath(filePath) ? loadTSData(filePath) : tsData;
         expect(tsData).toBeTruthy();
-      
+
         const contextResArr = makeArray(tsData.context);;
         expect(contextResArr.length).toBe(1);
 

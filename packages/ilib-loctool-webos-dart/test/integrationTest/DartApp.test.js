@@ -47,7 +47,7 @@ describe('[integration] test the localization result of webos-dart app', () => {
 
         const appSettings = {
             localizeOnly: true,
-            translationsDir: "./xliffs",
+            translationsDir : ["./xliffs", "./common"],
             mode: "localize",
             metadata : {
                 "device-type": "Monitor"
@@ -55,9 +55,6 @@ describe('[integration] test the localization result of webos-dart app', () => {
             xliffVersion: 2,
             xliffStyle: "webOS",
             nopseudo: false,
-            webos: {
-                "commonXliff": path.join(projectRoot, "./common")
-            },
             locales:[
                 "en-AU",
                 "en-GB",

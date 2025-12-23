@@ -8,8 +8,8 @@
     "scripts": {
         "loc": "loctool -2 --xliffStyle webOS --localeMap es-CO:es,fr-CA:fr --localeInherit en-AU:en-GB --pseudo",
         "debug": "node --inspect-brk node_modules/loctool/loctool.js -2 --xliffStyle webOS --localeMap es-CO:es,fr-CA:fr --localeInherit en-AU:en-GB --pseudo",
-        "loc-generate": "loctool generate -2 -x xliffs --xliffStyle webOS --projectType webos-dart --projectId sample-webos-dart --sourceLocale en-KR --resourceDirs json=assets/i18n --resourceFileTypes json=webos-json-resource --plugins webos-dart,webos-json -l en-US,es-CO,es-ES,fr-CA,fr-FR,ja-JP,ko-KR,sl-SI --localeMap es-CO:es,fr-CA:fr --localeInherit en-AU:en-GB --pseudo",
-        "loc-generate-debug": "node --inspect-brk node_modules/loctool/loctool.js generate -2 -x xliffs --xliffStyle webOS --projectType webos-dart --projectId sample-webos-dart --sourceLocale en-KR --resourceDirs json=assets/i18n --resourceFileTypes json=webos-json-resource --plugins webos-dart,webos-json -l en-US,es-CO,es-ES,fr-CA,fr-FR,ja-JP,ko-KR,sl-SI --localeMap es-CO:es,fr-CA:fr --localeInherit en-AU:en-GB --pseudo",
+        "loc-generate": "loctool generate -2 --translations xliffs --xliffStyle webOS --projectType webos-dart --projectId sample-webos-dart --sourceLocale en-KR --resourceDirs json=assets/i18n --resourceFileTypes json=webos-json-resource --plugins webos-dart,webos-json -l en-US,es-CO,es-ES,fr-CA,fr-FR,ja-JP,ko-KR,sl-SI --localeMap es-CO:es,fr-CA:fr --localeInherit en-AU:en-GB --pseudo",
+        "loc-generate-debug": "node --inspect-brk node_modules/loctool/loctool.js generate -2 --translations xliffs --xliffStyle webOS --projectType webos-dart --projectId sample-webos-dart --sourceLocale en-KR --resourceDirs json=assets/i18n --resourceFileTypes json=webos-json-resource --plugins webos-dart,webos-json -l en-US,es-CO,es-ES,fr-CA,fr-FR,ja-JP,ko-KR,sl-SI --localeMap es-CO:es,fr-CA:fr --localeInherit en-AU:en-GB --pseudo",
         "clean": "rm -rf *.xliff assets assets2 resources",
         "coverage": "pnpm test --coverage",
         "test": "pnpm test:jest",
