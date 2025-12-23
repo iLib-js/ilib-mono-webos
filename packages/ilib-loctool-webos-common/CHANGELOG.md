@@ -1,5 +1,11 @@
 # ilib-loctool-webos-common
 
+## 1.2.3
+
+### Patch Changes
+
+- b9022a3: Update dependencies. (loctool: 2.31.8)
+
 ## 1.2.2
 
 ### Patch Changes

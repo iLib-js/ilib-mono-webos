@@ -1,5 +1,13 @@
 # integration-sample-webos-c
 
+## 1.0.7
+
+### Patch Changes
+
+- Updated dependencies [b9022a3]
+  - ilib-loctool-webos-json-resource@1.7.8
+  - ilib-loctool-webos-c@1.10.1
+
 ## 1.0.6
 
 ### Patch Changes
