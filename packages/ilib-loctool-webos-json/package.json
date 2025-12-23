@@ -34,7 +34,7 @@
     ],
     "repository": {
         "type": "git",
-        "url": "git@github.com:iLib-js/ilib-mono-webos.git",
+        "url": "https://github.com/iLib-js/ilib-mono-webos",
         "directory": "packages/ilib-loctool-webos-json"
     },
     "homepage": "https://github.com/iLib-js/ilib-mono-webos/blob/main/packages/ilib-loctool-webos-json",
