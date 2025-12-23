@@ -1,5 +1,14 @@
 # ilib-loctool-webos-cpp
 
+## 1.10.1
+
+### Patch Changes
+
+- b9022a3: Update dependencies. (loctool: 2.31.8)
+- Updated dependencies [b9022a3]
+  - ilib-loctool-webos-json-resource@1.7.8
+  - ilib-loctool-webos-common@1.2.3
+
 ## 1.10.0
 
 ### Minor Changes
