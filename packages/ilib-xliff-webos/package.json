@@ -1,6 +1,6 @@
 {
     "name": "ilib-xliff-webos",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "main": "./lib/index.js",
     "module": "./src/index.js",
     "exports": {
@@ -38,7 +38,7 @@
     ],
     "repository": {
         "type": "git",
-        "url": "\"https://github.com/iLib-js/ilib-mono-webos.git\""
+        "url": "https://github.com/iLib-js/ilib-mono-webos.git"
     },
     "scripts": {
         "build": "pnpm build:prod",

@@ -93,6 +93,12 @@ Here is the list of packages. Plugins are optimized for the webOS platform.
     <td>samples-lint</td>
     <td>sample app to validate the webOS lint plugin.</td>
   </tr>
+  <tr>
+    <td>xliff</td>
+    <td>ilib-xliff-webos</td>
+    <td>A parser and generator for webOS xliff files (XML Localization Interchange Format File)
+</td>
+  </tr>
 </table>
 
 ## Setup

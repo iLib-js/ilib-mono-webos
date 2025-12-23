@@ -11,6 +11,11 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 jobs:
     release:
         name: Release
+        environment: Release
+        permissions:
+            id-token: write
+            contents: write
+            pull-requests: write
         runs-on: ubuntu-latest
         strategy:
             matrix:
@@ -25,15 +30,15 @@ jobs:
               with:
                   node-version: ${{ matrix.node-version }}
                   cache: pnpm
+                  registry-url: "https://registry.npmjs.org/"
             - name: Install dependencies
               run: pnpm install --frozen-lockfile
-            - name: Setup npm token
-              run: |
-                  cat << EOF > "$HOME/.npmrc"
-                    //registry.npmjs.org/:_authToken=$NPM_TOKEN
-                  EOF
-              env:
-                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+            # Ensure npm 11.5.1 or later is installed so we can publish to npm with OIDC
+            # per https://docs.npmjs.com/trusted-publishers#github-actions-configuration
+            - name: Force update npm
+              run: npm install -g npm@latest
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
             - name: Create Release Pull Request or Publish to npm
               id: changesets
               uses: changesets/action@v1
@@ -41,4 +46,6 @@ jobs:
                   publish: pnpm release
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+                  # Workaround to use OIDC in changeset action
+                  # per https://github.com/changesets/action/issues/542
+                  NPM_TOKEN: ""

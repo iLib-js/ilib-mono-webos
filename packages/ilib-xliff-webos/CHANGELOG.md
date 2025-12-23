@@ -1,5 +1,11 @@
 # ilib-xliff-webos
 
+## 1.0.6
+
+### Patch Changes
+
+- 514bc8d: Updated the XLIFF file so that the encoding declaration is displayed as `UTF-8` instead of `utf-8`
+
 ## 1.0.5
 
 ### Patch Changes

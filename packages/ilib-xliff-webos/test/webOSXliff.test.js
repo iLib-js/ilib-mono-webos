@@ -321,7 +321,7 @@ describe("webOSXliff", () => {
 
         let actual = x.serialize();
         let expected =
-            '<?xml version="1.0" encoding="utf-8"?>\n' +
+            '<?xml version="1.0" encoding="UTF-8"?>\n' +
             '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" version="2.0">\n' +
             '  <file id="webapp_f1" original="webapp">\n' +
             '    <group id="webapp_g1" name="javascript">\n' +
@@ -360,7 +360,7 @@ describe("webOSXliff", () => {
 
         let actual = x.serialize();
         let expected =
-            '<?xml version="1.0" encoding="utf-8"?>\n' +
+            '<?xml version="1.0" encoding="UTF-8"?>\n' +
             '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="de-DE" version="2.0">\n' +
             '  <file id="webapp_f1" original="webapp">\n' +
             '    <group id="webapp_g1" name="javascript">\n' +
@@ -419,7 +419,7 @@ describe("webOSXliff", () => {
 
         let actual = x.serialize();
         let expected =
-            '<?xml version="1.0" encoding="utf-8"?>\n' +
+            '<?xml version="1.0" encoding="UTF-8"?>\n' +
             '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" ' +
             'xmlns:mda="urn:oasis:names:tc:xliff:metadata:2.0" ' +
             'srcLang="en-KR" trgLang="ko-KR" version="2.0">\n' +
@@ -450,7 +450,7 @@ describe("webOSXliff", () => {
         expect(x.getLines()).toBe(0);
 
         x.deserialize(
-        '<?xml version="1.0" encoding="utf-8"?>\n' +
+        '<?xml version="1.0" encoding="UTF-8"?>\n' +
         '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="de-DE" version="2.0">\n' +
         '  <file id="sample_f1" original="sample">\n' +
         '      <group id="sample_g1" name="c">\n' +
@@ -508,7 +508,7 @@ describe("webOSXliff", () => {
         expect(x.getBytes()).toBe(0);
 
         x.deserialize(
-        '<?xml version="1.0" encoding="utf-8"?>\n' +
+        '<?xml version="1.0" encoding="UTF-8"?>\n' +
         '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="de-DE" version="2.0">\n' +
         '  <file id="sample_f1" original="sample">\n' +
         '      <group id="sample_g1" name="c">\n' +
@@ -564,7 +564,7 @@ describe("webOSXliff", () => {
         expect(x).toBeTruthy();
 
         x.deserialize(
-        '<?xml version="1.0" encoding="utf-8"?>\n' +
+        '<?xml version="1.0" encoding="UTF-8"?>\n' +
         '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="de-DE" version="2.0">\n' +
         '  <file id="sample_f1" original="sample">\n' +
         '      <group id="sample_g1" name="c">\n' +
@@ -593,7 +593,7 @@ describe("webOSXliff", () => {
         expect(x).toBeTruthy();
 
         x.deserialize(
-                '<?xml version="1.0" encoding="utf-8"?>\n' +
+                '<?xml version="1.0" encoding="UTF-8"?>\n' +
                 '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="de-DE" version="2.0">\n' +
                 '  <file id="sample1_f1" original="sample1">\n' +
                 '    <group id="sample1_g1" name="c">\n' +
@@ -649,7 +649,7 @@ describe("webOSXliff", () => {
         expect(x).toBeTruthy();
 
         x.deserialize(
-                '<?xml version="1.0" encoding="utf-8"?>\n' +
+                '<?xml version="1.0" encoding="UTF-8"?>\n' +
                 '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="en-CA" version="2.0">\n' +
                 '  <file id="sample1_f1" original="sample1">\n' +
                 '    <group id="sample1_g1" name="javascript">\n' +
@@ -697,7 +697,7 @@ describe("webOSXliff", () => {
         expect(x).toBeTruthy();
 
         x.deserialize(
-                '<?xml version="1.0" encoding="utf-8"?>\n' +
+                '<?xml version="1.0" encoding="UTF-8"?>\n' +
                 '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="fr-FR" version="2.0">\n' +
                 '  <file id="sample1_f1" original="sample1">\n' +
                 '    <group id="sample1_g1" name="javascript">\n' +
@@ -742,7 +742,7 @@ describe("webOSXliff", () => {
         const x = new webOSXliff();
         expect(x).toBeTruthy();
         x.deserialize(
-                '<?xml version="1.0" encoding="utf-8"?>\n' +
+                '<?xml version="1.0" encoding="UTF-8"?>\n' +
                 '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="fr-FR" version="2.0">\n' +
                 '  <file id="sample1_f1" original="sample1">\n' +
                 '    <group id="sample1_g1" name="javascript">\n' +
@@ -795,7 +795,7 @@ describe("webOSXliff", () => {
         expect(x).toBeTruthy();
 
         x.deserialize(
-        '<?xml version="1.0" encoding="utf-8"?>\n' +
+        '<?xml version="1.0" encoding="UTF-8"?>\n' +
         '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0"\n' +
         'xmlns:mda="urn:oasis:names:tc:xliff:metadata:2.0"\n' +
         'srcLang="en-KR" trgLang="ko-KR">\n' +
