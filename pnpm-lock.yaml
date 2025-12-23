@@ -56,8 +56,8 @@ importers:
         specifier: ^30.2.0
         version: 30.2.0(@types/node@12.20.55)(node-notifier@8.0.2)
       loctool:
-        specifier: 2.31.7
-        version: 2.31.7
+        specifier: 2.31.8
+        version: 2.31.8
 
   packages/ilib-loctool-webos-c/test/integrationTest:
     dependencies:
@@ -68,8 +68,8 @@ importers:
         specifier: workspace:*
         version: link:../../../ilib-loctool-webos-json-resource
       loctool:
-        specifier: ^2.31.7
-        version: 2.31.7
+        specifier: ^2.31.8
+        version: 2.31.8
     devDependencies:
       jest:
         specifier: ^30.2.0
@@ -81,8 +81,8 @@ importers:
         specifier: ^30.2.0
         version: 30.2.0(@types/node@12.20.55)(node-notifier@8.0.2)
       loctool:
-        specifier: 2.31.7
-        version: 2.31.7
+        specifier: 2.31.8
+        version: 2.31.8
 
   packages/ilib-loctool-webos-common/test/ilib-loctool-mock: {}
 
@@ -105,8 +105,8 @@ importers:
         specifier: ^30.2.0
         version: 30.2.0(@types/node@12.20.55)(node-notifier@8.0.2)
       loctool:
-        specifier: 2.31.7
-        version: 2.31.7
+        specifier: 2.31.8
+        version: 2.31.8
 
   packages/ilib-loctool-webos-cpp/test/integrationTest:
     dependencies:
@@ -117,8 +117,8 @@ importers:
         specifier: workspace:*
         version: link:../../../ilib-loctool-webos-json-resource
       loctool:
-        specifier: ^2.31.7
-        version: 2.31.7
+        specifier: ^2.31.8
+        version: 2.31.8
     devDependencies:
       jest:
         specifier: ^30.2.0
@@ -143,8 +143,8 @@ importers:
         specifier: ^30.2.0
         version: 30.2.0(@types/node@12.20.55)(node-notifier@8.0.2)
       loctool:
-        specifier: 2.31.7
-        version: 2.31.7
+        specifier: 2.31.8
+        version: 2.31.8
 
   packages/ilib-loctool-webos-dart/test/integrationTest:
     dependencies:
@@ -155,8 +155,8 @@ importers:
         specifier: workspace:*
         version: link:../../../ilib-loctool-webos-ts-resource
       loctool:
-        specifier: ^2.31.7
-        version: 2.31.7
+        specifier: ^2.31.8
+        version: 2.31.8
     devDependencies:
       jest:
         specifier: ^30.2.0
@@ -189,8 +189,8 @@ importers:
         specifier: workspace:*
         version: link:../ilib-loctool-webos-ts-resource
       loctool:
-        specifier: 2.31.7
-        version: 2.31.7
+        specifier: 2.31.8
+        version: 2.31.8
 
   packages/ilib-loctool-webos-javascript:
     dependencies:
@@ -205,8 +205,8 @@ importers:
         specifier: ^30.2.0
         version: 30.2.0(@types/node@12.20.55)(node-notifier@8.0.2)
       loctool:
-        specifier: 2.31.7
-        version: 2.31.7
+        specifier: 2.31.8
+        version: 2.31.8
 
   packages/ilib-loctool-webos-javascript/test/integrationTest:
     dependencies:
@@ -217,8 +217,8 @@ importers:
         specifier: workspace:*
         version: link:../../../ilib-loctool-webos-json-resource
       loctool:
-        specifier: ^2.31.7
-        version: 2.31.7
+        specifier: ^2.31.8
+        version: 2.31.8
     devDependencies:
       ilib:
         specifier: ^14.21.2
@@ -243,8 +243,8 @@ importers:
         specifier: ^30.2.0
         version: 30.2.0(@types/node@12.20.55)(node-notifier@8.0.2)
       loctool:
-        specifier: 2.31.7
-        version: 2.31.7
+        specifier: 2.31.8
+        version: 2.31.8
 
   packages/ilib-loctool-webos-json-resource:
     dependencies:
@@ -256,8 +256,8 @@ importers:
         specifier: ^30.2.0
         version: 30.2.0(@types/node@12.20.55)(node-notifier@8.0.2)
       loctool:
-        specifier: 2.31.7
-        version: 2.31.7
+        specifier: 2.31.8
+        version: 2.31.8
 
   packages/ilib-loctool-webos-json/test/integrationTest:
     dependencies:
@@ -265,8 +265,8 @@ importers:
         specifier: workspace:*
         version: link:../..
       loctool:
-        specifier: ^2.31.7
-        version: 2.31.7
+        specifier: ^2.31.8
+        version: 2.31.8
     devDependencies:
       jest:
         specifier: ^30.2.0
@@ -285,8 +285,8 @@ importers:
         specifier: ^30.2.0
         version: 30.2.0(@types/node@12.20.55)(node-notifier@8.0.2)
       loctool:
-        specifier: 2.31.7
-        version: 2.31.7
+        specifier: 2.31.8
+        version: 2.31.8
 
   packages/ilib-loctool-webos-qml/test/integrationTest:
     dependencies:
@@ -297,8 +297,8 @@ importers:
         specifier: workspace:*
         version: link:../../../ilib-loctool-webos-ts-resource
       loctool:
-        specifier: ^2.31.7
-        version: 2.31.7
+        specifier: ^2.31.8
+        version: 2.31.8
       xml-js:
         specifier: ^1.6.11
         version: 1.6.11
@@ -323,8 +323,8 @@ importers:
         specifier: ^30.2.0
         version: 30.2.0(@types/node@12.20.55)(node-notifier@8.0.2)
       loctool:
-        specifier: 2.31.7
-        version: 2.31.7
+        specifier: 2.31.8
+        version: 2.31.8
 
   packages/ilib-xliff-webos:
     dependencies:
@@ -372,8 +372,8 @@ importers:
         specifier: ^1.1.2
         version: 1.1.2
       ilib-lint:
-        specifier: ^2.21.0
-        version: 2.21.0
+        specifier: ^2.21.1
+        version: 2.21.1
       ilib-lint-webos:
         specifier: workspace:*
         version: link:../ilib-lint-webos
@@ -398,8 +398,8 @@ importers:
         specifier: workspace:*
         version: link:../../ilib-loctool-webos-json-resource
       loctool:
-        specifier: ^2.31.7
-        version: 2.31.7
+        specifier: ^2.31.8
+        version: 2.31.8
     devDependencies:
       jest:
         specifier: ^30.2.0
@@ -417,8 +417,8 @@ importers:
         specifier: workspace:*
         version: link:../../ilib-loctool-webos-json-resource
       loctool:
-        specifier: ^2.31.7
-        version: 2.31.7
+        specifier: ^2.31.8
+        version: 2.31.8
     devDependencies:
       jest:
         specifier: ^30.2.0
@@ -439,8 +439,8 @@ importers:
         specifier: workspace:*
         version: link:../../ilib-loctool-webos-json-resource
       loctool:
-        specifier: ^2.31.7
-        version: 2.31.7
+        specifier: ^2.31.8
+        version: 2.31.8
     devDependencies:
       jest:
         specifier: ^30.2.0
@@ -461,8 +461,8 @@ importers:
         specifier: workspace:*
         version: link:../../ilib-loctool-webos-json-resource
       loctool:
-        specifier: ^2.31.7
-        version: 2.31.7
+        specifier: ^2.31.8
+        version: 2.31.8
     devDependencies:
       ilib:
         specifier: ^14.21.2
@@ -480,8 +480,8 @@ importers:
         specifier: workspace:*
         version: link:../../ilib-loctool-webos-json
       loctool:
-        specifier: ^2.31.7
-        version: 2.31.7
+        specifier: ^2.31.8
+        version: 2.31.8
     devDependencies:
       jest:
         specifier: ^30.2.0
@@ -496,8 +496,8 @@ importers:
         specifier: workspace:*
         version: link:../../../ilib-loctool-webos-json
       loctool:
-        specifier: ^2.31.7
-        version: 2.31.7
+        specifier: ^2.31.8
+        version: 2.31.8
       micromatch:
         specifier: ^4.0.8
         version: 4.0.8
@@ -521,8 +521,8 @@ importers:
         specifier: workspace:*
         version: link:../../ilib-loctool-webos-ts-resource
       loctool:
-        specifier: ^2.31.7
-        version: 2.31.7
+        specifier: ^2.31.8
+        version: 2.31.8
       xml-js:
         specifier: ^1.6.11
         version: 1.6.11
@@ -2499,8 +2499,8 @@ packages:
     resolution: {integrity: sha512-N9kB+DRhByIJROv0QcFz3NogNSjs61wu7hXrysz7H2gpAnYvZU/2RGxlCMC4vDm5tiQnHM5N1QKpmKhy/tVJhQ==}
     engines: {node: '>=12 <23'}
 
-  ilib-lint@2.21.0:
-    resolution: {integrity: sha512-96Qbzk7lwosHWTrw89g/G7g7E5eKnpMB458PKkUz9ibvqtyCb/cf7Z56SPcPX1TxQYm5MR3cHWO7KX5H7IcRvA==}
+  ilib-lint@2.21.1:
+    resolution: {integrity: sha512-EbKk/27z/Xbj60aQIosre5lYfj95mTH8T36yHgWuANiXj4UDWOB/6VcIeAkIY8zA+4liPakeBp+wf9Drc9qwNw==}
     engines: {node: '>=12 <23'}
     hasBin: true
 
@@ -2525,15 +2525,15 @@ packages:
   ilib-scriptinfo@1.0.0:
     resolution: {integrity: sha512-GlMitfrpa5/27wxr3leG7Bri6GVD1yWBNAGyAOi0TWxjq/Zuo9n8CLYem4XIkqlCpUXbo5phPGZXCR2fWo39ig==}
 
-  ilib-tools-common@1.20.0:
-    resolution: {integrity: sha512-e9tOjrOE4yvXRwx3dQI43qL0jOvU++CL4UvHUnKkjObDrBn3PPqapaw5C/B0mCNljKluFnmumYB0vQxMsp7cAw==}
+  ilib-tools-common@1.20.1:
+    resolution: {integrity: sha512-cY8D+fVg1PckYH/2Eg8R9h096+p3P+VL1cSJEnQgaY1oxBvT6YemgPsXQ/h/3sX8lP96ph2Vs4Kg3vSaMuPxow==}
     engines: {node: '>=12 <23'}
 
   ilib-tree-node@2.0.1:
     resolution: {integrity: sha512-K+aNZfbThYR7LyvRtR4nVzfUxxUNKd3YbH6hQpsw8IGgCiFU27WkWJCB+s9A565f/xHT/sFbKqRKT/K3EBTPzA==}
 
-  ilib-xliff-webos@1.0.4:
-    resolution: {integrity: sha512-Js11pL4p1L08U6Dmm9ajV7yY7bqQXcX9jP2SN+ShMtzEjEaNPBJFijjuhJYPktPysuvquzQUq75Vn342ozohXQ==}
+  ilib-xliff-webos@1.0.6:
+    resolution: {integrity: sha512-l4fSYOD9cwNmAJ8kxTZYGJoyTCf2xRleqeKoeG+wQah993UrG/o14J6Py5azwPBkEioIdfu43g8CgNCSAnXBzw==}
 
   ilib-xliff@1.4.1:
     resolution: {integrity: sha512-A3yl3ITOdwFf1IKXrLgSWhMxUeXubLMAK3tm2mnw/O6W1JvQ1CWu66MV20HJlEJh3S0FoXdKUJe2Ga0aQNcEjg==}
@@ -3042,8 +3042,8 @@ packages:
     resolution: {integrity: sha512-t7hw9pI+WvuwNJXwk5zVHpyhIqzg2qTlklJOf0mVxGSbe3Fp2VieZcduNYjaLDoy6p9uGpQEGWG87WpMKlNq8g==}
     engines: {node: '>=8'}
 
-  loctool@2.31.7:
-    resolution: {integrity: sha512-f3Ln+Qzk6WHqjjjAkGfWR4UAmuRZP1jKqTZLW9VJpYc6utFWCBRNEIwEZ3DL3tnURTVMOwP0fFMMjkuZfIi0zw==}
+  loctool@2.31.8:
+    resolution: {integrity: sha512-0eqzkdK8Aujhc/YfFl5UrEKvctFwvf+RcNuN5ta/BLkVknpVAdI1QEhUHGdM06ClxdDVAt9IXDh1hL8vOpdaFQ==}
     engines: {node: '>=12 <23'}
     hasBin: true
 
@@ -6644,7 +6644,7 @@ snapshots:
 
   ilib-lint-common@3.7.0: {}
 
-  ilib-lint@2.21.0:
+  ilib-lint@2.21.1:
     dependencies:
       '@formatjs/intl': 2.10.15
       ilib-casemapper: 1.0.2
@@ -6655,9 +6655,9 @@ snapshots:
       ilib-localeinfo: 1.1.0
       ilib-localematcher: 1.3.1
       ilib-scriptinfo: 1.0.0
-      ilib-tools-common: 1.20.0
+      ilib-tools-common: 1.20.1
       ilib-xliff: 1.4.1
-      ilib-xliff-webos: 1.0.4
+      ilib-xliff-webos: 1.0.6
       intl-messageformat: 10.7.15
       json5: 2.2.3
       log4js: 6.9.1
@@ -6708,26 +6708,26 @@ snapshots:
     dependencies:
       ilib-ctype: 1.3.0
       ilib-locale: 1.2.4
-      ilib-tools-common: 1.20.0
+      ilib-tools-common: 1.20.1
 
   ilib-scriptinfo@1.0.0:
     dependencies:
       '@log4js-node/log4js-api': 1.0.2
 
-  ilib-tools-common@1.20.0:
+  ilib-tools-common@1.20.1:
     dependencies:
       '@log4js-node/log4js-api': 1.0.2
       ilib-ctype: 1.3.0
       ilib-istring: 1.1.1
       ilib-locale: 1.2.4
       ilib-xliff: 1.4.1
-      ilib-xliff-webos: 1.0.4
+      ilib-xliff-webos: 1.0.6
       intl-messageformat: 10.7.15
       micromatch: 4.0.8
 
   ilib-tree-node@2.0.1: {}
 
-  ilib-xliff-webos@1.0.4:
+  ilib-xliff-webos@1.0.6:
     dependencies:
       ilib-common: 1.1.6
       ilib-xml-js: 1.7.0
@@ -7444,7 +7444,7 @@ snapshots:
     dependencies:
       p-locate: 4.1.0
 
-  loctool@2.31.7:
+  loctool@2.31.8:
     dependencies:
       '@formatjs/intl': 2.10.15
       build-gradle-reader: 1.0.0
@@ -7453,7 +7453,7 @@ snapshots:
       html-parser: 0.11.0
       ilib: 14.21.2
       ilib-po: 1.1.3
-      ilib-tools-common: 1.20.0
+      ilib-tools-common: 1.20.1
       ilib-tree-node: 2.0.1
       js-stl: 0.0.6
       js-yaml: 4.1.0
