@@ -94,7 +94,7 @@ describe('[integration] test the localization result of webos-js app', () => {
         }
     });
     test("jssample_test_ko_KR", function() {
-        expect.assertions(7);
+        expect.assertions(12);
         let rb = new ResBundle({
             locale:"ko-KR",
             basePath : defaultRSPath
@@ -106,6 +106,13 @@ describe('[integration] test the localization result of webos-js app', () => {
         expect(rb.getString("Time Settings").toString()).toBe("시간 설정");
         expect(rb.getString("%deviceType% Speaker").toString()).toBe("모니터 스피커"); //metadata-common
         expect(rb.getString("Internal Speaker + Wired Headphones").toString()).toBe("모니터 스피커 + 유선 헤드폰"); //metadata
+
+        expect(rb.getString("Hello ").toString()).toBe("안녕 ");
+        expect(rb.getString(" Hello").toString()).toBe(" 안녕");
+        expect(rb.getString(" Hello ").toString()).toBe(" 안녕 ");
+        expect(rb.getString("Good Morning").toString()).toBe("좋은 아침");
+        expect(rb.getString("Today ").toString()).toBe("Today ");
+
     });
     test("jssample_test_es_CO", function() {
         expect.assertions(3);

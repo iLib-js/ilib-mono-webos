@@ -8,3 +8,10 @@ msg7.reason = $L('Internal Speaker + Wired Headphones');
 msg8.reason = $L('TV Name');
 
 $L('%deviceType% Speaker'),
+
+// cleanHashKeyNoTrim
+$L('Hello ');
+$L(' Hello');
+$L(' Hello ');
+$L('Good          Morning'); // xliff: 'Good Morning'
+$L('Today '); // xliff: 'Today'

@@ -2,31 +2,31 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="ko-KR" version="2.0">
   <file id="sample-webos-js_f1" original="sample-webos-js">
     <group id="sample-webos-js_g1" name="javascript">
-      <unit id="1">
+      <unit id="sample-webos-js_1">
         <segment>
           <source>Hello</source>
           <target>안녕</target>
         </segment>
       </unit>
-      <unit id="2">
+      <unit id="sample-webos-js2">
         <segment>
           <source>Thank you</source>
           <target>고마워</target>
         </segment>
       </unit>
-      <unit id="3">
+      <unit id="sample-webos-js_3">
         <segment>
           <source>Bye</source>
           <target>잘가</target>
         </segment>
       </unit>
-      <unit id="4">
+      <unit id="sample-webos-js_4">
         <segment>
           <source>TV On Screen</source>
           <target>TV 켜짐 화면</target>
         </segment>
       </unit>
-      <unit id="11">
+      <unit id="sample-webos-js_5">
         <mda:metadata>
           <mda:metaGroup category="device-type">
             <mda:meta type="Monitor">모니터 스피커 + 유선 헤드폰</mda:meta>
@@ -37,6 +37,36 @@
         <segment>
           <source>Internal Speaker + Wired Headphones</source>
           <target>TV 스피커 + 유선 헤드폰</target>
+        </segment>
+      </unit>
+      <unit id="sample-webos-js_6">
+        <segment>
+          <source>Hello </source>
+          <target>안녕 </target>
+        </segment>
+      </unit>
+      <unit id="sample-webos-js_7">
+        <segment>
+          <source> Hello</source>
+          <target> 안녕</target>
+        </segment>
+      </unit>
+      <unit id="sample-webos-js_8">
+        <segment>
+          <source> Hello </source>
+          <target> 안녕 </target>
+        </segment>
+      </unit>
+      <unit id="sample-webos-js_9">
+        <segment>
+          <source>Good Morning</source>
+          <target>좋은 아침</target>
+        </segment>
+      </unit>
+      <unit id="sample-webos-js_10">
+        <segment>
+          <source>Today</source>
+          <target>오늘</target>
         </segment>
       </unit>
     </group>
