@@ -38,13 +38,6 @@ function diff(a, b) {
     }
 }
 
-afterEach(() => {
-    const outputPath = './testfiles';
-    if (fs.existsSync(outputPath)) {
-        fs.rmSync(outputPath, { recursive: true });
-    }
-});
-
 var p = new CustomProject({
     id: "webosApp",
     projectType: "webos-web",
@@ -1133,10 +1126,12 @@ describe("jsonresourcefile", function() {
         expect(fs.existsSync(path.join(dir, "fluttermanifest.json"))).toBeTruthy();
         expect(jsrf.isDirty()).toBeTruthy();
         expect(actual).toBe(expected);
+
+        // clean up
+        fs.rmSync(dir, { recursive: true });
     });
     test("JSONResourceFileDoNotWriteManifest", function() {
         expect.assertions(5);
-
         var jsrf = new JSONResourceFile({
             project: p4,
             locale: "en-US"
