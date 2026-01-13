@@ -24,6 +24,8 @@ var JsonResourceFileType = require("ilib-loctool-webos-json-resource");
 var ResourceString = require("loctool/lib/ResourceString.js");
 var Utils = require("loctool/lib/utils.js")
 var pluginUtils = require("ilib-loctool-webos-common/utils.js");
+var ResourceStringWithHash = require("ilib-loctool-webos-common/ResourceStringWithHash.js");
+var ResourceFactory = require("loctool/lib/ResourceFactory.js");
 
 var JavaScriptFileType = function(project) {
     this.type = "javascript";
@@ -411,5 +413,10 @@ JavaScriptFileType.prototype.getPseudo = function() {
 JavaScriptFileType.prototype.getExtensions = function() {
     return this.extensions;
 };
+
+JavaScriptFileType.prototype.registerDataTypes = function() {
+    ResourceFactory.registerDataType(this.datatype, "string", ResourceStringWithHash);
+};
+
 
 module.exports = JavaScriptFileType;
