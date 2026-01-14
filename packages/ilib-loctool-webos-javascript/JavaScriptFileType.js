@@ -1,7 +1,7 @@
 /*
  * JavaScriptFileType.js - Represents a collection of JavaScript files
  *
- * Copyright (c) 2019-2023, 2025 JEDLSoft
+ * Copyright (c) 2019-2023, 2025-2026 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,15 +17,13 @@
  * limitations under the License.
  */
 
-var fs = require("fs");
-var path = require("path");
+
 var JavaScriptFile = require("./JavaScriptFile.js");
 var JsonResourceFileType = require("ilib-loctool-webos-json-resource");
-var ResourceString = require("loctool/lib/ResourceString.js");
-var Utils = require("loctool/lib/utils.js")
-var pluginUtils = require("ilib-loctool-webos-common/utils.js");
-var ResourceStringWithHash = require("ilib-loctool-webos-common/ResourceStringWithHash.js");
-var ResourceFactory = require("loctool/lib/ResourceFactory.js");
+var ResourceFactory = require("loctool/lib/ResourceFactory");
+var Utils = require("loctool/lib/utils")
+var pluginUtils = require("ilib-loctool-webos-common/utils");
+var ResourceStringWithHash = require("ilib-loctool-webos-common/ResourceStringWithHash");
 
 var JavaScriptFileType = function(project) {
     this.type = "javascript";
@@ -122,7 +120,7 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
     var deviceType = pluginUtils.getDeviceType(this.project.settings);
     var baseLocale, langDefaultLocale, baseTranslation;
     var customInheritLocale;
-    var res, file,
+    var res, file, sourceHash,
         resources = this.extracted.getAll(),
         db = this.project.db,
         translationLocales = locales.filter(function(locale) {
@@ -144,7 +142,7 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
     if (mode === "localize") {
         for (var i = 0; i < resources.length; i++) {
             res = resources[i];
-
+            sourceHash = Utils.hashKey(res.getSource());
             // for each extracted string, write out the translations of it
             translationLocales.forEach(function(locale) {
                 this.logger.trace("Localizing JavaScript strings to " + locale);
@@ -164,7 +162,8 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
                         if (translated) {
                             baseTranslation = pluginUtils.getTarget(translated, deviceType);
                         } else if (this.isCommonDataLoaded) {
-                            var manipulateKey = ResourceString.hashKey(this.commonPrjName, langDefaultLocale, res.getKey(), this.commonPrjType, res.getFlavor());
+                            // ResourceStringWithHash.hashKey = function(project, locale, reskey, datatype, flavor, sourcehash) {
+                            var manipulateKey = ResourceStringWithHash.hashKey(this.commonPrjName, langDefaultLocale, res.getKey(), this.commonPrjType, res.getFlavor(), sourceHash);
                             db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
                                 if (translated){
                                     baseTranslation = pluginUtils.getTarget(translated, deviceType);
@@ -177,14 +176,14 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
                     var r = translated;
 
                     if (!translated && this.isCommonDataLoaded) {
-                        var manipulateKey = ResourceString.hashKey(this.commonPrjName, locale, res.getKey(), this.commonPrjType, res.getFlavor());
+                        var manipulateKey = ResourceStringWithHash.hashKey(this.commonPrjName, locale, res.getKey(), this.commonPrjType, res.getFlavor(), sourceHash);
                         db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
                             if (translated && (baseTranslation !== pluginUtils.getTarget(translated, deviceType))){
                                 pluginUtils.addResource(resFileType, translated, res, locale, undefined, deviceType);
                             } else if(!translated && customInheritLocale){
                                 db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(customInheritLocale), function(err, translated) {
                                     if (!translated) {
-                                        var manipulateKey = ResourceString.hashKey(this.commonPrjName, customInheritLocale, res.getKey(), this.commonPrjType, res.getFlavor());
+                                        var manipulateKey = ResourceStringWithHash.hashKey(this.commonPrjName, customInheritLocale, res.getKey(), this.commonPrjType, res.getFlavor(), sourceHash);
                                         db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
                                             if (translated && (baseTranslation !== pluginUtils.getTarget(translated, deviceType))) {
                                                 pluginUtils.addResource(resFileType, translated, res, locale, undefined, deviceType);
