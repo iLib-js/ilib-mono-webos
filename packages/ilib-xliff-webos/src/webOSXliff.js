@@ -358,7 +358,7 @@ class webOSXliff {
         }
         json.xliff._attributes.version = versionString(this.version);
 
-        let xml = '<?xml version="1.0" encoding="UTF-8"?>\n' + xmljs.js2xml(json, {
+        let xml = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n' + xmljs.js2xml(json, {
             compact: true,
             spaces: 2
         });
