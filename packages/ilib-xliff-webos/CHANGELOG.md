@@ -1,5 +1,11 @@
 # ilib-xliff-webos
 
+## 1.0.7
+
+### Patch Changes
+
+- 1196c31: Update the XLIFF header to include `standalone="no"` so that it matches the actual webOS XLIFF files, and modify all sample XLIFF files accordingly.
+
 ## 1.0.6
 
 ### Patch Changes
