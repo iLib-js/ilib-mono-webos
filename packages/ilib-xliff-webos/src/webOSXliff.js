@@ -247,6 +247,7 @@ class webOSXliff {
             xliff: {
                 _attributes: {
                     "xmlns": "urn:oasis:names:tc:xliff:document:2.0",
+                    "xmlns:mda": "urn:oasis:names:tc:xliff:metadata:2.0"
                 }
             }
         };
@@ -349,9 +350,10 @@ class webOSXliff {
             json.xliff.file.push(files[fileHashKey]);
         });
 
-        if (hasMetadata) {
+        /*if (hasMetadata) {
             json.xliff._attributes["xmlns:mda"] = "urn:oasis:names:tc:xliff:metadata:2.0";
-        }
+        }*/
+
         json.xliff._attributes.srcLang = sourceLocale;
         if (targetLocale) {
             json.xliff._attributes.trgLang = targetLocale;

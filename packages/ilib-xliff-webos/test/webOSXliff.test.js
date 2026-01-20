@@ -322,7 +322,7 @@ describe("webOSXliff", () => {
         let actual = x.serialize();
         let expected =
             '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n' +
-            '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" version="2.0">\n' +
+            '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:mda="urn:oasis:names:tc:xliff:metadata:2.0" srcLang="en-KR" version="2.0">\n' +
             '  <file id="webapp_f1" original="webapp">\n' +
             '    <group id="webapp_g1" name="javascript">\n' +
             '      <unit id="webapp_g1_1" name="foobar">\n' +
@@ -361,7 +361,7 @@ describe("webOSXliff", () => {
         let actual = x.serialize();
         let expected =
             '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n' +
-            '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="de-DE" version="2.0">\n' +
+            '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:mda="urn:oasis:names:tc:xliff:metadata:2.0" srcLang="en-KR" trgLang="de-DE" version="2.0">\n' +
             '  <file id="webapp_f1" original="webapp">\n' +
             '    <group id="webapp_g1" name="javascript">\n' +
             '      <unit id="webapp_g1_1" name="foobar">\n' +
@@ -557,7 +557,7 @@ describe("webOSXliff", () => {
 
         let actual = x.serialize();
         expect(actual).toBeTruthy();
-        expect(x.getBytes()).toBe(740);
+        expect(x.getBytes()).toBe(790);
     });
     test('should deserialize webOS XLIFF', () => {
         const x = new webOSXliff();
