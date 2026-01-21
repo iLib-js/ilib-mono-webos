@@ -363,7 +363,7 @@ class webOSXliff {
         let xml = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n' + xmljs.js2xml(json, {
             compact: true,
             spaces: 2
-        });
+        }).trimEnd() + '\n';
 
         return xml;
     }

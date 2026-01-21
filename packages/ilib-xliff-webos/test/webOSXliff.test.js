@@ -335,7 +335,7 @@ describe("webOSXliff", () => {
             '      </unit>\n' +
             '    </group>\n' +
             '  </file>\n' +
-            '</xliff>';
+            '</xliff>\n';
 
         expect(actual).toBe(expected);
     });
@@ -375,7 +375,7 @@ describe("webOSXliff", () => {
             '      </unit>\n' +
             '    </group>\n' +
             '  </file>\n' +
-            '</xliff>';
+            '</xliff>\n';
 
         expect(actual).toBe(expected);
     });
@@ -440,7 +440,7 @@ describe("webOSXliff", () => {
             '      </unit>\n' +
             '    </group>\n' +
             '  </file>\n' +
-            '</xliff>';
+            '</xliff>\n';
 
         expect(actual).toBe(expected);
     });
@@ -499,7 +499,7 @@ describe("webOSXliff", () => {
 
         let actual = x.serialize();
         expect(actual).toBeTruthy();
-        expect(x.getLines()).toBe(23);
+        expect(x.getLines()).toBe(24);
     });
     test('should get bytes count after deserialization', () => {
         const x = new webOSXliff();
@@ -557,7 +557,7 @@ describe("webOSXliff", () => {
 
         let actual = x.serialize();
         expect(actual).toBeTruthy();
-        expect(x.getBytes()).toBe(790);
+        expect(x.getBytes()).toBe(791);
     });
     test('should deserialize webOS XLIFF', () => {
         const x = new webOSXliff();
