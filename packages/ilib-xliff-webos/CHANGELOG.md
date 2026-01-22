@@ -1,5 +1,13 @@
 # ilib-xliff-webos
 
+## 1.0.8
+
+### Patch Changes
+
+- d95305b: - Ensure the XLIFF metadata namespace is always included, preventing any diffs since it is already present in the current webOS XLIFF files.
+  - Add a blank line at the end of the generated XLIFF file to align with the existing webOS XLIFF files.
+  - Update to pass `sourceHash` value when parsing XLIFF file.
+
 ## 1.0.7
 
 ### Patch Changes
