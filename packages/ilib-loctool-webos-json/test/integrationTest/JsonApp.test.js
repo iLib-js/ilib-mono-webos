@@ -42,7 +42,7 @@ describe('[integration] test the localization result of webos-json app', () => {
         };
         const appSettings = {
             localizeOnly: true,
-            translationsDir: "./xliffs",
+            translationsDir : ["./xliffs", "./common"],
             mode: "localize",
             metadata : {
                 "device-type": "Monitor"
@@ -50,9 +50,6 @@ describe('[integration] test the localization result of webos-json app', () => {
             xliffStyle: "webOS",
             xliffVersion: 2,
             nopseudo: false,
-            webos: {
-                "commonXliff": path.join(projectRoot, "./common")
-            },
             locales:[
                 "ko-KR",
             ],

@@ -33,7 +33,7 @@ var CppFileType = function(project) {
     this.API = project.getAPI();
     this.extensions = [ ".cpp", ".cc", ".c++", ".cxx", ".hpp", ".hh", ".hxx"];
 
-    this.isloadCommonData = false;
+    this.isCommonDataLoaded = false;
     this.logger = this.API.getLogger("loctool.plugin.webOSCppFileType");
     this.extracted = this.API.newTranslationSet(project.getSourceLocale());
     this.newres = this.API.newTranslationSet(project.getSourceLocale());
@@ -61,10 +61,6 @@ var CppFileType = function(project) {
 
     if (Object.keys(project.localeMap).length > 0) {
         Utils.setBaseLocale(project.localeMap);
-    }
-
-    if (project.settings.webos && project.settings.webos["commonXliff"]){
-        this.commonPath = project.settings.webos["commonXliff"];
     }
 };
 
@@ -128,39 +124,39 @@ CppFileType.prototype.write = function(translations, locales) {
         }.bind(this));
 
     if ((typeof(translations) !== 'undefined') && (typeof(translations.getProjects()) !== 'undefined') && (translations.getProjects().indexOf("common") !== -1)) {
-        this.isloadCommonData = true;
+        this.isCommonDataLoaded = true;
     }
-    if (this.commonPath) {
-        if (!this.isloadCommonData) {
-            this._loadCommonXliff();
-            this.isloadCommonData = true;
-        } else {
-            this._addComonDatatoTranslationSet(translations);
+
+    if (this.isCommonDataLoaded) {
+        var commonts = translations.getBy({project: "common"});
+        if (commonts.length > 0){
+            this.commonPrjName = "common";
+            this.commonPrjType = commonts[0].getDataType();
         }
     }
 
     if (mode === "localize") {
         for (var i = 0; i < resources.length; i++) {
             res = resources[i];
-    
+
             // for each extracted string, write out the translations of it
             translationLocales.forEach(function(locale) {
                 this.logger.trace("Localizing C++ strings to " + locale);
-    
+
                 baseLocale = Utils.isBaseLocale(locale);
                 langDefaultLocale = Utils.getBaseLocale(locale);
                 customInheritLocale = this.project.getLocaleInherit(locale);
                 baseTranslation = res.getSource();
-    
+
                 if (baseLocale){
                     langDefaultLocale = "en-US";  // language default locale need to compare with root data
                 }
-    
+
                 if (locale !== 'en-US' && (translationLocales.includes(langDefaultLocale))) {
                     db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(langDefaultLocale), function(err, translated) {
                         if (translated) {
                             baseTranslation = pluginUtils.getTarget(translated, deviceType);
-                        } else if (this.isloadCommonData) {
+                        } else if (this.isCommonDataLoaded) {
                             var manipulateKey = ResourceString.hashKey(this.commonPrjName, langDefaultLocale, res.getKey(), this.commonPrjType, res.getFlavor());
                             db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
                                 if (translated){
@@ -170,10 +166,10 @@ CppFileType.prototype.write = function(translations, locales) {
                         }
                     }.bind(this));
                 }
-    
+
                 db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(locale), function(err, translated) {
                     var r = translated;
-                    if (!translated && this.isloadCommonData) {
+                    if (!translated && this.isCommonDataLoaded) {
                         var manipulateKey = ResourceString.hashKey(this.commonPrjName, locale, res.getKey(), this.commonPrjType, res.getFlavor());
                         db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
                             if (translated && (baseTranslation !== pluginUtils.getTarget(translated, deviceType))){
@@ -221,7 +217,7 @@ CppFileType.prototype.write = function(translations, locales) {
                             r = r.clone();
                             r.reskey = res.reskey;
                         }
-    
+
                         if (baseTranslation != pluginUtils.getTarget(r, deviceType)) {
                             file = resFileType.getResourceFile(locale);
                             r.setTarget(pluginUtils.getTarget(r, deviceType));
@@ -309,48 +305,6 @@ CppFileType.prototype.write = function(translations, locales) {
         }
     }
 };
-
-CppFileType.prototype._loadCommonXliff = function() {
-    if (fs.existsSync(this.commonPath)){
-        var list = fs.readdirSync(this.commonPath);
-    }
-    var xliffStyle = (this.project.settings && this.project.settings.xliffStyle) ? this.project.settings.xliffStyle : "webOS";
-
-    if (list && list.length !== 0) {
-        list.forEach(function(file){
-            var commonXliff = this.API.newXliff({
-                sourceLocale: this.project.getSourceLocale(),
-                project: this.project.getProjectId(),
-                path: this.commonPath,
-                style: xliffStyle
-            });
-            var pathName = path.join(this.commonPath, file);
-            var data = fs.readFileSync(pathName, "utf-8");
-            commonXliff.deserialize(data);
-            var resources = commonXliff.getResources();
-            var localts = this.project.getRepository().getTranslationSet();
-            if (resources.length > 0){
-                this.commonPrjName = resources[0].getProject();
-                this.commonPrjType = resources[0].getDataType();
-                resources.forEach(function(res){
-                    localts.add(res);
-                }.bind(this));
-            }
-        }.bind(this));
-    }
-};
-
-CppFileType.prototype._addComonDatatoTranslationSet = function(tsdata) {
-    var prots = this.project.getRepository().getTranslationSet();
-    var commonts = tsdata.getBy({project: "common"});
-    if (commonts.length > 0){
-        this.commonPrjName = commonts[0].getProject();
-        this.commonPrjType = commonts[0].getDataType();
-        commonts.forEach(function(ts){
-            prots.add(ts);
-        }.bind(this));
-    }
-}
 
 CppFileType.prototype.newFile = function(path) {
     return new CppFile({

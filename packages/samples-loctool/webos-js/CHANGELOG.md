@@ -1,5 +1,43 @@
 # sample-webos-js
 
+## 1.1.10
+
+### Patch Changes
+
+- Updated dependencies [b9022a3]
+  - ilib-loctool-webos-json-resource@1.7.8
+  - ilib-loctool-webos-javascript@1.13.1
+  - ilib-loctool-webos-common@1.2.3
+  - ilib-loctool-webos-json@1.2.1
+
+## 1.1.9
+
+### Patch Changes
+
+- Updated dependencies [9622569]
+  - ilib-loctool-webos-javascript@1.13.0
+  - ilib-loctool-webos-json@1.2.0
+
+## 1.1.8
+
+### Patch Changes
+
+- Updated dependencies [8c93a03]
+  - ilib-loctool-webos-json-resource@1.7.7
+  - ilib-loctool-webos-javascript@1.12.2
+  - ilib-loctool-webos-common@1.2.2
+  - ilib-loctool-webos-json@1.1.14
+
+## 1.1.7
+
+### Patch Changes
+
+- Updated dependencies [fce7199]
+  - ilib-loctool-webos-json-resource@1.7.6
+  - ilib-loctool-webos-javascript@1.12.1
+  - ilib-loctool-webos-common@1.2.1
+  - ilib-loctool-webos-json@1.1.13
+
 ## 1.1.6
 
 ### Patch Changes

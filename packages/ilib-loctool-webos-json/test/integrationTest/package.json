@@ -4,7 +4,7 @@
     "description": "Sample localization project",
     "repository": "git@github.com:iLib-js/ilib-mono-webos.git",
     "license": "Apache-2.0",
-    "version": "1.0.4",
+    "version": "1.0.8",
     "scripts": {
         "coverage": "pnpm test --coverage",
         "test": "pnpm test:jest",
@@ -13,9 +13,9 @@
     },
     "dependencies": {
         "ilib-loctool-webos-json": "workspace:*",
-        "loctool": "^2.31.1"
+        "loctool": "^2.31.8"
     },
     "devDependencies": {
-        "jest": "^30.0.5"
+        "jest": "^30.2.0"
     }
 }

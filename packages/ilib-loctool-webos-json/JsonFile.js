@@ -48,10 +48,6 @@ var JsonFile = function(props) {
     this.set = this.API.newTranslationSet(this.project ? this.project.sourceLocale : "zxx-XX");
     this.logger = this.API.getLogger("loctool.plugin.webOSJSONFile");
     this.mapping = this.type.getMappings(this.pathName);
-
-    if (props.project.settings.webos && props.project.settings.webos["commonXliff"]){
-        this.commonPath = props.project.settings.webos["commonXliff"];
-    }
 };
 
 /**
@@ -331,7 +327,7 @@ JsonFile.prototype.localizeText = function(translations, locale) {
             var translated = translations.getClean(hashkey) || translations.getClean(alternativeKey);
             customInheritLocale = this.project.getLocaleInherit(locale);
             baseTranslation = key;
-            
+
             var typeValue = this.datatype.replace("x-", "");
             if (!this.project.settings.nopseudo && ((this.project.settings[typeValue] === undefined) ||
                 (this.project.settings[typeValue] &&
@@ -344,7 +340,7 @@ JsonFile.prototype.localizeText = function(translations, locale) {
                     if (baseTranslation !== translated.target) {
                         output[property] = pluginUtils.getTarget(translated, deviceType);
                     }
-                } else if (!translated && this.isloadCommonData){
+                } else if (!translated && this.isCommonDataLoaded){
                     var comonDataKey = ResourceString.hashKey(this.commonPrjName, locale, tester.getKey(), this.commonPrjType, tester.getFlavor());
                     translated = translations.getClean(comonDataKey);
                     if (translated) {
@@ -406,18 +402,17 @@ JsonFile.prototype.localize = function(translations, locales) {
     // don't localize if there is no text
 
     if ((typeof(translations) !== 'undefined') && (typeof(translations.getProjects()) !== 'undefined') && (translations.getProjects().indexOf("common") !== -1)) {
-        this.isloadCommonData = true;
+        this.isCommonDataLoaded = true;
     }
 
-    if (this.commonPath) {
-        if (!this.isloadCommonData) {
-            this._loadCommonXliff(translations);
-            this.isloadCommonData = true;
-        } else {
-            this._addComonDatatoTranslationSet(translations);
+    if (this.isCommonDataLoaded) {
+        var commonts = translations.getBy({project: "common"});
+        if (commonts.length > 0){
+            this.commonPrjName = "common";
+            this.commonPrjType = commonts[0].getDataType();
         }
     }
-    
+
     for (var i=0; i < locales.length; i++) {
        if (!this.project.isSourceLocale(locales[i])) {
             var translatedOutput = this.localizeText(translations, locales[i]);
@@ -428,47 +423,6 @@ JsonFile.prototype.localize = function(translations, locales) {
                 fs.writeFileSync(pathName, translatedOutput, "utf-8");
             }
         }
-    }
-};
-
-JsonFile.prototype._addComonDatatoTranslationSet = function(tsdata) {
-    var prots = this.project.getRepository().getTranslationSet();
-    var commonts = tsdata.getBy({project: "common"});
-    if (commonts.length > 0){
-        this.commonPrjName = commonts[0].getProject();
-        this.commonPrjType = commonts[0].getDataType();
-        commonts.forEach(function(ts){
-            prots.add(ts);
-        }.bind(this));
-    }
-}
-
-JsonFile.prototype._loadCommonXliff = function(tsdata) {
-    if (fs.existsSync(this.commonPath)){
-        var list = fs.readdirSync(this.commonPath);
-    }
-    var xliffStyle = (this.project.settings && this.project.settings.xliffStyle) ? this.project.settings.xliffStyle : "webOS";
-    if (list && list.length !== 0) {
-        list.forEach(function(file){
-            var commonXliff = this.API.newXliff({
-                sourceLocale: this.project.getSourceLocale(),
-                project: this.project.getProjectId(),
-                path: this.commonPath,
-                style: xliffStyle
-            });
-            var pathName = path.join(this.commonPath, file);
-            var data = fs.readFileSync(pathName, "utf-8");
-            commonXliff.deserialize(data);
-            var resources = commonXliff.getResources();
-            
-            if (resources.length > 0){
-                this.commonPrjName = resources[0].getProject();
-                this.commonPrjType = resources[0].getDataType();
-                resources.forEach(function(res){
-                    tsdata.add(res);
-                }.bind(this));
-            }
-        }.bind(this));
     }
 };
 

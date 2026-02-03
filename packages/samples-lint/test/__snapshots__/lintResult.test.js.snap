@@ -1,0 +1,624 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`webOS output for the lint test lint result (webos-result.html) 1`] = `
+"<p style="color:#714AFF; text-align:left; font-size:30px; font-weight:bold; width:320px;">Detailed Information</p><table style="border-collapse:collapse;">
+  <thead>
+    <tr>
+      <th colspan="2" style="color:white; background-color:maroon; text-align:left; font-size:22px; width:280px; padding-left:8px;">[error]</th>
+      <th style="text-align:left;"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">filepath</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">sample-basic/de-DE.xliff</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">Descriptions</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">URL 'http://www.box.com' from the source string does not appear in the target string</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">key</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">This string has multiple URLs in it: http://www.box.com and http://www.google.com</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">source</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">This string has multiple URLs in it: http://www.box.com and http://www.google.com</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">target</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Target: This string is missing one URL: http://www.google.com<span style="color:red"></span></td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">resource-url-match</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Ensure that URLs that appear in the source string are also used in the translated string</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">More info</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">
+        <a href="https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-url-match.md">https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-url-match.md</a>
+      </td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">Auto-fix</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">unavailable</td>
+    </tr>
+  </tbody>
+</table>
+<br><table style="border-collapse:collapse;">
+  <thead>
+    <tr>
+      <th colspan="2" style="color:white; background-color:maroon; text-align:left; font-size:22px; width:280px; padding-left:8px;">[error]</th>
+      <th style="text-align:left;"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">filepath</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">sample-basic/de-DE.xliff</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">Descriptions</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">The named parameter '{params}' from the source string does not appear in the target string</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">key</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">This string has multiple {params} in it: {sub}</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">source</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">This string has multiple {params} in it: {sub}</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">target</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Target: This string is missing one URL: {sub}<span style="color:red"></span></td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">resource-named-params</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Ensure that named parameters that appear in the source string are also used in the translated string</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">More info</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">
+        <a href="https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-named-params.md">https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-named-params.md</a>
+      </td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">Auto-fix</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">unavailable</td>
+    </tr>
+  </tbody>
+</table>
+<br><table style="border-collapse:collapse;">
+  <thead>
+    <tr>
+      <th colspan="2" style="color:white; background-color:maroon; text-align:left; font-size:22px; width:280px; padding-left:8px;">[error]</th>
+      <th style="text-align:left;"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">filepath</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">sample-basic/ja-JP.xliff</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">Descriptions</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">The named parameter '{totalSpace}' from the source string does not appear in the target string</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">key</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">{freeSpace}{capaString} Free / {totalSpace}{capaString}</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">source</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">{freeSpace}{capaString} Free / {totalSpace}{capaString}</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">target</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Target: {freeSpace}{capaString}空き/totalSpace}{capaString}<span style="color:red"></span></td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">resource-named-params</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Ensure that named parameters that appear in the source string are also used in the translated string</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">More info</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">
+        <a href="https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-named-params.md">https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-named-params.md</a>
+      </td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">Auto-fix</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">unavailable</td>
+    </tr>
+  </tbody>
+</table>
+<br><table style="border-collapse:collapse;">
+  <thead>
+    <tr>
+      <th colspan="2" style="color:white; background-color:maroon; text-align:left; font-size:22px; width:280px; padding-left:8px;">[error]</th>
+      <th style="text-align:left;"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">filepath</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">sample-basic/ko-KR.xliff</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">Descriptions</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">The named parameter '{num}' from the source string does not appear in the target string</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">key</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">{num} Hz Booster</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">source</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">{num} Hz Booster</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">target</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Target: 144 Hz 부스터<span style="color:red"></span></td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">resource-named-params</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Ensure that named parameters that appear in the source string are also used in the translated string</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">More info</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">
+        <a href="https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-named-params.md">https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-named-params.md</a>
+      </td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">Auto-fix</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">unavailable</td>
+    </tr>
+  </tbody>
+</table>
+<br><table style="border-collapse:collapse;">
+  <thead>
+    <tr>
+      <th colspan="2" style="color:white; background-color:maroon; text-align:left; font-size:22px; width:280px; padding-left:8px;">[error]</th>
+      <th style="text-align:left;"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">filepath</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">sample-basic/ko-KR.xliff</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">Descriptions</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Missing target string in resource</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">key</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">{%1} mimute(s)</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">source</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">{%1} mimute(s)</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">target</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;"></td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">resource-completeness</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Ensure that resources are complete, i.e. have both source and target elements.</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">More info</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">
+        <a href="https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-completeness.md">https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-completeness.md</a>
+      </td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">Auto-fix</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">unavailable</td>
+    </tr>
+  </tbody>
+</table>
+<br><table style="border-collapse:collapse;">
+  <thead>
+    <tr>
+      <th colspan="2" style="color:white; background-color:maroon; text-align:left; font-size:22px; width:280px; padding-left:8px;">[error]</th>
+      <th style="text-align:left;"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">filepath</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">sample-basic/ko-KR.xliff</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">Descriptions</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Missing target string in resource</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">key</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">{%1} second(s)</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">source</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">{%1} second(s)</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">target</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;"></td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">resource-completeness</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Ensure that resources are complete, i.e. have both source and target elements.</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">More info</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">
+        <a href="https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-completeness.md">https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-completeness.md</a>
+      </td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">Auto-fix</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">unavailable</td>
+    </tr>
+  </tbody>
+</table>
+<br><table style="border-collapse:collapse;">
+  <thead>
+    <tr>
+      <th colspan="2" style="color:white; background-color:maroon; text-align:left; font-size:22px; width:280px; padding-left:8px;">[error]</th>
+      <th style="text-align:left;"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">filepath</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">sample-rs-edge-whitespace/am-ET.xliff</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">Descriptions</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Trailing whitespace in target does not match trailing whitespace in source</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">key</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">You can use your Magic Remote to determine the room’s acoustics and optimize your TV’s sound quality based on the results.</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">source</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">You can use your Magic Remote to determine the room’s acoustics and optimize your TV’s sound quality based on the results.</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">target</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Source: …lts.<span style="color:red"></span> Target: …ላሉ፡፡<span style="color:red">⎵</span></td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">resource-edge-whitespace</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Ensure that if there are whitespaces on edges of source string, matching ones are there in target as well</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">More info</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">
+        <a href="https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md">https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md</a>
+      </td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">Auto-fix</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">true</td>
+    </tr>
+  </tbody>
+</table>
+<br><table style="border-collapse:collapse;">
+  <thead>
+    <tr>
+      <th colspan="2" style="color:white; background-color:maroon; text-align:left; font-size:22px; width:280px; padding-left:8px;">[error]</th>
+      <th style="text-align:left;"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">filepath</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">sample-rs-edge-whitespace/zh-Hans-CN.xliff</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">Descriptions</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Trailing whitespace in target does not match trailing whitespace in source</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">key</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Select your remote's cursor speed and appearance.</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">source</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Select your remote's cursor speed and appearance.</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">target</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Source: …nce.<span style="color:red"></span> Target: …和外观。<span style="color:red">⎵⎵</span></td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">resource-edge-whitespace</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Ensure that if there are whitespaces on edges of source string, matching ones are there in target as well</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">More info</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">
+        <a href="https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md">https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md</a>
+      </td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">Auto-fix</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">true</td>
+    </tr>
+  </tbody>
+</table>
+<br><table style="border-collapse:collapse;">
+  <thead>
+    <tr>
+      <th colspan="2" style="color:white; background-color:maroon; text-align:left; font-size:22px; width:280px; padding-left:8px;">[error]</th>
+      <th style="text-align:left;"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">filepath</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">sample-rs-edge-whitespace/zh-Hans-CN.xliff</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">Descriptions</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Leading whitespace in target does not match leading whitespace in source</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">key</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">press OK button to go to next menu</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">source</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">press OK button to go to next menu</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">target</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Source: <span style="color:red"></span>pres… Target: <span style="color:red">⎵⎵</span>按“确定…</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">resource-edge-whitespace</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Ensure that if there are whitespaces on edges of source string, matching ones are there in target as well</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">More info</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">
+        <a href="https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md">https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md</a>
+      </td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">Auto-fix</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">true</td>
+    </tr>
+  </tbody>
+</table>
+<br><table style="border-collapse:collapse;">
+  <thead>
+    <tr>
+      <th colspan="2" style="color:white; background-color:maroon; text-align:left; font-size:22px; width:280px; padding-left:8px;">[error]</th>
+      <th style="text-align:left;"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">filepath</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">sample-rs-edge-whitespace/zh-Hans-CN.xliff</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">Descriptions</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Trailing whitespace in target does not match trailing whitespace in source</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">key</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">press OK button to go to next menu</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">source</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">press OK button to go to next menu</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">target</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Source: …menu<span style="color:red"></span> Target: …一个菜单<span style="color:red">⎵</span></td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">resource-edge-whitespace</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Ensure that if there are whitespaces on edges of source string, matching ones are there in target as well</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">More info</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">
+        <a href="https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md">https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md</a>
+      </td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">Auto-fix</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">true</td>
+    </tr>
+  </tbody>
+</table>
+<br><table style="border-collapse:collapse;">
+  <thead>
+    <tr>
+      <th colspan="2" style="color:white; background-color:maroon; text-align:left; font-size:22px; width:280px; padding-left:8px;">[error]</th>
+      <th style="text-align:left;"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">filepath</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">sample-rs-edge-whitespace/zh-Hans-CN.xliff</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">Descriptions</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Leading whitespace in target does not match leading whitespace in source</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">key</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">If the image isn't clear, select another pattern until the picture improves.</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">source</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">If the image isn't clear, select another pattern until the picture improves.</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">target</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Source: <span style="color:red"></span>If t… Target: <span style="color:red">⎵⎵</span>如果图像…</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">resource-edge-whitespace</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">Ensure that if there are whitespaces on edges of source string, matching ones are there in target as well</td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">More info</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">
+        <a href="https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md">https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md</a>
+      </td>
+    </tr>
+    <tr>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; font-weight:bold;">Auto-fix</td>
+      <td style="background:#eee; border-bottom:1px solid #ccc; border-top:1px solid #fff; padding-left:8px; padding-right:30px;">true</td>
+    </tr>
+  </tbody>
+</table>
+<br>"
+`;
+
+exports[`webOS output for the lint test lint result (webos-result.json) 1`] = `
+[
+  {
+    "autofix": "unavailable",
+    "description": "URL 'http://www.box.com' from the source string does not appear in the target string",
+    "highlight": "Target: This string is missing one URL: http://www.google.com<e0></e0>",
+    "key": "This string has multiple URLs in it: http://www.box.com and http://www.google.com",
+    "link": "https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-url-match.md",
+    "locale": "de-DE",
+    "path": "sample-basic/de-DE.xliff",
+    "ruleName": "resource-url-match",
+    "severity": "error",
+    "source": "This string has multiple URLs in it: http://www.box.com and http://www.google.com",
+  },
+  {
+    "autofix": "unavailable",
+    "description": "The named parameter '{params}' from the source string does not appear in the target string",
+    "highlight": "Target: This string is missing one URL: {sub}<e0></e0>",
+    "key": "This string has multiple {params} in it: {sub}",
+    "link": "https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-named-params.md",
+    "locale": "de-DE",
+    "path": "sample-basic/de-DE.xliff",
+    "ruleName": "resource-named-params",
+    "severity": "error",
+    "source": "This string has multiple {params} in it: {sub}",
+  },
+  {
+    "autofix": "unavailable",
+    "description": "The named parameter '{totalSpace}' from the source string does not appear in the target string",
+    "highlight": "Target: {freeSpace}{capaString}空き/totalSpace}{capaString}<e0></e0>",
+    "key": "{freeSpace}{capaString} Free / {totalSpace}{capaString}",
+    "link": "https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-named-params.md",
+    "locale": "ja-JP",
+    "path": "sample-basic/ja-JP.xliff",
+    "ruleName": "resource-named-params",
+    "severity": "error",
+    "source": "{freeSpace}{capaString} Free / {totalSpace}{capaString}",
+  },
+  {
+    "autofix": "unavailable",
+    "description": "The named parameter '{num}' from the source string does not appear in the target string",
+    "highlight": "Target: 144 Hz 부스터<e0></e0>",
+    "key": "{num} Hz Booster",
+    "link": "https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-named-params.md",
+    "locale": "ko-KR",
+    "path": "sample-basic/ko-KR.xliff",
+    "ruleName": "resource-named-params",
+    "severity": "error",
+    "source": "{num} Hz Booster",
+  },
+  {
+    "autofix": "unavailable",
+    "description": "Missing target string in resource",
+    "key": "{%1} mimute(s)",
+    "link": "https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-completeness.md",
+    "locale": "ko-KR",
+    "path": "sample-basic/ko-KR.xliff",
+    "ruleName": "resource-completeness",
+    "severity": "error",
+    "source": "{%1} mimute(s)",
+  },
+  {
+    "autofix": "unavailable",
+    "description": "Missing target string in resource",
+    "key": "{%1} second(s)",
+    "link": "https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-completeness.md",
+    "locale": "ko-KR",
+    "path": "sample-basic/ko-KR.xliff",
+    "ruleName": "resource-completeness",
+    "severity": "error",
+    "source": "{%1} second(s)",
+  },
+  {
+    "autofix": true,
+    "description": "Trailing whitespace in target does not match trailing whitespace in source",
+    "highlight": "Source: …lts.<e0></e0> Target: …ላሉ፡፡<e1>⎵</e1>",
+    "key": "You can use your Magic Remote to determine the room’s acoustics and optimize your TV’s sound quality based on the results.",
+    "link": "https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md",
+    "locale": "am-ET",
+    "path": "sample-rs-edge-whitespace/am-ET.xliff",
+    "ruleName": "resource-edge-whitespace",
+    "severity": "error",
+    "source": "You can use your Magic Remote to determine the room’s acoustics and optimize your TV’s sound quality based on the results.",
+  },
+  {
+    "autofix": true,
+    "description": "Trailing whitespace in target does not match trailing whitespace in source",
+    "highlight": "Source: …nce.<e0></e0> Target: …和外观。<e1>⎵⎵</e1>",
+    "key": "Select your remote's cursor speed and appearance.",
+    "link": "https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md",
+    "locale": "zh-Hans-CN",
+    "path": "sample-rs-edge-whitespace/zh-Hans-CN.xliff",
+    "ruleName": "resource-edge-whitespace",
+    "severity": "error",
+    "source": "Select your remote's cursor speed and appearance.",
+  },
+  {
+    "autofix": true,
+    "description": "Leading whitespace in target does not match leading whitespace in source",
+    "highlight": "Source: <e0></e0>pres… Target: <e1>⎵⎵</e1>按“确定…",
+    "key": "press OK button to go to next menu",
+    "link": "https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md",
+    "locale": "zh-Hans-CN",
+    "path": "sample-rs-edge-whitespace/zh-Hans-CN.xliff",
+    "ruleName": "resource-edge-whitespace",
+    "severity": "error",
+    "source": "press OK button to go to next menu",
+  },
+  {
+    "autofix": true,
+    "description": "Trailing whitespace in target does not match trailing whitespace in source",
+    "highlight": "Source: …menu<e0></e0> Target: …一个菜单<e1>⎵</e1>",
+    "key": "press OK button to go to next menu",
+    "link": "https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md",
+    "locale": "zh-Hans-CN",
+    "path": "sample-rs-edge-whitespace/zh-Hans-CN.xliff",
+    "ruleName": "resource-edge-whitespace",
+    "severity": "error",
+    "source": "press OK button to go to next menu",
+  },
+  {
+    "autofix": true,
+    "description": "Leading whitespace in target does not match leading whitespace in source",
+    "highlight": "Source: <e0></e0>If t… Target: <e1>⎵⎵</e1>如果图像…",
+    "key": "If the image isn't clear, select another pattern until the picture improves.",
+    "link": "https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md",
+    "locale": "zh-Hans-CN",
+    "path": "sample-rs-edge-whitespace/zh-Hans-CN.xliff",
+    "ruleName": "resource-edge-whitespace",
+    "severity": "error",
+    "source": "If the image isn't clear, select another pattern until the picture improves.",
+  },
+]
+`;

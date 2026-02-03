@@ -1,0 +1,36 @@
+{
+  "summary": {
+    "projectName": "av1",
+    "totalTime": 0.086,
+    "score": 96.5034965034965,
+    "resultStats": {
+      "errors": 1,
+      "warnings": 0,
+      "suggestions": 0
+    },
+    "fileStats": {
+      "files": 139,
+      "lines": 1386,
+      "bytes": 1104,
+      "modules": 138,
+      "words": 207
+    }
+  },
+  "rules": [
+    "resource-edge-whitespace"
+  ],
+  "details": [
+    {
+      "severity": "error",
+      "description": "Trailing whitespace in target does not match trailing whitespace in source",
+      "path": "ml-IN.xliff",
+      "locale": "ml-IN",
+      "autofix": true,
+      "source": "LG Electronics",
+      "key": "LG Electronics",
+      "highlight": "Source: …nics<e0></e0> Target: …nics<e1>⎵</e1>",
+      "ruleName": "resource-edge-whitespace",
+      "link": "https://github.com/iLib-js/ilib-mono/blob/main/packages/ilib-lint/docs/resource-edge-whitespace.md"
+    }
+  ]
+}

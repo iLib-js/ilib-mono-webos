@@ -1,5 +1,23 @@
 # ilib-loctool-webos-json-resource
 
+## 1.7.8
+
+### Patch Changes
+
+- b9022a3: Update dependencies. (loctool: 2.31.8)
+
+## 1.7.7
+
+### Patch Changes
+
+- 8c93a03: Update dependencies (loctool: 2.31.7)
+
+## 1.7.6
+
+### Patch Changes
+
+- fce7199: Update dependencies. (loctool: 2.31.3)
+
 ## 1.7.5
 
 ### Patch Changes

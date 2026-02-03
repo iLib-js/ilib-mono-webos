@@ -4,12 +4,12 @@
     "description": "Sample localization project",
     "repository": "git@github.com:iLib-js/ilib-mono-webos.git",
     "license": "Apache-2.0",
-    "version": "1.1.4",
+    "version": "1.1.8",
     "scripts": {
         "loc": "loctool -2 --xliffStyle webOS --localeMap es-CO:es,fr-CA:fr --localeInherit en-AU:en-GB",
         "debug": "node --inspect-brk node_modules/loctool/loctool.js -2 --xliffStyle webOS --localeMap es-CO:es,fr-CA:fr --localeInherit en-AU:en-GB",
-        "loc-generate": "loctool generate -2 -x xliffs --xliffStyle webOS --sourceLocale en-KR --resourceFileTypes json=webos-json-resource --resourceFileNames json=cppstrings.json --plugins webos-cpp -l en-AU,en-GB,ko-KR,es-CO,es-ES,fr-CA,fr-FR,ko-KR --localeMap es-CO:es,fr-CA:fr --localeInherit en-AU:en-GB --projectId sample-webos-cpp",
-        "loc-generate-debug": "node --inspect-brk node_modules/loctool/loctool.js generate -2 -x xliffs --xliffStyle webOS --sourceLocale en-KR --resourceFileTypes json=webos-json-resource --plugins webos-cpp -l en-AU,en-GB,ko-KR,es-CO,es-ES,ko-KR --localeMap es-CO:es,fr-CA:fr --localeInherit en-AU:en-GB --projectId sample-webos-cpp",
+        "loc-generate": "loctool generate -2 --translations xliffs --xliffStyle webOS --sourceLocale en-KR --resourceFileTypes json=webos-json-resource --resourceFileNames json=cppstrings.json --plugins webos-cpp -l en-AU,en-GB,ko-KR,es-CO,es-ES,fr-CA,fr-FR,ko-KR --localeMap es-CO:es,fr-CA:fr --localeInherit en-AU:en-GB --projectId sample-webos-cpp",
+        "loc-generate-debug": "node --inspect-brk node_modules/loctool/loctool.js generate -2 --translations xliffs --xliffStyle webOS --sourceLocale en-KR --resourceFileTypes json=webos-json-resource --plugins webos-cpp -l en-AU,en-GB,ko-KR,es-CO,es-ES,ko-KR --localeMap es-CO:es,fr-CA:fr --localeInherit en-AU:en-GB --projectId sample-webos-cpp",
         "clean": "rm -rf *.xliff resources",
         "coverage": "pnpm test --coverage",
         "test": "pnpm test:jest",
@@ -20,9 +20,9 @@
         "ilib-loctool-webos-cpp": "workspace:*",
         "ilib-loctool-webos-json-resource": "workspace:*",
         "ilib-loctool-webos-common": "workspace:*",
-        "loctool": "^2.31.1"
+        "loctool": "^2.31.8"
     },
     "devDependencies": {
-        "jest": "^30.0.5"
+        "jest": "^30.2.0"
     }
 }

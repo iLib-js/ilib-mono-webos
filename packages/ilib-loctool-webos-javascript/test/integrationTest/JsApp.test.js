@@ -29,21 +29,24 @@ describe('[integration] test the localization result of webos-js app', () => {
         if (fs.existsSync(defaultRSPath)) {
             fs.rmSync(defaultRSPath, { recursive: true });
         }
+
         const projectSettings = {
             rootDir: projectRoot,
             id: "sample-webos-js",
             projectType: "webos-js",
             sourceLocale: "en-KR",
-            pseudoLocale : {
-                "zxx-XX": "debug"
+            "pseudoLocale" : {
+                "zxx-XX": "debug",
+                "zxx-Hant-TW": "chinese-traditional-tw"
             },
             resourceDirs : { "json": "resources" },
             resourceFileTypes: { "json":"ilib-loctool-webos-json-resource" },
             plugins: [ "ilib-loctool-webos-javascript" ]
         };
+
         const appSettings = {
             localizeOnly: true,
-            translationsDir: "./xliffs",
+            translationsDir : ["./xliffs", "./common"],
             mode: "localize",
             metadata : {
                 "device-type": "Monitor"
@@ -51,9 +54,6 @@ describe('[integration] test the localization result of webos-js app', () => {
             xliffStyle: "webOS",
             xliffVersion: 2,
             nopseudo: false,
-            webos: {
-                "commonXliff": path.join(projectRoot, "./common")
-            },
             locales:[
                 "en-AU",
                 "en-GB",
@@ -61,6 +61,7 @@ describe('[integration] test the localization result of webos-js app', () => {
                 "es-CO",
                 "es-ES",
                 "ko-KR",
+                "zh-Hans-CN",
             ],
             localeMap: {
                 "es-CO": "es",
@@ -72,7 +73,7 @@ describe('[integration] test the localization result of webos-js app', () => {
         };
         const project = ProjectFactory.newProject(projectSettings, appSettings);
         project.addPath("src/sample.js");
-        
+
         if (project) {
             project.init(function() {
                 project.extract(function() {
@@ -168,5 +169,34 @@ describe('[integration] test the localization result of webos-js app', () => {
         expect(rb.getString("Time Settings").toString()).toBe("[Ťímë Šëţţíñğš6543210]");
         expect(rb.getString("Sound Out").toString()).toBe("[Šõüñð Øüţ43210]");
         expect(rb.getString("Programme").toString()).toBe("[Pŕõğŕàmmë43210]");
+    });
+    test("jssample_test_zhHansCN", function() {
+        expect.assertions(5);
+        let rb = new ResBundle({
+            locale:"zh-Hans-CN",
+            basePath : defaultRSPath
+        });
+        expect(rb).toBeTruthy();
+        expect(rb.getString("Hello").toString()).toBe("你好");
+        expect(rb.getString("Thank you").toString()).toBe("谢谢");
+        expect(rb.getString("Bye").toString()).toBe("再见");
+        expect(rb.getString("Time Settings").toString()).toBe("时间设置");
+    });
+    test("jssample_test_zxxHantTW", function() {
+        expect.assertions(7);
+
+        const xliffPath = path.join(process.cwd(), projectRoot, "xliffs");
+        expect((fs.existsSync(path.join(xliffPath, 'zh-Hans-CN.xliff')))).toBeTruthy();
+        expect(!(fs.existsSync(path.join(xliffPath, 'zh-Hans-TW.xliff')))).toBeTruthy();
+
+        let rb = new ResBundle({
+            locale:"zxx-Hant-TW",
+            basePath : defaultRSPath
+        });
+        expect(rb).toBeTruthy();
+        expect(rb.getString("Hello").toString()).toBe("你好"); // generated based on zh-Hans-CN translation
+        expect(rb.getString("Thank you").toString()).toBe("謝謝"); // generated based on zh-Hans-CN translation
+        expect(rb.getString("Bye").toString()).toBe("再見"); // generated based on zh-Hans-CN translation
+        expect(rb.getString("Time Settings").toString()).toBe("時間設定"); // generated based on zh-Hans-CN translation
     });
 });

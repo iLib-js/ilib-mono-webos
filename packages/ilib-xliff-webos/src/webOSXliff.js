@@ -130,10 +130,14 @@ class webOSXliff {
      * @param key
      * @param type
      * @param path
+     * @param ordinal
+     * @param quantity
+     * @param flavor
+     * @param datatype
      * @returns {String} the hash of the above parameters
      */
-    _hashKey(project, context, sourceLocale, targetLocale, source, key, type, path, ordinal, quantity, flavor) {
-        const hashkey = [source, key, type || "string", sourceLocale || this.sourceLocale, targetLocale || "", context || "", project, path || "", ordinal || "", quantity || "", flavor || ""].join("_");
+    _hashKey(project, context, sourceLocale, targetLocale, source, key, type, path, ordinal, quantity, flavor, datatype) {
+        const hashkey = [source, key, type || "string", sourceLocale || this.sourceLocale, targetLocale || "", context || "", project, path || "", ordinal || "", quantity || "", flavor || "", datatype].join("_");
         return hashkey;
     }
 
@@ -153,7 +157,7 @@ class webOSXliff {
      */
     addTranslationUnit = function(unit) {
         let oldUnit;
-        
+
         const hashKeySource = this._hashKey(unit.project, unit.context, unit.sourceLocale, "", unit.source, unit.key, unit.resType, unit.file, unit.ordinal, unit.quantity, unit.flavor, unit.datatype),
         hashKeyTarget = this._hashKey(unit.project, unit.context, unit.sourceLocale, unit.targetLocale, unit.source, unit.key, unit.resType, unit.file, unit.ordinal, unit.quantity, unit.flavor, unit.datatype);
 
@@ -222,35 +226,6 @@ class webOSXliff {
     }
 
     /**
-     * Return the line and character number on the line for any character
-     * position in the file. Assumes that countLines() has already been
-     * called to set up the line index;
-     * @private
-     */
-    charPositionToLocation(pos) {
-        // simple binary search
-        let left = 0, right = this.lineIndex.length-1;
-
-        while ((right - left) > 1) {
-            let middle = Math.trunc((left + right) / 2);
-            if (pos < this.lineIndex[middle]) {
-                right = middle;
-            } else if (pos > this.lineIndex[middle]) {
-                left = middle;
-            } else if (pos === this.lineIndex[middle]) {
-                return {
-                   line: middle,
-                   char: 0
-                };
-            }
-        }
-        return {
-            line: left,
-            char: pos - this.lineIndex[left]
-        };
-    }
-
-    /**
      * Serialize this xliff instance as an customized xliff 2.0 format string.
      * @return {String} the current instance encoded as an customized xliff 2.0
      * format string
@@ -272,15 +247,15 @@ class webOSXliff {
             xliff: {
                 _attributes: {
                     "xmlns": "urn:oasis:names:tc:xliff:document:2.0",
+                    "xmlns:mda": "urn:oasis:names:tc:xliff:metadata:2.0"
                 }
             }
         };
         // now finally add each of the units to the json
         let files = {};
-        let index = 1;
         let fileIndex = 1;
-        let datatype;
-        let groupIndex = 1;
+        let groupIndexMap = {}; // key: project+datatype, value: groupIndex
+        let unitIndexMap = {};  // key: project+groupIndex, value: unitIndex
 
         for (let i = 0; i < units.length; i++) {
             let tu = units[i];
@@ -288,6 +263,14 @@ class webOSXliff {
                 console.log("undefined?");
             }
             let hashKey = tu.project;
+            let datatype = tu.datatype || "javascript";
+            let groupKey = hashKey + "_" + datatype;
+
+            if (!groupIndexMap[groupKey]) {
+                groupIndexMap[groupKey] = Object.keys(groupIndexMap).length + 1;
+            }
+            let groupIndex = groupIndexMap[groupKey];
+
             let file = files[hashKey];
             if (!file) {
                 files[hashKey] = file = {
@@ -295,85 +278,68 @@ class webOSXliff {
                         "id": tu.project + "_f" + fileIndex++,
                         "original": tu.project
                     },
-                    group : [
-                        {
-                            _attributes: {
-                                "id": tu.project + "_g" + groupIndex++,
-                                "name": tu.datatype || "javascript"
-                        },
-                        unit: []
-                    }
-                ]
-            };
-        }
-
-        let tujson = {
-            _attributes: {
-                "id": (tu.id || index++),
-                 "name": (tu.source !== tu.key) ? escapeAttr(tu.key) : undefined,
+                    group: []
+                };
             }
-        };
 
-        if (tu.metadata) {
-            tujson["mda:metadata"] = tu.metadata
-            hasMetadata = true;
-        }
-
-        if (tu.comment) {
-            tujson.notes = {
-                "note": [
-                    {
-                        "_text": tu.comment
-                    }
-                ]
-            };
-        }
-
-        tujson.segment = [
-            {
-                "source": {
-                    "_text": tu.source
-                }
+            let groupSet = file.group.find(g => g._attributes.name === datatype);
+            if (!groupSet) {
+                groupSet = {
+                    _attributes: {
+                        "id": tu.project + "_g" + groupIndex,
+                        "name": datatype
+                    },
+                    unit: []
+                };
+                file.group.push(groupSet);
             }
-        ];
 
-        if (tu.id && tu.id > index) {
-            index = tu.id + 1;
-        }
+            let unitKey = tu.project + "_g" + groupIndex;
+            if (!unitIndexMap[unitKey]) {
+                unitIndexMap[unitKey] = 1;
+            }
+            let unitIndex = unitIndexMap[unitKey]++;
 
-        if (tu.target) {
-            tujson.segment[0].target = {
+            let tujson = {
                 _attributes: {
-                    state: tu.state,
-                },
-                "_text": tu.target
+                    "id": tu.project + "_g" + groupIndex + "_" + unitIndex,
+                    "name": (tu.source !== tu.key) ? escapeAttr(tu.key) : undefined,
+                }
             };
-        }
 
-        datatype = tu.datatype || "javascript";
-        if (!files[hashKey].group) {
-            files[hashKey].group = [];
-        }
-
-        let groupSet = {
-            _attributes: {},
-            unit: []
-        }
-
-        let existGroup = files[hashKey].group.filter(function(item) {
-            if (item._attributes.name === datatype) {
-                return item;
+            if (tu.metadata) {
+                tujson["mda:metadata"] = tu.metadata
+                hasMetadata = true;
             }
-        })
 
-        if (existGroup.length > 0) {
-            existGroup[0].unit.push(tujson);
-        } else {
-            groupSet._attributes.id = tu.project+ "_g" + groupIndex++;
-            groupSet._attributes.name = datatype;
-            files[hashKey].group.push(groupSet);
+            if (tu.comment) {
+                tujson.notes = {
+                    "note": [
+                        {
+                            "_text": tu.comment
+                        }
+                    ]
+                };
+            }
+
+            tujson.segment = [
+                {
+                    "source": {
+                        "_text": tu.source
+                    }
+                }
+            ];
+
+            if (tu.target) {
+                tujson.segment[0].target = {
+                    _attributes: {
+                        state: tu.state,
+                    },
+                    "_text": tu.target
+                };
+            }
+
             groupSet.unit.push(tujson);
-        }
         }
 
         // sort the file tags so that they come out in the same order each time
@@ -384,19 +350,20 @@ class webOSXliff {
             json.xliff.file.push(files[fileHashKey]);
         });
 
-        if (hasMetadata) {
+        /*if (hasMetadata) {
             json.xliff._attributes["xmlns:mda"] = "urn:oasis:names:tc:xliff:metadata:2.0";
-        }
+        }*/
+
         json.xliff._attributes.srcLang = sourceLocale;
         if (targetLocale) {
             json.xliff._attributes.trgLang = targetLocale;
         }
         json.xliff._attributes.version = versionString(this.version);
 
-        let xml = '<?xml version="1.0" encoding="utf-8"?>\n' + xmljs.js2xml(json, {
+        let xml = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n' + xmljs.js2xml(json, {
             compact: true,
             spaces: 2
-        });
+        }).trimEnd() + '\n\n';
 
         return xml;
     }
@@ -416,7 +383,7 @@ class webOSXliff {
             trim: false,
             nativeTypeAttribute: true,
             compact: true,
-            position: true
+            position: false
         });
         this.countLines(xml);
         this.parse(json.xliff, resfile);
@@ -470,20 +437,18 @@ class webOSXliff {
                             if (tu._attributes.type && tu._attributes.type.startsWith("res:")) {
                                 restype = tu._attributes.type.substring(4);
                             }
-                            if (tu._position) {
-                                location = this.charPositionToLocation(tu._position);
-                            }
+
                             if (tu.segment) {
                                 let segments = makeArray(tu.segment);
                                 for (let j = 0; j < segments.length; j++) {
                                     let segment = segments[j];
                                     if (segment.source["_text"]) {
-                                        source += segment.source["_text"];
+                                        source += segment.source["_text"] ?? "";
                                         if (segment.target) {
-                                            target += segment.target["_text"];
-                                            if (segment.target.state) {
-                                                state = segment.target._attributes.state;
-                                            }
+                                            target += segment.target["_text"] ?? "";
+                                            state = segment.target?._attributes?.state;
+                                        } else {
+                                            target = undefined;
                                         }
                                     }
                                 }
@@ -511,7 +476,8 @@ class webOSXliff {
                                         flavor: fileSettings.flavor,
                                         metadata: tu['mda:metadata'] || undefined,
                                         location,
-                                        resfile
+                                        resfile,
+                                        sourceHash: JSUtils.hashCode(source.trim())
                                     };
 
                                     let unit = new TranslationUnit(commonProperties);
@@ -587,7 +553,7 @@ class webOSXliff {
         this.tu = [];
         this.tuhash = {};
     }
-    
+
 }
 
 export default webOSXliff;

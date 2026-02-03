@@ -1,6 +1,6 @@
 {
     "name": "ilib-loctool-webos-json-resource",
-    "version": "1.7.5",
+    "version": "1.7.8",
     "main": "./JSONResourceFileType.js",
     "description": "A loctool plugin that knows how to process JSON resource files",
     "license": "Apache-2.0",
@@ -37,7 +37,7 @@
     ],
     "repository": {
         "type": "git",
-        "url": "git@github.com:iLib-js/ilib-mono-webos.git",
+        "url": "https://github.com/iLib-js/ilib-mono-webos",
         "directory": "packages/ilib-loctool-webos-json-resource"
     },
     "homepage": "https://github.com/iLib-js/ilib-mono-webos/blob/main/packages/ilib-loctool-webos-json-resource",
@@ -53,13 +53,13 @@
         "node": ">=10.0.0"
     },
     "dependencies": {
-        "ilib": "^14.21.1"
+        "ilib": "^14.21.2"
     },
     "peerDependencies": {
-        "loctool": "2.31.1"
+        "loctool": "2.31.8"
     },
     "devDependencies": {
-        "jest": "^30.0.5",
-        "loctool": "2.31.1"
+        "jest": "^30.2.0",
+        "loctool": "2.31.8"
     }
 }

@@ -1,12 +1,12 @@
 {
     "name": "ilib-loctool-webos-dist",
-    "version": "1.20.1",
+    "version": "1.20.5",
     "description": "Full-featured build environment for webOS localization",
     "main": "index.js",
     "license": "Apache-2.0",
     "repository": {
         "type": "git",
-        "url": "git@github.com:iLib-js/ilib-mono-webos.git",
+        "url": "https://github.com/iLib-js/ilib-mono-webos",
         "directory": "packages/ilib-loctool-webos-dist"
     },
     "homepage": "https://github.com/iLib-js/ilib-mono-webos/blob/main/packages/ilib-loctool-webos-dist",
@@ -37,6 +37,6 @@
         "ilib-loctool-webos-json-resource": "workspace:*",
         "ilib-loctool-webos-qml": "workspace:*",
         "ilib-loctool-webos-ts-resource": "workspace:*",
-        "loctool": "2.31.1"
+        "loctool": "2.31.8"
     }
 }

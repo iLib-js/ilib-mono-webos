@@ -25,6 +25,6 @@
         "MockResourceFile.js"
     ],
     "dependencies": {
-        "ilib": "^14.21.1"
+        "ilib": "^14.21.2"
     }
 }

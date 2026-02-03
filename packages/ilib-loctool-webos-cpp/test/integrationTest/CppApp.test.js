@@ -48,7 +48,7 @@ describe("[integration] test the localization result of webos-cpp app", () => {
 
         const appSettings = {
             localizeOnly: true,
-            translationsDir: "./xliffs",
+            translationsDir : ["./xliffs", "./common"],
             mode: "localize",
             metadata : {
                 "device-type": "StanbyME"
@@ -57,9 +57,6 @@ describe("[integration] test the localization result of webos-cpp app", () => {
             xliffStyle: "webOS",
             nopseudo: false,
             resourceFileNames: { "cpp": fileName },
-            webos: {
-                "commonXliff": path.join(projectRoot, "./common")
-            },
             locales:[
                 "en-AU",
                 "en-GB",

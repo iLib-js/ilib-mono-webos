@@ -23,7 +23,7 @@
         "subDirCase"
     ],
     "settings": {
-        "translationsDir": "./xliffs",
+        "translationsDir": ["./xliffs", "./common"],
         "locales":[
             "en-AU",
             "en-GB",
@@ -39,9 +39,6 @@
             "zh-Hant-HK",
             "zh-Hant-TW"
         ],
-        "webos": {
-            "commonXliff": "./common"
-        },
         "jsonMap": {
             "mappings": {
                 "**/appinfo.json": {

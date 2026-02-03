@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xliff version="2.0" srcLang="en-KR" trgLang="zh-Hans-CN" xmlns:l="http://ilib-js.com/loctool">
+  <file id="sample-webos-js_f1" original="sample-webos-js">
+    <group id="sample-webos-js_g1" name="javascript">
+      <unit id="1">
+        <segment>
+          <source>Hello</source>
+          <target>你好</target>
+        </segment>
+      </unit>
+      <unit id="2">
+        <segment>
+          <source>Thank you</source>
+          <target>谢谢</target>
+        </segment>
+      </unit>
+      <unit id="3">
+        <segment>
+          <source>Bye</source>
+          <target>再见</target>
+        </segment>
+      </unit>
+      <unit id="4">
+        <segment>
+          <source>Time Settings</source>
+          <target>时间设置</target>
+        </segment>
+      </unit>
+    </group>
+  </file>
+</xliff>
+

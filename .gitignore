@@ -24,3 +24,7 @@ assets2/
 
 # Output of the test
 packages/ilib-loctool-webos-json-resource/testfiles
+
+packages/samples-lint/sample-rs-edge-whitespace/*.modified
+packages/samples-lint/webos-result.html
+packages/samples-lint/webos-result.json

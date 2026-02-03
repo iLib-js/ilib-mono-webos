@@ -1,6 +1,6 @@
 {
     "name": "ilib-loctool-webos-dart",
-    "version": "1.4.0",
+    "version": "1.5.1",
     "main": "./DartFileType.js",
     "description": "A loctool plugin that knows how to process JS files",
     "license": "Apache-2.0",
@@ -35,7 +35,7 @@
     ],
     "repository": {
         "type": "git",
-        "url": "git@github.com:iLib-js/ilib-mono-webos.git",
+        "url": "https://github.com/iLib-js/ilib-mono-webos",
         "directory": "packages/ilib-loctool-webos-dart"
     },
     "homepage": "https://github.com/iLib-js/ilib-mono-webos/blob/main/packages/ilib-loctool-webos-dart",
@@ -53,14 +53,14 @@
     "dependencies": {
         "ilib-loctool-webos-json-resource": "workspace:*",
         "ilib-loctool-webos-common": "workspace:*",
-        "ilib": "^14.21.1",
+        "ilib": "^14.21.2",
         "micromatch": "^4.0.8"
     },
     "peerDependencies": {
-        "loctool": "2.31.1"
+        "loctool": "2.31.8"
     },
     "devDependencies": {
-        "jest": "^30.0.5",
-        "loctool": "2.31.1"
+        "jest": "^30.2.0",
+        "loctool": "2.31.8"
     }
 }

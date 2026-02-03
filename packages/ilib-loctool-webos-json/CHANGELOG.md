@@ -1,5 +1,34 @@
 # ilib-loctool-webos-json
 
+## 1.2.1
+
+### Patch Changes
+
+- b9022a3: Update dependencies. (loctool: 2.31.8)
+
+## 1.2.0
+
+### Minor Changes
+
+- 9622569: - Remove common xliff loading logic
+  `commonXliff` of settings is deprecated.
+  Instead, add the common data path to `translationsDir` as shown below.
+  ```
+   translationsDir : ["./xliffs", "./common"],
+  ```
+
+## 1.1.14
+
+### Patch Changes
+
+- 8c93a03: Update dependencies (loctool: 2.31.7)
+
+## 1.1.13
+
+### Patch Changes
+
+- fce7199: Update dependencies. (loctool: 2.31.3)
+
 ## 1.1.12
 
 ### Patch Changes

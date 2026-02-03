@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="ko-KR" version="2.0">
+ <file id="sample-basic_f1" original="sample-basic">
+  <group id="sample-basic_g1" name="javascript">
+   <unit id="sample-basic_g1_1">
+    <segment>
+     <source>{%1} hour(s)</source>
+     <target>{%1} 시간</target>
+    </segment>
+   </unit>
+   <unit id="sample-basic_g1_2"> <!-- rule: resource-named-params-->
+    <segment>
+     <source>{num} Hz Booster</source>
+     <target>144 Hz 부스터</target>
+    </segment>
+   </unit>
+   <unit id="sample-basic_g1_3">
+    <segment>
+     <source>{%1} mimute(s)</source> <!-- rule: resource-completeness-->
+    </segment>
+   </unit>
+   <unit id="sample-basic_g1_4">
+    <segment>
+     <source>{%1} second(s)</source> <!-- rule: resource-completeness-->
+     <target></target>
+    </segment>
+   </unit>
+  </group>
+ </file>
+</xliff>

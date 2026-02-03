@@ -1,5 +1,43 @@
 # ilib-loctool-webos-dart
 
+## 1.5.1
+
+### Patch Changes
+
+- b9022a3: Update dependencies. (loctool: 2.31.8)
+- Updated dependencies [b9022a3]
+  - ilib-loctool-webos-json-resource@1.7.8
+  - ilib-loctool-webos-common@1.2.3
+
+## 1.5.0
+
+### Minor Changes
+
+- 9622569: - Remove common xliff loading logic
+  `commonXliff` of settings is deprecated.
+  Instead, add the common data path to `translationsDir` as shown below.
+  ```
+   translationsDir : ["./xliffs", "./common"],
+  ```
+
+## 1.4.2
+
+### Patch Changes
+
+- 8c93a03: Update dependencies (loctool: 2.31.7)
+- Updated dependencies [8c93a03]
+  - ilib-loctool-webos-json-resource@1.7.7
+  - ilib-loctool-webos-common@1.2.2
+
+## 1.4.1
+
+### Patch Changes
+
+- fce7199: Update dependencies. (loctool: 2.31.3)
+- Updated dependencies [fce7199]
+  - ilib-loctool-webos-json-resource@1.7.6
+  - ilib-loctool-webos-common@1.2.1
+
 ## 1.4.0
 
 ### Minor Changes

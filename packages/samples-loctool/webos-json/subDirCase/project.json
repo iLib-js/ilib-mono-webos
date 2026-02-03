@@ -22,7 +22,7 @@
         "common"
     ],
     "settings": {
-        "translationsDir": "./xliffs",
+        "translationsDir": ["./xliffs", "./common"],
         "locales":[
             "en-GB",
             "en-US",
@@ -30,9 +30,6 @@
             "ru-RU",
             "zh-Hans-CN"
         ],
-        "webos": {
-            "commonXliff": "./common"
-        },
         "jsonMap": {
             "mappings": {
                 "**/appinfo.json": {

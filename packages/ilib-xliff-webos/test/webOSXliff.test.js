@@ -20,9 +20,10 @@
 
 import webOSXliff from "../src/webOSXliff.js";
 import TranslationUnit from "../src/TranslationUnit.js";
+import { JSUtils } from 'ilib-common';
 
 describe("webOSXliff", () => {
-    test("should create webOSXliffinstance", () => {
+    test("should create webOSXliff instance", () => {
         expect.assertions(1);
         var x = new webOSXliff();
         expect(x).toBeTruthy();
@@ -67,7 +68,7 @@ describe("webOSXliff", () => {
         expect(x.sourceLocale).toBe("en-KR");
         expect(x.path).toBe("a/b/ko-KR.xliff");
     });
-    test("should add translation unit to webOS  xliff", () => {
+    test("should add translation unit to webOS xliff", () => {
         expect.assertions(11);
         const x = new webOSXliff();
         expect(x).toBeTruthy();
@@ -99,7 +100,7 @@ describe("webOSXliff", () => {
         expect(tulist[0].project).toBe("webapp");
         expect(tulist[0].datatype).toBe("javascript");
     });
-    test("should add multiple translation units to webOS  xliff", () => {
+    test("should add multiple translation units to webOS xliff", () => {
         expect.assertions(19);
         const x = new webOSXliff();
         expect(x).toBeTruthy();
@@ -140,7 +141,7 @@ describe("webOSXliff", () => {
         expect(tulist[0].sourceLocale).toBe("en-KR");
         expect(tulist[0].key).toBe("foobar");
         expect(tulist[0].file).toBe("foo/bar/asdf.js");
-        expect(tulist[0].state).toBe("new"); 
+        expect(tulist[0].state).toBe("new");
         expect(tulist[0].comment).toBe("This is a comment");
         expect(tulist[0].project).toBe("webapp");
         expect(tulist[0].datatype).toBe("javascript");
@@ -154,7 +155,7 @@ describe("webOSXliff", () => {
         expect(tulist[1].project).toBe("webapp");
         expect(tulist[1].datatype).toBe("javascript");
     });
-    test("should handle adding same translation unit twice in webOS  xliff", () => {
+    test("should handle adding same translation unit twice in webOS xliff", () => {
         expect.assertions(11);
         const x = new webOSXliff();
         expect(x).toBeTruthy();
@@ -321,11 +322,11 @@ describe("webOSXliff", () => {
 
         let actual = x.serialize();
         let expected =
-            '<?xml version="1.0" encoding="utf-8"?>\n' +
-            '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" version="2.0">\n' +
+            '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n' +
+            '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:mda="urn:oasis:names:tc:xliff:metadata:2.0" srcLang="en-KR" version="2.0">\n' +
             '  <file id="webapp_f1" original="webapp">\n' +
             '    <group id="webapp_g1" name="javascript">\n' +
-            '      <unit id="1" name="foobar">\n' +
+            '      <unit id="webapp_g1_1" name="foobar">\n' +
             '        <notes>\n' +
             '          <note>This is a comment</note>\n' +
             '        </notes>\n' +
@@ -335,7 +336,7 @@ describe("webOSXliff", () => {
             '      </unit>\n' +
             '    </group>\n' +
             '  </file>\n' +
-            '</xliff>';
+            '</xliff>\n\n';
 
         expect(actual).toBe(expected);
     });
@@ -360,11 +361,11 @@ describe("webOSXliff", () => {
 
         let actual = x.serialize();
         let expected =
-            '<?xml version="1.0" encoding="utf-8"?>\n' +
-            '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="de-DE" version="2.0">\n' +
+            '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n' +
+            '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:mda="urn:oasis:names:tc:xliff:metadata:2.0" srcLang="en-KR" trgLang="de-DE" version="2.0">\n' +
             '  <file id="webapp_f1" original="webapp">\n' +
             '    <group id="webapp_g1" name="javascript">\n' +
-            '      <unit id="1" name="foobar">\n' +
+            '      <unit id="webapp_g1_1" name="foobar">\n' +
             '        <notes>\n' +
             '          <note>This is a comment</note>\n' +
             '        </notes>\n' +
@@ -375,7 +376,72 @@ describe("webOSXliff", () => {
             '      </unit>\n' +
             '    </group>\n' +
             '  </file>\n' +
-            '</xliff>';
+            '</xliff>\n\n';
+
+        expect(actual).toBe(expected);
+    });
+    test('should serialize with metadata', () => {
+        const x = new webOSXliff();
+        expect(x).toBeTruthy();
+        const tu = new TranslationUnit({
+            source: "NOT AVAILABLE",
+            sourceLocale: "en-KR",
+            target: "이용이 불가능합니다",
+            targetLocale: "ko-KR",
+            key: "NOT AVAILABLE",
+            file: "foo/bar/asdf.js",
+            project: "webapp",
+            resType: "string",
+            datatype: "javascript"
+        });
+        tu.metadata = {
+            "mda:metaGroup": {
+                "mda:meta": [
+                    {
+                        "_attributes" : {"type": "Monitor"},
+                        "_text": "\"Monitor\" 이용이 불가능합니다"
+                    },
+                    {
+                        "_attributes" : {"type": "Box"},
+                        "_text": "\"Box\" 이용이 불가능합니다"
+                    },
+                    {
+                        "_attributes" : {"type": "SoundBar"},
+                        "_text": "\"SoundBar\" 이용이 불가능합니다"
+                    }
+                ],
+                "_attributes": {
+                    "category": "device-type"
+                }
+            }
+        }
+
+        x.addTranslationUnit(tu);
+
+        let actual = x.serialize();
+        let expected =
+            '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n' +
+            '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" ' +
+            'xmlns:mda="urn:oasis:names:tc:xliff:metadata:2.0" ' +
+            'srcLang="en-KR" trgLang="ko-KR" version="2.0">\n' +
+            '  <file id="webapp_f1" original="webapp">\n' +
+            '    <group id="webapp_g1" name="javascript">\n' +
+            '      <unit id="webapp_g1_1">\n' +
+            '        <mda:metadata>\n' +
+            '          <mda:metaGroup category="device-type">\n' +
+            '            <mda:meta type="Monitor">"Monitor" 이용이 불가능합니다</mda:meta>\n' +
+            '            <mda:meta type="Box">"Box" 이용이 불가능합니다</mda:meta>\n' +
+            '            <mda:meta type="SoundBar">"SoundBar" 이용이 불가능합니다</mda:meta>\n' +
+            '          </mda:metaGroup>\n' +
+            '        </mda:metadata>\n' +
+            '        <segment>\n' +
+            '          <source>NOT AVAILABLE</source>\n' +
+            '          <target>이용이 불가능합니다</target>\n' +
+            '        </segment>\n' +
+            '      </unit>\n' +
+            '    </group>\n' +
+            '  </file>\n' +
+            '</xliff>\n\n';
 
         expect(actual).toBe(expected);
     });
@@ -385,11 +451,11 @@ describe("webOSXliff", () => {
         expect(x.getLines()).toBe(0);
 
         x.deserialize(
-        '<?xml version="1.0" encoding="utf-8"?>\n' +
+        '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n' +
         '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="de-DE" version="2.0">\n' +
-        '  <file id="sample_f1" original="sample-webos-c">\n' +
+        '  <file id="sample_f1" original="sample">\n' +
         '      <group id="sample_g1" name="c">\n' +
-        '        <unit id="1">\n' +
+        '        <unit id="sample_g1_1">\n' +
         '          <segment>\n' +
         '            <source>Asdf asdf</source>\n' +
         '            <target>foobarfoo</target>\n' +
@@ -434,7 +500,7 @@ describe("webOSXliff", () => {
 
         let actual = x.serialize();
         expect(actual).toBeTruthy();
-        expect(x.getLines()).toBe(23);
+        expect(x.getLines()).toBe(25);
     });
     test('should get bytes count after deserialization', () => {
         const x = new webOSXliff();
@@ -443,11 +509,11 @@ describe("webOSXliff", () => {
         expect(x.getBytes()).toBe(0);
 
         x.deserialize(
-        '<?xml version="1.0" encoding="utf-8"?>\n' +
+        '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n' +
         '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="de-DE" version="2.0">\n' +
-        '  <file id="sample_f1" original="sample-webos-c">\n' +
+        '  <file id="sample_f1" original="sample">\n' +
         '      <group id="sample_g1" name="c">\n' +
-        '        <unit id="1">\n' +
+        '        <unit id="sample_g1_1">\n' +
         '          <segment>\n' +
         '            <source>Asdf asdf</source>\n' +
         '            <target>foobarfoo</target>\n' +
@@ -457,7 +523,7 @@ describe("webOSXliff", () => {
         '  </file>\n' +
         '</xliff>');
 
-        expect(x.getBytes()).toBe(417);
+        expect(x.getBytes()).toBe(435);
     });
     test('should get bytes count after serialization', () => {
         const x = new webOSXliff();
@@ -492,18 +558,18 @@ describe("webOSXliff", () => {
 
         let actual = x.serialize();
         expect(actual).toBeTruthy();
-        expect(x.getBytes()).toBe(700);
+        expect(x.getBytes()).toBe(792);
     });
     test('should deserialize webOS XLIFF', () => {
         const x = new webOSXliff();
         expect(x).toBeTruthy();
 
         x.deserialize(
-        '<?xml version="1.0" encoding="utf-8"?>\n' +
+        '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n' +
         '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="de-DE" version="2.0">\n' +
-        '  <file id="sample_f1" original="sample-webos-c">\n' +
+        '  <file id="sample_f1" original="sample">\n' +
         '      <group id="sample_g1" name="c">\n' +
-        '        <unit id="1">\n' +
+        '        <unit id="sample_g1_1">\n' +
         '          <segment>\n' +
         '            <source>Asdf asdf</source>\n' +
         '            <target>foobarfoo</target>\n' +
@@ -528,11 +594,11 @@ describe("webOSXliff", () => {
         expect(x).toBeTruthy();
 
         x.deserialize(
-                '<?xml version="1.0" encoding="utf-8"?>\n' +
+                '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n' +
                 '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="de-DE" version="2.0">\n' +
-                '  <file id="sample_f1" original="sample-webos-c">\n' +
-                '    <group id="sample_g1" name="c">\n' +
-                '      <unit id="1" name="foobar">\n' +
+                '  <file id="sample1_f1" original="sample1">\n' +
+                '    <group id="sample1_g1" name="c">\n' +
+                '      <unit id="sample1_g1_1" name="foobar">\n' +
                 '        <segment>\n' +
                 '          <source>Asdf asdf</source>\n' +
                 '          <target>foobarfoo</target>\n' +
@@ -540,9 +606,9 @@ describe("webOSXliff", () => {
                 '      </unit>\n' +
                 '    </group>\n' +
                 '  </file>\n' +
-                '  <file id="sample_f2" original="sample-webos-c">\n' +
-                '    <group id="sample_g2" name="c">\n' +
-                '      <unit id="2" name="huzzah">\n' +
+                '  <file id="sample2_f2" original="sample2">\n' +
+                '    <group id="sample2_g2" name="c">\n' +
+                '      <unit id="sample2_g2_1" name="huzzah">\n' +
                 '        <segment>\n' +
                 '          <source>baby baby</source>\n' +
                 '          <target>bebe bebe</target>\n' +
@@ -560,10 +626,10 @@ describe("webOSXliff", () => {
         expect(tulist[0].source).toBe("Asdf asdf");
         expect(tulist[0].sourceLocale).toBe("en-KR");
         expect(tulist[0].key).toBe("foobar");
-        expect(tulist[0].file).toBe("sample-webos-c");
-        expect(tulist[0].project).toBe("sample-webos-c");
+        expect(tulist[0].file).toBe("sample1");
+        expect(tulist[0].project).toBe("sample1");
         expect(tulist[0].resType).toBe("string");
-        expect(tulist[0].id).toBe("1");
+        expect(tulist[0].id).toBe("sample1_g1_1");
         expect(tulist[0].target).toBe("foobarfoo");
         expect(tulist[0].targetLocale).toBe("de-DE");
         expect(tulist[0].resfile).toBe("a/b/c/resfile.xliff");
@@ -571,10 +637,10 @@ describe("webOSXliff", () => {
         expect(tulist[1].source).toBe("baby baby");
         expect(tulist[1].sourceLocale).toBe("en-KR");
         expect(tulist[1].key).toBe("huzzah");
-        expect(tulist[1].file).toBe("sample-webos-c");
-        expect(tulist[1].project).toBe("sample-webos-c");
+        expect(tulist[1].file).toBe("sample2");
+        expect(tulist[1].project).toBe("sample2");
         expect(tulist[1].resType).toBe("string");
-        expect(tulist[1].id).toBe("2");
+        expect(tulist[1].id).toBe("sample2_g2_1");
         expect(tulist[1].target).toBe("bebe bebe");
         expect(tulist[1].targetLocale).toBe("de-DE");
         expect(tulist[1].resfile).toBe("a/b/c/resfile.xliff");
@@ -584,20 +650,20 @@ describe("webOSXliff", () => {
         expect(x).toBeTruthy();
 
         x.deserialize(
-                '<?xml version="1.0" encoding="utf-8"?>\n' +
+                '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n' +
                 '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="en-CA" version="2.0">\n' +
-                '  <file id="sample_f1" original="sample-webos-js">\n' +
-                '    <group id="sample_g1" name="javascript">\n' +
-                '      <unit id="1" name="foobar\\nbar\\t">\n' +
+                '  <file id="sample1_f1" original="sample1">\n' +
+                '    <group id="sample1_g1" name="javascript">\n' +
+                '      <unit id="sample1_g1_1" name="foobar\\nbar\\t">\n' +
                 '        <segment>\n' +
                 '          <source>a\\nb</source>\n' +
                 '        </segment>\n' +
                 '      </unit>\n' +
                 '    </group>\n' +
                 '  </file>\n' +
-                '  <file id="sample_f2" original="sample-webos-js">\n' +
-                '    <group id="sample_g1" name="javascript">\n' +
-                '      <unit id="2" name="huzzah\\n\\na plague on both your houses">\n' +
+                '  <file id="sample2_f2" original="sample2">\n' +
+                '    <group id="sample2_g2" name="javascript">\n' +
+                '      <unit id="sample2_g2_1" name="huzzah\\n\\na plague on both your houses">\n' +
                 '        <segment>\n' +
                 '          <source>e\\nh</source>\n' +
                 '        </segment>\n' +
@@ -614,29 +680,29 @@ describe("webOSXliff", () => {
         expect(tulist[0].source).toBe("a\\nb");
         expect(tulist[0].sourceLocale).toBe("en-KR");
         expect(tulist[0].key).toBe("foobar\\nbar\\t");
-        expect(tulist[0].file).toBe("sample-webos-js");
-        expect(tulist[0].project).toBe("sample-webos-js");
+        expect(tulist[0].file).toBe("sample1");
+        expect(tulist[0].project).toBe("sample1");
         expect(tulist[0].resType).toBe("string");
-        expect(tulist[0].id).toBe("1");
+        expect(tulist[0].id).toBe("sample1_g1_1");
 
         expect(tulist[1].source).toBe("e\\nh");
         expect(tulist[1].sourceLocale).toBe("en-KR");
         expect(tulist[1].key).toBe("huzzah\\n\\na plague on both your houses");
-        expect(tulist[1].file).toBe("sample-webos-js");
-        expect(tulist[1].project).toBe("sample-webos-js");
+        expect(tulist[1].file).toBe("sample2");
+        expect(tulist[1].project).toBe("sample2");
         expect(tulist[1].resType).toBe("string");
-        expect(tulist[1].id).toBe("2");
+        expect(tulist[1].id).toBe("sample2_g2_1");
     });
     test('should deserialize XLIFF 2.0 with empty source', () => {
         const x = new webOSXliff();
         expect(x).toBeTruthy();
 
         x.deserialize(
-                '<?xml version="1.0" encoding="utf-8"?>\n' +
+                '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n' +
                 '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="fr-FR" version="2.0">\n' +
-                '  <file id="sample_f1" original="sample-webos-js">\n' +
-                '    <group id="sample_g1" name="javascript">\n' +
-                '      <unit id="1" name="foobar">\n' +
+                '  <file id="sample1_f1" original="sample1">\n' +
+                '    <group id="sample1_g1" name="javascript">\n' +
+                '      <unit id="sample1_g1_1" name="foobar">\n' +
                 '        <segment>\n' +
                 '          <source></source>\n' +
                 '          <target>Baby Baby</target>\n' +
@@ -644,9 +710,9 @@ describe("webOSXliff", () => {
                 '      </unit>\n' +
                 '    </group>\n' +
                 '  </file>\n' +
-                '  <file id="sample_f2" original="sample-webos-js">\n' +
-                '    <group id="sample_g1" name="javascript">\n' +
-                '      <unit id="2" name="huzzah">\n' +
+                '  <file id="sample2_f2" original="sample2">\n' +
+                '    <group id="sample2_g2" name="javascript">\n' +
+                '      <unit id="sample2_g2_1" name="huzzah">\n' +
                 '        <segment>\n' +
                 '          <source>baby baby</source>\n' +
                 '          <target>bebe bebe</target>\n' +
@@ -664,34 +730,35 @@ describe("webOSXliff", () => {
         expect(tulist[0].source).toBe("baby baby");
         expect(tulist[0].sourceLocale).toBe("en-KR");
         expect(tulist[0].key).toBe("huzzah");
-        expect(tulist[0].file).toBe("sample-webos-js");
-        expect(tulist[0].project).toBe("sample-webos-js");
+        expect(tulist[0].file).toBe("sample2");
+        expect(tulist[0].project).toBe("sample2");
         expect(tulist[0].resType).toBe("string");
-        expect(tulist[0].id).toBe("2");
-
+        expect(tulist[0].id).toBe("sample2_g2_1");
         expect(tulist[0].target).toBe("bebe bebe");
         expect(tulist[0].targetLocale).toBe("fr-FR");
+
+        const item_sourceHash = JSUtils.hashCode(tulist[0].source.trim());
+        expect(tulist[0].sourceHash).toBe(item_sourceHash);
     });
 
     test('should deserialize XLIFF 2.0 with empty target', () => {
         const x = new webOSXliff();
         expect(x).toBeTruthy();
-
         x.deserialize(
-                '<?xml version="1.0" encoding="utf-8"?>\n' +
+                '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n' +
                 '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="fr-FR" version="2.0">\n' +
-                '  <file id="sample_f1" original="sample-webos-js">\n' +
-                '    <group id="sample_g1" name="javascript">\n' +
-                '      <unit id="1" name="foobar">\n' +
+                '  <file id="sample1_f1" original="sample1">\n' +
+                '    <group id="sample1_g1" name="javascript">\n' +
+                '      <unit id="sample1_g1_1" name="foobar">\n' +
                 '        <segment>\n' +
                 '          <source>Asdf asdf</source>\n' +
                 '        </segment>\n' +
                 '      </unit>\n' +
                 '    </group>\n' +
                 '  </file>\n' +
-                '  <file id="sample_f2" original="sample-webos-js">\n' +
-                '    <group id="sample_g1" name="javascript">\n' +
-                '      <unit id="2" name="huzzah">\n' +
+                '  <file id="sample2_f2" original="sample2">\n' +
+                '    <group id="sample2_g1" name="javascript">\n' +
+                '      <unit id="sample2_g2_1" name="huzzah">\n' +
                 '        <segment>\n' +
                 '          <source>baby baby</source>\n' +
                 '          <target></target>\n' +
@@ -709,18 +776,23 @@ describe("webOSXliff", () => {
         expect(tulist[0].source).toBe("Asdf asdf");
         expect(tulist[0].sourceLocale).toBe("en-KR");
         expect(tulist[0].key).toBe("foobar");
-        expect(tulist[0].file).toBe("sample-webos-js");
-        expect(tulist[0].project).toBe("sample-webos-js");
+        expect(tulist[0].file).toBe("sample1");
+        expect(tulist[0].project).toBe("sample1");
         expect(tulist[0].resType).toBe("string");
-        expect(tulist[0].id).toBe("1");
+        expect(tulist[0].id).toBe("sample1_g1_1");
+        expect(tulist[0].target).toBeUndefined();
 
         expect(tulist[1].source).toBe("baby baby");
         expect(tulist[1].sourceLocale).toBe("en-KR");
         expect(tulist[1].key).toBe("huzzah");
-        expect(tulist[1].file).toBe("sample-webos-js");
-        expect(tulist[1].project).toBe("sample-webos-js");
+        expect(tulist[1].file).toBe("sample2");
+        expect(tulist[1].project).toBe("sample2");
         expect(tulist[1].resType).toBe("string");
-        expect(tulist[1].id).toBe("2");
+        expect(tulist[1].target).toBe("");
+        expect(tulist[1].id).toBe("sample2_g2_1");
+
+        const item_sourceHash = JSUtils.hashCode(tulist[1].source.trim());
+        expect(tulist[1].sourceHash).toBe(item_sourceHash);
     });
     test('webOSXliffDeserialize_metadata', () => {
         const x = new webOSXliff({
@@ -729,13 +801,13 @@ describe("webOSXliff", () => {
         expect(x).toBeTruthy();
 
         x.deserialize(
-        '<?xml version="1.0" encoding="utf-8"?>\n' +
+        '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n' +
         '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0"\n' +
         'xmlns:mda="urn:oasis:names:tc:xliff:metadata:2.0"\n' +
         'srcLang="en-KR" trgLang="ko-KR">\n' +
-        '  <file id="sample-webos-cs_f1" original="sample-webos-c">\n' +
+        '  <file id="sample-webos-c_f1" original="sample-webos-c">\n' +
         '      <group id="sample-webos-c_g1" name="c">\n' +
-        '        <unit id="1">\n' +
+        '        <unit id="sample-webos-c_g1_1">\n' +
         '          <mda:metadata>\n' +
         '            <mda:metaGroup category="device-type">\n' +
         '              <mda:meta type="Monitor">"Monitor" 이용이 불가능합니다</mda:meta>\n' +
@@ -757,22 +829,17 @@ describe("webOSXliff", () => {
         expect(tulist.length).toBe(1);
 
         const expectedMetadata = {
-            "_position": 327,
             "mda:metaGroup": {
-                "_position": 354,
                 "mda:meta": [
                     {
-                        "_position": 407,
                         "_attributes" : {"type": "Monitor"},
                         "_text": "\"Monitor\" 이용이 불가능합니다"
                     },
                     {
-                        "_position": 478,
                         "_attributes" : {"type": "Box"},
                         "_text": "\"Box\" 이용이 불가능합니다"
                     },
                     {
-                        "_position": 541,
                         "_attributes" : {"type": "SoundBar"},
                         "_text": "\"SoundBar\" 이용이 불가능합니다"
                     }
@@ -789,5 +856,67 @@ describe("webOSXliff", () => {
         expect(tulist[0].key).toBe("NOT AVAILABLE");
         expect(tulist[0].target).toBe("이용이 불가능합니다");
         expect(tulist[0].metadata).toStrictEqual(expectedMetadata);
+    });
+    test('should clear correctly in webOS xliff', () => {
+        const x = new webOSXliff();
+        expect(x).toBeTruthy();
+        expect(x.size()).toBe(0);
+
+        x.addTranslationUnits([
+            new TranslationUnit({
+                source: "Asdf asdf",
+                sourceLocale: "en-KR",
+                key: "foobar",
+                file: "foo/bar/asdf.js",
+                project: "webapp",
+                resType: "string",
+                state: "new",
+                comment: "This is a comment",
+                datatype: "javascript"
+            }),
+            new TranslationUnit({
+                source: "foobar",
+                sourceLocale: "en-KR",
+                key: "asdf",
+                file: "x.javascript",
+                project: "webapp",
+                resType: "array",
+                state: "translated",
+                comment: "No comment",
+                datatype: "javascript"
+            })
+        ]);
+        expect(x.size()).toBe(2);
+        x.clear();
+        expect(x.size()).toBe(0);
+    });
+    test('should add correctly in webOS xliff', () => {
+        const x = new webOSXliff();
+        expect(x).toBeTruthy();
+        expect(x.size()).toBe(0);
+
+        x.addTranslationUnits([
+            new TranslationUnit({
+                source: "Asdf asdf",
+                sourceLocale: "en-KR",
+                key: "foobar",
+                file: "foo/bar/asdf.js",
+                project: "webapp",
+                resType: "string",
+                comment: "This is a comment",
+                datatype: "javascript"
+            }),
+            new TranslationUnit({
+                source: "Asdf asdf2",
+                sourceLocale: "en-KR",
+                key: "foobar",
+                file: "x.javascript",
+                project: "webapp",
+                resType: "string",
+                comment: "No comment",
+                datatype: "javascript"
+            })
+        ]);
+        expect(x.size()).toBe(2);
     });
 });

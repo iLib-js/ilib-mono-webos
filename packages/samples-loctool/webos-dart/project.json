@@ -29,7 +29,7 @@
         "assets"
     ],
     "settings": {
-        "translationsDir": "./xliffs",
+        "translationsDir": ["./xliffs", "./common"],
         "locales":[
             "en-US",
             "es-CO",
@@ -46,9 +46,6 @@
         "localeInherit": {
             "en-CN": "en-GB",
             "en-AU": "en-GB"
-        },
-        "webos": {
-            "commonXliff": "./common"
         },
         "dart": {
             "disablePseudo": true,

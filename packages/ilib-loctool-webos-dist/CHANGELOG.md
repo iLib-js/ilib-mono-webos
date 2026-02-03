@@ -1,5 +1,69 @@
 # ilib-loctool-webos-dist
 
+## 1.20.5
+
+### Patch Changes
+
+- b9022a3: Update dependencies. (loctool: 2.31.8)
+- Updated dependencies [b9022a3]
+  - ilib-loctool-webos-json-resource@1.7.8
+  - ilib-loctool-webos-ts-resource@1.5.11
+  - ilib-loctool-webos-javascript@1.13.1
+  - ilib-loctool-webos-dart@1.5.1
+  - ilib-loctool-webos-json@1.2.1
+  - ilib-loctool-webos-cpp@1.10.1
+  - ilib-loctool-webos-qml@1.10.1
+  - ilib-loctool-webos-c@1.10.1
+
+## 1.20.4
+
+### Patch Changes
+
+- Updated dependencies [9622569]
+  - ilib-loctool-webos-javascript@1.13.0
+  - ilib-loctool-webos-dart@1.5.0
+  - ilib-loctool-webos-json@1.2.0
+  - ilib-loctool-webos-cpp@1.10.0
+  - ilib-loctool-webos-qml@1.10.0
+  - ilib-loctool-webos-c@1.10.0
+    - Remove the common XLIFF loading logic.  
+    - Deprecate the `commonXliff` property in the configuration.
+
+## 1.20.3
+
+### Patch Changes
+
+- 8c93a03: Update dependencies (loctool: 2.31.7)
+  - Fix a bug where resources were not added to the translation set when nopseudo was set to false.
+  - Add condition to add all DB resources to translations only when localizeOnly is false or pseudo is enabled
+  - New resources are no longer saved in memory when localizeOnly is true because the loctool does not produce any extracted or any new strings files in this mode
+- Updated dependencies [8c93a03]
+  - ilib-loctool-webos-json-resource@1.7.7
+  - ilib-loctool-webos-ts-resource@1.5.10
+  - ilib-loctool-webos-javascript@1.12.2
+  - ilib-loctool-webos-dart@1.4.2
+  - ilib-loctool-webos-json@1.1.14
+  - ilib-loctool-webos-cpp@1.9.2
+  - ilib-loctool-webos-qml@1.9.2
+  - ilib-loctool-webos-c@1.9.2
+
+## 1.20.2
+
+### Patch Changes
+
+- fce7199: Update dependencies. (loctool: 2.31.3)
+  - Clean up the xliff files for the loctool test by separating the test files for the XLIFF 2.0 format and the webOS XLIFF format, and deleting unnecessary files.
+  - Normalize and deduplicate translationsDir paths
+- Updated dependencies [fce7199]
+  - ilib-loctool-webos-json-resource@1.7.6
+  - ilib-loctool-webos-ts-resource@1.5.9
+  - ilib-loctool-webos-javascript@1.12.1
+  - ilib-loctool-webos-dart@1.4.1
+  - ilib-loctool-webos-json@1.1.13
+  - ilib-loctool-webos-cpp@1.9.1
+  - ilib-loctool-webos-qml@1.9.1
+  - ilib-loctool-webos-c@1.9.1
+
 ## 1.20.1
 
 ### Patch Changes
@@ -23,6 +87,7 @@
 ### Patch Changes
 
 - 7ea2310: Updated dependencies. (loctool: 2.31.0)
+  - Add a metadata property to the Resource class to store any metadata that may exist on a per-Resource basis. It is up to parsers to recognize and parse the metadata appropriately and up to the serializers to serialize it properly again.
 - 4f25215: Updated dependencies. (loctool: 2.31.1)
 - Updated dependencies [7ea2310]
 - Updated dependencies [850a0f7]
@@ -42,6 +107,10 @@
 
 - e244b3a: Fix the broken documentation links after each plugin is published to npm
 - 7163edd: Updated dependencies. (loctool: 2.30.0)
+  - Add the XliffFactory to support various XLIFF formats. It creates an instance of either the Xliff class or the new webOSXliff class, depending on whether it’s targeting the webOS platform or another use case. Additional format support can be added in the same way if required.
+Update loctool options:
+Add the new --metadata option. It accepts key-value pairs in the form aaa=bbb (e.g. --metadata device=Monitor), and is currently used by webOSXliff.
+Remove the custom option from --xliffStyle. Instead, the option webOS will be used. Previously, the content of the custom option was already parsed as xliff for webOS.
 - Updated dependencies [1970707]
 - Updated dependencies [e244b3a]
 - Updated dependencies [7163edd]

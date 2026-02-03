@@ -1,7 +1,7 @@
 {
     "private": true,
     "name": "lint-webos-sample",
-    "version": "1.0.1",
+    "version": "1.0.5",
     "main": "./src/index.js",
     "description": "Sample application that demostrates how to use the ilib-lint tool with python strings",
     "license": "Apache-2.0",
@@ -40,11 +40,19 @@
     "scripts": {
         "lint": "ilib-lint -c ilib-lint-config.json -f html-formatter -o webos-result.html",
         "debug": "node --inspect-brk node_modules/ilib-lint/src/index.js -c ilib-lint-config.json -f html-formatter -o webos-result.html",
-        "clean": "rm -rf webos-result.html",
-        "test": "echo success"
+        "lint-json": "ilib-lint -c ilib-lint-config.json -f webos-json-formatter -o webos-result.json --fix --write",
+        "json-debug": "node --inspect-brk node_modules/ilib-lint/src/index.js -c ilib-lint-config.json -f webos-json-formatter -o webos-result.json --fix --write",
+        "clean": "rm -rf webos-result.html webos-result.json",
+        "test": "npm run lint;npm run lint-json;pnpm test:jest",
+        "test:jest": "LANG=en_US.UTF8 node --experimental-vm-modules node_modules/jest/bin/jest.js",
+        "test-debug": "node --experimental-vm-modules --inspect-brk node_modules/jest/bin/jest.js -i",
+        "test-snapshot-update": "pnpm test:jest -u"
     },
     "dependencies": {
-        "ilib-lint": "^2.16.0",
-        "ilib-lint-webos": "workspace:*"
+        "ilib-lint": "^2.21.1",
+        "ilib-lint-webos": "workspace:*",
+        "xml-js": "^1.6.11",
+        "jest": "^30.2.0",
+        "cheerio": "^1.1.2"
     }
 }
