@@ -737,7 +737,7 @@ describe("webOSXliff", () => {
         expect(tulist[0].target).toBe("bebe bebe");
         expect(tulist[0].targetLocale).toBe("fr-FR");
 
-        const item_sourceHash = JSUtils.hashCode(tulist[0].source.trim());
+        const item_sourceHash = JSUtils.hashCode(tulist[0].source.trim()).toString();
         expect(tulist[0].sourceHash).toBe(item_sourceHash);
     });
 
@@ -791,7 +791,7 @@ describe("webOSXliff", () => {
         expect(tulist[1].target).toBe("");
         expect(tulist[1].id).toBe("sample2_g2_1");
 
-        const item_sourceHash = JSUtils.hashCode(tulist[1].source.trim());
+        const item_sourceHash = JSUtils.hashCode(tulist[1].source.trim()).toString();
         expect(tulist[1].sourceHash).toBe(item_sourceHash);
     });
     test('webOSXliffDeserialize_metadata', () => {
