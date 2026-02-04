@@ -477,7 +477,7 @@ class webOSXliff {
                                         metadata: tu['mda:metadata'] || undefined,
                                         location,
                                         resfile,
-                                        sourceHash: JSUtils.hashCode(source.trim())
+                                        sourceHash: JSUtils.hashCode(source.trim()).toString()
                                     };
 
                                     let unit = new TranslationUnit(commonProperties);
