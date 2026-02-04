@@ -1,5 +1,11 @@
 # ilib-xliff-webos
 
+## 1.0.9
+
+### Patch Changes
+
+- 0e05e36: Convert sourceHash to string format when passing the value
+
 ## 1.0.8
 
 ### Patch Changes
