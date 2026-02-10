@@ -479,7 +479,7 @@ describe("webOSXliff", () => {
             datatype: "javascript",
             autoKey: true
         });
-        debugger;
+
         tu.metadata = {
             "mda:metaGroup": {
                 "mda:meta": [
