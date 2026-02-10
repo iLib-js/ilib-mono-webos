@@ -336,7 +336,7 @@ describe("webOSXliff", () => {
             '      </unit>\n' +
             '    </group>\n' +
             '  </file>\n' +
-            '</xliff>\n\n';
+            '</xliff>\n';
 
         expect(actual).toBe(expected);
     });
@@ -376,7 +376,91 @@ describe("webOSXliff", () => {
             '      </unit>\n' +
             '    </group>\n' +
             '  </file>\n' +
-            '</xliff>\n\n';
+            '</xliff>\n';
+
+        expect(actual).toBe(expected);
+    });
+
+    test('should serialize XLIFF 2.0 with source and target with autoKey (true)', () => {
+        const x = new webOSXliff();
+        expect(x).toBeTruthy();
+
+        const tu = new TranslationUnit({
+            source: "Asdf asdf",
+            sourceLocale: "en-KR",
+            target: "bam bam",
+            targetLocale: "de-DE",
+            key: "Asdf asdf",
+            file: "foo/bar/asdf.js",
+            project: "webapp",
+            resType: "string",
+            comment: "This is a comment",
+            datatype: "javascript",
+            autoKey: true
+        });
+
+        x.addTranslationUnit(tu);
+
+        let actual = x.serialize();
+        let expected =
+            '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n' +
+            '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:mda="urn:oasis:names:tc:xliff:metadata:2.0" srcLang="en-KR" trgLang="de-DE" version="2.0">\n' +
+            '  <file id="webapp_f1" original="webapp">\n' +
+            '    <group id="webapp_g1" name="javascript">\n' +
+            '      <unit id="webapp_g1_1">\n' +
+            '        <notes>\n' +
+            '          <note>This is a comment</note>\n' +
+            '        </notes>\n' +
+            '        <segment>\n' +
+            '          <source>Asdf asdf</source>\n' +
+            '          <target>bam bam</target>\n' +
+            '        </segment>\n' +
+            '      </unit>\n' +
+            '    </group>\n' +
+            '  </file>\n' +
+            '</xliff>\n';
+
+        expect(actual).toBe(expected);
+    });
+
+    test('should serialize XLIFF 2.0 with source and target with autoKey (false)', () => {
+        const x = new webOSXliff();
+        expect(x).toBeTruthy();
+
+        const tu = new TranslationUnit({
+            source: "Asdf asdf",
+            sourceLocale: "en-KR",
+            target: "bam bam",
+            targetLocale: "de-DE",
+            key: "Asdf asdf",
+            file: "foo/bar/asdf.js",
+            project: "webapp",
+            resType: "string",
+            comment: "This is a comment",
+            datatype: "javascript",
+            autoKey: false
+        });
+
+        x.addTranslationUnit(tu);
+
+        let actual = x.serialize();
+        let expected =
+            '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n' +
+            '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:mda="urn:oasis:names:tc:xliff:metadata:2.0" srcLang="en-KR" trgLang="de-DE" version="2.0">\n' +
+            '  <file id="webapp_f1" original="webapp">\n' +
+            '    <group id="webapp_g1" name="javascript">\n' +
+            '      <unit id="webapp_g1_1" name="Asdf asdf">\n' +
+            '        <notes>\n' +
+            '          <note>This is a comment</note>\n' +
+            '        </notes>\n' +
+            '        <segment>\n' +
+            '          <source>Asdf asdf</source>\n' +
+            '          <target>bam bam</target>\n' +
+            '        </segment>\n' +
+            '      </unit>\n' +
+            '    </group>\n' +
+            '  </file>\n' +
+            '</xliff>\n';
 
         expect(actual).toBe(expected);
     });
@@ -392,8 +476,10 @@ describe("webOSXliff", () => {
             file: "foo/bar/asdf.js",
             project: "webapp",
             resType: "string",
-            datatype: "javascript"
+            datatype: "javascript",
+            autoKey: true
         });
+        debugger;
         tu.metadata = {
             "mda:metaGroup": {
                 "mda:meta": [
@@ -441,7 +527,7 @@ describe("webOSXliff", () => {
             '      </unit>\n' +
             '    </group>\n' +
             '  </file>\n' +
-            '</xliff>\n\n';
+            '</xliff>\n';
 
         expect(actual).toBe(expected);
     });
@@ -500,7 +586,7 @@ describe("webOSXliff", () => {
 
         let actual = x.serialize();
         expect(actual).toBeTruthy();
-        expect(x.getLines()).toBe(25);
+        expect(x.getLines()).toBe(24);
     });
     test('should get bytes count after deserialization', () => {
         const x = new webOSXliff();
@@ -558,7 +644,7 @@ describe("webOSXliff", () => {
 
         let actual = x.serialize();
         expect(actual).toBeTruthy();
-        expect(x.getBytes()).toBe(792);
+        expect(x.getBytes()).toBe(791);
     });
     test('should deserialize webOS XLIFF', () => {
         const x = new webOSXliff();
