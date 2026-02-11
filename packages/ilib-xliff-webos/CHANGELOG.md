@@ -1,5 +1,11 @@
 # ilib-xliff-webos
 
+## 1.0.10
+
+### Patch Changes
+
+- bf62565: Update serialization to write the `name` attribute only when autoKey is false.
+
 ## 1.0.9
 
 ### Patch Changes
