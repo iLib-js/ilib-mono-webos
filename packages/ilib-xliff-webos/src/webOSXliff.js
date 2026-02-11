@@ -300,11 +300,16 @@ class webOSXliff {
             }
             let unitIndex = unitIndexMap[unitKey]++;
 
+            const attributes = {
+                "id": tu.project + "_g" + groupIndex + "_" + unitIndex
+            };
+
+            if (!tu.autoKey) {
+                attributes.name = escapeAttr(tu.key);
+            }
+
             let tujson = {
-                _attributes: {
-                    "id": tu.project + "_g" + groupIndex + "_" + unitIndex,
-                    "name": (tu.source !== tu.key) ? escapeAttr(tu.key) : undefined,
-                }
+                _attributes: attributes
             };
 
             if (tu.metadata) {
@@ -363,7 +368,7 @@ class webOSXliff {
         let xml = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n' + xmljs.js2xml(json, {
             compact: true,
             spaces: 2
-        }).trimEnd() + '\n\n';
+        }).trimEnd() + '\n';
 
         return xml;
     }
@@ -427,6 +432,7 @@ class webOSXliff {
                             let comment, state, location;
                             let datatype = tu._attributes["l:datatype"] || groupName;
                             let source = "", target = "";
+                            let autoKey = false;
                             if (tu.notes && tu.notes.note) {
                                 comment = Array.isArray(tu.notes.note) ?
                                     tu.notes.note[0]["_text"] :
@@ -455,6 +461,7 @@ class webOSXliff {
                             }
                             if (!resname) {
                                 resname = source;
+                                autoKey = true;
                             }
 
                             if (source.trim()) {
@@ -477,7 +484,8 @@ class webOSXliff {
                                         metadata: tu['mda:metadata'] || undefined,
                                         location,
                                         resfile,
-                                        sourceHash: JSUtils.hashCode(source.trim()).toString()
+                                        sourceHash: JSUtils.hashCode(source.trim()).toString(),
+                                        autoKey
                                     };
 
                                     let unit = new TranslationUnit(commonProperties);
