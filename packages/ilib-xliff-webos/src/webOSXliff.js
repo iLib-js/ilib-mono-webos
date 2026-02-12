@@ -342,6 +342,8 @@ class webOSXliff {
                     },
                     "_text": tu.target
                 };
+            } else {
+                tujson.segment[0].target = {};
             }
 
             groupSet.unit.push(tujson);
