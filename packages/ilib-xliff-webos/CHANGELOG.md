@@ -1,5 +1,11 @@
 # ilib-xliff-webos
 
+## 1.0.11
+
+### Patch Changes
+
+- 5208264: Fixed XLIFF 2.0 serialization to generate self-closing `<target/>` tags when target values are empty or undefined, instead of omitting the target element entirely.
+
 ## 1.0.10
 
 ### Patch Changes
