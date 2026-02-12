@@ -332,6 +332,7 @@ describe("webOSXliff", () => {
             '        </notes>\n' +
             '        <segment>\n' +
             '          <source>Asdf asdf</source>\n' +
+            '          <target/>\n' +
             '        </segment>\n' +
             '      </unit>\n' +
             '    </group>\n' +
