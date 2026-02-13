@@ -1,0 +1,14 @@
+-    <mda:meta type="Monitor">&#141;«LG хэрэглэгчийн бүртгэл &gt; Бүтээгдэхүүний бүртгэл» рүү очиж, бүтээгдэхүүнээ бүртгүүл.</mda:meta>
+-    <mda:meta type="Projector">&#141;«LG хэрэглэгчийн бүртгэл &gt; Бүтээгдэхүүний бүртгэл» рүү очиж, бүтээгдэхүүнээ бүртгүүл.</mda:meta>
+-    <mda:meta type="StanbyME">&#141;«LG хэрэглэгчийн бүртгэл &gt; Бүтээгдэхүүний бүртгэл» рүү очиж, бүтээгдэхүүнээ бүртгүүл.</mda:meta>
++   <mda:meta type="Monitor"><U+008D>«LG хэрэглэгчийн бүртгэл &gt; Бүтээгдэхүүний бүртгэл» рүү очиж, бүтээгдэхүүнээ бүртгүүл.</mda:meta>
++   <mda:meta type="Projector"><U+008D>«LG хэрэглэгчийн бүртгэл &gt; Бүтээгдэхүүний бүртгэл» рүү очиж, бүтээгдэхүүнээ бүртгүүл.</mda:meta>
++   <mda:meta type="StanbyME"><U+008D>«LG хэрэглэгчийн бүртгэл &gt; Бүтээгдэхүүний бүртгэл» рүү очиж, бүтээгдэхүүнээ бүртгүүл.</mda:meta>
+
+
+
+- <target>Régler&#129;</target>
++ <target>Régler<U+0081></target>
+
+- <target>SVARĪGI! Atiestatīšanas rezultātā tiks dzēsti visi iestatījumi un instalētās programmas. &#138;Šo darbību nevar atsaukt.</target>
++ <target>SVARĪGI! Atiestatīšanas rezultātā tiks dzēsti visi iestatījumi un instalētās programmas. <U+008A>Šo darbību nevar atsaukt.</target>
