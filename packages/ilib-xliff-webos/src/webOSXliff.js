@@ -31,11 +31,11 @@ import TranslationUnit from './TranslationUnit.js';
 function escapeAttr(str) {
     if (!str) return;
     return str.
-        replace(/&/g, "&amp;").
+        replace(/[\x80-\x9F]/g, (ch) => `&#${ch.charCodeAt(0)};`).
+        replace(/&(?!#\d+;)/g, "&amp;").
         replace(/"/g, "&quot;").
         replace(/'/g, "&apos;").
-        replace(/</g, "&lt;").
-        replace(/[\x80-\x9F]/g, (ch) => `&#${ch.charCodeAt(0)};`);
+        replace(/</g, "&lt;");
 }
 
 /**
@@ -342,7 +342,7 @@ class webOSXliff {
                     _attributes: {
                         state: tu.state,
                     },
-                    "_text": tu.target
+                    "_text": escapeAttr(tu.target)
                 };
             } else {
                 tujson.segment[0].target = {};
