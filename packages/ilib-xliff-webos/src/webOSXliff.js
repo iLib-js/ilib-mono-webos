@@ -34,7 +34,8 @@ function escapeAttr(str) {
         replace(/&/g, "&amp;").
         replace(/"/g, "&quot;").
         replace(/'/g, "&apos;").
-        replace(/</g, "&lt;");
+        replace(/</g, "&lt;").
+        replace(/[\x80-\x9F]/g, (ch) => `&#${ch.charCodeAt(0)};`);
 }
 
 /**
@@ -46,6 +47,7 @@ function escapeAttr(str) {
 function unescapeAttr(str) {
     if (!str) return;
     return str.
+        replace(/&#(\d+);/g, (match, dec) => String.fromCharCode(parseInt(dec, 10))).
         replace(/&lt;/g, '<').
         replace(/&quot;/g, '"').
         replace(/&apos;/g, "'").

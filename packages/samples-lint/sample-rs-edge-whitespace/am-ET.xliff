@@ -8,16 +8,10 @@
      <target>{%1} ሰዓት(ታት)</target>
     </segment>
    </unit>
-   <unit id="sample-rs-edge-whitespace_g1_2">
+   <unit id="sample-rs-edge-whitespace_g1_11">
     <segment>
-     <source>{%1} min(s)</source>
-     <target>{%1} ደቂቃ(ዎች)</target>
-    </segment>
-   </unit>
-   <unit id="sample-rs-edge-whitespace_g1_28">
-    <segment>
-     <source>Loading...</source>
-     <target>በመጫን ላይ...</target>
+      <source>To set</source>
+     <target>Régler&#129;</target>
     </segment>
    </unit>
    <unit id="sample-rs-edge-whitespace_g1_590"> <!--rule: resource-edge-whitespace-->
