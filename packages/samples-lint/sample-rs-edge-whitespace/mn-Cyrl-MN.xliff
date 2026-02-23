@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="mn-Cyrl-MN" version="2.0">
+ <file id="sample-rs-edge-whitespace_f1" original="sample-rs-edge-whitespace">
+  <group id="sample-rs-edge-whitespace_g1" name="javascript">
+  <unit id="sample-rs-edge-whitespace_g1_1">
+    <segment>
+      <source>Previous</source>
+      <target>Өмнөх  </target>
+    </segment>
+  </unit>
+   <unit id="sample-rs-edge-whitespace_g1_2">
+    <mda:metadata>
+       <mda:metaGroup category="device-type">
+         <mda:meta type="Monitor">&#141;«LG хэрэглэгчийн бүртгэл &gt; Бүтээгдэхүүний бүртгэл» рүү очиж, бүтээгдэхүүнээ бүртгүүл.</mda:meta>
+         <mda:meta type="Projector">&#141;«LG хэрэглэгчийн бүртгэл &gt; Бүтээгдэхүүний бүртгэл» рүү очиж, бүтээгдэхүүнээ бүртгүүл.</mda:meta>
+         <mda:meta type="StanbyME">&#141;«LG хэрэглэгчийн бүртгэл &gt; Бүтээгдэхүүний бүртгэл» рүү очиж, бүтээгдэхүүнээ бүртгүүл.</mda:meta>
+       </mda:metaGroup>
+     </mda:metadata>
+     <notes>
+       <note>제품 등록 약관 내용</note>
+     </notes>
+     <segment>
+       <source>Go to 'LG Account &gt; Product Registration' to register your product.</source>
+       <target>«LG хэрэглэгчийн бүртгэл &gt; Бүтээгдэхүүний бүртгэл» рүү очиж, бүтээгдэхүүнээ бүртгүүл.</target>
+     </segment>
+   </unit>
+  </group>
+ </file>
+</xliff>

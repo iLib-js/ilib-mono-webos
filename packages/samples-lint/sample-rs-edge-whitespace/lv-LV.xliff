@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="lv-LV" version="2.0">
+ <file id="sample-rs-edge-whitespace_f1" original="sample-rs-edge-whitespace">
+  <group id="sample-rs-edge-whitespace_g1" name="javascript">
+   <unit id="sample-rs-edge-whitespace_g1_11">
+    <segment>
+       <source>IMPORTANT! Resetting will delete all of settings and installed apps. This action cannot be undone.</source>
+       <target>SVARĪGI! Atiestatīšanas rezultātā tiks dzēsti visi iestatījumi un instalētās programmas. &#138;Šo darbību nevar atsaukt.</target>
+     </segment>
+   </unit>
+   <unit id="sample-rs-edge-whitespace_g1_1629">
+     <segment>
+       <source>Sign Out</source>
+       <target> Izrakstīties</target>
+     </segment>
+   </unit>
+  </group>
+ </file>
+</xliff>
