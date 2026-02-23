@@ -39,6 +39,18 @@ function escapeAttr(str) {
 }
 
 /**
+ * 
+ * @param {string} str 
+ * @returns 
+ */
+function escapeControlAndAmp(str) {
+    if (!str) return;
+    return str.
+        replace(/[\x00-\x1F\x7F]/g, (ch) => `&#${ch.charCodeAt(0)};`).
+        replace(/&(?!#\d+;)/g, "&amp;");
+}
+
+/**
  * Return the original string based on the one that was used as an attribute value.
  * @private
  * @param {string} str the string to unescape
