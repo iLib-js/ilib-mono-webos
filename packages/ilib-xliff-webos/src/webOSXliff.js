@@ -32,10 +32,10 @@ function escapeAttr(str) {
     if (!str) return;
     return str.
         replace(/[\x80-\x9F]/g, (ch) => `&#${ch.charCodeAt(0)};`).
-        replace(/&(?!#\d+;)/g, "&amp;").
-        replace(/"/g, "&quot;").
-        replace(/'/g, "&apos;").
-        replace(/</g, "&lt;");
+        replace(/&(?!#\d+;)/g, "&amp;");
+        //replace(/"/g, "&quot;").
+        //replace(/'/g, "&apos;").
+        //replace(/</g, "&lt;");
 }
 
 /**
@@ -315,7 +315,17 @@ class webOSXliff {
             };
 
             if (tu.metadata) {
-                tujson["mda:metadata"] = tu.metadata
+                const metaEscaped = JSON.parse(JSON.stringify(tu.metadata));
+                if (metaEscaped["mda:metaGroup"] && Array.isArray(metaEscaped['mda:metaGroup']['mda:meta'])) {
+                    metaEscaped['mda:metaGroup']['mda:meta'].forEach(meta => {
+                        if (meta._attributes && meta._attributes.type) {
+                            meta["_text"] = escapeAttr(meta["_text"]);
+                        }
+                    });
+                } else if (metaEscaped["mda:metaGroup"]) {
+                    metaEscaped['mda:metaGroup']['mda:meta']['_text'] = escapeAttr(metaEscaped['mda:metaGroup']['mda:meta']['_text']);
+                }
+                tujson["mda:metadata"] = metaEscaped;
                 hasMetadata = true;
             }
 
@@ -359,9 +369,6 @@ class webOSXliff {
             json.xliff.file.push(files[fileHashKey]);
         });
 
-        /*if (hasMetadata) {
-            json.xliff._attributes["xmlns:mda"] = "urn:oasis:names:tc:xliff:metadata:2.0";
-        }*/
 
         json.xliff._attributes.srcLang = sourceLocale;
         if (targetLocale) {
