@@ -31,10 +31,10 @@ import TranslationUnit from './TranslationUnit.js';
 function escapeAttr(str) {
     if (!str) return;
     return str.
-        replace(/&lt;/g, '<').
-        replace(/&quot;/g, '"').
-        replace(/&apos;/g, "'").
-        replace(/&amp;/g, "&");
+        replace(/&/g, "&amp;").
+        replace(/"/g, "&quot;").
+        replace(/'/g, "&apos;").
+        replace(/</g, "&lt;");
 }
 
 /**
