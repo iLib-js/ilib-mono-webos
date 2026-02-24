@@ -2,7 +2,7 @@
 /*
  * webOSXliff.js - model an xliff file for the webOS
  *
- * Copyright (c) 2025, JEDLSoft
+ * Copyright (c) 2025-2026, JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,22 +31,26 @@ import TranslationUnit from './TranslationUnit.js';
 function escapeAttr(str) {
     if (!str) return;
     return str.
-        replace(/[\x80-\x9F]/g, (ch) => `&#${ch.charCodeAt(0)};`).
-        replace(/&(?!#\d+;)/g, "&amp;");
-        //replace(/"/g, "&quot;").
-        //replace(/'/g, "&apos;").
-        //replace(/</g, "&lt;");
+        replace(/&lt;/g, '<').
+        replace(/&quot;/g, '"').
+        replace(/&apos;/g, "'").
+        replace(/&amp;/g, "&");
 }
 
 /**
- * 
- * @param {string} str 
- * @returns 
+ * Escape C1 control characters (U+0080 to U+009F) and ampersands in a string for XML serialization.
+ *
+ * This function replaces all C1 control characters (Unicode range U+0080 to U+009F)
+ * with their corresponding numeric character references (e.g., "\x80" → "&#128;").
+ * It also escapes ampersands (&) that are not already part of a numeric entity (e.g., "&" → "&amp;").
+ *
+ * @param {string} str The string to escape.
+ * @returns {string|undefined} The escaped string, or undefined if input is falsy.
  */
 function escapeControlAndAmp(str) {
     if (!str) return;
     return str.
-        replace(/[\x00-\x1F\x7F]/g, (ch) => `&#${ch.charCodeAt(0)};`).
+        replace(/[\x80-\x9F]/g, (ch) => `&#${ch.charCodeAt(0)};`).
         replace(/&(?!#\d+;)/g, "&amp;");
 }
 
@@ -59,7 +63,6 @@ function escapeControlAndAmp(str) {
 function unescapeAttr(str) {
     if (!str) return;
     return str.
-        replace(/&#(\d+);/g, (match, dec) => String.fromCharCode(parseInt(dec, 10))).
         replace(/&lt;/g, '<').
         replace(/&quot;/g, '"').
         replace(/&apos;/g, "'").
@@ -331,11 +334,11 @@ class webOSXliff {
                 if (metaEscaped["mda:metaGroup"] && Array.isArray(metaEscaped['mda:metaGroup']['mda:meta'])) {
                     metaEscaped['mda:metaGroup']['mda:meta'].forEach(meta => {
                         if (meta._attributes && meta._attributes.type) {
-                            meta["_text"] = escapeAttr(meta["_text"]);
+                            meta["_text"] = escapeControlAndAmp(meta["_text"]);
                         }
                     });
                 } else if (metaEscaped["mda:metaGroup"]) {
-                    metaEscaped['mda:metaGroup']['mda:meta']['_text'] = escapeAttr(metaEscaped['mda:metaGroup']['mda:meta']['_text']);
+                    metaEscaped['mda:metaGroup']['mda:meta']['_text'] = escapeControlAndAmp(metaEscaped['mda:metaGroup']['mda:meta']['_text']);
                 }
                 tujson["mda:metadata"] = metaEscaped;
                 hasMetadata = true;
@@ -364,7 +367,7 @@ class webOSXliff {
                     _attributes: {
                         state: tu.state,
                     },
-                    "_text": escapeAttr(tu.target)
+                    "_text": escapeControlAndAmp(tu.target)
                 };
             } else {
                 tujson.segment[0].target = {};
