@@ -57,6 +57,19 @@ exports[`test if the resource is modifed properly test am-ET.xliff.modified file
         },
         "segment": {
           "source": {
+            "_text": "To set",
+          },
+          "target": {
+            "_text": "Régler&#129;",
+          },
+        },
+      },
+      {
+        "_attributes": {
+          "id": "sample-rs-edge-whitespace_g1_5",
+        },
+        "segment": {
+          "source": {
             "_text": "You can use your Magic Remote to determine the room’s acoustics and optimize your TV’s sound quality based on the results.",
           },
           "target": {
