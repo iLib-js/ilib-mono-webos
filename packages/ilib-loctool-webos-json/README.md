@@ -52,7 +52,7 @@ Please check the [webos-json](https://github.com/iLib-js/ilib-mono-webos/tree/ma
 
 ## License
 
-Copyright (c) 2019-2025, JEDLSoft
+Copyright (c) 2019-2026, JEDLSoft
 
 This plugin is license under Apache2. See the [LICENSE](https://github.com/iLib-js/ilib-mono-webos/blob/main/packages/ilib-loctool-webos-json/LICENSE)
 file for more details.

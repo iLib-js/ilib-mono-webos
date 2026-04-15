@@ -53,17 +53,17 @@
         "clean": "git clean -f -d *"
     },
     "devDependencies": {
-        "@babel/core": "^7.28.5",
-        "@babel/preset-env": "^7.28.5",
+        "@babel/core": "^7.29.0",
+        "@babel/preset-env": "^7.29.2",
         "babel-plugin-add-module-exports": "^1.0.4",
         "load-grunt-tasks": "^5.1.0",
         "grunt-contrib-uglify": "^5.2.2",
         "grunt-babel": "^8.0.0",
-        "grunt": "^1.6.1",
-        "jest": "^30.2.0"
+        "grunt": "^1.6.2",
+        "jest": "^30.3.0"
     },
     "dependencies": {
-        "ilib-common": "^1.1.6",
+        "ilib-common": "^1.1.7",
         "ilib-xml-js": "^1.7.0"
     }
 }

@@ -18,7 +18,7 @@ Please check the [webos-js](https://github.com/iLib-js/ilib-mono-webos/tree/main
 
 ## License
 
-Copyright (c) 2019-2025, JEDLSoft
+Copyright (c) 2019-2026, JEDLSoft
 
 This plugin is license under Apache2. See the [LICENSE](https://github.com/iLib-js/ilib-mono-webos/blob/main/packages/ilib-loctool-webos-json-resource/LICENSE)
 file for more details.
