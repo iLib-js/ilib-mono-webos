@@ -53,13 +53,13 @@
         "node": ">=10.0.0"
     },
     "dependencies": {
-        "ilib": "^14.21.2"
+        "ilib": "^14.21.3"
     },
     "peerDependencies": {
-        "loctool": "2.32.2"
+        "loctool": "2.32.3"
     },
     "devDependencies": {
         "jest": "^30.3.0",
-        "loctool": "2.32.2"
+        "loctool": "2.32.3"
     }
 }

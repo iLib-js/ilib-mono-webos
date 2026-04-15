@@ -59,7 +59,7 @@
         "load-grunt-tasks": "^5.1.0",
         "grunt-contrib-uglify": "^5.2.2",
         "grunt-babel": "^8.0.0",
-        "grunt": "^1.6.1",
+        "grunt": "^1.6.2",
         "jest": "^30.3.0"
     },
     "dependencies": {
