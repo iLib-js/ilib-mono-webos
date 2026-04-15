@@ -1,7 +1,7 @@
 /*
  * JsApp.test.js - test the localization result of webos-js app.
  *
- * Copyright (c) 2025 JEDLSoft
+ * Copyright (c) 2025-2026 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -61,6 +61,7 @@ describe('[integration] test the localization result of webos-js app', () => {
                 "es-CO",
                 "es-ES",
                 "ko-KR",
+                "ko-CN",
                 "zh-Hans-CN",
             ],
             localeMap: {
@@ -106,6 +107,15 @@ describe('[integration] test the localization result of webos-js app', () => {
         expect(rb.getString("Time Settings").toString()).toBe("시간 설정");
         expect(rb.getString("%deviceType% Speaker").toString()).toBe("모니터 스피커"); //metadata-common
         expect(rb.getString("Internal Speaker + Wired Headphones").toString()).toBe("모니터 스피커 + 유선 헤드폰"); //metadata
+    });
+    test("jssample_test_ko_CN", function() {
+        expect.assertions(2);
+        let rb = new ResBundle({
+            locale:"ko-CN",
+            basePath : defaultRSPath
+        });
+        expect(rb).toBeTruthy();
+        expect(rb.getString("Time Settings").toString()).toBe("시간 설정(ko-CN)");
     });
     test("jssample_test_es_CO", function() {
         expect.assertions(3);
