@@ -1,5 +1,15 @@
 # sample-webos-dart
 
+## 1.1.11
+
+### Patch Changes
+
+- Updated dependencies [2c2a717]
+  - ilib-loctool-webos-json-resource@1.7.9
+  - ilib-loctool-webos-common@1.2.4
+  - ilib-loctool-webos-dart@1.5.2
+  - ilib-loctool-webos-json@1.2.2
+
 ## 1.1.10
 
 ### Patch Changes
