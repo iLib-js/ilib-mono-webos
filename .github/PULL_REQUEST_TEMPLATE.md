@@ -1,6 +1,5 @@
 ### Checklist
 
-The following lists affects Pub Points on pub.dev when the package is published.
 * [ ] Pass the all tests.
 * [ ] Include at least one test case for this feature or bug fix.
 * [ ] Add a changeset for the changes.  
