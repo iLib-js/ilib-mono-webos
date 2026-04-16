@@ -1,14 +1,5 @@
 # ilib-loctool-webos-dart
 
-## 1.5.2
-
-### Patch Changes
-
-- 2c2a717: Update dependencies. (loctool: 2.32.3)
-- Updated dependencies [2c2a717]
-  - ilib-loctool-webos-json-resource@1.7.9
-  - ilib-loctool-webos-common@1.2.4
-
 ## 1.5.1
 
 ### Patch Changes
