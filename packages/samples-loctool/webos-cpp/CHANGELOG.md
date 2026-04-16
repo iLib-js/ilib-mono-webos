@@ -1,5 +1,14 @@
 # sample-webos-cpp
 
+## 1.1.10
+
+### Patch Changes
+
+- Updated dependencies [06ffabc]
+  - ilib-loctool-webos-json-resource@1.7.9
+  - ilib-loctool-webos-common@1.2.4
+  - ilib-loctool-webos-cpp@1.10.2
+
 ## 1.1.9
 
 ### Patch Changes
