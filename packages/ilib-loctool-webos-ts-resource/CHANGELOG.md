@@ -1,10 +1,5 @@
 # ilib-loctool-webos-ts-resource
 
-## 1.5.12
-
-### Patch Changes
-
-- 06ffabc: Update dependencies. (loctool: 2.32.3)
 
 ## 1.5.11
 
