@@ -56,8 +56,24 @@ if [ -n "$CURRENT_DIR" ]; then
     echo "Current Directory: $CURRENT_DIR"
 fi
 
-LOCTOOL=$(find ../../node_modules/.pnpm -type f -path "*/loctool.js" | grep "/loctool@" | head -n 1)
-echo "LOCTOOL: $LOCTOOL"
+# Locate loctool and define run_loctool():
+#   1. npm standalone install  → $SCRIPT_DIR/node_modules/.bin/loctool  (direct bin)
+#   2. pnpm workspace          → loctool.js under node_modules/.pnpm    (via node)
+SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
+
+if [ -f "$SCRIPT_DIR/node_modules/.bin/loctool" ]; then
+    LOCTOOL_BIN="$SCRIPT_DIR/node_modules/.bin/loctool"
+    run_loctool() { "$LOCTOOL_BIN" "$@"; }
+    echo "LOCTOOL: $LOCTOOL_BIN"
+else
+    LOCTOOL_JS=$(find "$SCRIPT_DIR/../../node_modules/.pnpm" -type f -path "*/loctool.js" | grep "/loctool@" | head -n 1)
+    if [ -z "$LOCTOOL_JS" ]; then
+        echo "Error: loctool not found. Please run pnpm install from the repo root."
+        exit 1
+    fi
+    run_loctool() { node "$LOCTOOL_JS" "$@"; }
+    echo "LOCTOOL: $LOCTOOL_JS"
+fi
 
 XLIFF_STYLE=(-2 --xliffStyle webOS)
 
@@ -95,7 +111,7 @@ case "$COMMAND" in
 
                 # Run the merge function
                 echo "Merging..."
-                node "$LOCTOOL" merge "$OUTPUT_FILE" "$FILE_CURRENT" "$FILE_INPUT" "${XLIFF_STYLE[@]}"
+                run_loctool merge "$OUTPUT_FILE" "$FILE_CURRENT" "$FILE_INPUT" "${XLIFF_STYLE[@]}"
             else
                 echo "SKIPPED: $FILE_INPUT does not exist."
             fi
@@ -110,7 +126,7 @@ case "$COMMAND" in
             | sed '/^und\.xliff$/d' \
             | sort | uniq)
 
-        echo $XLIFF_FILES
+        echo "$XLIFF_FILES"
 
         # For each language code, collect corresponding files and merge
         for LANG_XLIFF in $XLIFF_FILES; do
@@ -120,11 +136,6 @@ case "$COMMAND" in
             while IFS= read -r FILE; do
                 MERGE_INPUTS+=("$FILE")
             done < <(find "$INPUT_DIR" -type f -name "$LANG_XLIFF")
-
-            # if [ "${#MERGE_INPUTS[@]}" -lt 2 ]; then
-            #     echo "Skipping $LANG_XLIFF: less than 2 files to merge."
-            #     continue
-            # fi
 
             if [ "${#MERGE_INPUTS[@]}" -lt 2 ]; then
                 echo "Only one file found for $LANG_XLIFF. Copying to output directory..."
@@ -141,19 +152,15 @@ case "$COMMAND" in
             echo "Merging ${#MERGE_INPUTS[@]} files for language: $LANG_XLIFF into $OUTPUT_FILE"
 
             # Run merge function
-            node $LOCTOOL merge "$OUTPUT_FILE" "${MERGE_INPUTS[@]}" "${XLIFF_STYLE[@]}"
+            run_loctool merge "$OUTPUT_FILE" "${MERGE_INPUTS[@]}" "${XLIFF_STYLE[@]}"
         done
         ;;
     split_component)
         echo "[split_component] Split merged LANG_XLIFF files by component..."
 
-        XLIFF_FILES=$(ls -1 $INPUT_DIR/*.xliff 2>/dev/null | sort)
-        echo " XLIFF_FILES: $XLIFF_FILES"
-        #exit
-
-        for LANG_XLIFF in $XLIFF_FILES; do
+        while IFS= read -r LANG_XLIFF; do
             echo "Splitting: $LANG_XLIFF into $OUTPUT_DIR"
-            node "$LOCTOOL" split project "$LANG_XLIFF" --target "$OUTPUT_DIR" "${XLIFF_STYLE[@]}"
-        done
+            run_loctool split project "$LANG_XLIFF" --target "$OUTPUT_DIR" "${XLIFF_STYLE[@]}"
+        done < <(find "$INPUT_DIR" -maxdepth 1 -type f -name "*.xliff" | sort)
         ;;
 esac

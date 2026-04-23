@@ -22,12 +22,14 @@ check_file_exists() {
 }
 
 # Define a helper function to check_diff and print output on failure
+# Both files are normalized to always end with a newline before comparison
+# to avoid false failures caused by "\ No newline at end of file" differences.
 check_diff() {
   local test_name="$1"
   local file1="$2"
   local file2="$3"
 
-  run diff "$file1" "$file2"
+  run diff <(sed -e '$a\' "$file1") <(sed -e '$a\' "$file2")
   if [ "$status" -ne 0 ]; then
     echo "❌ $test_name -- Error: diff failed between $file1 and $file2"
     echo "$output"
