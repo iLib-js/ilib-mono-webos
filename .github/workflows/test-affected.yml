@@ -47,3 +47,8 @@ jobs:
               uses: codecov/codecov-action@v5
               with:
                 token: ${{ secrets.CODECOV_TOKEN }}
+            - name: Install bats
+              uses: bats-core/bats-action@3.0.1
+            - name: Run xliff_split_merge tests
+              working-directory: scripts/xliff_split_merge
+              run: bats test_xliff_split_merge.bats
