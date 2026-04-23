@@ -20,7 +20,7 @@ is written with ESM modules.
 
 ## License
 
-Copyright (c) 2024-2025, JEDLSoft
+Copyright (c) 2024-2026, JEDLSoft
 
 This plugin is license under Apache2. See the [LICENSE](https://github.com/iLib-js/ilib-mono-webos/blob/main/packages/ilib-lint-webos/LICENSE)
 file for more details.

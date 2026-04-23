@@ -332,11 +332,12 @@ describe("webOSXliff", () => {
             '        </notes>\n' +
             '        <segment>\n' +
             '          <source>Asdf asdf</source>\n' +
+            '          <target/>\n' +
             '        </segment>\n' +
             '      </unit>\n' +
             '    </group>\n' +
             '  </file>\n' +
-            '</xliff>\n\n';
+            '</xliff>\n';
 
         expect(actual).toBe(expected);
     });
@@ -376,7 +377,91 @@ describe("webOSXliff", () => {
             '      </unit>\n' +
             '    </group>\n' +
             '  </file>\n' +
-            '</xliff>\n\n';
+            '</xliff>\n';
+
+        expect(actual).toBe(expected);
+    });
+
+    test('should serialize XLIFF 2.0 with source and target with autoKey (true)', () => {
+        const x = new webOSXliff();
+        expect(x).toBeTruthy();
+
+        const tu = new TranslationUnit({
+            source: "Asdf asdf",
+            sourceLocale: "en-KR",
+            target: "bam bam",
+            targetLocale: "de-DE",
+            key: "Asdf asdf",
+            file: "foo/bar/asdf.js",
+            project: "webapp",
+            resType: "string",
+            comment: "This is a comment",
+            datatype: "javascript",
+            autoKey: true
+        });
+
+        x.addTranslationUnit(tu);
+
+        let actual = x.serialize();
+        let expected =
+            '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n' +
+            '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:mda="urn:oasis:names:tc:xliff:metadata:2.0" srcLang="en-KR" trgLang="de-DE" version="2.0">\n' +
+            '  <file id="webapp_f1" original="webapp">\n' +
+            '    <group id="webapp_g1" name="javascript">\n' +
+            '      <unit id="webapp_g1_1">\n' +
+            '        <notes>\n' +
+            '          <note>This is a comment</note>\n' +
+            '        </notes>\n' +
+            '        <segment>\n' +
+            '          <source>Asdf asdf</source>\n' +
+            '          <target>bam bam</target>\n' +
+            '        </segment>\n' +
+            '      </unit>\n' +
+            '    </group>\n' +
+            '  </file>\n' +
+            '</xliff>\n';
+
+        expect(actual).toBe(expected);
+    });
+
+    test('should serialize XLIFF 2.0 with source and target with autoKey (false)', () => {
+        const x = new webOSXliff();
+        expect(x).toBeTruthy();
+
+        const tu = new TranslationUnit({
+            source: "Asdf asdf",
+            sourceLocale: "en-KR",
+            target: "bam bam",
+            targetLocale: "de-DE",
+            key: "Asdf asdf",
+            file: "foo/bar/asdf.js",
+            project: "webapp",
+            resType: "string",
+            comment: "This is a comment",
+            datatype: "javascript",
+            autoKey: false
+        });
+
+        x.addTranslationUnit(tu);
+
+        let actual = x.serialize();
+        let expected =
+            '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n' +
+            '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:mda="urn:oasis:names:tc:xliff:metadata:2.0" srcLang="en-KR" trgLang="de-DE" version="2.0">\n' +
+            '  <file id="webapp_f1" original="webapp">\n' +
+            '    <group id="webapp_g1" name="javascript">\n' +
+            '      <unit id="webapp_g1_1" name="Asdf asdf">\n' +
+            '        <notes>\n' +
+            '          <note>This is a comment</note>\n' +
+            '        </notes>\n' +
+            '        <segment>\n' +
+            '          <source>Asdf asdf</source>\n' +
+            '          <target>bam bam</target>\n' +
+            '        </segment>\n' +
+            '      </unit>\n' +
+            '    </group>\n' +
+            '  </file>\n' +
+            '</xliff>\n';
 
         expect(actual).toBe(expected);
     });
@@ -392,8 +477,10 @@ describe("webOSXliff", () => {
             file: "foo/bar/asdf.js",
             project: "webapp",
             resType: "string",
-            datatype: "javascript"
+            datatype: "javascript",
+            autoKey: true
         });
+
         tu.metadata = {
             "mda:metaGroup": {
                 "mda:meta": [
@@ -441,7 +528,7 @@ describe("webOSXliff", () => {
             '      </unit>\n' +
             '    </group>\n' +
             '  </file>\n' +
-            '</xliff>\n\n';
+            '</xliff>\n';
 
         expect(actual).toBe(expected);
     });
@@ -500,7 +587,7 @@ describe("webOSXliff", () => {
 
         let actual = x.serialize();
         expect(actual).toBeTruthy();
-        expect(x.getLines()).toBe(25);
+        expect(x.getLines()).toBe(24);
     });
     test('should get bytes count after deserialization', () => {
         const x = new webOSXliff();
@@ -558,7 +645,7 @@ describe("webOSXliff", () => {
 
         let actual = x.serialize();
         expect(actual).toBeTruthy();
-        expect(x.getBytes()).toBe(792);
+        expect(x.getBytes()).toBe(791);
     });
     test('should deserialize webOS XLIFF', () => {
         const x = new webOSXliff();
@@ -737,7 +824,7 @@ describe("webOSXliff", () => {
         expect(tulist[0].target).toBe("bebe bebe");
         expect(tulist[0].targetLocale).toBe("fr-FR");
 
-        const item_sourceHash = JSUtils.hashCode(tulist[0].source.trim());
+        const item_sourceHash = JSUtils.hashCode(tulist[0].source.trim()).toString();
         expect(tulist[0].sourceHash).toBe(item_sourceHash);
     });
 
@@ -791,7 +878,7 @@ describe("webOSXliff", () => {
         expect(tulist[1].target).toBe("");
         expect(tulist[1].id).toBe("sample2_g2_1");
 
-        const item_sourceHash = JSUtils.hashCode(tulist[1].source.trim());
+        const item_sourceHash = JSUtils.hashCode(tulist[1].source.trim()).toString();
         expect(tulist[1].sourceHash).toBe(item_sourceHash);
     });
     test('webOSXliffDeserialize_metadata', () => {
@@ -918,5 +1005,146 @@ describe("webOSXliff", () => {
             })
         ]);
         expect(x.size()).toBe(2);
+    });
+
+    test('should serialize XLIFF 2.0 with empty string target as self-closing tag', () => {
+        const x = new webOSXliff();
+        expect(x).toBeTruthy();
+
+        const tu = new TranslationUnit({
+            source: "Test string",
+            sourceLocale: "en-KR",
+            target: "",
+            targetLocale: "de-DE",
+            key: "testkey",
+            file: "test.js",
+            project: "webapp",
+            resType: "string",
+            datatype: "javascript"
+        });
+
+        x.addTranslationUnit(tu);
+
+        let actual = x.serialize();
+        let expected =
+            '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n' +
+            '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:mda="urn:oasis:names:tc:xliff:metadata:2.0" srcLang="en-KR" trgLang="de-DE" version="2.0">\n' +
+            '  <file id="webapp_f1" original="webapp">\n' +
+            '    <group id="webapp_g1" name="javascript">\n' +
+            '      <unit id="webapp_g1_1" name="testkey">\n' +
+            '        <segment>\n' +
+            '          <source>Test string</source>\n' +
+            '          <target/>\n' +
+            '        </segment>\n' +
+            '      </unit>\n' +
+            '    </group>\n' +
+            '  </file>\n' +
+            '</xliff>\n';
+
+        expect(actual).toBe(expected);
+    });
+
+    test('should serialize XLIFF 2.0 with null target as self-closing tag', () => {
+        const x = new webOSXliff();
+        expect(x).toBeTruthy();
+
+        const tu = new TranslationUnit({
+            source: "Test string",
+            sourceLocale: "en-KR",
+            target: null,
+            targetLocale: "de-DE",
+            key: "testkey",
+            file: "test.js",
+            project: "webapp",
+            resType: "string",
+            datatype: "javascript"
+        });
+
+        x.addTranslationUnit(tu);
+
+        let actual = x.serialize();
+        let expected =
+            '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n' +
+            '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:mda="urn:oasis:names:tc:xliff:metadata:2.0" srcLang="en-KR" trgLang="de-DE" version="2.0">\n' +
+            '  <file id="webapp_f1" original="webapp">\n' +
+            '    <group id="webapp_g1" name="javascript">\n' +
+            '      <unit id="webapp_g1_1" name="testkey">\n' +
+            '        <segment>\n' +
+            '          <source>Test string</source>\n' +
+            '          <target/>\n' +
+            '        </segment>\n' +
+            '      </unit>\n' +
+            '    </group>\n' +
+            '  </file>\n' +
+            '</xliff>\n';
+
+        expect(actual).toBe(expected);
+    });
+
+    test('should serialize XLIFF 2.0 with undefined target as self-closing tag', () => {
+        const x = new webOSXliff();
+        expect(x).toBeTruthy();
+
+        const tu = new TranslationUnit({
+            source: "Test string",
+            sourceLocale: "en-KR",
+            targetLocale: "de-DE",
+            key: "testkey",
+            file: "test.js",
+            project: "webapp",
+            resType: "string",
+            datatype: "javascript"
+            // target is undefined
+        });
+
+        x.addTranslationUnit(tu);
+
+        let actual = x.serialize();
+        let expected =
+            '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n' +
+            '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" xmlns:mda="urn:oasis:names:tc:xliff:metadata:2.0" srcLang="en-KR" trgLang="de-DE" version="2.0">\n' +
+            '  <file id="webapp_f1" original="webapp">\n' +
+            '    <group id="webapp_g1" name="javascript">\n' +
+            '      <unit id="webapp_g1_1" name="testkey">\n' +
+            '        <segment>\n' +
+            '          <source>Test string</source>\n' +
+            '          <target/>\n' +
+            '        </segment>\n' +
+            '      </unit>\n' +
+            '    </group>\n' +
+            '  </file>\n' +
+            '</xliff>\n';
+
+        expect(actual).toBe(expected);
+    });
+
+    test('should deserialize XLIFF 2.0 with self-closing target tag', () => {
+        const x = new webOSXliff();
+        expect(x).toBeTruthy();
+
+        x.deserialize(
+                '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n' +
+                '<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="de-DE" version="2.0">\n' +
+                '  <file id="webapp_f1" original="webapp">\n' +
+                '    <group id="webapp_g1" name="javascript">\n' +
+                '      <unit id="webapp_g1_1" name="testkey">\n' +
+                '        <segment>\n' +
+                '          <source>Test string</source>\n' +
+                '          <target/>\n' +
+                '        </segment>\n' +
+                '      </unit>\n' +
+                '    </group>\n' +
+                '  </file>\n' +
+                '</xliff>');
+
+        let tulist = x.getTranslationUnits();
+
+        expect(tulist).toBeTruthy();
+        expect(tulist.length).toBe(1);
+        expect(tulist[0].source).toBe("Test string");
+        expect(tulist[0].sourceLocale).toBe("en-KR");
+        expect(tulist[0].targetLocale).toBe("de-DE");
+        expect(tulist[0].key).toBe("testkey");
+        expect(tulist[0].target).toBe("");
     });
 });

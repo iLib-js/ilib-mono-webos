@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="ko-CN" version="2.0">
+  <file id="sample-webos-js_f1" original="sample-webos-js">
+    <group id="sample-webos-js_g1" name="javascript">
+      <unit id="4">
+        <segment>
+          <source>Time Settings</source>
+          <target>시간 설정(ko-CN)</target>
+        </segment>
+      </unit>
+    </group>
+  </file>
+</xliff>

@@ -30,7 +30,7 @@ Please check the [webos-dart](https://github.com/iLib-js/ilib-mono-webos/tree/ma
 
 ## License
 
-Copyright (c) 2023-2025, JEDLSoft
+Copyright (c) 2023-2026, JEDLSoft
 
 This plugin is license under Apache2. [LICENSE](https://github.com/iLib-js/ilib-mono-webos/blob/main/packages/ilib-loctool-webos-dart/LICENSE) file for more details.
 

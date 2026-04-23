@@ -1,5 +1,23 @@
 # ilib-xliff-webos
 
+## 1.0.11
+
+### Patch Changes
+
+- 5208264: Fixed XLIFF 2.0 serialization to generate self-closing `<target/>` tags when target values are empty or undefined, instead of omitting the target element entirely.
+
+## 1.0.10
+
+### Patch Changes
+
+- bf62565: Update serialization to write the `name` attribute only when autoKey is false.
+
+## 1.0.9
+
+### Patch Changes
+
+- 0e05e36: Convert sourceHash to string format when passing the value
+
 ## 1.0.8
 
 ### Patch Changes

@@ -1,5 +1,20 @@
 # ilib-loctool-webos-dist
 
+## 1.20.6
+
+### Patch Changes
+
+- 904d726: Update dependencies. (loctool: 2.32.3)
+- Updated dependencies [904d726]
+  - ilib-loctool-webos-json-resource@1.7.9
+  - ilib-loctool-webos-ts-resource@1.5.12
+  - ilib-loctool-webos-javascript@1.13.2
+  - ilib-loctool-webos-dart@1.5.2
+  - ilib-loctool-webos-json@1.2.2
+  - ilib-loctool-webos-cpp@1.10.2
+  - ilib-loctool-webos-qml@1.10.2
+  - ilib-loctool-webos-c@1.10.2
+
 ## 1.20.5
 
 ### Patch Changes
@@ -26,7 +41,7 @@
   - ilib-loctool-webos-cpp@1.10.0
   - ilib-loctool-webos-qml@1.10.0
   - ilib-loctool-webos-c@1.10.0
-    - Remove the common XLIFF loading logic.  
+    - Remove the common XLIFF loading logic.
     - Deprecate the `commonXliff` property in the configuration.
 
 ## 1.20.3
@@ -108,9 +123,9 @@
 - e244b3a: Fix the broken documentation links after each plugin is published to npm
 - 7163edd: Updated dependencies. (loctool: 2.30.0)
   - Add the XliffFactory to support various XLIFF formats. It creates an instance of either the Xliff class or the new webOSXliff class, depending on whether it’s targeting the webOS platform or another use case. Additional format support can be added in the same way if required.
-Update loctool options:
-Add the new --metadata option. It accepts key-value pairs in the form aaa=bbb (e.g. --metadata device=Monitor), and is currently used by webOSXliff.
-Remove the custom option from --xliffStyle. Instead, the option webOS will be used. Previously, the content of the custom option was already parsed as xliff for webOS.
+    Update loctool options:
+    Add the new --metadata option. It accepts key-value pairs in the form aaa=bbb (e.g. --metadata device=Monitor), and is currently used by webOSXliff.
+    Remove the custom option from --xliffStyle. Instead, the option webOS will be used. Previously, the content of the custom option was already parsed as xliff for webOS.
 - Updated dependencies [1970707]
 - Updated dependencies [e244b3a]
 - Updated dependencies [7163edd]
