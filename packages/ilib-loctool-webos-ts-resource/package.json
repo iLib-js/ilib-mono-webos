@@ -29,6 +29,7 @@
         }
     ],
     "files": [
+        "CHANGELOG.md",
         "README.md",
         "LICENSE",
         "TSResourceFileType.js",

@@ -26,6 +26,7 @@
         }
     ],
     "files": [
+        "CHANGELOG.md",
         "README.md",
         "LICENSE",
         "JsonFileType.js",

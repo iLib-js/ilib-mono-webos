@@ -28,6 +28,7 @@
         }
     ],
     "files": [
+        "CHANGELOG.md",
         "README.md",
         "LICENSE",
         "CFileType.js",
