@@ -36,6 +36,7 @@
         }
     ],
     "files": [
+        "CHANGELOG.md",
         "src",
         "scripts",
         "package.json",

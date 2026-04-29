@@ -30,6 +30,7 @@
         }
     ],
     "files": [
+        "CHANGELOG.md",
         "README.md",
         "LICENSE",
         "JSONResourceFileType.js",
