@@ -7,7 +7,7 @@ setup() {
 
 # Cleanup function to remove test artifacts
 teardown() {
-  #rm -rf output_*
+  rm -rf output_*
   echo "teardown"
 }
 
