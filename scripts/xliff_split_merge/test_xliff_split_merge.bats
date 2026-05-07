@@ -51,7 +51,7 @@ check_status() {
 @test "Test - xliff_split_merge.sh merge" {
   local test_name="merge"
 
-  run ./xliff_split_merge.sh merge ./testfiles/merge/input ./output_merge ./testfiles/merge/current
+  run ./xliff_split_merge.sh merge --input ./testfiles/merge/input --output ./output_merge --current ./testfiles/merge/current
 
   # Check if the script exited successfully
   check_status $test_name $status
@@ -68,7 +68,7 @@ check_status() {
 @test "Test - xliff_split_merge.sh merge_language" {
   local test_name="merge_language"
 
-  run ./xliff_split_merge.sh merge_language ./testfiles/merge_language/locdata ./output_merge_language
+  run ./xliff_split_merge.sh merge_language --input ./testfiles/merge_language/locdata --output ./output_merge_language
 
   # Check if the script exited successfully
   check_status $test_name $status
@@ -86,7 +86,7 @@ check_status() {
 @test "Test - xliff_split_merge.sh split_component" {
   local test_name="split_component"
 
-  run ./xliff_split_merge.sh split_component ./testfiles/split_component ./output_split_component
+  run ./xliff_split_merge.sh split_component --input ./testfiles/split_component --output ./output_split_component
 
   # Check if the script exited successfully
   check_status $test_name $status
@@ -100,4 +100,62 @@ check_status() {
   check_diff $test_name ./output_split_component/appA/ko-KR.xliff ./testfiles/Expected/output_split_component/appA/ko-KR.xliff
   check_diff $test_name ./output_split_component/appB/ko-KR.xliff ./testfiles/Expected/output_split_component/appB/ko-KR.xliff
   check_diff $test_name ./output_split_component/appC/ko-KR.xliff ./testfiles/Expected/output_split_component/appC/ko-KR.xliff
+}
+
+# Error validation tests
+
+# Test missing required option --current in merge
+@test "Test - xliff_split_merge.sh merge missing --current" {
+  local test_name="merge_missing_current"
+
+  run ./xliff_split_merge.sh merge --input ./testfiles/merge/input --output ./output_merge
+
+  # Should fail with non-zero status
+  [ "$status" -ne 0 ]
+}
+
+# Test missing required option --input in merge_language
+@test "Test - xliff_split_merge.sh merge_language missing --input" {
+  local test_name="merge_language_missing_input"
+
+  run ./xliff_split_merge.sh merge_language --output ./output_merge_language
+
+  # Should fail with non-zero status
+  [ "$status" -ne 0 ]
+}
+
+# Test invalid COMMAND
+@test "Test - xliff_split_merge.sh invalid command" {
+  local test_name="invalid_command"
+
+  run ./xliff_split_merge.sh invalid_cmd --input ./testfiles/split_component --output ./output_invalid
+
+  # Should fail with non-zero status
+  [ "$status" -ne 0 ]
+}
+
+# Test non-existent input directory
+@test "Test - xliff_split_merge.sh non-existent directory" {
+  local test_name="nonexistent_dir"
+
+  run ./xliff_split_merge.sh split_component --input ./nonexistent_dir --output ./output_nonexistent
+
+  # Should fail with non-zero status
+  [ "$status" -ne 0 ]
+}
+
+# Test help option
+@test "Test - xliff_split_merge.sh help option" {
+  local test_name="help_option"
+
+  run ./xliff_split_merge.sh --help
+
+  # Should succeed with status 0
+  [ "$status" -eq 0 ]
+
+  # Output should contain usage information
+  [[ "$output" =~ "Usage:" ]]
+  [[ "$output" =~ "merge" ]]
+  [[ "$output" =~ "merge_language" ]]
+  [[ "$output" =~ "split_component" ]]
 }

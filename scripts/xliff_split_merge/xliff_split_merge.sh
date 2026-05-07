@@ -1,50 +1,128 @@
 #!/bin/bash
 
-# Check for at least one argument
+# Display help message
+show_help() {
+    echo "Usage: $0 <COMMAND> [OPTIONS]"
+    echo ""
+    echo "Options support both formats: --option value, --option=value, and short forms"
+    echo ""
+    echo "Commands and Options:"
+    echo ""
+    echo "  merge"
+    echo "    --input, -i <DIR>         Directory with new/updated XLIFF files"
+    echo "    --current, -c <DIR>       Directory with current XLIFF files (base)"
+    echo "    --output, -o <DIR>        Output directory for merged results"
+    echo ""
+    echo "  merge_language"
+    echo "    --input, -i <DIR>         Directory with localization data from multiple apps"
+    echo "    --output, -o <DIR>        Output directory (optional, defaults to input--results)"
+    echo ""
+    echo "  split_component"
+    echo "    --input, -i <DIR>         Directory with merged XLIFF files"
+    echo "    --output, -o <DIR>        Output directory (optional, defaults to input--results)"
+    echo ""
+    echo "Examples:"
+    echo "  $0 merge --input changes_dir --current base_dir --output result_dir"
+    echo "  $0 merge_language --input app_locdata --output result_dir"
+    echo "  $0 split_component --input merged_xliff_dir --output result_dir"
+}
+
+# Parse command-line options
+COMMAND=""
+INPUT_DIR=""
+OUTPUT_DIR=""
+CURRENT_DIR=""
+
+# COMMAND as the first positional argument
 if [ "$#" -lt 1 ]; then
-    echo "Usage: $0 <COMMAND> <INPUT_DIR> [OUTPUT_DIR] [CURRENT_DIR (only for merge)]"
-    exit 1
+    show_help
+    exit 0
 fi
 
-COMMAND="$1"
-shift
+if [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
+    COMMAND=""
+else
+    COMMAND="$1"
+    shift
+fi
+
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        # input option (merge: new/updated files, others: command input)
+        --input|-i)
+            INPUT_DIR="${2%/}"
+            shift 2
+            ;;
+        --input=*|-i=*)
+            INPUT_DIR="${1#*=}"
+            INPUT_DIR="${INPUT_DIR%/}"
+            shift
+            ;;
+        --current|-c|-cur)
+            CURRENT_DIR="$2"
+            shift 2
+            ;;
+        --current=*|-c=*|-cur=*)
+            CURRENT_DIR="${1#*=}"
+            shift
+            ;;
+        --output|-o)
+            OUTPUT_DIR="$2"
+            shift 2
+            ;;
+        --output=*|-o=*)
+            OUTPUT_DIR="${1#*=}"
+            shift
+            ;;
+        --help|-h)
+            show_help
+            exit 0
+            ;;
+        *)
+            echo "Error: Unknown option '$1'"
+            echo "Use --help for usage information."
+            exit 1
+            ;;
+    esac
+done
 
 # Define allowed commands
 ALLOWED_COMMANDS=("merge" "merge_language" "split_component")
 
-# Check if COMMAND is valid
+# Validate COMMAND
+if [ -z "$COMMAND" ]; then
+    echo "Error: COMMAND is required as the first argument."
+    echo "Usage: $0 <COMMAND> [OPTIONS]"
+    echo "Use --help for more information."
+    exit 1
+fi
+
 if [[ ! " ${ALLOWED_COMMANDS[@]} " =~ " ${COMMAND} " ]]; then
     echo "Error: Invalid command '$COMMAND'"
     echo "Allowed commands are: $(IFS=', '; echo "${ALLOWED_COMMANDS[*]}")"
     exit 1
 fi
 
-# Handle arguments based on COMMAND
+# Validate INPUT_DIR based on COMMAND
 case "$COMMAND" in
     merge)
-        if [ "$#" -ne 3 ]; then
-            echo "Usage for merge: $0 merge <INPUT_DIR> <OUTPUT_DIR> <CURRENT_DIR>"
+        if [ -z "$INPUT_DIR" ]; then
+            echo "Error: merge command requires --input option (new/updated files)."
             exit 1
         fi
-        INPUT_DIR="$1"
-        OUTPUT_DIR="$2"
-        CURRENT_DIR="$3"
+        if [ -z "$OUTPUT_DIR" ] || [ -z "$CURRENT_DIR" ]; then
+            echo "Error: merge command requires --input, --output, and --current."
+            exit 1
+        fi
         ;;
     merge_language|split_component)
-        if [ "$#" -lt 1 ]; then
-            echo "Usage for $COMMAND: $0 $COMMAND <INPUT_DIR> [OUTPUT_DIR]"
+        if [ -z "$INPUT_DIR" ]; then
+            echo "Error: $COMMAND command requires --input option."
             exit 1
         fi
-        INPUT_DIR="$1"
-        # Remove trailing slash if present
-        INPUT_DIR="${INPUT_DIR%/}"
-
-        if [ "$#" -eq 1 ]; then
+        if [ -z "$OUTPUT_DIR" ]; then
             OUTPUT_DIR="${INPUT_DIR}--results"
-        else
-            OUTPUT_DIR="$2"
         fi
-        CURRENT_DIR=""
         ;;
 esac
 
@@ -54,6 +132,50 @@ echo "Input Directory: $INPUT_DIR"
 echo "Output Directory: $OUTPUT_DIR"
 if [ -n "$CURRENT_DIR" ]; then
     echo "Current Directory: $CURRENT_DIR"
+fi
+
+if [ ! -d "$INPUT_DIR" ]; then
+    echo "Error: INPUT_DIR not found or not a directory: $INPUT_DIR"
+    exit 1
+fi
+
+# Validate directory structure based on COMMAND
+case "$COMMAND" in
+    merge|merge_language)
+        # merge and merge_language require app subdirectories with .xliff files
+        if ! find "$INPUT_DIR" -mindepth 1 -maxdepth 1 -type d | grep -q .; then
+            echo "Error: INPUT_DIR has no app subdirectories: $INPUT_DIR"
+            exit 1
+        fi
+        if ! find "$INPUT_DIR" -type f -name "*.xliff" | grep -q .; then
+            echo "Error: INPUT_DIR has no .xliff files in app subdirectories: $INPUT_DIR"
+            exit 1
+        fi
+        ;;
+    split_component)
+        # split_component requires .xliff files directly in INPUT_DIR
+        if ! find "$INPUT_DIR" -maxdepth 1 -type f -name "*.xliff" | grep -q .; then
+            echo "Error: INPUT_DIR has no .xliff files: $INPUT_DIR"
+            exit 1
+        fi
+        ;;
+esac
+
+# Validate CURRENT_DIR for merge command
+if [ -n "$CURRENT_DIR" ]; then
+    if [ ! -d "$CURRENT_DIR" ]; then
+        echo "Error: CURRENT_DIR not found or not a directory: $CURRENT_DIR"
+        exit 1
+    fi
+    # CURRENT_DIR (for merge) requires app subdirectories with .xliff files
+    if ! find "$CURRENT_DIR" -mindepth 1 -maxdepth 1 -type d | grep -q .; then
+        echo "Error: CURRENT_DIR has no app subdirectories: $CURRENT_DIR"
+        exit 1
+    fi
+    if ! find "$CURRENT_DIR" -type f -name "*.xliff" | grep -q .; then
+        echo "Error: CURRENT_DIR has no .xliff files in app subdirectories: $CURRENT_DIR"
+        exit 1
+    fi
 fi
 
 # Locate loctool and define run_loctool():
