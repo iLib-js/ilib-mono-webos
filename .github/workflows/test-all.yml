@@ -33,6 +33,9 @@ jobs:
             - name: Run xliff_split_merge tests
               working-directory: scripts/xliff_split_merge
               run: bats test_xliff_split_merge.bats
+            - name: Run xliff_delete_units tests
+              working-directory: scripts/xliff_delete_units
+              run: bats test_xliff_delete_units.bats
             - name: Run Codecov
               run: pnpm coverage
               env:
