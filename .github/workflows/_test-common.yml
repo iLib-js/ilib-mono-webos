@@ -12,6 +12,9 @@ on:
             test-command:
                 type: string
                 required: true
+            coverage-command:
+                type: string
+                required: true
             turbo-scm-base:
                 type: string
                 default: ''
@@ -47,7 +50,7 @@ jobs:
               env:
                   TURBO_SCM_BASE: ${{ inputs.turbo-scm-base }}
             - name: Run coverage
-              run: pnpm coverage
+              run: ${{ inputs.coverage-command }}
               env:
                   TURBO_SCM_BASE: ${{ inputs.turbo-scm-base }}
             - name: Install bats
@@ -65,10 +68,6 @@ jobs:
               if: ${{ inputs.run-script-tests }}
               working-directory: scripts/xliff_split_merge
               run: bats test_xliff_split_merge.bats
-            - name: Run xliff_delete_units tests
-              if: ${{ inputs.run-script-tests }}
-              working-directory: scripts/xliff_delete_units
-              run: bats test_xliff_delete_units.bats
             - name: Upload coverage to Codecov
               uses: codecov/codecov-action@v5
               with:

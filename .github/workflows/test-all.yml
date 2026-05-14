@@ -11,6 +11,7 @@ jobs:
         uses: ./.github/workflows/_test-common.yml
         with:
             test-command: pnpm test:ci
+            coverage-command: pnpm coverage
             run-script-tests: true
         secrets:
             CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
