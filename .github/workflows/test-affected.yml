@@ -11,7 +11,7 @@ jobs:
             # ensure PR base commit is fetched
             # per https://stackoverflow.com/a/78153130
             fetch-depth: $(( ${{ github.event.pull_request.commits }} + 1 ))
-            test-command: pnpm test:ci:affected
+            test-command: pnpm test:ci
             run-script-tests: true
             # temporary workaround for `Failed to resolve base ref 'main' from GitHub Actions event`:
             # manually set PR base commit ref
