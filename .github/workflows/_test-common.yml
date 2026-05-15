@@ -1,0 +1,76 @@
+name: Test Common
+
+on:
+    workflow_call:
+        inputs:
+            node-version:
+                type: number
+                default: 20
+            fetch-depth:
+                type: string
+                default: '1'
+            test-command:
+                type: string
+                required: true
+            coverage-command:
+                type: string
+                required: true
+            turbo-scm-base:
+                type: string
+                default: ''
+            run-script-tests:
+              type: boolean
+              default: false
+        secrets:
+            CODECOV_TOKEN:
+                required: true
+
+jobs:
+    test:
+        name: Test
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: ${{ inputs.fetch-depth }}
+            - name: Install pnpm
+              uses: pnpm/action-setup@v4
+            - name: Use Node.js ${{ inputs.node-version }}
+              uses: actions/setup-node@v4
+              with:
+                  node-version: ${{ inputs.node-version }}
+                  cache: pnpm
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
+            - name: Run tests
+              run: ${{ inputs.test-command }}
+              env:
+                  TURBO_SCM_BASE: ${{ inputs.turbo-scm-base }}
+            - name: Run coverage
+              run: ${{ inputs.coverage-command }}
+              env:
+                  TURBO_SCM_BASE: ${{ inputs.turbo-scm-base }}
+            - name: Install bats
+              if: ${{ inputs.run-script-tests }}
+              uses: bats-core/bats-action@3.0.1
+            - name: Install Python 3
+              if: ${{ inputs.run-script-tests }}
+              uses: actions/setup-python@v5
+              with:
+                  python-version: '3'
+            - name: Install Python dependencies
+              if: ${{ inputs.run-script-tests }}
+              run: pip install pandas openpyxl
+            - name: Run script tests
+              if: ${{ inputs.run-script-tests }}
+              run: |
+                find scripts -name "*.bats" -print0 | while IFS= read -r -d '' f; do
+                  echo "Running: $f"
+                  (cd "$(dirname "$f")" && bats "$(basename "$f")")
+                done
+            - name: Upload coverage to Codecov
+              if: hashFiles('coverage/**') != ''
+              uses: codecov/codecov-action@v5
+              with:
+                  token: ${{ secrets.CODECOV_TOKEN }}
