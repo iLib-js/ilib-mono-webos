@@ -13,6 +13,8 @@
     "test:all:force": "turbo test --force",
     "test:ci": "turbo test --concurrency=5",
     "test:ci:affected": "pnpm test:ci --affected",
+    "test:scripts:xliff-delete-units": "bats scripts/xliff_delete_units/test-xliff-delete-units.bats",
+    "test:scripts:xliff-split-merge": "bats scripts/xliff_split_merge/test-xliff-split-merge.bats",
     "coverage": "turbo coverage",
     "coverage:affected": "turbo coverage --affected",
     "coverage:ci:affected": "turbo coverage --concurrency=5 --affected",
