@@ -1,34 +1,40 @@
 #!/usr/bin/env bats
 
-# test-xliff-delete-units.bats - Tests for xliff-delete-units.sh
+# test-xliff-split-merge.bats - Tests for xliff-split-merge.sh
 
+# Setup function to prepare test environment
 setup() {
   SCRIPT_DIR="$(dirname "$BATS_TEST_FILENAME")"
-  XLIFF_DELETE_UNITS_SH="$SCRIPT_DIR/xliff-delete-units.sh"
+  XLIFF_SPLIT_MERGE_SH="$SCRIPT_DIR/xliff-split-merge.sh"
   TESTFILES_DIR="$SCRIPT_DIR/testfiles"
   OUTPUT_DIR_BASE="$SCRIPT_DIR/output_"
   rm -rf ${OUTPUT_DIR_BASE}* 2>/dev/null || true
 }
 
+# Cleanup function to remove test artifacts
 teardown() {
   rm -rf ${OUTPUT_DIR_BASE}* 2>/dev/null || true
+  echo "teardown"
 }
 
 check_file_exists() {
   local test_name="$1"
   local filepath="$2"
+
   if [ ! -f "$filepath" ]; then
     echo "❌ $test_name -- Error: File not found -> $filepath"
     return 1
   fi
 }
 
+# Define a helper function to check_diff and print output on failure
 # Both files are normalized to always end with a newline before comparison
 # to avoid false failures caused by "\ No newline at end of file" differences.
 check_diff() {
   local test_name="$1"
   local file1="$2"
   local file2="$3"
+
   run diff <(sed -e '$a\' "$file1") <(sed -e '$a\' "$file2")
   if [ "$status" -ne 0 ]; then
     echo "❌ $test_name -- Error: diff failed between $file1 and $file2"
@@ -41,207 +47,102 @@ check_status() {
   local test_name="$1"
   local status="$2"
   if [ "$status" -ne 0 ]; then
-    echo "❌ Error: Failed to run ./xliff-delete-units.sh $test_name ..."
+    echo "❌ Error: Failed to run "$XLIFF_SPLIT_MERGE_SH" $test_name ..."
     echo "$output"
   fi
   [ "$status" -eq 0 ]
 }
 
-# ── Happy path ────────────────────────────────────────────────────────────────
+# Test the 'merge' command
+@test "Test - xliff-split-merge.sh merge" {
+  local test_name="merge"
 
-@test "Test - xliff-delete-units.sh --criteria" {
-  local test_name="criteria"
-  local CRITERIA="key=^More$,source=^More$,project=^adapp$,datatype=^javascript$"
-
-  run "$XLIFF_DELETE_UNITS_SH" \
-    --criteria "$CRITERIA" \
-    --inputPath "$TESTFILES_DIR/localization-data" \
-    --outputPath "${OUTPUT_DIR_BASE}criteria"
+  run "$XLIFF_SPLIT_MERGE_SH" merge --input "$TESTFILES_DIR/merge/input" --output "${OUTPUT_DIR_BASE}merge" --current "$TESTFILES_DIR/merge/current"
 
   check_status $test_name $status
-
-  # adapp: 'More' unit deleted — compare against Expected
-  check_file_exists $test_name ${OUTPUT_DIR_BASE}criteria/adapp/af-ZA.xliff
-  check_file_exists $test_name ${OUTPUT_DIR_BASE}criteria/adapp/am-ET.xliff
-  check_file_exists $test_name ${OUTPUT_DIR_BASE}criteria/adapp/ko-KR.xliff
-  check_diff $test_name ${OUTPUT_DIR_BASE}criteria/adapp/af-ZA.xliff "$TESTFILES_DIR/Expected/adapp/af-ZA.xliff"
-  check_diff $test_name ${OUTPUT_DIR_BASE}criteria/adapp/am-ET.xliff "$TESTFILES_DIR/Expected/adapp/am-ET.xliff"
-  check_diff $test_name ${OUTPUT_DIR_BASE}criteria/adapp/ko-KR.xliff "$TESTFILES_DIR/Expected/adapp/ko-KR.xliff"
-
-  # renewupdate: not targeted by this criteria — output must match input unchanged
-  check_file_exists $test_name ${OUTPUT_DIR_BASE}criteria/renewupdate/af-ZA.xliff
-  check_file_exists $test_name ${OUTPUT_DIR_BASE}criteria/renewupdate/am-ET.xliff
-  check_file_exists $test_name ${OUTPUT_DIR_BASE}criteria/renewupdate/ko-KR.xliff
-  check_diff $test_name ${OUTPUT_DIR_BASE}criteria/renewupdate/af-ZA.xliff "$TESTFILES_DIR/localization-data/renewupdate/af-ZA.xliff"
-  check_diff $test_name ${OUTPUT_DIR_BASE}criteria/renewupdate/am-ET.xliff "$TESTFILES_DIR/localization-data/renewupdate/am-ET.xliff"
-  check_diff $test_name ${OUTPUT_DIR_BASE}criteria/renewupdate/ko-KR.xliff "$TESTFILES_DIR/localization-data/renewupdate/ko-KR.xliff"
+  check_file_exists $test_name ${OUTPUT_DIR_BASE}merge/appA/ko-KR.xliff
+  check_diff $test_name ${OUTPUT_DIR_BASE}merge/appA/ko-KR.xliff "$TESTFILES_DIR/Expected/output_merge/appA/ko-KR.xliff"
 }
 
-@test "Test - xliff-delete-units.sh --criteriaFile" {
-  local test_name="criteriaFile"
 
-  run "$XLIFF_DELETE_UNITS_SH" \
-    --criteriaFile "$TESTFILES_DIR/StringCT_sample.xlsx" \
-    --inputPath "$TESTFILES_DIR/localization-data" \
-    --outputPath "${OUTPUT_DIR_BASE}criteriafile"
+# Test the 'merge_language' command with a single file
+@test "Test - xliff-split-merge.sh merge_language" {
+  local test_name="merge_language"
+
+  run "$XLIFF_SPLIT_MERGE_SH" merge_language --input "$TESTFILES_DIR/merge_language/locdata" --output "${OUTPUT_DIR_BASE}merge_language"
 
   check_status $test_name $status
-
-  # adapp: compare all locales against Expected
-  check_file_exists $test_name ${OUTPUT_DIR_BASE}criteriafile/adapp/af-ZA.xliff
-  check_file_exists $test_name ${OUTPUT_DIR_BASE}criteriafile/adapp/am-ET.xliff
-  check_file_exists $test_name ${OUTPUT_DIR_BASE}criteriafile/adapp/ko-KR.xliff
-  check_diff $test_name ${OUTPUT_DIR_BASE}criteriafile/adapp/af-ZA.xliff "$TESTFILES_DIR/Expected/adapp/af-ZA.xliff"
-  check_diff $test_name ${OUTPUT_DIR_BASE}criteriafile/adapp/am-ET.xliff "$TESTFILES_DIR/Expected/adapp/am-ET.xliff"
-  check_diff $test_name ${OUTPUT_DIR_BASE}criteriafile/adapp/ko-KR.xliff "$TESTFILES_DIR/Expected/adapp/ko-KR.xliff"
-
-  # renewupdate: compare all locales against Expected
-  check_file_exists $test_name ${OUTPUT_DIR_BASE}criteriafile/renewupdate/af-ZA.xliff
-  check_file_exists $test_name ${OUTPUT_DIR_BASE}criteriafile/renewupdate/am-ET.xliff
-  check_file_exists $test_name ${OUTPUT_DIR_BASE}criteriafile/renewupdate/ko-KR.xliff
-  check_diff $test_name ${OUTPUT_DIR_BASE}criteriafile/renewupdate/af-ZA.xliff "$TESTFILES_DIR/Expected/renewupdate/af-ZA.xliff"
-  check_diff $test_name ${OUTPUT_DIR_BASE}criteriafile/renewupdate/am-ET.xliff "$TESTFILES_DIR/Expected/renewupdate/am-ET.xliff"
-  check_diff $test_name ${OUTPUT_DIR_BASE}criteriafile/renewupdate/ko-KR.xliff "$TESTFILES_DIR/Expected/renewupdate/ko-KR.xliff"
+  check_file_exists $test_name ${OUTPUT_DIR_BASE}merge_language/en-US.xliff
+  check_file_exists $test_name ${OUTPUT_DIR_BASE}merge_language/ko-KR.xliff
+  check_diff "merge_language" ${OUTPUT_DIR_BASE}merge_language/en-US.xliff "$TESTFILES_DIR/Expected/output_merge_language/en-US.xliff"
+  check_diff "merge_language" ${OUTPUT_DIR_BASE}merge_language/ko-KR.xliff "$TESTFILES_DIR/Expected/output_merge_language/ko-KR.xliff"
 }
 
-@test "Test - short options (-c -i -o)" {
-  local test_name="short_options"
-  local CRITERIA="key=^More$,source=^More$,project=^adapp$,datatype=^javascript$"
+# Test the 'split_component' command
+@test "Test - xliff-split-merge.sh split_component" {
+  local test_name="split_component"
 
-  run "$XLIFF_DELETE_UNITS_SH" \
-    -c "$CRITERIA" \
-    -i "$TESTFILES_DIR/localization-data" \
-    -o "${OUTPUT_DIR_BASE}short"
+  run "$XLIFF_SPLIT_MERGE_SH" split_component --input "$TESTFILES_DIR/split_component" --output "${OUTPUT_DIR_BASE}split_component"
 
   check_status $test_name $status
-  check_file_exists $test_name ${OUTPUT_DIR_BASE}short/adapp/ko-KR.xliff
-  check_diff $test_name ${OUTPUT_DIR_BASE}short/adapp/ko-KR.xliff "$TESTFILES_DIR/Expected/adapp/ko-KR.xliff"
+  check_file_exists $test_name ${OUTPUT_DIR_BASE}split_component/appA/ko-KR.xliff
+  check_file_exists $test_name ${OUTPUT_DIR_BASE}split_component/appB/ko-KR.xliff
+  check_file_exists $test_name ${OUTPUT_DIR_BASE}split_component/appC/ko-KR.xliff
+  check_diff $test_name ${OUTPUT_DIR_BASE}split_component/appA/ko-KR.xliff "$TESTFILES_DIR/Expected/output_split_component/appA/ko-KR.xliff"
+  check_diff $test_name ${OUTPUT_DIR_BASE}split_component/appB/ko-KR.xliff "$TESTFILES_DIR/Expected/output_split_component/appB/ko-KR.xliff"
+  check_diff $test_name ${OUTPUT_DIR_BASE}split_component/appC/ko-KR.xliff "$TESTFILES_DIR/Expected/output_split_component/appC/ko-KR.xliff"
 }
 
-@test "Test - equals format (--criteria=value --inputPath=value --outputPath=value)" {
-  local test_name="equals_format"
-  local CRITERIA="key=^More$,source=^More$,project=^adapp$,datatype=^javascript$"
+# Error validation tests
 
-  run "$XLIFF_DELETE_UNITS_SH" \
-    --criteria="$CRITERIA" \
-    --inputPath="$TESTFILES_DIR/localization-data" \
-    --outputPath="${OUTPUT_DIR_BASE}eq"
+# Test missing required option --current in merge
+@test "Test - xliff-split-merge.sh merge missing --current" {
+  local test_name="merge_missing_current"
 
-  check_status $test_name $status
-  check_file_exists $test_name ${OUTPUT_DIR_BASE}eq/adapp/ko-KR.xliff
-  check_diff $test_name ${OUTPUT_DIR_BASE}eq/adapp/ko-KR.xliff "$TESTFILES_DIR/Expected/adapp/ko-KR.xliff"
+  run "$XLIFF_SPLIT_MERGE_SH" merge --input "$TESTFILES_DIR/merge/input" --output "${OUTPUT_DIR_BASE}merge"
+
+  [ "$status" -ne 0 ]
 }
 
-@test "Test - --dry-run does not modify files" {
-  local test_name="dry_run"
-  local CRITERIA="key=^More$,source=^More$,project=^adapp$,datatype=^javascript$"
+# Test missing required option --input in merge_language
+@test "Test - xliff-split-merge.sh merge_language missing --input" {
+  local test_name="merge_language_missing_input"
 
-  run "$XLIFF_DELETE_UNITS_SH" \
-    --criteria "$CRITERIA" \
-    --inputPath "$TESTFILES_DIR/localization-data" \
-    --outputPath "${OUTPUT_DIR_BASE}dryrun" \
-    --dry-run
+  run "$XLIFF_SPLIT_MERGE_SH" merge_language --output "${OUTPUT_DIR_BASE}merge_language"
 
-  check_status $test_name $status
-
-  # dry-run must copy files but NOT delete units — output equals input
-  check_file_exists $test_name ${OUTPUT_DIR_BASE}dryrun/adapp/ko-KR.xliff
-  check_diff $test_name ${OUTPUT_DIR_BASE}dryrun/adapp/ko-KR.xliff "$TESTFILES_DIR/localization-data/adapp/ko-KR.xliff"
+  [ "$status" -ne 0 ]
 }
 
-# ── Help ──────────────────────────────────────────────────────────────────────
+# Test invalid COMMAND
+@test "Test - xliff-split-merge.sh invalid command" {
+  local test_name="invalid_command"
 
-@test "Test - no arguments shows help and exits 0" {
-  run "$XLIFF_DELETE_UNITS_SH"
+  run "$XLIFF_SPLIT_MERGE_SH" invalid_cmd --input "$TESTFILES_DIR/split_component" --output "${OUTPUT_DIR_BASE}invalid"
+
+  [ "$status" -ne 0 ]
+}
+
+# Test non-existent input directory
+@test "Test - xliff-split-merge.sh non-existent directory" {
+  local test_name="nonexistent_dir"
+
+  run "$XLIFF_SPLIT_MERGE_SH" split_component --input ./nonexistent_dir --output "${OUTPUT_DIR_BASE}nonexistent"
+
+  [ "$status" -ne 0 ]
+}
+
+# Test help option
+@test "Test - xliff-split-merge.sh help option" {
+  local test_name="help_option"
+
+  run "$XLIFF_SPLIT_MERGE_SH" --help
+
+  # Should succeed with status 0
   [ "$status" -eq 0 ]
+
+  # Output should contain usage information
   [[ "$output" =~ "Usage:" ]]
-}
-
-@test "Test - --help shows help and exits 0" {
-  run "$XLIFF_DELETE_UNITS_SH" --help
-  [ "$status" -eq 0 ]
-  [[ "$output" =~ "Usage:" ]]
-  [[ "$output" =~ "--inputPath" ]]
-  [[ "$output" =~ "--criteriaFile" ]]
-}
-
-@test "Test - -h shows help and exits 0" {
-  run "$XLIFF_DELETE_UNITS_SH" -h
-  [ "$status" -eq 0 ]
-  [[ "$output" =~ "Usage:" ]]
-}
-
-# ── Missing required options ──────────────────────────────────────────────────
-
-@test "Test - missing --inputPath exits non-zero" {
-  run "$XLIFF_DELETE_UNITS_SH" \
-    --criteria "key=^More$" \
-    --outputPath "${OUTPUT_DIR_BASE}criteria"
-  [ "$status" -ne 0 ]
-  [[ "$output" =~ "--inputPath" ]]
-}
-
-@test "Test - missing --outputPath exits non-zero" {
-  run "$XLIFF_DELETE_UNITS_SH" \
-    --criteria "key=^More$" \
-    --inputPath "$TESTFILES_DIR/localization-data"
-  [ "$status" -ne 0 ]
-  [[ "$output" =~ "--outputPath" ]]
-}
-
-@test "Test - missing --criteria and --criteriaFile exits non-zero" {
-  run "$XLIFF_DELETE_UNITS_SH" \
-    --inputPath "$TESTFILES_DIR/localization-data" \
-    --outputPath "${OUTPUT_DIR_BASE}criteria"
-  [ "$status" -ne 0 ]
-  [[ "$output" =~ "--criteria" ]]
-}
-
-@test "Test - --criteria and --criteriaFile together exits non-zero" {
-  run "$XLIFF_DELETE_UNITS_SH" \
-    --criteria "key=^More$" \
-    --criteriaFile "$TESTFILES_DIR/StringCT_sample.xlsx" \
-    --inputPath "$TESTFILES_DIR/localization-data" \
-    --outputPath "${OUTPUT_DIR_BASE}criteria"
-  [ "$status" -ne 0 ]
-  [[ "$output" =~ "mutually exclusive" ]]
-}
-
-# ── Invalid input ─────────────────────────────────────────────────────────────
-
-@test "Test - non-existent --inputPath exits non-zero" {
-  run "$XLIFF_DELETE_UNITS_SH" \
-    --criteria "key=^More$" \
-    --inputPath ./nonexistent_dir \
-    --outputPath "${OUTPUT_DIR_BASE}criteria"
-  [ "$status" -ne 0 ]
-}
-
-@test "Test - --inputPath with no .xliff files exits non-zero" {
-  mkdir -p /tmp/bats_empty_input_du
-  run "$XLIFF_DELETE_UNITS_SH" \
-    --criteria "key=^More$" \
-    --inputPath /tmp/bats_empty_input_du \
-    --outputPath "${OUTPUT_DIR_BASE}criteria"
-  rmdir /tmp/bats_empty_input_du
-  [ "$status" -ne 0 ]
-  [[ "$output" =~ ".xliff" ]]
-}
-
-@test "Test - non-existent --criteriaFile exits non-zero" {
-  run "$XLIFF_DELETE_UNITS_SH" \
-    --criteriaFile ./nonexistent.xlsx \
-    --inputPath "$TESTFILES_DIR/localization-data" \
-    --outputPath "${OUTPUT_DIR_BASE}criteria"
-  [ "$status" -ne 0 ]
-}
-
-@test "Test - unknown option exits non-zero" {
-  run "$XLIFF_DELETE_UNITS_SH" \
-    --criteria "key=^More$" \
-    --inputPath "$TESTFILES_DIR/localization-data" \
-    --outputPath "${OUTPUT_DIR_BASE}criteria" \
-    --unknown
-  [ "$status" -ne 0 ]
-  [[ "$output" =~ "Unknown" ]]
+  [[ "$output" =~ "merge" ]]
+  [[ "$output" =~ "merge_language" ]]
+  [[ "$output" =~ "split_component" ]]
 }

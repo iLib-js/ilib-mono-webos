@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 
-# test_xliff_delete_units.bats - Tests for xliff-delete-units.sh
+# test-xliff-delete-units.bats - Tests for xliff-delete-units.sh
 
 setup() {
   SCRIPT_DIR="$(dirname "$BATS_TEST_FILENAME")"

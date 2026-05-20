@@ -83,5 +83,5 @@ npm install -g bats
 ### Running Tests
 
 ```
-bats test_xliff_split_merge.bats
+bats test-xliff-split-merge.bats
 ```
