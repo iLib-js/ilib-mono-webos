@@ -51,9 +51,6 @@ jobs:
               run: ${{ inputs.coverage-command }}
               env:
                   TURBO_SCM_BASE: ${{ inputs.turbo-scm-base }}
-            - name: Install bats
-              if: ${{ inputs.run-script-tests }}
-              uses: bats-core/bats-action@3.0.1
             - name: Install Python 3
               if: ${{ inputs.run-script-tests }}
               uses: actions/setup-python@v5
@@ -67,7 +64,7 @@ jobs:
               run: |
                 find scripts -name "*.bats" -print0 | while IFS= read -r -d '' f; do
                   echo "Running: $f"
-                  (cd "$(dirname "$f")" && bats "$(basename "$f")")
+                  (cd "$(dirname "$f")" && pnpm exec bats "$(basename "$f")")
                 done
             - name: Upload coverage to Codecov
               if: hashFiles('coverage/**') != ''
