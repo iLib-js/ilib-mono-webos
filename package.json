@@ -15,7 +15,7 @@
     "test:ci:affected": "pnpm test:ci --affected",
    "test:scripts:xliff-delete-units": "pnpm exec bats scripts/xliff_delete_units/test-xliff-delete-units.bats",
     "test:scripts:xliff-split-merge": "pnpm exec bats scripts/xliff_split_merge/test-xliff-split-merge.bats",
-    "test:scripts:all": "pnpm test:scripts:xliff-delete-units && pnpm test:scripts:xliff-split-merge"
+    "test:scripts:all": "pnpm test:scripts:xliff-delete-units && pnpm test:scripts:xliff-split-merge",
     "coverage": "turbo coverage",
     "coverage:affected": "turbo coverage --affected",
     "coverage:ci:affected": "turbo coverage --concurrency=5 --affected",
