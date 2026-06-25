@@ -87,7 +87,7 @@
         </segment>
       </unit>
     </group>
-    <group id="sample-webos-js_g1" name="x-json">
+    <group id="sample-webos-js_g2" name="x-json">
       <unit id="200">
         <segment>
           <source>Live TV</source>

@@ -126,10 +126,46 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
         translationLocales = locales.filter(function(locale) {
             return locale !== this.project.sourceLocale && locale !== this.project.pseudoLocale;
         }.bind(this));
-    var getSameProjectCommonKey = function(resource, locale) {
-        var projectName = resource && resource.getProject && resource.getProject();
-        if (!projectName || !locale) return undefined;
-        return ResourceString.cleanHashKey(projectName, locale, resource.getKey(), "common", resource.getFlavor());
+    var LOOKUP_POLICY = [
+        { project: "self", datatype: "common", needsCommonData: false },
+        { project: "common", datatype: "common", needsCommonData: true }
+    ];
+    var getPolicyKey = function(resource, locale, policy) {
+        if (!resource || !locale || !policy) return undefined;
+
+        if (policy.project === "self" && policy.datatype === "common") {
+            var projectName = resource.getProject && resource.getProject();
+            if (!projectName) return undefined;
+            return ResourceString.cleanHashKey(projectName, locale, resource.getKey(), "common", resource.getFlavor());
+        }
+
+        if (policy.project === "common" && policy.datatype === "common") {
+            if (!this.isCommonDataLoaded) return undefined;
+            return ResourceString.hashKey(this.commonPrjName, locale, resource.getKey(), this.commonPrjType, resource.getFlavor());
+        }
+
+        return undefined;
+    }.bind(this);
+    var lookupByPolicy = function(resource, locale, callback, index) {
+        var step = typeof index === "number" ? index : 0;
+        if (step >= LOOKUP_POLICY.length) {
+            callback(undefined);
+            return;
+        }
+
+        var key = getPolicyKey(resource, locale, LOOKUP_POLICY[step]);
+        if (!key) {
+            lookupByPolicy(resource, locale, callback, step + 1);
+            return;
+        }
+
+        db.getResourceByCleanHashKey(key, function(err, translated) {
+            if (translated) {
+                callback(translated);
+            } else {
+                lookupByPolicy(resource, locale, callback, step + 1);
+            }
+        });
     };
 
     if ((typeof(translations) !== 'undefined') && (typeof(translations.getProjects()) !== 'undefined') && (translations.getProjects().indexOf("common") !== -1)) {
@@ -167,30 +203,11 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
                         if (translated) {
                             baseTranslation = pluginUtils.getTarget(translated, deviceType);
                         } else {
-                            var samePrjCommonKey = getSameProjectCommonKey(res, langDefaultLocale);
-                            if (samePrjCommonKey) {
-                                db.getResourceByCleanHashKey(samePrjCommonKey, function(err, translated) {
-                                    if (translated) {
-                                        baseTranslation = pluginUtils.getTarget(translated, deviceType);
-                                    } else if (this.isCommonDataLoaded) {
-                                        var manipulateKey = ResourceString.hashKey(this.commonPrjName, langDefaultLocale, res.getKey(), this.commonPrjType, res.getFlavor());
-                                        db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
-                                            if (translated){
-                                                baseTranslation = pluginUtils.getTarget(translated, deviceType);
-                                            }
-                                        }.bind(this));
-                                    }
-                                }.bind(this));
-                            } else {
-                                if (this.isCommonDataLoaded) {
-                                    var manipulateKey = ResourceString.hashKey(this.commonPrjName, langDefaultLocale, res.getKey(), this.commonPrjType, res.getFlavor());
-                                    db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
-                                        if (translated){
-                                            baseTranslation = pluginUtils.getTarget(translated, deviceType);
-                                        }
-                                    }.bind(this));
+                            lookupByPolicy(res, langDefaultLocale, function(policyTranslation) {
+                                if (policyTranslation) {
+                                    baseTranslation = pluginUtils.getTarget(policyTranslation, deviceType);
                                 }
-                            }
+                            });
                         }
                     }.bind(this));
                 }
@@ -198,49 +215,19 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
                     var r = translated;
 
                     if (!translated) {
-                        var samePrjCommonLocaleKey = getSameProjectCommonKey(res, locale);
                         var checkCommonOrInherit = function(translatedFromCommon) {
                             if (translatedFromCommon && (baseTranslation !== pluginUtils.getTarget(translatedFromCommon, deviceType))){
                                 pluginUtils.addResource(resFileType, translatedFromCommon, res, locale, undefined, deviceType);
                             } else if(!translatedFromCommon && customInheritLocale){
                                 db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(customInheritLocale), function(err, translated) {
                                     if (!translated) {
-                                        var samePrjCommonInheritKey = getSameProjectCommonKey(res, customInheritLocale);
-                                        if (samePrjCommonInheritKey) {
-                                            db.getResourceByCleanHashKey(samePrjCommonInheritKey, function(err, translated) {
-                                                if (translated && (baseTranslation !== pluginUtils.getTarget(translated, deviceType))) {
-                                                    pluginUtils.addResource(resFileType, translated, res, locale, undefined, deviceType);
-                                                } else if (!translated) {
-                                                    if (this.isCommonDataLoaded) {
-                                                        var manipulateKey = ResourceString.hashKey(this.commonPrjName, customInheritLocale, res.getKey(), this.commonPrjType, res.getFlavor());
-                                                        db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
-                                                            if (translated && (baseTranslation !== pluginUtils.getTarget(translated, deviceType))) {
-                                                                pluginUtils.addResource(resFileType, translated, res, locale, undefined, deviceType);
-                                                            } else {
-                                                                pluginUtils.addNewResource(this.newres, res, locale);
-                                                            }
-                                                        }.bind(this));
-                                                    } else {
-                                                        pluginUtils.addNewResource(this.newres, res, locale);
-                                                    }
-                                                } else {
-                                                    pluginUtils.addNewResource(this.newres, res, locale);
-                                                }
-                                            }.bind(this));
-                                        } else {
-                                            if (this.isCommonDataLoaded) {
-                                                var manipulateKey = ResourceString.hashKey(this.commonPrjName, customInheritLocale, res.getKey(), this.commonPrjType, res.getFlavor());
-                                                db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
-                                                    if (translated && (baseTranslation !== pluginUtils.getTarget(translated, deviceType))) {
-                                                        pluginUtils.addResource(resFileType, translated, res, locale, undefined, deviceType);
-                                                    } else {
-                                                        pluginUtils.addNewResource(this.newres, res, locale);
-                                                    }
-                                                }.bind(this));
+                                        lookupByPolicy(res, customInheritLocale, function(policyTranslation) {
+                                            if (policyTranslation && (baseTranslation !== pluginUtils.getTarget(policyTranslation, deviceType))) {
+                                                pluginUtils.addResource(resFileType, policyTranslation, res, locale, undefined, deviceType);
                                             } else {
                                                 pluginUtils.addNewResource(this.newres, res, locale);
                                             }
-                                        }
+                                        }.bind(this));
 
                                     } else if (translated && (baseTranslation !== pluginUtils.getTarget(translated, deviceType))){
                                         pluginUtils.addResource(resFileType, translated, res, locale, undefined, deviceType);
@@ -253,31 +240,9 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
                             }
                         }.bind(this);
 
-                        if (samePrjCommonLocaleKey) {
-                            db.getResourceByCleanHashKey(samePrjCommonLocaleKey, function(err, translated) {
-                                if (translated) {
-                                    checkCommonOrInherit(translated);
-                                } else {
-                                    if (this.isCommonDataLoaded) {
-                                        var manipulateKey = ResourceString.hashKey(this.commonPrjName, locale, res.getKey(), this.commonPrjType, res.getFlavor());
-                                        db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
-                                            checkCommonOrInherit(translated);
-                                        }.bind(this));
-                                    } else {
-                                        checkCommonOrInherit(undefined);
-                                    }
-                                }
-                            }.bind(this));
-                        } else {
-                            if (this.isCommonDataLoaded) {
-                                var manipulateKey = ResourceString.hashKey(this.commonPrjName, locale, res.getKey(), this.commonPrjType, res.getFlavor());
-                                db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
-                                    checkCommonOrInherit(translated);
-                                }.bind(this));
-                            } else {
-                                checkCommonOrInherit(undefined);
-                            }
-                        }
+                        lookupByPolicy(res, locale, function(policyTranslation) {
+                            checkCommonOrInherit(policyTranslation);
+                        });
                     } else if (!translated && customInheritLocale){
                         db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(customInheritLocale), function(err, translated) {
                             if (translated && (baseTranslation != pluginUtils.getTarget(translated, deviceType))) {

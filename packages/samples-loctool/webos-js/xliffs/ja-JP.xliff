@@ -33,5 +33,13 @@
         </segment>
       </unit>
     </group>
+    <group id="sample-webos-js_g2" name="x-json">
+      <unit id="200">
+        <segment>
+          <source>Live TV</source>
+          <target>Live TV</target>
+        </segment>
+      </unit>
+    </group>
   </file>
 </xliff>
