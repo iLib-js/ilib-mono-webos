@@ -1,7 +1,7 @@
 /*
  * JavaScriptFileType.js - Represents a collection of JavaScript files
  *
- * Copyright (c) 2019-2023, 2025 JEDLSoft
+ * Copyright (c) 2019-2023, 2025-2026 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -126,6 +126,11 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
         translationLocales = locales.filter(function(locale) {
             return locale !== this.project.sourceLocale && locale !== this.project.pseudoLocale;
         }.bind(this));
+    var getSameProjectCommonKey = function(resource, locale) {
+        var projectName = resource && resource.getProject && resource.getProject();
+        if (!projectName || !locale) return undefined;
+        return ResourceString.cleanHashKey(projectName, locale, resource.getKey(), "common", resource.getFlavor());
+    };
 
     if ((typeof(translations) !== 'undefined') && (typeof(translations.getProjects()) !== 'undefined') && (translations.getProjects().indexOf("common") !== -1)) {
         this.isCommonDataLoaded = true;
@@ -161,35 +166,81 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
                     db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(langDefaultLocale), function(err, translated) {
                         if (translated) {
                             baseTranslation = pluginUtils.getTarget(translated, deviceType);
-                        } else if (this.isCommonDataLoaded) {
-                            var manipulateKey = ResourceString.hashKey(this.commonPrjName, langDefaultLocale, res.getKey(), this.commonPrjType, res.getFlavor());
-                            db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
-                                if (translated){
-                                    baseTranslation = pluginUtils.getTarget(translated, deviceType);
+                        } else {
+                            var samePrjCommonKey = getSameProjectCommonKey(res, langDefaultLocale);
+                            if (samePrjCommonKey) {
+                                db.getResourceByCleanHashKey(samePrjCommonKey, function(err, translated) {
+                                    if (translated) {
+                                        baseTranslation = pluginUtils.getTarget(translated, deviceType);
+                                    } else if (this.isCommonDataLoaded) {
+                                        var manipulateKey = ResourceString.hashKey(this.commonPrjName, langDefaultLocale, res.getKey(), this.commonPrjType, res.getFlavor());
+                                        db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
+                                            if (translated){
+                                                baseTranslation = pluginUtils.getTarget(translated, deviceType);
+                                            }
+                                        }.bind(this));
+                                    }
+                                }.bind(this));
+                            } else {
+                                if (this.isCommonDataLoaded) {
+                                    var manipulateKey = ResourceString.hashKey(this.commonPrjName, langDefaultLocale, res.getKey(), this.commonPrjType, res.getFlavor());
+                                    db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
+                                        if (translated){
+                                            baseTranslation = pluginUtils.getTarget(translated, deviceType);
+                                        }
+                                    }.bind(this));
                                 }
-                            }.bind(this));
+                            }
                         }
                     }.bind(this));
                 }
                 db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(locale), function(err, translated) {
                     var r = translated;
 
-                    if (!translated && this.isCommonDataLoaded) {
-                        var manipulateKey = ResourceString.hashKey(this.commonPrjName, locale, res.getKey(), this.commonPrjType, res.getFlavor());
-                        db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
-                            if (translated && (baseTranslation !== pluginUtils.getTarget(translated, deviceType))){
-                                pluginUtils.addResource(resFileType, translated, res, locale, undefined, deviceType);
-                            } else if(!translated && customInheritLocale){
+                    if (!translated) {
+                        var samePrjCommonLocaleKey = getSameProjectCommonKey(res, locale);
+                        var checkCommonOrInherit = function(translatedFromCommon) {
+                            if (translatedFromCommon && (baseTranslation !== pluginUtils.getTarget(translatedFromCommon, deviceType))){
+                                pluginUtils.addResource(resFileType, translatedFromCommon, res, locale, undefined, deviceType);
+                            } else if(!translatedFromCommon && customInheritLocale){
                                 db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(customInheritLocale), function(err, translated) {
                                     if (!translated) {
-                                        var manipulateKey = ResourceString.hashKey(this.commonPrjName, customInheritLocale, res.getKey(), this.commonPrjType, res.getFlavor());
-                                        db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
-                                            if (translated && (baseTranslation !== pluginUtils.getTarget(translated, deviceType))) {
-                                                pluginUtils.addResource(resFileType, translated, res, locale, undefined, deviceType);
+                                        var samePrjCommonInheritKey = getSameProjectCommonKey(res, customInheritLocale);
+                                        if (samePrjCommonInheritKey) {
+                                            db.getResourceByCleanHashKey(samePrjCommonInheritKey, function(err, translated) {
+                                                if (translated && (baseTranslation !== pluginUtils.getTarget(translated, deviceType))) {
+                                                    pluginUtils.addResource(resFileType, translated, res, locale, undefined, deviceType);
+                                                } else if (!translated) {
+                                                    if (this.isCommonDataLoaded) {
+                                                        var manipulateKey = ResourceString.hashKey(this.commonPrjName, customInheritLocale, res.getKey(), this.commonPrjType, res.getFlavor());
+                                                        db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
+                                                            if (translated && (baseTranslation !== pluginUtils.getTarget(translated, deviceType))) {
+                                                                pluginUtils.addResource(resFileType, translated, res, locale, undefined, deviceType);
+                                                            } else {
+                                                                pluginUtils.addNewResource(this.newres, res, locale);
+                                                            }
+                                                        }.bind(this));
+                                                    } else {
+                                                        pluginUtils.addNewResource(this.newres, res, locale);
+                                                    }
+                                                } else {
+                                                    pluginUtils.addNewResource(this.newres, res, locale);
+                                                }
+                                            }.bind(this));
+                                        } else {
+                                            if (this.isCommonDataLoaded) {
+                                                var manipulateKey = ResourceString.hashKey(this.commonPrjName, customInheritLocale, res.getKey(), this.commonPrjType, res.getFlavor());
+                                                db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
+                                                    if (translated && (baseTranslation !== pluginUtils.getTarget(translated, deviceType))) {
+                                                        pluginUtils.addResource(resFileType, translated, res, locale, undefined, deviceType);
+                                                    } else {
+                                                        pluginUtils.addNewResource(this.newres, res, locale);
+                                                    }
+                                                }.bind(this));
                                             } else {
                                                 pluginUtils.addNewResource(this.newres, res, locale);
                                             }
-                                        }.bind(this))
+                                        }
 
                                     } else if (translated && (baseTranslation !== pluginUtils.getTarget(translated, deviceType))){
                                         pluginUtils.addResource(resFileType, translated, res, locale, undefined, deviceType);
@@ -200,7 +251,33 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
                             } else {
                                 pluginUtils.addNewResource(this.newres, res, locale);
                             }
-                        }.bind(this));
+                        }.bind(this);
+
+                        if (samePrjCommonLocaleKey) {
+                            db.getResourceByCleanHashKey(samePrjCommonLocaleKey, function(err, translated) {
+                                if (translated) {
+                                    checkCommonOrInherit(translated);
+                                } else {
+                                    if (this.isCommonDataLoaded) {
+                                        var manipulateKey = ResourceString.hashKey(this.commonPrjName, locale, res.getKey(), this.commonPrjType, res.getFlavor());
+                                        db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
+                                            checkCommonOrInherit(translated);
+                                        }.bind(this));
+                                    } else {
+                                        checkCommonOrInherit(undefined);
+                                    }
+                                }
+                            }.bind(this));
+                        } else {
+                            if (this.isCommonDataLoaded) {
+                                var manipulateKey = ResourceString.hashKey(this.commonPrjName, locale, res.getKey(), this.commonPrjType, res.getFlavor());
+                                db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
+                                    checkCommonOrInherit(translated);
+                                }.bind(this));
+                            } else {
+                                checkCommonOrInherit(undefined);
+                            }
+                        }
                     } else if (!translated && customInheritLocale){
                         db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(customInheritLocale), function(err, translated) {
                             if (translated && (baseTranslation != pluginUtils.getTarget(translated, deviceType))) {

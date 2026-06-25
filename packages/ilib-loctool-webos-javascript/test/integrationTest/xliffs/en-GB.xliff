@@ -28,5 +28,13 @@
         </segment>
       </unit>
     </group>
+    <group id="sample-webos-js_g2" name="common">
+      <unit id="4">
+        <segment>
+          <source>Bye</source>
+          <target>Bye(sample: en-GB)</target>
+        </segment>
+      </unit>
+    </group>
   </file>
 </xliff>
