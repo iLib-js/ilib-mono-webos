@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2">
+  <file original="appA" source-language="en-KR" target-language="ko-KR" product-name="appA">
+    <body>
+      <trans-unit id="appA_1" resname="Hello" restype="string" datatype="javascript">
+        <source>Hello</source>
+        <target>안녕하세요</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
