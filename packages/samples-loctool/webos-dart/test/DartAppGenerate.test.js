@@ -36,13 +36,14 @@ describe('test the localization result (generate mode) of webos-dart app', () =>
         const projectSettings = {
             rootDir: ".",
             id: "sample-webos-dart",
-            projectType: "webos-dart",
+            projectType: "custom",
             sourceLocale: "en-KR",
             resourceDirs : { "json": "assets2/i18n" },
             resourceFileTypes: { "json":"ilib-loctool-webos-json-resource" },
             plugins: [ "ilib-loctool-webos-dart" ]
         };
         const appSettings = {
+            customProjectType: "webos-dart",
             translationsDir: "./xliffs",
             xliffStyle: "webOS",
             xliffVersion: 2,

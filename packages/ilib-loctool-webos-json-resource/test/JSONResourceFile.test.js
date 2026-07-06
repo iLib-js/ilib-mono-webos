@@ -46,7 +46,7 @@ var p = new CustomProject({
         "json": "localized_json"
         }
     }, "./testfiles", {
-        projectType: "webos-web",
+        customProjectType: "webos-web",
         locales:["en-GB"]
     });
 
@@ -58,7 +58,7 @@ var p2 = new CustomProject({
         "json": "localized_json"
         }
     }, "./testfiles", {
-    projectType: "webos-web",
+        customProjectType: "webos-web",
     locales:["en-GB", "de-DE", "de-AT"],
     identify: true
 });
@@ -68,7 +68,7 @@ var p3 = new CustomProject({
     projectType: "custom",
     sourceLocale: "en-KR",
     }, "./testfiles", {
-    projectType: "webos-dart",
+    customProjectType: "webos-dart",
     dart: {
         "mappings": {
             "**/*.dart": {
@@ -87,7 +87,7 @@ var p4 = new CustomProject({
         "json": "assets/i18n"
         }
     }, "./testfiles", {
-    projectType: "webos-dart",
+    customProjectType: "webos-dart",
     dart: {
         "mappings": {
             "**/*.dart": {

@@ -45,7 +45,7 @@ describe('[integration] test the localization result of webos-js app', () => {
         };
 
         const appSettings = {
-            projectType: "webos-js",
+            customProjectType: "webos-js",
             localizeOnly: true,
             translationsDir : ["./xliffs", "./common"],
             mode: "localize",

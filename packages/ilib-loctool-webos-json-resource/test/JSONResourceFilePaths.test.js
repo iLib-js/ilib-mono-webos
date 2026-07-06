@@ -43,7 +43,7 @@ var p = new CustomProject({
         "json": "localized_json"
     }
     }, "./testfiles", {
-    projectType: "webos-web",
+    customProjectType: "webos-web",
     locales:["en-GB"]
 });
 
@@ -55,7 +55,7 @@ var p2 = new CustomProject({
         "json": "localized_json"
     }
     }, "./testfiles", {
-    projectType: "webos-web",
+    customProjectType: "webos-web",
     locales:["en-GB", "de-DE", "de-AT"],
     identify: true
 });
@@ -68,7 +68,7 @@ var p3 = new CustomProject({
         "json": "localized_json"
     }
     }, "./testfiles", {
-    projectType: "webos-c",
+    customProjectType: "webos-c",
     identify: true,
     resourceFileNames: {
       "c": "cstrings.json"
@@ -83,7 +83,7 @@ var p4 = new CustomProject({
         "json": "resources"
     }
     }, "./testfiles", {
-    projectType: "webos-cpp",
+    customProjectType: "webos-cpp",
     identify: true,
     resourceFileNames: {
       "cpp": "cppstrings.json"
@@ -98,7 +98,7 @@ var p5 = new CustomProject({
         "json": "resources"
     }
     }, "./testfiles", {
-    projectType: "webos-web",
+    customProjectType: "webos-web",
     localeMap: {
         "es-CO": "es"
     }
@@ -112,7 +112,7 @@ var p6 = new CustomProject({
         "json": "assets/i18n"
     }
     }, "./testfiles", {
-    projectType: "webos-dart",
+    customProjectType: "webos-dart",
     localeMap: {
         "es-CO": "es"
     },

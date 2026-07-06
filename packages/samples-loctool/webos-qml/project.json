@@ -26,7 +26,7 @@
         "resources"
     ],
     "settings": {
-        "projectType": "webos-qml",
+        "customProjectType": "webos-qml",
         "translationsDir": ["./xliffs", "./common"],
         "locales":[
             "as-IN",

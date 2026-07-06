@@ -39,7 +39,7 @@ var p2 = new CustomProject({
 },
 "./testfiles",
 {
-    projectType: "webos-web",
+    customProjectType: "webos-web",
     targetDir: "custom_dir",
     locales: ["es-ES"],
 }

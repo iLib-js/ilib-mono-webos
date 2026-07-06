@@ -35,13 +35,14 @@ describe('test the localization result (generate mode) of webos-js app', () => {
         const projectSettings = {
             rootDir: ".",
             id: "sample-webos-js",
-            projectType: "webos-js",
+            projectType: "custom",
             sourceLocale: "en-KR",
             resourceDirs : { "json": "resources2" },
             resourceFileTypes: { "json":"ilib-loctool-webos-json-resource" },
             plugins: [ "ilib-loctool-webos-javascript" ]
         };
         const appSettings = {
+            customProjectType: "webos-js",
             translationsDir: "./xliffs",
             xliffStyle: "webOS",
             xliffVersion: 2,

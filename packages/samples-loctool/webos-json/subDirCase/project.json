@@ -22,6 +22,7 @@
         "common"
     ],
     "settings": {
+        "customProjectType": "webos-json",
         "translationsDir": ["./xliffs", "./common"],
         "locales":[
             "en-GB",

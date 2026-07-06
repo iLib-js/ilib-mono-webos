@@ -41,7 +41,7 @@ describe('[integration] test the localization result (generate mode) of webos-js
             plugins: [ "ilib-loctool-webos-javascript" ]
         };
         const appSettings = {
-            projectType: "webos-js",
+            customProjectType: "webos-js",
             localizeOnly: true,
             translationsDir: "./xliffs",
             xliffStyle: "webOS",

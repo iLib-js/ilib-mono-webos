@@ -27,7 +27,7 @@
         "common"
     ],
     "settings": {
-        "projectType": "webos-js",
+        "customProjectType": "webos-js",
         "translationsDir": ["./xliffs", "./common"],
         "locales":[
             "as-IN",

@@ -23,7 +23,7 @@
         "subDirCase"
     ],
     "settings": {
-        "projectType": "webos-json",
+        "customProjectType": "webos-json",
         "translationsDir": ["./xliffs", "./common"],
         "locales":[
             "en-AU",

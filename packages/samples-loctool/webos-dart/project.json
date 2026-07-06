@@ -29,7 +29,7 @@
         "assets"
     ],
     "settings": {
-        "projectType": "webos-dart",
+        "customProjectType": "webos-dart",
         "translationsDir": ["./xliffs", "./common"],
         "locales":[
             "en-US",

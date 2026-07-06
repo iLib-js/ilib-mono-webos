@@ -45,7 +45,7 @@ describe("[integration] test the localization result of webos-cpp app", () => {
         };
 
         const appSettings = {
-            projectType: "webos-cpp",
+            customProjectType: "webos-cpp",
             localizeOnly: true,
             translationsDir: "./xliffs",
             mode: "generate",

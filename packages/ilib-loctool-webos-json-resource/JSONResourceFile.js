@@ -151,14 +151,14 @@ JSONResourceFile.prototype.getDefaultSpec = function() {
  * The top-level `projectType` in the project config is restricted to a
  * fixed whitelist (android/iosobjc/swift/web/custom), so webOS projects must declare
  * `projectType: "custom"` there and preserve their real type (e.g. "webos-cpp") in
- * `settings.projectType`. Prefer that value; fall back to the top-level project type
+ * `settings.customProjectType`. Prefer that value; fall back to the top-level project type
  * for backward compatibility with older configs and unit tests that inject it directly.
  *
  * @private
  * @returns {String|undefined} the webOS project type (e.g. "webos-cpp", "webos-dart")
  */
 JSONResourceFile.prototype._getProjectType = function() {
-    return (this.project.settings && this.project.settings.projectType) || this.project.getProjectType();
+    return (this.project.settings && this.project.settings.customProjectType) || this.project.getProjectType();
 };
 
 /**

@@ -64,7 +64,7 @@ describe('[integration] test the localization result of webos-qml app', () => {
         };
 
         const appSettings = {
-            projectType: "webos-qml",
+            customProjectType: "webos-qml",
             localizeOnly: true,
             translationsDir : ["./xliffs", "./common"],
             mode: "localize",
