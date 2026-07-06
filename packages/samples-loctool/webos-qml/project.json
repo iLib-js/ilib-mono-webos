@@ -1,7 +1,7 @@
 {
     "name": "music",
     "id": "music",
-    "projectType": "webos-qml",
+    "projectType": "custom",
     "sourceLocale": "en-KR",
     "pseudoLocale":  {
         "zxx-XX": "debug",
@@ -26,6 +26,7 @@
         "resources"
     ],
     "settings": {
+        "projectType": "webos-qml",
         "translationsDir": ["./xliffs", "./common"],
         "locales":[
             "as-IN",

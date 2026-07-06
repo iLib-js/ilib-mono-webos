@@ -1,7 +1,7 @@
 {
     "name": "sample-webos-cpp",
     "id": "sample-webos-cpp",
-    "projectType": "webos-cpp",
+    "projectType": "custom",
     "sourceLocale": "en-KR",
     "pseudoLocale":  {
         "zxx-XX": "debug",
@@ -26,6 +26,7 @@
         "resources"
     ],
     "settings": {
+        "projectType": "webos-cpp",
         "translationsDir": ["./xliffs", "./common"],
         "locales":[
             "en-AU",

@@ -1,7 +1,7 @@
 {
     "name": "sample-webos-js",
     "id": "sample-webos-js",
-    "projectType": "webos-js",
+    "projectType": "custom",
     "sourceLocale": "en-KR",
     "pseudoLocale":  {
         "zxx-XX": "debug",
@@ -27,6 +27,7 @@
         "common"
     ],
     "settings": {
+        "projectType": "webos-js",
         "translationsDir": ["./xliffs", "./common"],
         "locales":[
             "as-IN",

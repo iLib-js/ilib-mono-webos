@@ -119,6 +119,45 @@ var p6 = new CustomProject({
     }
 });
 
+// loctool 2.33.0 restricts the top-level projectType to a fixed whitelist, so webOS
+// projects declare projectType "custom" and preserve their real type in settings.projectType.
+// p7/p8 exercise that path (custom + settings.projectType) for cpp and dart.
+var p7 = new CustomProject({
+    id: "webosApp",
+    projectType: "custom",
+    sourceLocale: "en-US",
+    resourceDirs: {
+        "json": "resources"
+    }
+    }, "./testfiles", {
+    identify: true,
+    projectType: "webos-cpp",
+    resourceFileNames: {
+      "cpp": "cppstrings.json"
+    }
+});
+
+var p8 = new CustomProject({
+    id: "flutterHome",
+    projectType: "custom",
+    sourceLocale: "en-KR",
+    resourceDirs: {
+        "json": "assets/i18n"
+    }
+    }, "./testfiles", {
+    projectType: "webos-dart",
+    localeMap: {
+        "es-CO": "es"
+    },
+    dart: {
+        "mappings": {
+            "**/*.dart": {
+                "template": "[dir]/assets/i18n/[localeUnder].json"
+            }
+        }
+    }
+});
+
 describe("jsonresourcefilepath", function() {
     test("JSONResourceFileConstructor", function() {
         expect.assertions(1);
@@ -422,6 +461,32 @@ describe("jsonresourcefilepath", function() {
             expect(jsrf.getResourceFilePath()).toBe(expected[i]);
         }
     });
+    test("JSONResourceFileGetResourceFilePathsCustomCpp", function() {
+        expect.assertions(15);
+        var jsrf;
+        var locales = ["en-US","en-GB", "en-AU", "es-CO",
+                    "es-ES","et-EE","fa-IR","fa-AF","fr-FR","fr-CA", "hr-HR", "hr-ME", "zh-Hans-CN","zh-Hant-HK","zh-Hant-TW"];
+
+        // projectType "custom" + settings.projectType "webos-cpp" must resolve
+        // the same cppstrings.json paths as a top-level "webos-cpp" project (p4).
+        var expected = [
+            "testfiles/resources/cppstrings.json","testfiles/resources/en/GB/cppstrings.json",
+            "testfiles/resources/en/AU/cppstrings.json","testfiles/resources/es/CO/cppstrings.json",
+            "testfiles/resources/es/cppstrings.json","testfiles/resources/et/cppstrings.json",
+            "testfiles/resources/fa/cppstrings.json","testfiles/resources/fa/AF/cppstrings.json",
+            "testfiles/resources/fr/cppstrings.json","testfiles/resources/fr/CA/cppstrings.json",
+            "testfiles/resources/hr/cppstrings.json", "testfiles/resources/hr/ME/cppstrings.json",
+            "testfiles/resources/zh/cppstrings.json","testfiles/resources/zh/Hant/HK/cppstrings.json",
+            "testfiles/resources/zh/Hant/TW/cppstrings.json"
+        ];
+        for (var i=0; i<locales.length;i++) {
+            jsrf = new JSONResourceFile({
+                project: p7,
+                locale: locales[i]
+            });
+            expect(jsrf.getResourceFilePath()).toBe(expected[i]);
+        }
+    });
     test("JSONResourceFileGetResourceFilePathsOverride", function() {
         expect.assertions(5);
         var jsrf;
@@ -496,6 +561,28 @@ describe("jsonresourcefilepath", function() {
         for (var i=0; i<locales.length;i++) {
             jsrf = new JSONResourceFile({
                 project: p6,
+                locale: locales[i]
+            });
+            expect(jsrf.getResourceFilePath()).toBe(expected[i]);
+        }
+    });
+    test("JSONResourceFileGetResourceFilePathsCustomFlutter", function() {
+        expect.assertions(5);
+        var jsrf;
+        var locales = ["en-GB", "de-DE", "de-AT", "es-CO", "es-ES"];
+
+        // projectType "custom" + settings.projectType "webos-dart" must resolve
+        // the same flat dart file paths as a top-level "webos-dart" project (p6).
+        var expected = [
+            "testfiles/assets/i18n/en_GB.json",
+            "testfiles/assets/i18n/de.json",
+            "testfiles/assets/i18n/de_AT.json",
+            "testfiles/assets/i18n/es.json",
+            "testfiles/assets/i18n/es_ES.json"
+        ];
+        for (var i=0; i<locales.length;i++) {
+            jsrf = new JSONResourceFile({
+                project: p8,
                 locale: locales[i]
             });
             expect(jsrf.getResourceFilePath()).toBe(expected[i]);

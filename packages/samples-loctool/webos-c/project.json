@@ -1,7 +1,7 @@
 {
     "name": "sample-webos-c",
     "id": "sample-webos-c",
-    "projectType": "webos-c",
+    "projectType": "custom",
     "sourceLocale": "en-KR",
     "pseudoLocale": {
         "zxx-XX": "debug",
@@ -26,6 +26,7 @@
         "resources"
     ],
     "settings": {
+        "projectType": "webos-c",
         "translationsDir": ["./xliffs", "./common"],
         "locales":[
             "en-US",

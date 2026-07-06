@@ -1,7 +1,7 @@
 {
     "name": "sample-webos-dart",
     "id": "sample-webos-dart",
-    "projectType": "webos-dart",
+    "projectType": "custom",
     "sourceLocale": "en-KR",
     "pseudoLocale":  {
         "zxx-XX": "debug",
@@ -29,6 +29,7 @@
         "assets"
     ],
     "settings": {
+        "projectType": "webos-dart",
         "translationsDir": ["./xliffs", "./common"],
         "locales":[
             "en-US",

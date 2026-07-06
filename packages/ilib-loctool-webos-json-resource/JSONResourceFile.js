@@ -146,10 +146,26 @@ JSONResourceFile.prototype.getDefaultSpec = function() {
 };
 
 /**
+ * Return the effective webOS project type.
+ *
+ * The top-level `projectType` in the project config is restricted to a
+ * fixed whitelist (android/iosobjc/swift/web/custom), so webOS projects must declare
+ * `projectType: "custom"` there and preserve their real type (e.g. "webos-cpp") in
+ * `settings.projectType`. Prefer that value; fall back to the top-level project type
+ * for backward compatibility with older configs and unit tests that inject it directly.
+ *
+ * @private
+ * @returns {String|undefined} the webOS project type (e.g. "webos-cpp", "webos-dart")
+ */
+JSONResourceFile.prototype._getProjectType = function() {
+    return (this.project.settings && this.project.settings.projectType) || this.project.getProjectType();
+};
+
+/**
  * @private
  */
 JSONResourceFile.prototype._isPluralData = function(data) {
-    if (this.project.getProjectType() !== 'webos-dart') return false;
+    if (this._getProjectType() !== 'webos-dart') return false;
 
     if ((data.indexOf("#") > -1) && (data.indexOf("|") > -1)) {
         return true;
@@ -278,8 +294,8 @@ JSONResourceFile.prototype.getResourceFilePath = function(locale, flavor) {
     if (this.project.settings.resourceFileNames && this.project.settings.resourceFileNames["json"]){
         filename = this.project.settings.resourceFileNames["json"];
     }
-    if (this.project.options.projectType) {
-        var projectType = this.project.getProjectType().split("-");
+    if (this._getProjectType()) {
+        var projectType = this._getProjectType().split("-");
         type = projectType[1];
         if (projectType[1] === "c" || projectType[1] === "cpp") {
             filename = this.project.settings.resourceFileNames[projectType[1]];
@@ -328,7 +344,7 @@ JSONResourceFile.prototype.writeManifest = function(filePath) {
         files: []
     };
 
-    if (this.project.getProjectType() === 'webos-dart') {
+    if (this._getProjectType() === 'webos-dart') {
         filePath = path.join(this.project.target, "assets/i18n");
     }
 
@@ -354,7 +370,7 @@ JSONResourceFile.prototype.writeManifest = function(filePath) {
     }
 
     walk(filePath, "");
-    var manifestFilePath = (this.project.getProjectType() === 'webos-dart') ?
+    var manifestFilePath = (this._getProjectType() === 'webos-dart') ?
                            path.join(filePath, "fluttermanifest.json") : path.join(filePath, "ilibmanifest.json");
     var readManifest, data;
     if (fs.existsSync(manifestFilePath)) {
