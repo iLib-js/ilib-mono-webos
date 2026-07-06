@@ -1,7 +1,7 @@
 /*
  * CApp.test.js - test the localization result of webos-c app.
  *
- * Copyright (c) 2025 JEDLSoft
+ * Copyright (c) 2025-2026 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ describe("[integration] test the localization result of webos-c app", () => {
         const projectSettings = {
             rootDir: projectRoot,
             id: "sample-webos-c",
-            projectType: "webos-c",
+            projectType: "custom",
             sourceLocale: "en-KR",
             pseudoLocale : {
                 "zxx-XX": "debug"
@@ -47,6 +47,7 @@ describe("[integration] test the localization result of webos-c app", () => {
         };
 
         const appSettings = {
+            projectType: "webos-c",
             localizeOnly: true,
             translationsDir : ["./xliffs", "./common"],
             mode: "localize",

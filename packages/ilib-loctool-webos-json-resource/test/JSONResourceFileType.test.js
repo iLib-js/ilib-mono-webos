@@ -1,7 +1,7 @@
 /*
  * JSONResourceFileType.test.js - test the HTML template file type handler object.
  *
- * Copyright (c) 2019-2021, 2023 JEDLSoft
+ * Copyright (c) 2019-2021, 2023, 2026 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,11 +34,12 @@ var p = new CustomProject({
 
 var p2 = new CustomProject({
     id: "webosApp",
-    projectType: "webos-web",
+    projectType: "custom",
     sourceLocale: "en-US",
 },
 "./testfiles",
 {
+    projectType: "webos-web",
     targetDir: "custom_dir",
     locales: ["es-ES"],
 }

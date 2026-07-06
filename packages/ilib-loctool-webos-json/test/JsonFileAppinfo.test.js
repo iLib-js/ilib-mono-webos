@@ -1,7 +1,7 @@
 /*
  * JsonAppinfoFile.test.js - test the appinfo.json file type handler object.
  *
- * Copyright (c) 2023, 2025 JEDLSoft
+ * Copyright (c) 2023, 2025-2026 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,13 +27,14 @@ if (!JsonFile) {
 
 var p = new CustomProject({
     id: "app",
-    type: "webos-web",
+    type: "custom",
     sourceLocale: "en-KR",
     schema: "./test/testfiles/appinfo.schema.json",
     resourceDirs: {
         "json": "localized_json"
     },
     }, "./test/testfiles", {
+    projectType: "webos-web",
     locales:["en-GB", "ko-KR"],
     metadata: {
         "device-type": "Monitor"
@@ -257,7 +258,7 @@ describe("jsonfile", function() {
             "id": "app",
             "title": "Settings",
             "version": "4.0.1",
-            "type": "webos-web",
+            "type": "custom",
             "usePrerendering": true,
             "v8SnapshotFile": "snapshot_b"
         });
@@ -338,7 +339,7 @@ describe("jsonfile", function() {
             "id": "app",
             "title": "Photo &amp; Video",
             "version": "4.0.1",
-            "type": "webos-web",
+            "type": "custom",
             "usePrerendering": true,
             "v8SnapshotFile": "snapshot_b"
         });
@@ -476,7 +477,7 @@ describe("jsonfile", function() {
             "title": "Photo &amp; Video",
             "title@oled": "Photo &amp; Video@oled",
             "version": "4.0.1",
-            "type": "webos-web",
+            "type": "custom",
             "displayName": "PhoeoVideo",
             "usePrerendering": true,
             "v8SnapshotFile": "snapshot_b"

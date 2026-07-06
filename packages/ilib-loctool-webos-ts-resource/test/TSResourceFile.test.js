@@ -1,7 +1,7 @@
 /*
  * TSResourceFile.test.js - test the ts file handler object.
  *
- * Copyright (c) 2020-2023, JEDLSoft
+ * Copyright (c) 2020-2023, 2026 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,35 +25,38 @@ if (!TSResourceFile) {
 
 var p = new CustomProject({
     id: "inputcommon",
-    projectType: "webos-qml",
+    projectType: "custom",
     sourceLocale: "en-KR",
     resourceDirs: {
         "ts": "."
         }
     }, ".", {
+        projectType: "webos-qml",
         locales:["en-GB"]
     });
 
 var p2 = new CustomProject({
     id: "quicksettings",
-    projectType: "webos-qml",
+    projectType: "custom",
     sourceLocale: "en-KR",
     resourceDirs: {
         "ts": "locales"
         }
     }, "./testfiles", {
+    projectType: "webos-qml",
     locales:["en-GB", "de-DE", "de-AT"],
     identify: true
 });
 
 var p3 = new CustomProject({
     id: "quicksettings",
-    projectType: "webos-qml",
+    projectType: "custom",
     sourceLocale: "en-KR",
     resourceDirs: {
         "ts": "locales"
         }
     }, "./testfiles", {
+    projectType: "webos-qml",
     locales:["es-CO", "es-ES", "fr-CA","fr-FR"],
     localeMap: {
         "es-CO":"es",

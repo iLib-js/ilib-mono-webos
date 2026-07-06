@@ -1,7 +1,7 @@
 /*
  * DartApp.test.js - test the localization result of webos-dart app.
  *
- * Copyright (c) 2025 JEDLSoft
+ * Copyright (c) 2025-2026 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ describe('[integration] test the localization result of webos-dart app', () => {
         const projectSettings = {
             rootDir: projectRoot,
             id: "sample-webos-dart",
-            projectType: "webos-dart",
+            projectType: "custom",
             sourceLocale: "en-KR",
             pseudoLocale : {
                 "zxx-XX": "debug"
@@ -46,6 +46,7 @@ describe('[integration] test the localization result of webos-dart app', () => {
         };
 
         const appSettings = {
+            projectType: "webos-dart",
             localizeOnly: true,
             translationsDir : ["./xliffs", "./common"],
             mode: "localize",

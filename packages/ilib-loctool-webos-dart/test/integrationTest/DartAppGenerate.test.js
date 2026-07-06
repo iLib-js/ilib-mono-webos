@@ -1,7 +1,7 @@
 /*
  * DartAppGenerate.test.js - test the localization result in generate mode of webos-dart app.
  *
- * Copyright (c) 2025 JEDLSoft
+ * Copyright (c) 2025-2026 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,13 +37,14 @@ describe('[integration] test the localization result (generate mode) of webos-da
         const projectSettings = {
             rootDir: projectRoot,
             id: "sample-webos-dart",
-            projectType: "webos-dart",
+            projectType: "custom",
             sourceLocale: "en-KR",
             resourceDirs : { "json": "assets2/i18n" },
             resourceFileTypes: { "json":"ilib-loctool-webos-json-resource" },
             plugins: [ "ilib-loctool-webos-dart" ]
         };
         const appSettings = {
+            projectType: "webos-dart",
             translationsDir: "./xliffs",
             xliffStyle: "webOS",
             metadata : {

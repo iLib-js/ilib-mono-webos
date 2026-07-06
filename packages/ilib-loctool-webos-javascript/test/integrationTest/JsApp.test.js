@@ -33,7 +33,7 @@ describe('[integration] test the localization result of webos-js app', () => {
         const projectSettings = {
             rootDir: projectRoot,
             id: "sample-webos-js",
-            projectType: "webos-js",
+            projectType: "custom",
             sourceLocale: "en-KR",
             "pseudoLocale" : {
                 "zxx-XX": "debug",
@@ -45,6 +45,7 @@ describe('[integration] test the localization result of webos-js app', () => {
         };
 
         const appSettings = {
+            projectType: "webos-js",
             localizeOnly: true,
             translationsDir : ["./xliffs", "./common"],
             mode: "localize",

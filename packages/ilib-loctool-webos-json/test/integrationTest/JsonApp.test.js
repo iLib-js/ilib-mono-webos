@@ -1,7 +1,7 @@
 /*
  * JsApp.test.js - test the localization result of webos-js app.
  *
- * Copyright (c) 2025 JEDLSoft
+ * Copyright (c) 2025-2026 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ describe('[integration] test the localization result of webos-json app', () => {
         const projectSettings = {
             rootDir: projectRoot,
             id: "sample-webos-json",
-            projectType: "webos-json",
+            projectType: "custom",
             sourceLocale: "en-KR",
             resourceDirs : { "json": "resources" },
             pseudoLocale : {
@@ -41,6 +41,7 @@ describe('[integration] test the localization result of webos-json app', () => {
             plugins: [ "ilib-loctool-webos-json" ]
         };
         const appSettings = {
+            projectType: "webos-json",
             localizeOnly: true,
             translationsDir : ["./xliffs", "./common"],
             mode: "localize",

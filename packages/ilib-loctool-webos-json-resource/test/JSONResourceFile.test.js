@@ -1,7 +1,7 @@
 /*
  * JSONResourceFile.test.js - test the JavaScript file handler object.
  *
- * Copyright (c) 2019-2025 JEDLSoft
+ * Copyright (c) 2019-2026 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,32 +40,35 @@ function diff(a, b) {
 
 var p = new CustomProject({
     id: "webosApp",
-    projectType: "webos-web",
+    projectType: "custom",
     sourceLocale: "en-US",
     resourceDirs: {
         "json": "localized_json"
         }
     }, "./testfiles", {
+        projectType: "webos-web",
         locales:["en-GB"]
     });
 
 var p2 = new CustomProject({
     id: "webosApp",
-    projectType: "webos-web",
+    projectType: "custom",
     sourceLocale: "en-US",
     resourceDirs: {
         "json": "localized_json"
         }
     }, "./testfiles", {
+    projectType: "webos-web",
     locales:["en-GB", "de-DE", "de-AT"],
     identify: true
 });
 
 var p3 = new CustomProject({
     id: "flutterHome",
-    projectType: "webos-dart",
+    projectType: "custom",
     sourceLocale: "en-KR",
     }, "./testfiles", {
+    projectType: "webos-dart",
     dart: {
         "mappings": {
             "**/*.dart": {
@@ -78,12 +81,13 @@ var p3 = new CustomProject({
 
 var p4 = new CustomProject({
     id: "flutterHome",
-    projectType: "webos-dart",
+    projectType: "custom",
     sourceLocale: "en-KR",
     resourceDirs: {
         "json": "assets/i18n"
         }
     }, "./testfiles", {
+    projectType: "webos-dart",
     dart: {
         "mappings": {
             "**/*.dart": {

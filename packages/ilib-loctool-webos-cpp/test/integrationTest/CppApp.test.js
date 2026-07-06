@@ -1,7 +1,7 @@
 /*
  * CppApp.test.js - test the localization result in localize mode of webos-cpp app
  *
- * Copyright (c) 2025 JEDLSoft
+ * Copyright (c) 2025-2026 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ describe("[integration] test the localization result of webos-cpp app", () => {
         const projectSettings = {
             rootDir: projectRoot,
             id: "sample-webos-cpp",
-            projectType: "webos-cpp",
+            projectType: "custom",
             sourceLocale: "en-KR",
             pseudoLocale : {
                 "zxx-XX": "debug"
@@ -47,6 +47,7 @@ describe("[integration] test the localization result of webos-cpp app", () => {
         };
 
         const appSettings = {
+            projectType: "webos-cpp",
             localizeOnly: true,
             translationsDir : ["./xliffs", "./common"],
             mode: "localize",
