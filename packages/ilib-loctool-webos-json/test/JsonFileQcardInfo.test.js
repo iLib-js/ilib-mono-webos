@@ -27,7 +27,7 @@ if (!JsonFile) {
 
 var p = new CustomProject({
     id: "app",
-    type: "webos-web",
+    type: "custom",
     sourceLocale: "en-KR",
     schema: "./test/testfiles/qcardinfo.schema.json",
     resourceDirs: {

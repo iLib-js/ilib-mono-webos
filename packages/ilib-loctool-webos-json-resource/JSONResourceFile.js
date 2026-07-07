@@ -152,11 +152,12 @@ JSONResourceFile.prototype.getDefaultSpec = function() {
  * so webOS projects use `projectType: "custom"` and do not store their concrete type there.
  * This method derives the effective type from configured webOS plugins: it returns the first
  * known type (webos-c/webos-cpp/webos-dart) after stripping the `ilib-loctool-` prefix.
- * If no matching plugin is found, it falls back to "webos-web".
+ * `webos-javascript` is treated as `webos-javascript`.
+ * If no matching plugin is found, it falls back to "webos-javascript".
  * `plugins` is read from `project.options` first, then `project.settings`.
  *
  * @private
- * @returns {String} the webOS project type (e.g. "webos-cpp", "webos-dart", "webos-web")
+ * @returns {String} the webOS project type (e.g. "webos-cpp", "webos-dart", "webos-javascript")
  */
 JSONResourceFile.prototype._getProjectType = function() {
     const plugins =
@@ -167,19 +168,19 @@ JSONResourceFile.prototype._getProjectType = function() {
         "webos-c",
         "webos-cpp",
         "webos-dart",
+        "webos-javascript",
     ];
 
     if (plugins) {
         for (var i = 0; i < plugins.length; i++) {
             var pluginName = plugins[i].replace(/^ilib-loctool-/, "");
-
             if (typedPlugins.indexOf(pluginName) > -1) {
                 return pluginName;
             }
         }
     }
 
-    return "webos-web";
+    return "webos-javascript";
 };
 
 /**

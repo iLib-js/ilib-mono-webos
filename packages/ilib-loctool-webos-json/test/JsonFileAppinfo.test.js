@@ -307,7 +307,7 @@ describe("jsonfile", function() {
             "id": "app",
             "title": "Photo &amp; Video",
             "version": "4.0.1",
-            "type": "webos-web",
+            "type": "custom",
             "usePrerendering": true,
             "v8SnapshotFile": "snapshot_b"
         });
