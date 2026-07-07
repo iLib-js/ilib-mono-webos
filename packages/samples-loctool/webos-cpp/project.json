@@ -26,7 +26,6 @@
         "resources"
     ],
     "settings": {
-        "customProjectType": "webos-cpp",
         "translationsDir": ["./xliffs", "./common"],
         "locales":[
             "en-AU",

@@ -19,11 +19,12 @@
         ".*",
         "xliffs",
         "resources",
+        "**/resources",
+        "**/resources/**",
         "common",
         "subDirCase"
     ],
     "settings": {
-        "customProjectType": "webos-json",
         "translationsDir": ["./xliffs", "./common"],
         "locales":[
             "en-AU",

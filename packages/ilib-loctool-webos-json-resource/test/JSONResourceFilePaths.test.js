@@ -41,9 +41,9 @@ var p = new CustomProject({
     sourceLocale: "en-US",
     resourceDirs: {
         "json": "localized_json"
-    }
+    },
+    plugins: [ "ilib-loctool-webos-javascript" ]
     }, "./testfiles", {
-    customProjectType: "webos-web",
     locales:["en-GB"]
 });
 
@@ -53,9 +53,9 @@ var p2 = new CustomProject({
     sourceLocale: "en-US",
     resourceDirs: {
         "json": "localized_json"
-    }
+    },
+    plugins: [ "ilib-loctool-webos-javascript" ]
     }, "./testfiles", {
-    customProjectType: "webos-web",
     locales:["en-GB", "de-DE", "de-AT"],
     identify: true
 });
@@ -66,9 +66,9 @@ var p3 = new CustomProject({
     sourceLocale: "en-US",
     resourceDirs: {
         "json": "localized_json"
-    }
+    },
+    plugins: [ "ilib-loctool-webos-c" ]
     }, "./testfiles", {
-    customProjectType: "webos-c",
     identify: true,
     resourceFileNames: {
       "c": "cstrings.json"
@@ -81,9 +81,9 @@ var p4 = new CustomProject({
     sourceLocale: "en-US",
     resourceDirs: {
         "json": "resources"
-    }
+    },
+    plugins: [ "ilib-loctool-webos-cpp" ]
     }, "./testfiles", {
-    customProjectType: "webos-cpp",
     identify: true,
     resourceFileNames: {
       "cpp": "cppstrings.json"
@@ -96,9 +96,9 @@ var p5 = new CustomProject({
     sourceLocale: "en-US",
     resourceDirs: {
         "json": "resources"
-    }
+    },
+    plugins: [ "ilib-loctool-webos-javascript" ]
     }, "./testfiles", {
-    customProjectType: "webos-web",
     localeMap: {
         "es-CO": "es"
     }
@@ -110,9 +110,9 @@ var p6 = new CustomProject({
     sourceLocale: "en-KR",
     resourceDirs: {
         "json": "assets/i18n"
-    }
+    },
+    plugins: [ "ilib-loctool-webos-dart" ]
     }, "./testfiles", {
-    customProjectType: "webos-dart",
     localeMap: {
         "es-CO": "es"
     },

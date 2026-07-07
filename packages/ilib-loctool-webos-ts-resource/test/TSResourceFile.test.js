@@ -31,7 +31,6 @@ var p = new CustomProject({
         "ts": "."
         }
     }, ".", {
-        customProjectType: "webos-qml",
         locales:["en-GB"]
     });
 
@@ -43,7 +42,6 @@ var p2 = new CustomProject({
         "ts": "locales"
         }
     }, "./testfiles", {
-    customProjectType: "webos-qml",
     locales:["en-GB", "de-DE", "de-AT"],
     identify: true
 });
@@ -56,7 +54,6 @@ var p3 = new CustomProject({
         "ts": "locales"
         }
     }, "./testfiles", {
-    customProjectType: "webos-qml",
     locales:["es-CO", "es-ES", "fr-CA","fr-FR"],
     localeMap: {
         "es-CO":"es",

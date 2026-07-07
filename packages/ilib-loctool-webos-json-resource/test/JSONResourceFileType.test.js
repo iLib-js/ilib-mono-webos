@@ -27,7 +27,7 @@ if (!JSONResourceFileType) {
 }
 
 var p = new CustomProject({
-    sourceLocale: "en-US"
+    sourceLocale: "en-US",
 }, "./testfiles", {
     locales:["en-GB"]
 });
@@ -36,10 +36,10 @@ var p2 = new CustomProject({
     id: "webosApp",
     projectType: "custom",
     sourceLocale: "en-US",
+    plugins: [ "ilib-loctool-webos-javascript" ]
 },
 "./testfiles",
 {
-    customProjectType: "webos-web",
     targetDir: "custom_dir",
     locales: ["es-ES"],
 }

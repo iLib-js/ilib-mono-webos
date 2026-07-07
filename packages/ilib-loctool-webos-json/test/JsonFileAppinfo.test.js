@@ -34,7 +34,6 @@ var p = new CustomProject({
         "json": "localized_json"
     },
     }, "./test/testfiles", {
-    customProjectType: "webos-web",
     locales:["en-GB", "ko-KR"],
     metadata: {
         "device-type": "Monitor"

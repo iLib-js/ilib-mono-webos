@@ -46,7 +46,6 @@ describe('[integration] test the localization result of webos-dart app', () => {
         };
 
         const appSettings = {
-            customProjectType: "webos-dart",
             localizeOnly: true,
             translationsDir : ["./xliffs", "./common"],
             mode: "localize",

@@ -44,7 +44,6 @@ describe('[integration] test the localization result (generate mode) of webos-da
             plugins: [ "ilib-loctool-webos-dart" ]
         };
         const appSettings = {
-            customProjectType: "webos-dart",
             translationsDir: "./xliffs",
             xliffStyle: "webOS",
             metadata : {

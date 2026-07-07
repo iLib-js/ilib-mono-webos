@@ -41,7 +41,6 @@ describe('[integration] test the localization result of webos-json app', () => {
             plugins: [ "ilib-loctool-webos-json" ]
         };
         const appSettings = {
-            customProjectType: "webos-json",
             localizeOnly: true,
             translationsDir : ["./xliffs", "./common"],
             mode: "localize",

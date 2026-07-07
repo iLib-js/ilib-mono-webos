@@ -14,7 +14,6 @@
         "ilib-loctool-webos-appinfo-json"
     ],
     "settings": {
-        "customProjectType": "webos-web",
         "locales": ["ko-KR", "en-US"],
         "translationsDir": "sample-xliff"
 	}

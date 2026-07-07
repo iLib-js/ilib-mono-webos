@@ -2,4 +2,4 @@
 "ilib-loctool-webos-json-resource": patch
 ---
 
-Support custom projectType
+Drive projectType from plugins

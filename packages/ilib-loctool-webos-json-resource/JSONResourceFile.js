@@ -148,17 +148,38 @@ JSONResourceFile.prototype.getDefaultSpec = function() {
 /**
  * Return the effective webOS project type.
  *
- * The top-level `projectType` in the project config is restricted to a
- * fixed whitelist (android/iosobjc/swift/web/custom), so webOS projects must declare
- * `projectType: "custom"` there and preserve their real type (e.g. "webos-cpp") in
- * `settings.customProjectType`. Prefer that value; fall back to the top-level project type
- * for backward compatibility with older configs and unit tests that inject it directly.
+ * The `projectType` field is limited to a fixed whitelist (android/iosobjc/swift/web/custom),
+ * so webOS projects use `projectType: "custom"` and do not store their concrete type there.
+ * This method derives the effective type from configured webOS plugins: it returns the first
+ * known type (webos-c/webos-cpp/webos-dart) after stripping the `ilib-loctool-` prefix.
+ * If no matching plugin is found, it falls back to "webos-web".
+ * `plugins` is read from `project.options` first, then `project.settings`.
  *
  * @private
- * @returns {String|undefined} the webOS project type (e.g. "webos-cpp", "webos-dart")
+ * @returns {String} the webOS project type (e.g. "webos-cpp", "webos-dart", "webos-web")
  */
 JSONResourceFile.prototype._getProjectType = function() {
-    return (this.project.settings && this.project.settings.customProjectType) || this.project.getProjectType();
+    const plugins =
+        (this.project.options && this.project.options.plugins) ||
+        (this.project.settings && this.project.settings.plugins);
+
+    var typedPlugins = [
+        "webos-c",
+        "webos-cpp",
+        "webos-dart",
+    ];
+
+    if (plugins) {
+        for (var i = 0; i < plugins.length; i++) {
+            var pluginName = plugins[i].replace(/^ilib-loctool-/, "");
+
+            if (typedPlugins.indexOf(pluginName) > -1) {
+                return pluginName;
+            }
+        }
+    }
+
+    return "webos-web";
 };
 
 /**

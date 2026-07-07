@@ -11,7 +11,7 @@
         "as-XX" : "debug-font"
     },
     "resourceDirs": {
-        "json": "resources"
+        "json": "assets/i18n"
     },
     "resourceFileTypes": {
         "json":"ilib-loctool-webos-json-resource"
@@ -29,7 +29,6 @@
         "assets"
     ],
     "settings": {
-        "customProjectType": "webos-dart",
         "translationsDir": ["./xliffs", "./common"],
         "locales":[
             "en-US",
