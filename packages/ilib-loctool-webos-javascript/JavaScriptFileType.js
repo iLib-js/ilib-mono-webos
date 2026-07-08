@@ -21,9 +21,9 @@ var fs = require("fs");
 var path = require("path");
 var JavaScriptFile = require("./JavaScriptFile.js");
 var JsonResourceFileType = require("ilib-loctool-webos-json-resource");
-var ResourceString = require("loctool/lib/ResourceString.js");
 var Utils = require("loctool/lib/utils.js")
 var pluginUtils = require("ilib-loctool-webos-common/utils.js");
+var lookupUtils = require("ilib-loctool-webos-common/lookupByPolicy.js");
 
 var JavaScriptFileType = function(project) {
     this.type = "javascript";
@@ -126,47 +126,18 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
         translationLocales = locales.filter(function(locale) {
             return locale !== this.project.sourceLocale && locale !== this.project.pseudoLocale;
         }.bind(this));
-    var LOOKUP_POLICY = [
-        { project: "self", datatype: "common", needsCommonData: false },
-        { project: "common", datatype: "common", needsCommonData: true }
-    ];
-    var getPolicyKey = function(resource, locale, policy) {
-        if (!resource || !locale || !policy) return undefined;
-
-        if (policy.project === "self" && policy.datatype === "common") {
-            var projectName = resource.getProject && resource.getProject();
-            if (!projectName) return undefined;
-            return ResourceString.cleanHashKey(projectName, locale, resource.getKey(), "common", resource.getFlavor());
-        }
-
-        if (policy.project === "common" && policy.datatype === "common") {
-            if (!this.isCommonDataLoaded) return undefined;
-            return ResourceString.hashKey(this.commonPrjName, locale, resource.getKey(), this.commonPrjType, resource.getFlavor());
-        }
-
-        return undefined;
+    var policy = lookupUtils.buildPolicy({ includeUniversal: true });
+    var makeLookupParams = function(resource, locale) {
+        return {
+            db: db,
+            resource: resource,
+            locale: locale,
+            policy: policy,
+            isCommonDataLoaded: this.isCommonDataLoaded,
+            commonPrjName: this.commonPrjName,
+            commonPrjType: this.commonPrjType
+        };
     }.bind(this);
-    var lookupByPolicy = function(resource, locale, callback, index) {
-        var step = typeof index === "number" ? index : 0;
-        if (step >= LOOKUP_POLICY.length) {
-            callback(undefined);
-            return;
-        }
-
-        var key = getPolicyKey(resource, locale, LOOKUP_POLICY[step]);
-        if (!key) {
-            lookupByPolicy(resource, locale, callback, step + 1);
-            return;
-        }
-
-        db.getResourceByCleanHashKey(key, function(err, translated) {
-            if (translated) {
-                callback(translated);
-            } else {
-                lookupByPolicy(resource, locale, callback, step + 1);
-            }
-        });
-    };
 
     if ((typeof(translations) !== 'undefined') && (typeof(translations.getProjects()) !== 'undefined') && (translations.getProjects().indexOf("common") !== -1)) {
         this.isCommonDataLoaded = true;
@@ -203,7 +174,7 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
                         if (translated) {
                             baseTranslation = pluginUtils.getTarget(translated, deviceType);
                         } else {
-                            lookupByPolicy(res, langDefaultLocale, function(policyTranslation) {
+                            lookupUtils.lookupByPolicy(makeLookupParams(res, langDefaultLocale), function(policyTranslation) {
                                 if (policyTranslation) {
                                     baseTranslation = pluginUtils.getTarget(policyTranslation, deviceType);
                                 }
@@ -221,7 +192,7 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
                             } else if(!translatedFromCommon && customInheritLocale){
                                 db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(customInheritLocale), function(err, translated) {
                                     if (!translated) {
-                                        lookupByPolicy(res, customInheritLocale, function(policyTranslation) {
+                                        lookupUtils.lookupByPolicy(makeLookupParams(res, customInheritLocale), function(policyTranslation) {
                                             if (policyTranslation && (baseTranslation !== pluginUtils.getTarget(policyTranslation, deviceType))) {
                                                 pluginUtils.addResource(resFileType, policyTranslation, res, locale, undefined, deviceType);
                                             } else {
@@ -240,17 +211,9 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
                             }
                         }.bind(this);
 
-                        lookupByPolicy(res, locale, function(policyTranslation) {
+                        lookupUtils.lookupByPolicy(makeLookupParams(res, locale), function(policyTranslation) {
                             checkCommonOrInherit(policyTranslation);
                         });
-                    } else if (!translated && customInheritLocale){
-                        db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(customInheritLocale), function(err, translated) {
-                            if (translated && (baseTranslation != pluginUtils.getTarget(translated, deviceType))) {
-                                pluginUtils.addResource(resFileType, translated, res, locale, undefined, deviceType);
-                            } else {
-                                pluginUtils.addNewResource(this.newres, res, locale);
-                            }
-                        }.bind(this));
                     } else if (!translated || ( this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getSource()) &&
                         this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getKey()))) {
                         if (r) {

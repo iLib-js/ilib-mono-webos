@@ -105,7 +105,7 @@ describe('[integration] test the localization result of webos-js app', () => {
         expect(rb.getString("Thank you").toString()).toBe("고마워");
         expect(rb.getString("Bye").toString()).toBe("잘가");
         expect(rb.getString("Time Settings").toString()).toBe("시간 설정");
-        expect(rb.getString("TV Name : ").toString()).toBe("TV 이름:");
+        expect(rb.getString("TV Name : ").toString()).toBe("(universal)TV 이름:");
         expect(rb.getString("%deviceType% Speaker").toString()).toBe("모니터 스피커"); //metadata-common
         expect(rb.getString("Internal Speaker + Wired Headphones").toString()).toBe("모니터 스피커 + 유선 헤드폰"); //metadata
     });
@@ -146,7 +146,7 @@ describe('[integration] test the localization result of webos-js app', () => {
         expect(rb).toBeTruthy();
         expect(rb.getString("Programme").toString()).toBe("Programme");
         expect(rb.getString("Time Settings").toString()).toBe("Time Settings(en-GB)");
-        expect(rb.getString("Bye").toString()).toBe("Bye(sample: en-GB)");
+        expect(rb.getString("Bye").toString()).toBe("(universal)Bye(sample: en-GB)");
         expect(rb.getString("TV Name").toString()).toBe("Monitor Name");// metadata-localeinherit
     });
     test("jssample_test_en_GB", function() {
@@ -157,7 +157,7 @@ describe('[integration] test the localization result of webos-js app', () => {
         });
         expect(rb).toBeTruthy();
         expect(rb.getString("Programme").toString()).toBe("Programme");
-        expect(rb.getString("Bye").toString()).toBe("Bye(sample: en-GB)");
+        expect(rb.getString("Bye").toString()).toBe("(universal)Bye(sample: en-GB)");
     });
     test("jssample_test_en_US", function() {
         expect.assertions(2);

@@ -28,11 +28,11 @@
         </segment>
       </unit>
     </group>
-    <group id="sample-webos-js_g2" name="common">
+    <group id="sample-webos-js_g2" name="universal">
       <unit id="4">
         <segment>
           <source>Bye</source>
-          <target>Bye(sample: en-GB)</target>
+          <target>(universal)Bye(sample: en-GB)</target>
         </segment>
       </unit>
     </group>

@@ -40,11 +40,11 @@
         </segment>
       </unit>
     </group>
-    <group id="sample-webos-js_g2" name="common">
+    <group id="sample-webos-js_g2" name="universal">
       <unit id="12">
         <segment>
           <source>TV Name : </source>
-          <target>TV 이름:</target>
+          <target>(universal)TV 이름:</target>
         </segment>
       </unit>
     </group>

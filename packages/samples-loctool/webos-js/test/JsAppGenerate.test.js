@@ -75,7 +75,7 @@ describe('test the localization result (generate mode) of webos-js app', () => {
 
     }, 50000);
     test("jssample_generate_test_ko_KR", function() {
-        expect.assertions(6);
+        expect.assertions(8);
         let rb = new ResBundle({
             locale:"ko-KR",
             basePath : defaultRSPath
@@ -85,6 +85,8 @@ describe('test the localization result (generate mode) of webos-js app', () => {
         expect(rb.getString("Time Settings").toString()).toBe("[App] 시간 설정");
         expect(rb.getString("High", "volumeModeHigh").toString()).toBe("높음");
         expect(rb.getString("TV On Screen").toString()).toBe("TV 켜짐 화면");
+        expect(rb.getString("Bye").toString()).toBe("잘가");
+        expect(rb.getString("SETTINGS").toString()).toBe("설정");
 
         // common data
         expect(rb.getString("Please enter password.").toString()).toBe("Please enter password.");
@@ -184,7 +186,7 @@ describe('test the localization result (generate mode) of webos-js app', () => {
         expect(rb.getString("Sound Out").toString()).toBe("Salida de Audio");
     });
     test("jssample_generate_test_ja_JP", function() {
-        expect.assertions(4);
+        expect.assertions(5);
         let rb = new ResBundle({
             locale:"ja-JP",
             basePath : defaultRSPath
@@ -192,17 +194,21 @@ describe('test the localization result (generate mode) of webos-js app', () => {
         expect(rb).toBeTruthy();
         expect(rb.getString("Live TV").toString()).toBe("Live TV");
         expect(rb.getString("TV Name : ").toString()).toBe("機器名：");
+        expect(rb.getString("MAC Address").toString()).toBe("MAC Address ");
 
         expect(rb.getString("To read the Terms and Conditions, go to Settings > Support >  Privacy & Terms.").toString()).toBe("To read the Terms and Conditions, go to Settings > Support >  Privacy & Terms.");
     });
     test("jssample_generate_test_de_DE", function() {
-        expect.assertions(3);
+        expect.assertions(6);
         let rb = new ResBundle({
             locale:"de-DE",
             basePath : defaultRSPath
         });
         expect(rb).toBeTruthy();
+        expect(rb.getString("Bye").toString()).toBe("Auf wiedersehen");
         expect(rb.getString("EXIT APP").toString()).toBe("APP BEENDEN");
+        expect(rb.getString("Hello").toString()).toBe("Hallo");
+        expect(rb.getString("RETRY").toString()).toBe("WIEDERHOLEN");
         expect(rb.getString("SETTINGS").toString()).toBe("EINSTELLUNGEN");
     });
     test("jssample_generate_test_as_IN", function() {

@@ -21,11 +21,11 @@ var fs = require("fs");
 var path = require("path");
 var mm = require("micromatch");
 var Locale = require("ilib/lib/Locale.js");
-var ResourceString = require("loctool/lib/ResourceString.js");
 var DartFile = require("./DartFile.js");
 var JsonResourceFileType = require("ilib-loctool-webos-json-resource");
 var Utils = require("loctool/lib/utils.js")
 var pluginUtils = require("ilib-loctool-webos-common/utils.js");
+var lookupUtils = require("ilib-loctool-webos-common/lookupByPolicy.js");
 
 var DartFileType = function(project) {
     this.type = "x-dart";
@@ -189,6 +189,19 @@ DartFileType.prototype.write = function(translations, locales) {
         }
     }
 
+    var policy = lookupUtils.buildPolicy({ includeUniversal: false });
+    var makeLookupParams = function(resource, locale) {
+        return {
+            db: db,
+            resource: resource,
+            locale: locale,
+            policy: policy,
+            isCommonDataLoaded: this.isCommonDataLoaded,
+            commonPrjName: this.commonPrjName,
+            commonPrjType: this.commonPrjType
+        };
+    }.bind(this);
+
     if (mode === "localize") {
         for (var i = 0; i < resources.length; i++) {
             res = resources[i];
@@ -201,67 +214,42 @@ DartFileType.prototype.write = function(translations, locales) {
                 db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(locale), function(err, translated) {
                     var r = translated;
                     if (!translated) {
-                        db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(locale), function(err, translated) {
-                        var r = translated;
-                        if (!translated && this.isCommonDataLoaded) {
-                            var manipulateKey = ResourceString.hashKey(this.commonPrjName, locale, res.getKey(), this.commonPrjType, res.getFlavor());
-                            db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
-                                if (translated) {
-                                    pluginUtils.addResource(resFileType, translated, res, locale, resPath, deviceType);
-                                } else if(!translated && customInheritLocale){
-                                    db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(customInheritLocale), function(err, translated) {
-                                        if (!translated){
-                                            var manipulateKey = ResourceString.hashKey(this.commonPrjName, customInheritLocale, res.getKey(), this.commonPrjType, res.getFlavor());
-                                            db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
-                                                if (translated){
-                                                    pluginUtils.addResource(resFileType, translated, res, locale, resPath, deviceType);
-                                                } else {
-                                                    pluginUtils.addNewResource(this.newres, res, locale);
-                                                }
-                                            }.bind(this));
-                                        } else {
-                                            pluginUtils.addResource(resFileType, translated, res, locale, resPath, deviceType);
-                                        }
-                                    }.bind(this));
-                                } else {
-                                    pluginUtils.addNewResource(this.newres, res, locale);
-                                }
-                            }.bind(this));
-                        } else if (!translated && customInheritLocale) {
-                            db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(customInheritLocale), function(err, translated) {
-                                var r = translated;
-                                if (translated){
-                                    pluginUtils.addResource(resFileType, translated, res, locale, resPath, deviceType);
-                                } else {
-                                    pluginUtils.addNewResource(this.newres, res, locale);
-                                }
-                            }.bind(this));
-                        } else if (!translated || ( this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getSource()) &&
-                            this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getKey()))) {
+                        lookupUtils.lookupByPolicy(makeLookupParams(res, locale), function(policyTranslation) {
+                            if (policyTranslation) {
+                                pluginUtils.addResource(resFileType, policyTranslation, res, locale, resPath, deviceType);
+                            } else if (customInheritLocale) {
+                                db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(customInheritLocale), function(err, inheritTranslated) {
+                                    if (!inheritTranslated) {
+                                        lookupUtils.lookupByPolicy(makeLookupParams(res, customInheritLocale), function(inheritPolicyTranslation) {
+                                            if (inheritPolicyTranslation) {
+                                                pluginUtils.addResource(resFileType, inheritPolicyTranslation, res, locale, resPath, deviceType);
+                                            } else {
+                                                pluginUtils.addNewResource(this.newres, res, locale);
+                                            }
+                                        }.bind(this));
+                                    } else {
+                                        pluginUtils.addResource(resFileType, inheritTranslated, res, locale, resPath, deviceType);
+                                    }
+                                }.bind(this));
+                            } else {
+                                pluginUtils.addNewResource(this.newres, res, locale);
+                            }
+                        }.bind(this));
+                    } else {
+                        if (this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getSource()) &&
+                            this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getKey())) {
                             if (r) {
                                 this.logger.trace("extracted   source: " + this.API.utils.cleanString(res.getSource()));
                                 this.logger.trace("translation source: " + this.API.utils.cleanString(r.getSource()));
                             }
                             pluginUtils.addNewResource(this.newres, res, locale);
                         } else {
+                            if (translated.metadata) translated.target = pluginUtils.getTarget(translated, deviceType);
                             pluginUtils.addResource(resFileType, translated, res, locale, resPath, deviceType);
                         }
-                    }.bind(this));
-                    } else {
-                        if (( this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getSource()) &&
-                                this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getKey()))) {
-                                if (r) {
-                                    this.logger.trace("extracted   source: " + this.API.utils.cleanString(res.getSource()));
-                                    this.logger.trace("translation source: " + this.API.utils.cleanString(r.getSource()));
-                                }
-                                pluginUtils.addNewResource(this.newres, res, locale);
-                            } else {
-                                if (translated.metadata) translated.target = pluginUtils.getTarget(translated, deviceType);
-                                pluginUtils.addResource(resFileType, translated, res, locale, resPath, deviceType);
-                            }
-                        }
-                    }.bind(this));
+                    }
                 }.bind(this));
+            }.bind(this));
         }
 
         resources = [];
