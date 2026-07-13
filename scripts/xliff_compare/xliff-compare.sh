@@ -1,37 +1,29 @@
 #!/bin/bash
 
-# xliff-compare.sh - Compare two webOS XLIFF files using loctool
+# xliff_compare.sh - Compare two directories of webOS XLIFF files and output differences
 
-SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
+FROM_DIR=""
+TO_DIR=""
+OUTPUT_DIR=""
 
-# Display help message
 show_help() {
-    echo "Usage: $0 [OPTIONS]"
+    echo "Usage: $0 --from <FROM_DIR> --to <TO_DIR> --output <OUTPUT_DIR>"
     echo ""
     echo "Options support both formats: --option value, --option=value, and short forms"
     echo ""
     echo "Options:"
-    echo "  --from, -f <FILE>         Path to the source XLIFF file"
-    echo "  --to, -t <FILE>           Path to the target XLIFF file"
-    echo "  --output, -o <DIR>        Output directory for comparison results"
-    echo "  --help, -h                Show this help message"
+    echo "  --from, -f <FROM_DIR>     directory containing from XLIFF files (app/lang.xliff)"
+    echo "  --to, -t <TO_DIR>         directory containing to XLIFF files (same structure)"
+    echo "  --output, -o <OUTPUT_DIR> directory where differences are written:"
+    echo "                            OUTPUT_DIR/modified/app/lang.xliff  — target changed"
+    echo "                            OUTPUT_DIR/added/app/lang.xliff     — only in TO_DIR"
+    echo "                            OUTPUT_DIR/deleted/app/lang.xliff   — only in FROM_DIR"
     echo ""
-    echo "Output files:"
-    echo "  modified.xliff            Translation units with changes"
-    echo "  added.xliff               Translation units only in target file"
-    echo "  deleted.xliff             Translation units only in source file"
-    echo ""
-    echo "Examples:"
-    echo "  $0 --from base.xliff --to new.xliff --output ./diff"
-    echo "  $0 -f base.xliff -t new.xliff -o ./diff"
+    echo "Example:"
+    echo "  $0 --from ./lang_v1 --to ./lang_v2 --output ./changes"
 }
 
-# Parse command-line options
-FROM_FILE=""
-TO_FILE=""
-OUTPUT_DIR=""
-
-if [ "$#" -eq 0 ]; then
+if [ "$#" -lt 1 ]; then
     show_help
     exit 0
 fi
@@ -39,27 +31,30 @@ fi
 while [ "$#" -gt 0 ]; do
     case "$1" in
         --from|-f)
-            FROM_FILE="$2"
+            FROM_DIR="${2%/}"
             shift 2
             ;;
         --from=*|-f=*)
-            FROM_FILE="${1#*=}"
+            FROM_DIR="${1#*=}"
+            FROM_DIR="${FROM_DIR%/}"
             shift
             ;;
         --to|-t)
-            TO_FILE="$2"
+            TO_DIR="${2%/}"
             shift 2
             ;;
         --to=*|-t=*)
-            TO_FILE="${1#*=}"
+            TO_DIR="${1#*=}"
+            TO_DIR="${TO_DIR%/}"
             shift
             ;;
         --output|-o)
-            OUTPUT_DIR="$2"
+            OUTPUT_DIR="${2%/}"
             shift 2
             ;;
         --output=*|-o=*)
             OUTPUT_DIR="${1#*=}"
+            OUTPUT_DIR="${OUTPUT_DIR%/}"
             shift
             ;;
         --help|-h)
@@ -75,55 +70,95 @@ while [ "$#" -gt 0 ]; do
 done
 
 # Validate required options
-if [ -z "$FROM_FILE" ]; then
+if [ -z "$FROM_DIR" ]; then
     echo "Error: --from option is required."
     exit 1
 fi
-
-if [ -z "$TO_FILE" ]; then
+if [ -z "$TO_DIR" ]; then
     echo "Error: --to option is required."
     exit 1
 fi
-
 if [ -z "$OUTPUT_DIR" ]; then
     echo "Error: --output option is required."
     exit 1
 fi
 
-# Validate file existence
-if [ ! -f "$FROM_FILE" ]; then
-    echo "Error: Source XLIFF file not found: $FROM_FILE"
+if [ ! -d "$FROM_DIR" ]; then
+    echo "Error: FROM_DIR not found: $FROM_DIR"
+    exit 1
+fi
+if [ ! -d "$TO_DIR" ]; then
+    echo "Error: TO_DIR not found: $TO_DIR"
     exit 1
 fi
 
-if [ ! -f "$TO_FILE" ]; then
-    echo "Error: Target XLIFF file not found: $TO_FILE"
+# Validate that directories contain XLIFF files
+if ! find "$FROM_DIR" -type f -name "*.xliff" | grep -q .; then
+    echo "Error: FROM_DIR has no .xliff files: $FROM_DIR"
+    exit 1
+fi
+if ! find "$TO_DIR" -type f -name "*.xliff" | grep -q .; then
+    echo "Error: TO_DIR has no .xliff files: $TO_DIR"
     exit 1
 fi
 
-# Create output directory if it doesn't exist
+# Locate loctool and define run_loctool():
+#   1. npm standalone install  → $SCRIPT_DIR/node_modules/.bin/loctool  (direct bin)
+#   2. pnpm workspace          → loctool.js under node_modules/.pnpm    (via node)
+SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
+
+if [ -f "$SCRIPT_DIR/node_modules/.bin/loctool" ]; then
+    LOCTOOL_BIN="$SCRIPT_DIR/node_modules/.bin/loctool"
+    run_loctool() { "$LOCTOOL_BIN" "$@"; }
+    echo "LOCTOOL: $LOCTOOL_BIN"
+else
+    LOCTOOL_JS=$(find "$SCRIPT_DIR/../../node_modules/.pnpm" -type f -path "*/loctool.js" | grep "/loctool@" | head -n 1)
+    if [ -z "$LOCTOOL_JS" ] || [ ! -f "$LOCTOOL_JS" ]; then
+        echo "Error: loctool not found. Please run pnpm install from the repo root."
+        exit 1
+    fi
+    run_loctool() { node "$LOCTOOL_JS" "$@"; }
+    echo "LOCTOOL: $LOCTOOL_JS"
+fi
+
+XLIFF_STYLE=(-2 --xliffStyle webOS)
+
 mkdir -p "$OUTPUT_DIR"
 
-# The 'compare' command requires loctool 2.33.0 or later.
-# Earlier versions (e.g. 2.32.3) do not write out modified/added/deleted files.
-LOCTOOL_VERSION="2.33.0"
+# Process files that exist in TO_DIR
+while IFS= read -r TO_FILE; do
+    REL_PATH="${TO_FILE#"$TO_DIR"/}"
+    FROM_FILE="$FROM_DIR/$REL_PATH"
 
-if ! command -v npx &> /dev/null; then
-    echo "Error: npx is required to run loctool. Make sure Node.js is installed."
-    exit 1
-fi
+    if [ ! -f "$FROM_FILE" ]; then
+        echo "Only in to: $REL_PATH → added"
+        mkdir -p "$OUTPUT_DIR/added/$(dirname "$REL_PATH")"
+        cp "$TO_FILE" "$OUTPUT_DIR/added/$REL_PATH"
+        continue
+    fi
 
-# Run loctool compare using the pinned version
-run_loctool() {
-    npx --yes "loctool@${LOCTOOL_VERSION}" compare "$FROM_FILE" "$TO_FILE" "$OUTPUT_DIR"
-}
+    echo "Comparing: $REL_PATH"
+    TEMP_DIR=$(mktemp -d)
+    run_loctool compare "$FROM_FILE" "$TO_FILE" "$TEMP_DIR" "${XLIFF_STYLE[@]}"
 
-# Execute the comparison
-if ! run_loctool; then
-    echo "Error: loctool compare command failed."
-    exit 1
-fi
+    for CATEGORY in modified added deleted; do
+        if [ -f "$TEMP_DIR/${CATEGORY}.xliff" ]; then
+            mkdir -p "$OUTPUT_DIR/$CATEGORY/$(dirname "$REL_PATH")"
+            mv "$TEMP_DIR/${CATEGORY}.xliff" "$OUTPUT_DIR/$CATEGORY/$REL_PATH"
+        fi
+    done
 
-echo "Comparison completed successfully."
-echo "Results saved to: $OUTPUT_DIR"
-exit 0
+    rm -rf "$TEMP_DIR"
+done < <(find "$TO_DIR" -type f -name "*.xliff" | sort)
+
+# Process files that exist only in FROM_DIR → all units deleted
+while IFS= read -r FROM_FILE; do
+    REL_PATH="${FROM_FILE#"$FROM_DIR"/}"
+    if [ ! -f "$TO_DIR/$REL_PATH" ]; then
+        echo "Only in from: $REL_PATH → deleted"
+        mkdir -p "$OUTPUT_DIR/deleted/$(dirname "$REL_PATH")"
+        cp "$FROM_FILE" "$OUTPUT_DIR/deleted/$REL_PATH"
+    fi
+done < <(find "$FROM_DIR" -type f -name "*.xliff" | sort)
+
+echo "Done. Results written to $OUTPUT_DIR"

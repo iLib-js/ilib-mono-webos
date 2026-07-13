@@ -2,7 +2,6 @@
 
 # test-xliff-compare.bats - Tests for xliff-compare.sh
 
-# Setup function to prepare test environment
 setup() {
   SCRIPT_DIR="$(cd "$(dirname "$BATS_TEST_FILENAME")" && pwd)"
   XLIFF_COMPARE_SH="$SCRIPT_DIR/xliff-compare.sh"
@@ -11,7 +10,6 @@ setup() {
   rm -rf ${OUTPUT_DIR_BASE}* 2>/dev/null || true
 }
 
-# Cleanup function to remove test artifacts
 teardown() {
   rm -rf ${OUTPUT_DIR_BASE}* 2>/dev/null || true
 }
@@ -26,7 +24,6 @@ check_file_exists() {
   fi
 }
 
-# Define a helper function to check_diff and print output on failure
 # Both files are normalized to always end with a newline before comparison
 # to avoid false failures caused by "\ No newline at end of file" differences.
 check_diff() {
@@ -52,192 +49,145 @@ check_status() {
   [ "$status" -eq 0 ]
 }
 
-# ── Happy path ────────────────────────────────────────────────────────────────
+# ── Happy path ───────────────────────────────────────────────────────────────
 
-@test "Test - xliff-compare.sh basic compare" {
-  local test_name="basic_compare"
+@test "Test - xliff-compare.sh compare" {
+  local test_name="compare"
 
-  run "$XLIFF_COMPARE_SH" --from "$TESTFILES_DIR/webos_from.xliff" --to "$TESTFILES_DIR/webos_to.xliff" --output "${OUTPUT_DIR_BASE}compare"
-
-  check_status $test_name $status
-  check_file_exists $test_name "${OUTPUT_DIR_BASE}compare/modified.xliff"
-  check_diff $test_name "${OUTPUT_DIR_BASE}compare/modified.xliff" "$TESTFILES_DIR/Expected/modified.xliff"
-}
-
-@test "Test - xliff-compare.sh with added units" {
-  local test_name="with_added"
-
-  run "$XLIFF_COMPARE_SH" --from "$TESTFILES_DIR/webos_from.xliff" --to "$TESTFILES_DIR/webos_to.xliff" --output "${OUTPUT_DIR_BASE}compare_added"
+  run "$XLIFF_COMPARE_SH" --from "$TESTFILES_DIR/from" --to "$TESTFILES_DIR/to" --output "${OUTPUT_DIR_BASE}compare"
 
   check_status $test_name $status
-  check_file_exists $test_name "${OUTPUT_DIR_BASE}compare_added/added.xliff"
-  check_diff $test_name "${OUTPUT_DIR_BASE}compare_added/added.xliff" "$TESTFILES_DIR/Expected/added.xliff"
+
+  # modified
+  check_file_exists $test_name ${OUTPUT_DIR_BASE}compare/modified/appA/ko-KR.xliff
+  check_diff $test_name \
+    ${OUTPUT_DIR_BASE}compare/modified/appA/ko-KR.xliff \
+    "$TESTFILES_DIR/Expected/output_compare/modified/appA/ko-KR.xliff"
+
+  # added
+  check_file_exists $test_name ${OUTPUT_DIR_BASE}compare/added/appA/ko-KR.xliff
+  check_diff $test_name \
+    ${OUTPUT_DIR_BASE}compare/added/appA/ko-KR.xliff \
+    "$TESTFILES_DIR/Expected/output_compare/added/appA/ko-KR.xliff"
+
+  # deleted
+  check_file_exists $test_name ${OUTPUT_DIR_BASE}compare/deleted/appA/ko-KR.xliff
+  check_diff $test_name \
+    ${OUTPUT_DIR_BASE}compare/deleted/appA/ko-KR.xliff \
+    "$TESTFILES_DIR/Expected/output_compare/deleted/appA/ko-KR.xliff"
 }
 
-@test "Test - xliff-compare.sh with deleted units" {
-  local test_name="with_deleted"
+@test "Test - equals format (--from=value --to=value --output=value)" {
+  local test_name="equals_format"
 
-  run "$XLIFF_COMPARE_SH" --from "$TESTFILES_DIR/webos_from.xliff" --to "$TESTFILES_DIR/webos_to.xliff" --output "${OUTPUT_DIR_BASE}compare_deleted"
+  run "$XLIFF_COMPARE_SH" \
+    --from="$TESTFILES_DIR/from" \
+    --to="$TESTFILES_DIR/to" \
+    --output="${OUTPUT_DIR_BASE}eq"
 
   check_status $test_name $status
-  check_file_exists $test_name "${OUTPUT_DIR_BASE}compare_deleted/deleted.xliff"
-  check_diff $test_name "${OUTPUT_DIR_BASE}compare_deleted/deleted.xliff" "$TESTFILES_DIR/Expected/deleted.xliff"
+  check_file_exists $test_name ${OUTPUT_DIR_BASE}eq/modified/appA/ko-KR.xliff
 }
 
-# ── Option formats ────────────────────────────────────────────────────────────
+@test "Test - short options (-f -t -o)" {
+  local test_name="short_options"
 
-@test "Test - xliff-compare.sh --option=value format" {
-  local test_name="option_equals_format"
-
-  run "$XLIFF_COMPARE_SH" --from="$TESTFILES_DIR/webos_from.xliff" --to="$TESTFILES_DIR/webos_to.xliff" --output="${OUTPUT_DIR_BASE}compare_eq"
+  run "$XLIFF_COMPARE_SH" \
+    -f "$TESTFILES_DIR/from" \
+    -t "$TESTFILES_DIR/to" \
+    -o "${OUTPUT_DIR_BASE}short"
 
   check_status $test_name $status
-  check_file_exists $test_name "${OUTPUT_DIR_BASE}compare_eq/modified.xliff"
+  check_file_exists $test_name ${OUTPUT_DIR_BASE}short/modified/appA/ko-KR.xliff
 }
 
-@test "Test - xliff-compare.sh short option format" {
-  local test_name="short_option_format"
+# ── Help ─────────────────────────────────────────────────────────────────────
 
-  run "$XLIFF_COMPARE_SH" -f "$TESTFILES_DIR/webos_from.xliff" -t "$TESTFILES_DIR/webos_to.xliff" -o "${OUTPUT_DIR_BASE}compare_short"
-
-  check_status $test_name $status
-  check_file_exists $test_name "${OUTPUT_DIR_BASE}compare_short/modified.xliff"
-}
-
-@test "Test - xliff-compare.sh mixed option formats" {
-  local test_name="mixed_option_format"
-
-  run "$XLIFF_COMPARE_SH" --from="$TESTFILES_DIR/webos_from.xliff" -t "$TESTFILES_DIR/webos_to.xliff" -o="${OUTPUT_DIR_BASE}compare_mixed"
-
-  check_status $test_name $status
-  check_file_exists $test_name "${OUTPUT_DIR_BASE}compare_mixed/modified.xliff"
-}
-
-# ── Help ──────────────────────────────────────────────────────────────────────
-
-@test "Test - xliff-compare.sh no arguments shows help" {
-  local test_name="no_args_help"
-
+@test "Test - no arguments shows help and exits 0" {
   run "$XLIFF_COMPARE_SH"
-
   [ "$status" -eq 0 ]
   [[ "$output" =~ "Usage:" ]]
-  [[ "$output" =~ "--from" ]]
-  [[ "$output" =~ "--to" ]]
-  [[ "$output" =~ "--output" ]]
 }
 
-@test "Test - xliff-compare.sh --help option" {
-  local test_name="help_option"
-
+@test "Test - --help shows help and exits 0" {
   run "$XLIFF_COMPARE_SH" --help
-
   [ "$status" -eq 0 ]
   [[ "$output" =~ "Usage:" ]]
-  [[ "$output" =~ "Options:" ]]
   [[ "$output" =~ "--from" ]]
-  [[ "$output" =~ "--to" ]]
-  [[ "$output" =~ "--output" ]]
 }
 
-@test "Test - xliff-compare.sh -h option" {
-  local test_name="h_option"
-
+@test "Test - -h shows help and exits 0" {
   run "$XLIFF_COMPARE_SH" -h
-
   [ "$status" -eq 0 ]
   [[ "$output" =~ "Usage:" ]]
 }
 
 # ── Missing required options ──────────────────────────────────────────────────
 
-@test "Test - xliff-compare.sh missing --from option" {
-  local test_name="missing_from"
-
-  run "$XLIFF_COMPARE_SH" --to "$TESTFILES_DIR/webos_to.xliff" --output "${OUTPUT_DIR_BASE}missing_from"
-
+@test "Test - missing --from exits non-zero" {
+  run "$XLIFF_COMPARE_SH" --to "$TESTFILES_DIR/to" --output "${OUTPUT_DIR_BASE}compare"
   [ "$status" -ne 0 ]
   [[ "$output" =~ "--from" ]]
 }
 
-@test "Test - xliff-compare.sh missing --to option" {
-  local test_name="missing_to"
-
-  run "$XLIFF_COMPARE_SH" --from "$TESTFILES_DIR/webos_from.xliff" --output "${OUTPUT_DIR_BASE}missing_to"
-
+@test "Test - missing --to exits non-zero" {
+  run "$XLIFF_COMPARE_SH" --from "$TESTFILES_DIR/from" --output "${OUTPUT_DIR_BASE}compare"
   [ "$status" -ne 0 ]
   [[ "$output" =~ "--to" ]]
 }
 
-@test "Test - xliff-compare.sh missing --output option" {
-  local test_name="missing_output"
-
-  run "$XLIFF_COMPARE_SH" --from "$TESTFILES_DIR/webos_from.xliff" --to "$TESTFILES_DIR/webos_to.xliff"
-
+@test "Test - missing --output exits non-zero" {
+  run "$XLIFF_COMPARE_SH" --from "$TESTFILES_DIR/from" --to "$TESTFILES_DIR/to"
   [ "$status" -ne 0 ]
   [[ "$output" =~ "--output" ]]
 }
 
 # ── Invalid input ─────────────────────────────────────────────────────────────
 
-@test "Test - xliff-compare.sh source file not found" {
-  local test_name="source_not_found"
-
-  run "$XLIFF_COMPARE_SH" --from "$TESTFILES_DIR/nonexistent.xliff" --to "$TESTFILES_DIR/webos_to.xliff" --output "${OUTPUT_DIR_BASE}not_found"
-
+@test "Test - non-existent FROM_DIR exits non-zero" {
+  run "$XLIFF_COMPARE_SH" \
+    --from "$SCRIPT_DIR/nonexistent_dir" \
+    --to "$TESTFILES_DIR/to" \
+    --output "${OUTPUT_DIR_BASE}compare"
   [ "$status" -ne 0 ]
-  [[ "$output" =~ "not found" ]] || [[ "$output" =~ "Error" ]]
 }
 
-@test "Test - xliff-compare.sh target file not found" {
-  local test_name="target_not_found"
-
-  run "$XLIFF_COMPARE_SH" --from "$TESTFILES_DIR/webos_from.xliff" --to "$TESTFILES_DIR/nonexistent.xliff" --output "${OUTPUT_DIR_BASE}not_found"
-
+@test "Test - non-existent TO_DIR exits non-zero" {
+  run "$XLIFF_COMPARE_SH" \
+    --from "$TESTFILES_DIR/from" \
+    --to "$SCRIPT_DIR/nonexistent_dir" \
+    --output "${OUTPUT_DIR_BASE}compare"
   [ "$status" -ne 0 ]
-  [[ "$output" =~ "not found" ]] || [[ "$output" =~ "Error" ]]
 }
 
-@test "Test - xliff-compare.sh unknown option" {
-  local test_name="unknown_option"
-
-  run "$XLIFF_COMPARE_SH" --from "$TESTFILES_DIR/webos_from.xliff" --to "$TESTFILES_DIR/webos_to.xliff" --output "${OUTPUT_DIR_BASE}unknown" --unknown-opt "value"
-
+@test "Test - FROM_DIR with no .xliff files exits non-zero" {
+  mkdir -p /tmp/bats_empty_from
+  run "$XLIFF_COMPARE_SH" \
+    --from /tmp/bats_empty_from \
+    --to "$TESTFILES_DIR/to" \
+    --output "${OUTPUT_DIR_BASE}compare"
+  rmdir /tmp/bats_empty_from
   [ "$status" -ne 0 ]
-  [[ "$output" =~ "Unknown option" ]] || [[ "$output" =~ "Error" ]]
+  [[ "$output" =~ ".xliff" ]]
 }
 
-# ── Special cases ─────────────────────────────────────────────────────────────
-
-@test "Test - xliff-compare.sh output directory creation" {
-  local test_name="output_dir_creation"
-  local output_dir="${OUTPUT_DIR_BASE}compare_create_dir"
-
-  # Ensure output dir doesn't exist before test
-  rm -rf "$output_dir" 2>/dev/null || true
-
-  run "$XLIFF_COMPARE_SH" --from "$TESTFILES_DIR/webos_from.xliff" --to "$TESTFILES_DIR/webos_to.xliff" --output "$output_dir"
-
-  check_status $test_name $status
-  [ -d "$output_dir" ]
+@test "Test - TO_DIR with no .xliff files exits non-zero" {
+  mkdir -p /tmp/bats_empty_to
+  run "$XLIFF_COMPARE_SH" \
+    --from "$TESTFILES_DIR/from" \
+    --to /tmp/bats_empty_to \
+    --output "${OUTPUT_DIR_BASE}compare"
+  rmdir /tmp/bats_empty_to
+  [ "$status" -ne 0 ]
+  [[ "$output" =~ ".xliff" ]]
 }
 
-@test "Test - xliff-compare.sh relative paths" {
-  local test_name="relative_paths"
-
-  # Change to script directory to test relative paths
-  cd "$SCRIPT_DIR"
-  run bash ./xliff-compare.sh --from "testfiles/webos_from.xliff" --to "testfiles/webos_to.xliff" --output "output_relative"
-
-  check_status $test_name $status
-  check_file_exists $test_name "output_relative/modified.xliff"
-}
-
-@test "Test - xliff-compare.sh absolute paths" {
-  local test_name="absolute_paths"
-
-  run "$XLIFF_COMPARE_SH" --from "$(cd "$TESTFILES_DIR" && pwd)/webos_from.xliff" --to "$(cd "$TESTFILES_DIR" && pwd)/webos_to.xliff" --output "${OUTPUT_DIR_BASE}compare_absolute"
-
-  check_status $test_name $status
-  check_file_exists $test_name "${OUTPUT_DIR_BASE}compare_absolute/modified.xliff"
+@test "Test - unknown option exits non-zero" {
+  run "$XLIFF_COMPARE_SH" \
+    --from "$TESTFILES_DIR/from" \
+    --to "$TESTFILES_DIR/to" \
+    --output "${OUTPUT_DIR_BASE}compare" \
+    --unknown
+  [ "$status" -ne 0 ]
+  [[ "$output" =~ "Unknown option" ]]
 }

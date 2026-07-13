@@ -1,61 +1,66 @@
 # xliff-compare.sh
 
-This Bash script compares two webOS XLIFF files logically by translation units and writes the differences to an output directory using loctool.
+This Bash script compares two directories of webOS XLIFF files and writes differences to categorized output folders.
+It uses loctool compare to detect modified, added, and deleted translation units.
 
 ## Features
 
-- Compares two XLIFF files logically (not line-by-line)
-- Generates three output files showing modified, added, and deleted translation units
-- Supports both long and short option formats
-- Automatic loctool discovery from project dependencies
+- Compare two XLIFF directory trees (`from` and `to`).
+- Categorize results into `modified`, `added`, and `deleted`.
+- Preserve app/locale relative paths in output.
+- Support long options, short options, and equals format.
 
 ## Requirements
 
 - Node.js
-- loctool.js (automatically located from ../../node_modules/.pnpm or ../../node_modules)
+- loctool (resolved in this order):
+  - Local npm install: `./node_modules/.bin/loctool`
+  - Local dev source: `../../../ilib-mono/packages/loctool/loctool.js`
+  - Workspace pnpm install: `../../node_modules/.pnpm/.../loctool.js`
 
 ## Usage
 
-```
-./xliff-compare.sh [OPTIONS]
+```bash
+./xliff-compare.sh --from <FROM_DIR> --to <TO_DIR> --output <OUTPUT_DIR>
 ```
 
 ### Options
 
-- `--from, -f <FILE>` - Path to the source XLIFF file (required)
-- `--to, -t <FILE>` - Path to the target XLIFF file (required)
-- `--output, -o <DIR>` - Output directory for comparison results (required)
-- `--help, -h` - Show help message
+- `--from`, `-f`: Directory containing baseline XLIFF files (`app/lang.xliff`).
+- `--to`, `-t`: Directory containing target XLIFF files (same structure).
+- `--output`, `-o`: Directory where comparison results are written.
+- `--help`, `-h`: Show usage help.
 
-Options support both formats: `--option value`, `--option=value`, and short forms.
+### Option Formats
 
-### Output Files
+- Space-separated: `--from ./from --to ./to --output ./out`
+- Equals format: `--from=./from --to=./to --output=./out`
+- Short options: `-f ./from -t ./to -o ./out`
 
-- `modified.xliff` - Translation units with changes
-- `added.xliff` - Translation units only in the target file
-- `deleted.xliff` - Translation units only in the source file
+## Output Structure
 
-A file is only created if there are units of that type.
+The script writes result files under:
 
-## Examples
+- `<OUTPUT_DIR>/modified/<app>/<locale>.xliff`: Units changed between `from` and `to`.
+- `<OUTPUT_DIR>/added/<app>/<locale>.xliff`: Units only in `to`.
+- `<OUTPUT_DIR>/deleted/<app>/<locale>.xliff`: Units only in `from`.
+
+## Behavior Notes
+
+- Both `FROM_DIR` and `TO_DIR` must exist and contain at least one `.xliff` file.
+- Files only in `to` are copied to `added`.
+- Files only in `from` are copied to `deleted`.
+- Files in both are compared using `loctool compare` with `-2 --xliffStyle webOS`.
+
+## Example
 
 ```bash
-# Using long options with space
-./xliff-compare.sh --from base.xliff --to new.xliff --output ./diff
-
-# Using long options with equals sign
-./xliff-compare.sh --from=base.xliff --to=new.xliff --output=./diff
-
-# Using short options
-./xliff-compare.sh -f base.xliff -t new.xliff -o ./diff
-
-# Mixed format
-./xliff-compare.sh --from base.xliff -t=new.xliff -o ./diff
+./xliff-compare.sh --from ./lang_v1 --to ./lang_v2 --output ./changes
 ```
 
 ## Testing with Bats
 
-This script can be tested using bats-core, a Bash automated testing system.
+This script can be tested using bats-core.
 
 ### Installation
 
@@ -71,6 +76,6 @@ bats test-xliff-compare.bats
 
 ## Notes
 
-- The script validates that both input XLIFF files exist before running the comparison
+- The script validates that both `FROM_DIR` and `TO_DIR` exist and contain at least one `.xliff` file before running the comparison
 - The output directory is automatically created if it does not exist
 - All file paths can be relative or absolute

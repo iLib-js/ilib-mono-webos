@@ -192,7 +192,7 @@ if [ -f "$SCRIPT_DIR/node_modules/.bin/loctool" ]; then
     echo "LOCTOOL: $LOCTOOL_BIN"
 else
     LOCTOOL_JS=$(find "$SCRIPT_DIR/../../node_modules/.pnpm" -type f -path "*/loctool.js" | grep "/loctool@" | head -n 1)
-    if [ -z "$LOCTOOL_JS" ]; then
+    if [ -z "$LOCTOOL_JS" ] || [ ! -f "$LOCTOOL_JS" ]; then
         echo "Error: loctool not found. Please run pnpm install from the repo root."
         exit 1
     fi
