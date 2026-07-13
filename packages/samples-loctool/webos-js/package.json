@@ -21,10 +21,10 @@
         "ilib-loctool-webos-json": "workspace:*",
         "ilib-loctool-webos-json-resource": "workspace:*",
         "ilib-loctool-webos-common": "workspace:*",
-        "loctool": "^2.32.3"
+        "loctool": "^2.33.1"
     },
     "devDependencies": {
-        "ilib": "^14.21.3",
-        "jest": "^30.3.0"
+        "ilib": "^14.22.0",
+        "jest": "^30.4.2"
     }
 }
