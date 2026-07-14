@@ -57,12 +57,12 @@ describe("buildPolicy", function() {
         expect(policy[0].project).toBe("common");
     });
 
-    test("includeUniversal=true prepends self+universal step", function() {
+    test("includeUniversal=true prepends current+universal step", function() {
         var policy = buildPolicy({ includeUniversal: true });
         expect(policy).toHaveLength(2);
         expect(policy[0]).toMatchObject({
             keyType: "cleanHashKey",
-            project: "self",
+            project: "current",
             datatype: "universal",
             needsCommonData: false
         });
@@ -216,7 +216,7 @@ describe("lookupByPolicy", function() {
         });
     });
 
-    test("missing project in resource skips self step", function(done) {
+    test("missing project in resource skips current step", function(done) {
         var ResourceString = require("loctool/lib/ResourceString.js");
         var commonKey = ResourceString.hashKey("common", "ko-KR", "hello", "x-json", undefined);
         var fakeCommon = { target: "공통" };

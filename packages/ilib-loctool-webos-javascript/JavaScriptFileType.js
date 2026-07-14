@@ -22,8 +22,7 @@ var path = require("path");
 var JavaScriptFile = require("./JavaScriptFile.js");
 var JsonResourceFileType = require("ilib-loctool-webos-json-resource");
 var Utils = require("loctool/lib/utils.js")
-var pluginUtils = require("ilib-loctool-webos-common/utils.js");
-var lookupUtils = require("ilib-loctool-webos-common/lookupByPolicy.js");
+var { utils: pluginUtils, lookupByPolicy: lookupUtils } = require("ilib-loctool-webos-common");
 
 var JavaScriptFileType = function(project) {
     this.type = "javascript";

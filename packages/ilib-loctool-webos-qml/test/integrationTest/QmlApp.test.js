@@ -22,7 +22,7 @@ const fs = require('fs');
 const xmljs = require("xml-js");
 
 const ProjectFactory = require("loctool/lib/ProjectFactory.js");
-const pluginUtils = require("ilib-loctool-webos-common/utils.js");
+const { utils: pluginUtils } = require("ilib-loctool-webos-common");
 
 const makeArray = function (data) {
   return Array.isArray(data) ? data : [data]

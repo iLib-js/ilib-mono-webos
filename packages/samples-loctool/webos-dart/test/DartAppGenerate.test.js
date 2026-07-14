@@ -19,7 +19,7 @@
 
 const fs = require("fs");
 const path = require('path');
-const pluginUtils = require("ilib-loctool-webos-common/utils.js");
+const { utils: pluginUtils } = require("ilib-loctool-webos-common");
 
 const ProjectFactory = require("loctool/lib/ProjectFactory.js");
 const GenerateModeProcess = require("loctool/lib/GenerateModeProcess.js");

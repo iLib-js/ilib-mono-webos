@@ -31,7 +31,7 @@ var ResourceString = require("loctool/lib/ResourceString.js");
  * @returns {string|undefined}
  */
 function buildKey(resource, locale, entry, commonPrjName, commonPrjType) {
-    if (entry.project === "self" && entry.keyType === "cleanHashKey") {
+    if (entry.project === "current" && entry.keyType === "cleanHashKey") {
         var project = resource.getProject && resource.getProject();
         if (!project) return undefined;
         return ResourceString.cleanHashKey(project, locale, resource.getKey(), entry.datatype, resource.getFlavor());
@@ -53,7 +53,7 @@ function buildKey(resource, locale, entry, commonPrjName, commonPrjType) {
  *
  * @param {Object} [options]
  * @param {boolean} [options.includeUniversal=false]
- *   If true, prepend a self+universal step before the common step.
+ *   If true, prepend a current+universal step before the common step.
  *   Use for the JS plugin; omit or set false for C/Cpp/Dart.
  * @returns {Array<{keyType: string, project: string, datatype: string, needsCommonData: boolean}>}
  */
@@ -63,7 +63,7 @@ function buildPolicy(options) {
     if (options && options.includeUniversal) {
         policy.push({
             keyType: "cleanHashKey",
-            project: "self",
+            project: "current",
             datatype: "universal",
             needsCommonData: false
         });

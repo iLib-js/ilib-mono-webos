@@ -21,7 +21,7 @@ const fs = require("fs");
 const path = require('path');
 
 const ProjectFactory = require("loctool/lib/ProjectFactory.js");
-const pluginUtils = require("ilib-loctool-webos-common/utils.js");
+const { utils: pluginUtils } = require("ilib-loctool-webos-common");
 
 describe('[integration] test the localization result of webos-dart app', () => {
     const projectRoot = (process.cwd().indexOf("integrationTest")) > -1 ? ".": "./test/integrationTest";

@@ -22,7 +22,7 @@ var path = require("path");
 var QMLFile = require("./QMLFile.js");
 var TSResourceFileType = require("ilib-loctool-webos-ts-resource");
 var ResourceString = require("loctool/lib/ResourceString.js");
-var pluginUtils = require("ilib-loctool-webos-common/utils.js");
+var { utils: pluginUtils } = require("ilib-loctool-webos-common");
 
 var QMLFileType = function(project) {
     this.type = "x-qml";

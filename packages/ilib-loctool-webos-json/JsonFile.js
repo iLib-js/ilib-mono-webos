@@ -23,7 +23,7 @@ var Utils = require("loctool/lib/utils.js");
 var ResourceString = require("loctool/lib/ResourceString.js");
 var PseudoFactory = require("loctool/lib/PseudoFactory.js");
 var Locale = require("ilib/lib/Locale");
-var pluginUtils = require("ilib-loctool-webos-common/utils.js");
+var { utils: pluginUtils } = require("ilib-loctool-webos-common");
 
 /**
  * Create a new json file with the given path name and within

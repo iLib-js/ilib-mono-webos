@@ -21,7 +21,7 @@ const { exec } = require('child_process');
 const path = require('path');
 const fs = require('fs');
 const xmljs = require("xml-js");
-const pluginUtils = require("ilib-loctool-webos-common/utils.js");
+const { utils: pluginUtils } = require("ilib-loctool-webos-common");
 
 const makeArray = function (data) {
   return Array.isArray(data) ? data : [data]

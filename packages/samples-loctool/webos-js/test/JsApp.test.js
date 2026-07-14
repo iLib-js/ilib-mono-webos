@@ -21,7 +21,7 @@ const { exec } = require('child_process');
 const path = require('path');
 const ResBundle = require("ilib/lib/ResBundle");
 const defaultRSPath = path.join(process.cwd(), "resources");
-const pluginUtils = require("ilib-loctool-webos-common/utils.js");
+const { utils: pluginUtils } = require("ilib-loctool-webos-common");
 
 describe('test the localization result of webos-js app', () => {
     const generalOptions = '-2 --xliffStyle webOS --pseudo --localizeOnly';

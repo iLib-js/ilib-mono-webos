@@ -20,7 +20,7 @@
 const fs = require("fs");
 const { exec } = require('child_process');
 const path = require('path');
-const pluginUtils = require("ilib-loctool-webos-common/utils.js");
+const { utils: pluginUtils } = require("ilib-loctool-webos-common");
 
 describe('test the localization result of webos-dart app', () => {
     const resourcePath = 'assets/i18n';
