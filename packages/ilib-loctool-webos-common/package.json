@@ -36,10 +36,10 @@
         "debug": "node --inspect-brk node_modules/jest/bin/jest.js -i"
     },
     "peerDependencies": {
-        "loctool": "2.32.3"
+        "loctool": "2.33.1"
     },
     "devDependencies": {
-        "jest": "^30.3.0",
-        "loctool": "2.32.3"
+        "jest": "^30.4.2",
+        "loctool": "2.33.1"
     }
 }
