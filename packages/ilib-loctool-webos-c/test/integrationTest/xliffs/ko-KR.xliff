@@ -40,5 +40,26 @@
         </segment>
     </unit>
     </group>
+    <group id="sample-webos-c_g2" name="universal">
+      <unit id="10">
+        <segment>
+          <source>Sound Out</source>
+          <target>(universal)소리 출력</target>
+        </segment>
+      </unit>
+      <unit id="11">
+        <mda:metadata>
+          <mda:metaGroup category="device-type">
+            <mda:meta type="Monitor">(universal)모니터 이름</mda:meta>
+            <mda:meta type="Box">(universal)박스 이름</mda:meta>
+            <mda:meta type="SoundBar">(universal)사운드바 이름</mda:meta>
+          </mda:metaGroup>
+        </mda:metadata>
+        <segment>
+          <source>TV Name</source>
+          <target>(universal)기기 이름 기본값</target>
+        </segment>
+      </unit>
+    </group>
   </file>
 </xliff>

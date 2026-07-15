@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="ko-TW" version="2.0">
+  <file id="sample-webos-js-with-universal_f1" original="sample-webos-js-with-universal">
+    <group id="sample-webos-js-with-universal_g1" name="universal">
+      <unit id="1">
+        <segment>
+          <source>TV On Screen</source>
+          <target>기기 켜짐 화면</target>
+        </segment>
+      </unit>
+    </group>
+  </file>
+</xliff>

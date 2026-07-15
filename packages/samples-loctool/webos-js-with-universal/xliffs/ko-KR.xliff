@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="ko-KR" version="2.0">
-  <file id="sample-webos-js_f1" original="sample-webos-js">
-    <group id="sample-webos-js_g1" name="javascript">
+  <file id="sample-webos-js-with-universal_f1" original="sample-webos-js-with-universal">
+    <group id="sample-webos-js-with-universal_g1" name="universal">
       <unit id="1">
         <segment>
           <source>EXIT APP</source>
@@ -87,32 +87,11 @@
         </segment>
       </unit>
     </group>
-    <group id="sample-webos-js_g2" name="x-json">
+    <group id="sample-webos-js-with-universal_g2" name="x-json">
       <unit id="200">
         <segment>
           <source>Live TV</source>
           <target>현재 방송</target>
-        </segment>
-      </unit>
-    </group>
-    <group id="sample-webos-js_g3" name="universal">
-      <unit id="300">
-        <segment>
-          <source>Congratulation</source>
-          <target>(universal)축하합니다</target>
-        </segment>
-      </unit>
-      <unit id="301">
-        <mda:metadata>
-          <mda:metaGroup category="device-type">
-            <mda:meta type="Monitor">(universal)모니터 닫기</mda:meta>
-            <mda:meta type="Projector">(universal)프로젝터 닫기</mda:meta>
-            <mda:meta type="StanbyME">(universal)기기 닫기</mda:meta>
-          </mda:metaGroup>
-        </mda:metadata>
-        <segment>
-          <source>CLOSE</source>
-          <target>(universal)닫기 기본값</target>
         </segment>
       </unit>
     </group>

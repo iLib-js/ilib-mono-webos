@@ -124,7 +124,7 @@ CFileType.prototype.write = function(translations, locales) {
         }
     }
 
-    var policy = lookupUtils.buildPolicy({ includeUniversal: false });
+    var policy = lookupUtils.buildPolicy({ includeUniversal: true });
     var makeLookupParams = function(resource, locale) {
         return {
             db: db,

@@ -76,20 +76,22 @@ describe("[integration] test the localization result of webos-cpp app", () => {
         }
     });
     test("cppsample_test_ko_KR_generate_mode", function() {
-        expect.assertions(9);
+        expect.assertions(11);
         filePath = path.join(resourcePath, 'ko', fileName);
 
         expect(process).toBeTruthy();
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
         jsonData = pluginUtils.loadData(filePath);
 
-        expect(Object.keys(jsonData).length).toBe(6);
+        expect(Object.keys(jsonData).length).toBe(8);
         expect(jsonData["No"]).toBe("아니오");
         expect(jsonData["Yes"]).toBe("예");
         expect(jsonData["Update"]).toBe("업데이트");
         expect(jsonData["Cancel"]).toBe("취소");
         expect(jsonData["Time Settings"]).toBe("시간 설정");
         expect(jsonData["* This feature is applied once and only once when the TV is turned off."]).toBe("* 이 기능은 프로젝터가 꺼질 때 한번만 실행됩니다.");
+        expect(jsonData["Sound Out"]).toBe("(universal)소리 출력"); // current+universal
+        expect(jsonData["TV Name"]).toBe("(universal)프로젝터 이름"); // current+universal with metadata (device-type=Projector)
     });
     test("cppsample_test_es_CO_generate_mode", function() {
        expect.assertions(3);

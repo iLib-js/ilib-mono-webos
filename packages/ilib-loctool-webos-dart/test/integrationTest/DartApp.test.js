@@ -101,7 +101,7 @@ describe('[integration] test the localization result of webos-dart app', () => {
         }
     });
     test("dartsample_test_ko_KR", function() {
-        expect.assertions(5);
+        expect.assertions(7);
         filePath = path.join(resourcePath, 'ko.json');
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
@@ -110,6 +110,8 @@ describe('[integration] test the localization result of webos-dart app', () => {
         expect(jsonData["Back button"]).toBe("이전 버튼");
         expect(jsonData["Search"]).toBe("통합 검색");
         expect(jsonData["Internal Speaker"]).toBe("모니터 스피커"); // metadata
+        expect(jsonData["App Rating"]).toBe("(universal)앱 등급"); // current+universal
+        expect(jsonData["TV Name"]).toBe("(universal)모니터 이름"); // current+universal with metadata (device-type=Monitor)
     });
     test("dartsample_test_es_CO", function() {
         expect.assertions(6);

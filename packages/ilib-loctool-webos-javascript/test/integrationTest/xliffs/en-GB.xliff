@@ -31,8 +31,21 @@
     <group id="sample-webos-js_g2" name="universal">
       <unit id="4">
         <segment>
-          <source>Bye</source>
-          <target>(universal)Bye(sample: en-GB)</target>
+          <source>Sound Out</source>
+          <target>(universal)Sound Out(sample: en-GB)</target>
+        </segment>
+      </unit>
+      <unit id="5">
+        <mda:metadata>
+          <mda:metaGroup category="device-type">
+            <mda:meta type="Monitor">(universal)Monitor Speaker(en-GB)</mda:meta>
+            <mda:meta type="Projector">(universal)Projector Speaker(en-GB)</mda:meta>
+            <mda:meta type="StanbyME">(universal)Device Speaker(en-GB)</mda:meta>
+          </mda:metaGroup>
+        </mda:metadata>
+        <segment>
+          <source>Internal Speaker + Wired Headphones</source>
+          <target>(universal)Speaker default(en-GB)</target>
         </segment>
       </unit>
     </group>

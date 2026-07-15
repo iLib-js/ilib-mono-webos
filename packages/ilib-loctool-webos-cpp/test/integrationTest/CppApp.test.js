@@ -95,7 +95,7 @@ describe("[integration] test the localization result of webos-cpp app", () => {
         }
     });
     test("cppsample_test_ko_KR", function() {
-        expect.assertions(6);
+        expect.assertions(8);
         filePath = path.join(resourcePath, 'ko', fileName);
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
@@ -105,6 +105,8 @@ describe("[integration] test the localization result of webos-cpp app", () => {
         expect(jsonData["Update"]).toBe("업데이트");
         expect(jsonData["Cancel"]).toBe("취소");
         expect(jsonData["* This feature is applied once and only once when the TV is turned off."]).toBe("* 이 기능은 기기 전원이 꺼질 때 한번만 실행됩니다."); //metadata
+        expect(jsonData["Sound Out"]).toBe("(universal)소리 출력"); // current+universal
+        expect(jsonData["TV Name"]).toBe("(universal)기기 이름"); // current+universal with metadata (device-type=StanbyME)
     });
     test("cppsample_test_es_CO", function() {
         expect.assertions(5);

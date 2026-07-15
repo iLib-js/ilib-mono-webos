@@ -95,7 +95,7 @@ describe("[integration] test the localization result of webos-c app", () => {
         }
      });
     test("csample_test_ko_KR", function() {
-        expect.assertions(5);
+        expect.assertions(7);
         filePath = path.join(resourcePath, 'ko', fileName);
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
@@ -104,6 +104,8 @@ describe("[integration] test the localization result of webos-c app", () => {
         expect(jsonData["OK"]).toBe("확인");
         expect(jsonData["Yes"]).toBe("예");
         expect(jsonData["NOT AVAILABLE"]).toBe("\"Monitor\" 이용이 불가능합니다"); //metadata
+        expect(jsonData["Sound Out"]).toBe("(universal)소리 출력"); // current+universal
+        expect(jsonData["TV Name"]).toBe("(universal)모니터 이름"); // current+universal with metadata (device-type=Monitor)
     });
     test("csample_test_es_CO", function() {
         expect.assertions(4);

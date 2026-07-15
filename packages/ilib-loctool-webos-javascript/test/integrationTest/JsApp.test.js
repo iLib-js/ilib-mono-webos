@@ -138,7 +138,7 @@ describe('[integration] test the localization result of webos-js app', () => {
         expect(rb.getString("TV Name").toString()).toBe("Nombre del monitor"); //metadata-localemap
     });
     test("jssample_test_en_AU", function() {
-        expect.assertions(5);
+        expect.assertions(7);
         let rb = new ResBundle({
             locale:"en-AU",
             basePath : defaultRSPath
@@ -146,18 +146,22 @@ describe('[integration] test the localization result of webos-js app', () => {
         expect(rb).toBeTruthy();
         expect(rb.getString("Programme").toString()).toBe("Programme");
         expect(rb.getString("Time Settings").toString()).toBe("Time Settings(en-GB)");
-        expect(rb.getString("Bye").toString()).toBe("(universal)Bye(sample: en-GB)");
+        expect(rb.getString("Bye").toString()).toBe("Bye(common: en-GB)"); // common project fallback via inherit
+        expect(rb.getString("Sound Out").toString()).toBe("(universal)Sound Out(sample: en-GB)"); // current+universal via inherit
+        expect(rb.getString("Internal Speaker + Wired Headphones").toString()).toBe("(universal)Monitor Speaker(en-GB)"); // current+universal with metadata via inherit
         expect(rb.getString("TV Name").toString()).toBe("Monitor Name");// metadata-localeinherit
     });
     test("jssample_test_en_GB", function() {
-        expect.assertions(3);
+        expect.assertions(5);
         let rb = new ResBundle({
             locale:"en-GB",
             basePath : defaultRSPath
         });
         expect(rb).toBeTruthy();
         expect(rb.getString("Programme").toString()).toBe("Programme");
-        expect(rb.getString("Bye").toString()).toBe("(universal)Bye(sample: en-GB)");
+        expect(rb.getString("Bye").toString()).toBe("Bye(common: en-GB)"); // common project fallback
+        expect(rb.getString("Sound Out").toString()).toBe("(universal)Sound Out(sample: en-GB)"); // current+universal
+        expect(rb.getString("Internal Speaker + Wired Headphones").toString()).toBe("(universal)Monitor Speaker(en-GB)"); // current+universal with metadata
     });
     test("jssample_test_en_US", function() {
         expect.assertions(2);

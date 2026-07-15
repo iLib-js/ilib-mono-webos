@@ -41,7 +41,7 @@ describe('test the localization result of webos-js app', () => {
         });
     }, 50000);
     test("jssample_test_ko_KR", function() {
-        expect.assertions(15);
+        expect.assertions(13);
         let rb = new ResBundle({
             locale:"ko-KR",
             basePath : defaultRSPath
@@ -62,10 +62,6 @@ describe('test the localization result of webos-js app', () => {
         expect(rb.getString("Please enter password.").toString()).toBe("[common] 비밀번호를 입력해 주세요.");
         // common-metadata
         expect(rb.getString("%deviceType% Speaker").toString()).toBe("모니터 스피커");
-        // current+universal
-        expect(rb.getString("Congratulation").toString()).toBe("(universal)축하합니다");
-        // current+universal with metadata (device-type=Monitor)
-        expect(rb.getString("CLOSE").toString()).toBe("(universal)모니터 닫기");
     });
     test("jssample_test_ko_US", function() {
         expect.assertions(2);
