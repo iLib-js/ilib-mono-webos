@@ -487,15 +487,15 @@ importers:
         specifier: workspace:*
         version: link:../../ilib-loctool-webos-json-resource
       loctool:
-        specifier: ^2.32.3
-        version: 2.32.3
+        specifier: ^2.33.1
+        version: 2.33.1
     devDependencies:
       ilib:
         specifier: ^14.21.3
-        version: 14.21.3
+        version: 14.22.0
       jest:
         specifier: ^30.3.0
-        version: 30.3.0(@types/node@12.20.55)(node-notifier@8.0.2)
+        version: 30.4.2(@types/node@12.20.55)(node-notifier@8.0.2)
 
   packages/samples-loctool/webos-json:
     dependencies:
