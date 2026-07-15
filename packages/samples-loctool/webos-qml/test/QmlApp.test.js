@@ -1,7 +1,7 @@
 /*
  * QmlApp.test.js - test the localization result of webos-qml app.
  *
- * Copyright (c) 2025 JEDLSoft
+ * Copyright (c) 2025-2026 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
