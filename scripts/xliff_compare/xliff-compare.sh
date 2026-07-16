@@ -2,7 +2,7 @@
 
 # xliff_compare.sh - Compare two directories of webOS XLIFF files and output differences
 
-set -e
+set -euo pipefail
 
 FROM_DIR=""
 TO_DIR=""
