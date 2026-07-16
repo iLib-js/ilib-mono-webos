@@ -499,6 +499,6 @@ SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
       a temp dir needs cleanup (`if ! run_loctool …`)
 - [ ] Clear script-owned output subdirs before the run (never `rm -rf` the whole `OUTPUT_DIR`)
 - [ ] bats tests use `SCRIPT_DIR`-based absolute paths (no relative `./` paths)
-- [ ] Write bats tests covering all 8 categories above (incl. missing option values)
+- [ ] Write bats tests covering all 7 categories above (incl. missing option values)
 - [ ] Prepare `testfiles/Expected/` with golden output files
 - [ ] Clean up `output_*` in `setup()` and `teardown()`

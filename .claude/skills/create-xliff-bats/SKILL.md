@@ -26,15 +26,15 @@ reassembles an output tree. So happy-path tests must supply a **directory of tes
 
 3. **Read the reference document** at `scripts/loctool-script-patterns.md` (§5 bats Test Structure) for exact helper function implementations.
 
-4. **Generate the bats file** (`test-<script-name>.bats`, hyphenated — underscore is legacy) in the same directory as the script, covering ALL eight categories in order:
+4. **Generate the bats file** (`test-<script-name>.bats`, hyphenated — underscore is legacy) in the same directory as the script, covering ALL seven categories in order:
 
    ```
    # ── Happy path ────────────────────────────────────────────────────────────────
    # ── Option formats ────────────────────────────────────────────────────────────
    # ── Help ──────────────────────────────────────────────────────────────────────
    # ── Missing required options ──────────────────────────────────────────────────
-   # ── Missing option values ─────────────────────────────────────────────────────
    # ── Invalid input ─────────────────────────────────────────────────────────────
+   # ── Missing option values ─────────────────────────────────────────────────────
    # ── Special cases (mutual exclusion, --dry-run, etc.) ─────────────────────────
    ```
 
