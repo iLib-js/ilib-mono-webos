@@ -87,5 +87,13 @@
         </segment>
       </unit>
     </group>
+    <group id="sample-webos-js_g2" name="x-json">
+      <unit id="200">
+        <segment>
+          <source>Live TV</source>
+          <target>현재 방송</target>
+        </segment>
+      </unit>
+    </group>
   </file>
 </xliff>

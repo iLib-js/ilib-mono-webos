@@ -1,7 +1,7 @@
 /*
  * JsApp.test.js - test the localization result of webos-js app.
  *
- * Copyright (c) 2025 JEDLSoft
+ * Copyright (c) 2025-2026 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+const fs = require("fs");
 const { exec } = require('child_process');
 const path = require('path');
 const ResBundle = require("ilib/lib/ResBundle");
 const defaultRSPath = path.join(process.cwd(), "resources");
-const pluginUtils = require("ilib-loctool-webos-common/utils.js");
+const { utils: pluginUtils } = require("ilib-loctool-webos-common");
 
 describe('test the localization result of webos-js app', () => {
     const generalOptions = '-2 --xliffStyle webOS --pseudo --localizeOnly';
@@ -40,7 +41,7 @@ describe('test the localization result of webos-js app', () => {
         });
     }, 50000);
     test("jssample_test_ko_KR", function() {
-        expect.assertions(9);
+        expect.assertions(13);
         let rb = new ResBundle({
             locale:"ko-KR",
             basePath : defaultRSPath
@@ -52,6 +53,10 @@ describe('test the localization result of webos-js app', () => {
         expect(rb.getString("TV On Screen").toString()).toBe("TV 켜짐 화면");
         expect(rb.getString("IPv6 e.g.: {ipAddress}").toString()).toBe("IPv6 예시: {ipAddress}");
         expect(rb.getString("IPv4 e.g.: {ip4Address}").toString()).toBe("IPv4 예시: {ip4Address}");
+        expect(rb.getString("Bye").toString()).toBe("잘가");
+        expect(rb.getString("Hello").toString()).toBe("안녕");
+        expect(rb.getString("Thank you").toString()).toBe("고마워");
+        expect(rb.getString("SETTINGS").toString()).toBe("설정");
 
         // common data
         expect(rb.getString("Please enter password.").toString()).toBe("[common] 비밀번호를 입력해 주세요.");
@@ -181,7 +186,7 @@ describe('test the localization result of webos-js app', () => {
         expect(rb.getString("OK").toString()).toBe("Aceptar"); // common data
     });
     test("jssample_test_ja_JP", function() {
-        expect.assertions(4);
+        expect.assertions(6);
 
         let rb = new ResBundle({
             locale:"ja-JP",
@@ -190,18 +195,23 @@ describe('test the localization result of webos-js app', () => {
         expect(rb).toBeTruthy();
         expect(rb.getString("Live TV").toString()).toBe("Live TV");
         expect(rb.getString("TV Name : ").toString()).toBe("機器名：");
+        expect(rb.getString("MAC Address").toString()).toBe("MAC Address ");
+        expect(rb.getString("Space NBSP").toString()).toBe("現実の時間とは異なり、");
 
         // fyi. https://github.com/iLib-js/ilib-loctool-webos-javascript/pull/34
         expect(rb.getString("To read the Terms and Conditions, go to Settings > Support >  Privacy & Terms.").toString()).toBe("利用規約を読むには、設定 > サポート > 利用規約 & 法的情報に移動します。");
     });
     test("jssample_test_de_DE", function() {
-        expect.assertions(3);
+        expect.assertions(6);
         let rb = new ResBundle({
             locale:"de-DE",
             basePath : defaultRSPath
         });
         expect(rb).toBeTruthy();
+        expect(rb.getString("Bye").toString()).toBe("Auf wiedersehen");
         expect(rb.getString("EXIT APP").toString()).toBe("APP BEENDEN");
+        expect(rb.getString("Hello").toString()).toBe("Hallo");
+        expect(rb.getString("RETRY").toString()).toBe("WIEDERHOLEN");
         expect(rb.getString("SETTINGS").toString()).toBe("EINSTELLUNGEN");
     });
     test("jssample_test_as_IN", function() {
@@ -213,5 +223,56 @@ describe('test the localization result of webos-js app', () => {
         expect(rb).toBeTruthy();
         expect(rb.getString("RETRY").toString()).toBe("পুনৰ চেষ্টা");
         expect(rb.getString("Restart").toString()).toBe("পুনৰাম্ভ কৰক");
+    });
+
+    test("jssample_test_appinfo_locale_files", function() {
+        expect.assertions(8);
+
+        const asAppinfo = path.join(defaultRSPath, "as/appinfo.json");
+        const jaAppinfo = path.join(defaultRSPath, "ja/appinfo.json");
+        const koAppinfo = path.join(defaultRSPath, "ko/appinfo.json");
+
+        expect(pluginUtils.isValidPath(asAppinfo)).toBeTruthy();
+        expect(pluginUtils.isValidPath(jaAppinfo)).toBeTruthy();
+        expect(pluginUtils.isValidPath(koAppinfo)).toBeTruthy();
+
+        expect(Object.keys(pluginUtils.loadData(asAppinfo)).sort()).toEqual(["title", "vendor"]);
+        expect(Object.keys(pluginUtils.loadData(jaAppinfo)).sort()).toEqual(["title"]);
+        expect(Object.keys(pluginUtils.loadData(koAppinfo)).sort()).toEqual(["title"]);
+        expect(pluginUtils.loadData(jaAppinfo)["title"]).toBe("Live TV");
+        expect(pluginUtils.loadData(koAppinfo)["title"]).toBe("현재 방송");
+    });
+
+    test("jssample_test_appinfo_zxx_file_list", function() {
+        expect.assertions(1);
+        const zxxPath = path.join(defaultRSPath, "zxx");
+        const pseudoAppInfoFiles = [];
+
+        const walk = (dirPath) => {
+            const entries = fs.readdirSync(dirPath, { withFileTypes: true });
+            entries.forEach((entry) => {
+                const fullPath = path.join(dirPath, entry.name);
+                if (entry.isDirectory()) {
+                    walk(fullPath);
+                } else if (entry.isFile() && entry.name === "appinfo.json") {
+                    pseudoAppInfoFiles.push(path.relative(zxxPath, fullPath).split(path.sep).join("/"));
+                }
+            });
+        };
+
+        walk(zxxPath);
+        expect(pseudoAppInfoFiles.sort()).toEqual([
+            "Cyrl/XX/appinfo.json",
+            "Hans/XX/appinfo.json",
+            "Hebr/XX/appinfo.json",
+            "appinfo.json"
+        ]);
+    });
+
+    test("jssample_test_appinfo_zxx_single_file_keys", function() {
+        expect.assertions(2);
+        const filePath = path.join(defaultRSPath, "zxx", "appinfo.json");
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
+        expect(Object.keys(pluginUtils.loadData(filePath)).sort()).toEqual(["title", "vendor"]);
     });
 });

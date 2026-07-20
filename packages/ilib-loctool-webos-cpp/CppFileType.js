@@ -1,7 +1,7 @@
 /*
  * CppFileType.js - Represents a collection of C++ files
  *
- * Copyright (c) 2020-2023, 2025 JEDLSoft
+ * Copyright (c) 2020-2023, 2025-2026 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,8 +22,7 @@ var path = require("path");
 var CppFile = require("./CppFile.js");
 var JsonResourceFileType = require("ilib-loctool-webos-json-resource");
 var Utils = require("loctool/lib/utils.js")
-var ResourceString = require("loctool/lib/ResourceString.js");
-var pluginUtils = require("ilib-loctool-webos-common/utils.js");
+var { utils: pluginUtils, lookupByPolicy: lookupUtils } = require("ilib-loctool-webos-common");
 
 var CppFileType = function(project) {
     this.type = "cpp";
@@ -135,6 +134,19 @@ CppFileType.prototype.write = function(translations, locales) {
         }
     }
 
+    var policy = lookupUtils.buildPolicy();
+    var makeLookupParams = function(resource, locale) {
+        return {
+            db: db,
+            resource: resource,
+            locale: locale,
+            policy: policy,
+            isCommonDataLoaded: this.isCommonDataLoaded,
+            commonPrjName: this.commonPrjName,
+            commonPrjType: this.commonPrjType
+        };
+    }.bind(this);
+
     if (mode === "localize") {
         for (var i = 0; i < resources.length; i++) {
             res = resources[i];
@@ -156,37 +168,34 @@ CppFileType.prototype.write = function(translations, locales) {
                     db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(langDefaultLocale), function(err, translated) {
                         if (translated) {
                             baseTranslation = pluginUtils.getTarget(translated, deviceType);
-                        } else if (this.isCommonDataLoaded) {
-                            var manipulateKey = ResourceString.hashKey(this.commonPrjName, langDefaultLocale, res.getKey(), this.commonPrjType, res.getFlavor());
-                            db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
-                                if (translated){
-                                    baseTranslation = pluginUtils.getTarget(translated, deviceType);
+                        } else {
+                            lookupUtils.lookupByPolicy(makeLookupParams(res, langDefaultLocale), function(policyTranslation) {
+                                if (policyTranslation) {
+                                    baseTranslation = pluginUtils.getTarget(policyTranslation, deviceType);
                                 }
-                            }.bind(this));
+                            });
                         }
                     }.bind(this));
                 }
 
                 db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(locale), function(err, translated) {
                     var r = translated;
-                    if (!translated && this.isCommonDataLoaded) {
-                        var manipulateKey = ResourceString.hashKey(this.commonPrjName, locale, res.getKey(), this.commonPrjType, res.getFlavor());
-                        db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
-                            if (translated && (baseTranslation !== pluginUtils.getTarget(translated, deviceType))){
-                                pluginUtils.addResource(resFileType, translated, res, locale, undefined, deviceType);
-                            } else if(!translated && customInheritLocale){
-                                db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(customInheritLocale), function(err, translated) {
-                                    if (!translated){
-                                        var manipulateKey = ResourceString.hashKey(this.commonPrjName, customInheritLocale, res.getKey(), this.commonPrjType, res.getFlavor());
-                                        db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
-                                            if (translated && (baseTranslation !== pluginUtils.getTarget(translated, deviceType))) {
-                                                pluginUtils.addResource(resFileType, translated, res, locale, undefined, deviceType);
+                    if (!translated) {
+                        var checkOrInherit = function(policyTranslation) {
+                            if (policyTranslation && (baseTranslation !== pluginUtils.getTarget(policyTranslation, deviceType))) {
+                                pluginUtils.addResource(resFileType, policyTranslation, res, locale, undefined, deviceType);
+                            } else if (!policyTranslation && customInheritLocale) {
+                                db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(customInheritLocale), function(err, inheritTranslated) {
+                                    if (!inheritTranslated) {
+                                        lookupUtils.lookupByPolicy(makeLookupParams(res, customInheritLocale), function(inheritPolicyTranslation) {
+                                            if (inheritPolicyTranslation && (baseTranslation !== pluginUtils.getTarget(inheritPolicyTranslation, deviceType))) {
+                                                pluginUtils.addResource(resFileType, inheritPolicyTranslation, res, locale, undefined, deviceType);
                                             } else {
                                                 pluginUtils.addNewResource(this.newres, res, locale);
                                             }
                                         }.bind(this));
-                                    } else if (translated && (baseTranslation !== pluginUtils.getTarget(translated, deviceType))){
-                                        pluginUtils.addResource(resFileType, translated, res, locale, undefined, deviceType);
+                                    } else if (baseTranslation !== pluginUtils.getTarget(inheritTranslated, deviceType)) {
+                                        pluginUtils.addResource(resFileType, inheritTranslated, res, locale, undefined, deviceType);
                                     } else {
                                         pluginUtils.addNewResource(this.newres, res, locale);
                                     }
@@ -194,15 +203,11 @@ CppFileType.prototype.write = function(translations, locales) {
                             } else {
                                 pluginUtils.addNewResource(this.newres, res, locale);
                             }
-                        }.bind(this));
-                    } else if (!translated && customInheritLocale){
-                        db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(customInheritLocale), function(err, translated) {
-                            if (translated && (baseTranslation !== pluginUtils.getTarget(translated, deviceType))){
-                                pluginUtils.addResource(resFileType, translated, res, locale, undefined, deviceType);
-                            } else {
-                                pluginUtils.addNewResource(this.newres, res, locale);
-                            }
-                        }.bind(this));
+                        }.bind(this);
+
+                        lookupUtils.lookupByPolicy(makeLookupParams(res, locale), function(policyTranslation) {
+                            checkOrInherit(policyTranslation);
+                        });
                     } else if (!translated || ( this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getSource()) &&
                         this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getKey()))) {
                         if (r) {

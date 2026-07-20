@@ -1,7 +1,7 @@
 /*
  * JsonFile.js - plugin to extract resources from a json code file
  *
- * Copyright (c) 2023,2025 JEDLSoft
+ * Copyright (c) 2023, 2025-2026 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ var Utils = require("loctool/lib/utils.js");
 var ResourceString = require("loctool/lib/ResourceString.js");
 var PseudoFactory = require("loctool/lib/PseudoFactory.js");
 var Locale = require("ilib/lib/Locale");
-var pluginUtils = require("ilib-loctool-webos-common/utils.js");
+var { utils: pluginUtils } = require("ilib-loctool-webos-common");
 
 /**
  * Create a new json file with the given path name and within
