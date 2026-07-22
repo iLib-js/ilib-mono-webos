@@ -1,5 +1,6 @@
 # ilib-loctool-webos-c
-ilib-webos-loctool-c is a plugin for the loctool allows it to read and localize C files. This plugin is optimized for the webOS platform.
+
+ilib-loctool-webos-c is a plugin for loctool that allows it to read and localize C files. This plugin is optimized for the webOS platform.
 ### C FileType
 This plugin expects to be used [libwebosi18n](https://github.com/webosose/libwebosi18n) library to internationalize your C code.  
 It extracts string usages used in the examples below by considering them as strings that need to be translated.
@@ -16,7 +17,7 @@ Please check the [webos-c](https://github.com/iLib-js/ilib-mono-webos/tree/main/
 
 Copyright (c) 2019-2026, JEDLSoft
 
-This plugin is license under Apache2. See the [LICENSE](https://github.com/iLib-js/ilib-mono-webos/blob/main/packages/ilib-loctool-webos-c/LICENSE)
+This plugin is licensed under Apache2. See the [LICENSE](https://github.com/iLib-js/ilib-mono-webos/blob/main/packages/ilib-loctool-webos-c/LICENSE)
 file for more details.
 
 ## Release Notes

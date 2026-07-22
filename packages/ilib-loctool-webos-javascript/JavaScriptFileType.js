@@ -126,7 +126,6 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
             return locale !== this.project.sourceLocale && locale !== this.project.pseudoLocale;
         }.bind(this));
 
-
     if ((typeof(translations) !== 'undefined') && (typeof(translations.getProjects()) !== 'undefined') && (translations.getProjects().indexOf("common") !== -1)) {
         this.isCommonDataLoaded = true;
     }
@@ -230,7 +229,7 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
                             r.reskey = res.reskey;
                         }
 
-                        if (baseTranslation != pluginUtils.getTarget(r, deviceType)) {
+                        if (baseTranslation !== pluginUtils.getTarget(r, deviceType)) {
                             file = resFileType.getResourceFile(locale);
                             r.setTarget(pluginUtils.getTarget(r, deviceType));
                             file.addResource(r);
