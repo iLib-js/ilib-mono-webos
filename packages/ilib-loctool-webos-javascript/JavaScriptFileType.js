@@ -126,18 +126,6 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
             return locale !== this.project.sourceLocale && locale !== this.project.pseudoLocale;
         }.bind(this));
 
-    var policy = lookupUtils.buildPolicy();
-    var makeLookupParams = function(resource, locale) {
-        return {
-            db: db,
-            resource: resource,
-            locale: locale,
-            policy: policy,
-            isCommonDataLoaded: this.isCommonDataLoaded,
-            commonPrjName: this.commonPrjName,
-            commonPrjType: this.commonPrjType
-        };
-    }.bind(this);
 
     if ((typeof(translations) !== 'undefined') && (typeof(translations.getProjects()) !== 'undefined') && (translations.getProjects().indexOf("common") !== -1)) {
         this.isCommonDataLoaded = true;
@@ -150,6 +138,19 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
             this.commonPrjType = commonts[0].getDataType();
         }
     }
+
+    var policy = lookupUtils.buildPolicy();
+    var makeLookupParams = function(resource, locale) {
+        return {
+            db: db,
+            resource: resource,
+            locale: locale,
+            policy: policy,
+            isCommonDataLoaded: this.isCommonDataLoaded,
+            commonPrjName: this.commonPrjName,
+            commonPrjType: this.commonPrjType
+        };
+    }.bind(this);
 
     if (mode === "localize") {
         for (var i = 0; i < resources.length; i++) {
@@ -214,7 +215,7 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
                         lookupUtils.lookupByPolicy(makeLookupParams(res, locale), function(policyTranslation) {
                             checkCommonOrInherit(policyTranslation);
                         });
-                    } else if (!translated || ( this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getSource()) &&
+                    } else if (( this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getSource()) &&
                         this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getKey()))) {
                         if (r) {
                             this.logger.trace("extracted   source: " + this.API.utils.cleanString(res.getSource()));

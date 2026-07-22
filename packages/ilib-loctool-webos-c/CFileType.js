@@ -197,7 +197,7 @@ CFileType.prototype.write = function(translations, locales) {
                         lookupUtils.lookupByPolicy(makeLookupParams(res, locale), function(policyTranslation) {
                             checkOrInherit(policyTranslation);
                         });
-                    } else if (!translated || ( this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getSource()) &&
+                    } else if (( this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getSource()) &&
                         this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getKey()))) {
                         if (r) {
                             this.logger.trace("extracted   source: " + this.API.utils.cleanString(res.getSource()));

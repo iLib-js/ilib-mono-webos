@@ -132,22 +132,24 @@ describe("[integration] test the localization result of webos-c app", () => {
         expect(jsonData["TV Name"]).toBe("TV Name(en-US)");
     });
     test("csample_test_en_AU", function() {
-        expect.assertions(3);
+        expect.assertions(4);
         filePath = path.join(resourcePath, 'en/AU', fileName);
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
         jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["Programme"]).toBe("Programme");
         expect(jsonData["TV Name"]).toBe("Monitor Name"); // metadata - customInherit
+        expect(jsonData["OK"]).toBe("(common)OK"); // common - customInherit
     });
     test("csample_test_en_GB", function() {
-        expect.assertions(3);
+        expect.assertions(4);
         filePath = path.join(resourcePath, 'en/GB', fileName);
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
         jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["Programme"]).toBe("Programme");
         expect(jsonData["TV Name"]).toBe("Monitor Name");
+        expect(jsonData["OK"]).toBe("(common)OK");
     });
     test("csample_test_zxx", function() {
         expect.assertions(6);
