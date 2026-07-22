@@ -31,13 +31,8 @@ var ResourceString = require("loctool/lib/ResourceString.js");
  * @returns {string|undefined}
  */
 function buildKey(resource, locale, entry, commonPrjName, commonPrjType) {
-    if (entry.project === "current" && entry.keyType === "cleanHashKey") {
-        var project = resource.getProject && resource.getProject();
-        if (!project) return undefined;
-        return ResourceString.cleanHashKey(project, locale, resource.getKey(), entry.datatype, resource.getFlavor());
-    }
 
-    if (entry.project === "common" && entry.keyType === "hashKey") {
+    if (entry.project === "common") {
         if (!commonPrjName || !commonPrjType) return undefined;
         return ResourceString.hashKey(commonPrjName, locale, resource.getKey(), commonPrjType, resource.getFlavor());
     }
@@ -52,7 +47,7 @@ function buildKey(resource, locale, entry, commonPrjName, commonPrjType) {
  * callers perform that lookup themselves, then call lookupByPolicy on miss.
  *
  * @param {Object} [options]
- * @returns {Array<{keyType: string, project: string, datatype: string, needsCommonData: boolean}>}
+ * @returns {Array<{keyType: string, project: string, datatype: string}>}
  */
 function buildPolicy(options) {
     var policy = [];
@@ -60,11 +55,35 @@ function buildPolicy(options) {
     policy.push({
         keyType: "hashKey",
         project: "common",
-        datatype: "common",
-        needsCommonData: true
+        datatype: "common"
     });
 
     return policy;
+}
+
+/**
+ * Detect whether common project data is present in a translations set and
+ * populate the shared common-project fields on the FileType instance.
+ *
+ * Call once at the top of write(), before any DB lookups.
+ *
+ * @param {Object} fileType     - the plugin FileType instance (mutated in place)
+ * @param {Object} translations - the translations set passed to write()
+ */
+function detectCommonData(fileType, translations) {
+    if (
+        typeof translations === "undefined" ||
+        typeof translations.getProjects() === "undefined" ||
+        translations.getProjects().indexOf("common") === -1
+    ) {
+        return;
+    }
+
+    var commonts = translations.getBy({ project: "common" });
+    if (commonts.length > 0) {
+        fileType.commonPrjName = "common";
+        fileType.commonPrjType = commonts[0].getDataType();
+    }
 }
 
 /**
@@ -78,7 +97,7 @@ function buildPolicy(options) {
  * commonPrjType being populated after common data is detected) are reflected.
  *
  * @param {Object} fileType - the plugin FileType instance (provides
- *   isCommonDataLoaded, commonPrjName, commonPrjType)
+ *   commonPrjName, commonPrjType — read lazily on each call)
  * @param {Object} db - project.db handle
  * @param {Array}  policy - policy array from {@link buildPolicy}
  * @returns {function(Resource, string): Object} makeLookupParams(resource, locale)
@@ -90,7 +109,6 @@ function createLookupParams(fileType, db, policy) {
             resource: resource,
             locale: locale,
             policy: policy,
-            isCommonDataLoaded: fileType.isCommonDataLoaded,
             commonPrjName: fileType.commonPrjName,
             commonPrjType: fileType.commonPrjType
         };
@@ -108,7 +126,6 @@ function createLookupParams(fileType, db, policy) {
  * @param {Resource} params.resource            - source resource being looked up
  * @param {string}   params.locale              - target locale
  * @param {Array}    params.policy              - policy array from buildPolicy()
- * @param {boolean}  params.isCommonDataLoaded  - whether common project data is available
  * @param {string}   [params.commonPrjName]     - common project name (e.g. "common")
  * @param {string}   [params.commonPrjType]     - common project datatype
  * @param {number}   [params.startIndex=0]      - internal recursion index; callers omit this
@@ -124,11 +141,6 @@ function lookupByPolicy(params, callback) {
     }
 
     var entry = policy[step];
-
-    if (entry.needsCommonData && !params.isCommonDataLoaded) {
-        lookupByPolicy(Object.assign({}, params, { startIndex: step + 1 }), callback);
-        return;
-    }
 
     var key = buildKey(params.resource, params.locale, entry, params.commonPrjName, params.commonPrjType);
     if (!key) {
@@ -148,5 +160,6 @@ function lookupByPolicy(params, callback) {
 module.exports = {
     buildPolicy: buildPolicy,
     lookupByPolicy: lookupByPolicy,
-    createLookupParams: createLookupParams
+    createLookupParams: createLookupParams,
+    detectCommonData: detectCommonData
 };

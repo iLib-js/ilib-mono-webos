@@ -17,7 +17,9 @@
  * limitations under the License.
  */
 
-var { buildPolicy, lookupByPolicy, createLookupParams } = require("../lookupByPolicy.js");
+var { buildPolicy, lookupByPolicy, createLookupParams, detectCommonData } = require("../lookupByPolicy.js");
+var TranslationSet = require("loctool/lib/TranslationSet.js");
+var ResourceString = require("loctool/lib/ResourceString.js");
 
 // Minimal resource mock — only the fields lookupByPolicy needs
 function makeResource(project, key, flavor) {
@@ -46,9 +48,9 @@ describe("buildPolicy", function() {
         expect(policy[0]).toMatchObject({
             keyType: "hashKey",
             project: "common",
-            datatype: "common",
-            needsCommonData: true
+            datatype: "common"
         });
+        expect(policy[0].needsCommonData).toBeUndefined();
     });
 });
 
@@ -61,8 +63,7 @@ describe("lookupByPolicy", function() {
             db: db,
             resource: makeResource("myapp", "hello"),
             locale: "ko-KR",
-            policy: [],
-            isCommonDataLoaded: false
+            policy: []
         }, function(result) {
             expect(result).toBeUndefined();
             expect(db.getResourceByCleanHashKey).not.toHaveBeenCalled();
@@ -70,17 +71,15 @@ describe("lookupByPolicy", function() {
         });
     });
 
-    test("needsCommonData=true step skipped when isCommonDataLoaded=false", function(done) {
+    test("missing commonPrjName/Type skips common step without DB call", function(done) {
         var db = makeDb({});
         var policy = buildPolicy();
         lookupByPolicy({
             db: db,
             resource: makeResource("myapp", "hello"),
             locale: "ko-KR",
-            policy: policy,
-            isCommonDataLoaded: false,
-            commonPrjName: "common",
-            commonPrjType: "x-json"
+            policy: policy
+            // commonPrjName/commonPrjType absent — buildKey returns undefined → skip
         }, function(result) {
             expect(result).toBeUndefined();
             expect(db.getResourceByCleanHashKey).not.toHaveBeenCalled();
@@ -100,7 +99,6 @@ describe("lookupByPolicy", function() {
             resource: makeResource("myapp", "hello"),
             locale: "ko-KR",
             policy: policy,
-            isCommonDataLoaded: true,
             commonPrjName: "common",
             commonPrjType: "x-json"
         }, function(result) {
@@ -117,8 +115,7 @@ describe("lookupByPolicy", function() {
             db: db,
             resource: makeResource("myapp", "hello"),
             locale: "ko-KR",
-            policy: policy,
-            isCommonDataLoaded: true
+            policy: policy
             // commonPrjName and commonPrjType intentionally missing
         }, function(result) {
             expect(result).toBeUndefined();
@@ -136,7 +133,6 @@ describe("createLookupParams", function() {
         var db = makeDb({});
         var policy = buildPolicy();
         var fileType = {
-            isCommonDataLoaded: true,
             commonPrjName: "common",
             commonPrjType: "x-json"
         };
@@ -150,29 +146,26 @@ describe("createLookupParams", function() {
             resource: resource,
             locale: "ko-KR",
             policy: policy,
-            isCommonDataLoaded: true,
             commonPrjName: "common",
             commonPrjType: "x-json"
         });
     });
 
-    test("reads common project fields lazily from the fileType on each call", function() {
+    test("reads commonPrjName/Type lazily from fileType on each call", function() {
         var db = makeDb({});
         var policy = buildPolicy();
-        var fileType = { isCommonDataLoaded: false };
+        var fileType = {};
 
         var make = createLookupParams(fileType, db, policy);
         var before = make(makeResource("myapp", "a"), "ko-KR");
-        expect(before.isCommonDataLoaded).toBe(false);
         expect(before.commonPrjName).toBeUndefined();
+        expect(before.commonPrjType).toBeUndefined();
 
-        // common data detected later during write()
-        fileType.isCommonDataLoaded = true;
+        // common data populated later during write()
         fileType.commonPrjName = "common";
         fileType.commonPrjType = "x-json";
 
         var after = make(makeResource("myapp", "b"), "ja-JP");
-        expect(after.isCommonDataLoaded).toBe(true);
         expect(after.commonPrjName).toBe("common");
         expect(after.commonPrjType).toBe("x-json");
         expect(after.locale).toBe("ja-JP");
@@ -184,7 +177,6 @@ describe("createLookupParams", function() {
         var fakeCommon = { target: "공통 안녕" };
         var db = makeDb({ [commonKey]: fakeCommon });
         var fileType = {
-            isCommonDataLoaded: true,
             commonPrjName: "common",
             commonPrjType: "x-json"
         };
@@ -194,5 +186,62 @@ describe("createLookupParams", function() {
             expect(result).toBe(fakeCommon);
             done();
         });
+    });
+});
+
+// ── detectCommonData ──────────────────────────────────────────────────────────
+
+describe("detectCommonData", function() {
+    function makeCommonTs() {
+        var ts = new TranslationSet();
+        ts.add(new ResourceString({
+            project: "common",
+            sourceLocale: "en-US",
+            targetLocale: "ko-KR",
+            key: "hello",
+            source: "hello",
+            target: "안녕",
+            datatype: "x-json"
+        }));
+        return ts;
+    }
+
+    test("translations undefined — no-op, commonPrjName not set", function() {
+        var ft = {};
+        detectCommonData(ft, undefined);
+        expect(ft.commonPrjName).toBeUndefined();
+    });
+
+    test("no common project in translations — commonPrjName not set", function() {
+        var ts = new TranslationSet();
+        ts.add(new ResourceString({
+            project: "myapp",
+            sourceLocale: "en-US",
+            targetLocale: "ko-KR",
+            key: "hi",
+            source: "hi",
+            target: "안녕"
+        }));
+        var ft = {};
+        detectCommonData(ft, ts);
+        expect(ft.commonPrjName).toBeUndefined();
+    });
+
+    test("common project present — sets commonPrjName and commonPrjType", function() {
+        var ts = makeCommonTs();
+        var ft = {};
+        detectCommonData(ft, ts);
+        expect(ft.commonPrjName).toBe("common");
+        expect(ft.commonPrjType).toBe("x-json");
+    });
+
+    test("common project present but getBy returns empty — name/type not set", function() {
+        var ts = new TranslationSet();
+        ts.getProjects = function() { return ["common"]; };
+        ts.getBy = function() { return []; };
+        var ft = {};
+        detectCommonData(ft, ts);
+        expect(ft.commonPrjName).toBeUndefined();
+        expect(ft.commonPrjType).toBeUndefined();
     });
 });

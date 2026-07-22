@@ -31,7 +31,6 @@ var DartFileType = function(project) {
     this.datatype = "x-dart";
     this.resourceType = "json";
     this.extensions = [".dart"];
-    this.isCommonDataLoaded = false;
     this.project = project;
     this.API = project.getAPI();
     this.extracted = this.API.newTranslationSet(project.getSourceLocale());
@@ -176,17 +175,7 @@ DartFileType.prototype.write = function(translations, locales) {
             return locale !== this.project.sourceLocale && locale !== this.project.pseudoLocale;
         }.bind(this));
 
-    if ((typeof(translations) !== 'undefined') && (typeof(translations.getProjects()) !== 'undefined') && (translations.getProjects().indexOf("common") !== -1)) {
-        this.isCommonDataLoaded = true;
-    }
-
-    if (this.isCommonDataLoaded) {
-        var commonts = translations.getBy({project: "common"});
-        if (commonts.length > 0){
-            this.commonPrjName = "common";
-            this.commonPrjType = commonts[0].getDataType();
-        }
-    }
+    lookupUtils.detectCommonData(this, translations);
 
     var policy = lookupUtils.buildPolicy();
     var makeLookupParams = lookupUtils.createLookupParams(this, db, policy);
