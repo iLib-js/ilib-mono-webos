@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-var { buildPolicy, lookupByPolicy } = require("../lookupByPolicy.js");
+var { buildPolicy, lookupByPolicy, createLookupParams } = require("../lookupByPolicy.js");
 
 // Minimal resource mock — only the fields lookupByPolicy needs
 function makeResource(project, key, flavor) {
@@ -127,4 +127,72 @@ describe("lookupByPolicy", function() {
         });
     });
 
+});
+
+// ── createLookupParams ────────────────────────────────────────────────────────
+
+describe("createLookupParams", function() {
+    test("builds a params object carrying the shared context and per-lookup fields", function() {
+        var db = makeDb({});
+        var policy = buildPolicy();
+        var fileType = {
+            isCommonDataLoaded: true,
+            commonPrjName: "common",
+            commonPrjType: "x-json"
+        };
+        var resource = makeResource("myapp", "hello");
+
+        var make = createLookupParams(fileType, db, policy);
+        var params = make(resource, "ko-KR");
+
+        expect(params).toEqual({
+            db: db,
+            resource: resource,
+            locale: "ko-KR",
+            policy: policy,
+            isCommonDataLoaded: true,
+            commonPrjName: "common",
+            commonPrjType: "x-json"
+        });
+    });
+
+    test("reads common project fields lazily from the fileType on each call", function() {
+        var db = makeDb({});
+        var policy = buildPolicy();
+        var fileType = { isCommonDataLoaded: false };
+
+        var make = createLookupParams(fileType, db, policy);
+        var before = make(makeResource("myapp", "a"), "ko-KR");
+        expect(before.isCommonDataLoaded).toBe(false);
+        expect(before.commonPrjName).toBeUndefined();
+
+        // common data detected later during write()
+        fileType.isCommonDataLoaded = true;
+        fileType.commonPrjName = "common";
+        fileType.commonPrjType = "x-json";
+
+        var after = make(makeResource("myapp", "b"), "ja-JP");
+        expect(after.isCommonDataLoaded).toBe(true);
+        expect(after.commonPrjName).toBe("common");
+        expect(after.commonPrjType).toBe("x-json");
+        expect(after.locale).toBe("ja-JP");
+    });
+
+    test("produced params drive lookupByPolicy to a common-step hit", function(done) {
+        var ResourceString = require("loctool/lib/ResourceString.js");
+        var commonKey = ResourceString.hashKey("common", "ko-KR", "hello", "x-json", undefined);
+        var fakeCommon = { target: "공통 안녕" };
+        var db = makeDb({ [commonKey]: fakeCommon });
+        var fileType = {
+            isCommonDataLoaded: true,
+            commonPrjName: "common",
+            commonPrjType: "x-json"
+        };
+
+        var make = createLookupParams(fileType, db, buildPolicy());
+        lookupByPolicy(make(makeResource("myapp", "hello"), "ko-KR"), function(result) {
+            expect(result).toBe(fakeCommon);
+            done();
+        });
+    });
 });

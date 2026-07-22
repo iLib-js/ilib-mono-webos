@@ -68,6 +68,36 @@ function buildPolicy(options) {
 }
 
 /**
+ * Create a factory that builds params objects for {@link lookupByPolicy}.
+ *
+ * Plugins call this once in write() and reuse the returned function per
+ * (resource, locale) lookup, so the shared context (db, policy, common
+ * project info) is captured once instead of being reassembled at each call
+ * site. The common project fields are read lazily from `fileType` on every
+ * invocation so that changes made during write() (e.g. commonPrjName /
+ * commonPrjType being populated after common data is detected) are reflected.
+ *
+ * @param {Object} fileType - the plugin FileType instance (provides
+ *   isCommonDataLoaded, commonPrjName, commonPrjType)
+ * @param {Object} db - project.db handle
+ * @param {Array}  policy - policy array from {@link buildPolicy}
+ * @returns {function(Resource, string): Object} makeLookupParams(resource, locale)
+ */
+function createLookupParams(fileType, db, policy) {
+    return function(resource, locale) {
+        return {
+            db: db,
+            resource: resource,
+            locale: locale,
+            policy: policy,
+            isCommonDataLoaded: fileType.isCommonDataLoaded,
+            commonPrjName: fileType.commonPrjName,
+            commonPrjType: fileType.commonPrjType
+        };
+    };
+}
+
+/**
  * Walk a policy array performing successive DB lookups until a translation is found.
  *
  * The direct-key lookup (step 0: cleanHashKeyForTranslation) is NOT included;
@@ -117,5 +147,6 @@ function lookupByPolicy(params, callback) {
 
 module.exports = {
     buildPolicy: buildPolicy,
-    lookupByPolicy: lookupByPolicy
+    lookupByPolicy: lookupByPolicy,
+    createLookupParams: createLookupParams
 };

@@ -139,17 +139,7 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
     }
 
     var policy = lookupUtils.buildPolicy();
-    var makeLookupParams = function(resource, locale) {
-        return {
-            db: db,
-            resource: resource,
-            locale: locale,
-            policy: policy,
-            isCommonDataLoaded: this.isCommonDataLoaded,
-            commonPrjName: this.commonPrjName,
-            commonPrjType: this.commonPrjType
-        };
-    }.bind(this);
+    var makeLookupParams = lookupUtils.createLookupParams(this, db, policy);
 
     if (mode === "localize") {
         for (var i = 0; i < resources.length; i++) {
