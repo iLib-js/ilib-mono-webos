@@ -189,44 +189,19 @@ DartFileType.prototype.write = function(translations, locales) {
                 this.logger.trace("Localizing Dart strings to " + locale);
                 customInheritLocale = this.project.getLocaleInherit(locale);
 
-                db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(locale), function(err, translated) {
-                    var r = translated;
-                    if (!translated) {
-                        lookupUtils.lookupByPolicy(makeLookupParams(res, locale), function(policyTranslation) {
-                            if (policyTranslation) {
-                                pluginUtils.addResource(resFileType, policyTranslation, res, locale, resPath, deviceType);
-                            } else if (customInheritLocale) {
-                                db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(customInheritLocale), function(err, inheritTranslated) {
-                                    if (!inheritTranslated) {
-                                        lookupUtils.lookupByPolicy(makeLookupParams(res, customInheritLocale), function(inheritPolicyTranslation) {
-                                            if (inheritPolicyTranslation) {
-                                                pluginUtils.addResource(resFileType, inheritPolicyTranslation, res, locale, resPath, deviceType);
-                                            } else {
-                                                pluginUtils.addNewResource(this.newres, res, locale);
-                                            }
-                                        }.bind(this));
-                                    } else {
-                                        pluginUtils.addResource(resFileType, inheritTranslated, res, locale, resPath, deviceType);
-                                    }
-                                }.bind(this));
-                            } else {
-                                pluginUtils.addNewResource(this.newres, res, locale);
-                            }
-                        }.bind(this));
-                    } else {
-                        if (this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getSource()) &&
-                            this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getKey())) {
-                            if (r) {
-                                this.logger.trace("extracted   source: " + this.API.utils.cleanString(res.getSource()));
-                                this.logger.trace("translation source: " + this.API.utils.cleanString(r.getSource()));
-                            }
-                            pluginUtils.addNewResource(this.newres, res, locale);
-                        } else {
-                            if (translated.metadata) translated.target = pluginUtils.getTarget(translated, deviceType);
-                            pluginUtils.addResource(resFileType, translated, res, locale, resPath, deviceType);
-                        }
-                    }
-                }.bind(this));
+                lookupUtils.writeTranslatedResource({
+                    db: db,
+                    resFileType: resFileType,
+                    newres: this.newres,
+                    res: res,
+                    locale: locale,
+                    customInheritLocale: customInheritLocale,
+                    dedupByBaseTranslation: false,
+                    resPath: resPath,
+                    deviceType: deviceType,
+                    API: this.API,
+                    makeLookupParams: makeLookupParams
+                });
             }.bind(this));
         }
 

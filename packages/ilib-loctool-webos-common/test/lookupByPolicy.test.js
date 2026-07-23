@@ -17,9 +17,10 @@
  * limitations under the License.
  */
 
-var { buildPolicy, lookupByPolicy, createLookupParams, detectCommonData } = require("../lookupByPolicy.js");
+var { buildPolicy, lookupByPolicy, createLookupParams, detectCommonData, writeTranslatedResource } = require("../lookupByPolicy.js");
 var TranslationSet = require("loctool/lib/TranslationSet.js");
 var ResourceString = require("loctool/lib/ResourceString.js");
+var Utils = require("loctool/lib/utils.js");
 
 // Minimal resource mock — only the fields lookupByPolicy needs
 function makeResource(project, key, flavor) {
@@ -243,5 +244,156 @@ describe("detectCommonData", function() {
         detectCommonData(ft, ts);
         expect(ft.commonPrjName).toBeUndefined();
         expect(ft.commonPrjType).toBeUndefined();
+    });
+});
+
+// ── writeTranslatedResource ───────────────────────────────────────────────────
+
+describe("writeTranslatedResource", function() {
+    function makeTestResource(key, source) {
+        return {
+            reskey: "rk-" + key,
+            getProject: function() { return "myapp"; },
+            getDataType: function() { return "cpp"; },
+            getPath: function() { return "src/main.cpp"; },
+            getContext: function() { return "main"; },
+            getKey: function() { return key; },
+            getSource: function() { return source; },
+            cleanHashKeyForTranslation: function(locale) { return key + "::" + locale; },
+            clone: function() {
+                var copy = makeTestResource(key, source);
+                copy.setTargetLocale = function(locale) { this._targetLocale = locale; };
+                copy.setTarget = function(target) { this.target = target; };
+                copy.setState = function(state) { this.state = state; };
+                copy.setComment = function(comment) { this.comment = comment; };
+                return copy;
+            }
+        };
+    }
+
+    function makeTranslated(target, source, key) {
+        var make = function(t, s, k) {
+            return {
+                reskey: "tr-" + (k || "key"),
+                getSource: function() { return s || "src"; },
+                getKey: function() { return k || "key"; },
+                target: t,
+                metadata: { target: t },
+                setTargetLocale: function(locale) { this._targetLocale = locale; },
+                setTarget: function(value) { this.target = value; },
+                clone: function() {
+                    return make(this.target, this.getSource(), this.getKey());
+                }
+            };
+        };
+
+        return make(target, source, key);
+    }
+
+    function makeApi() {
+        return {
+            utils: {
+                cleanString: function(s) { return s; }
+            }
+        };
+    }
+
+    function makeCollector() {
+        var map = {};
+        return {
+            getResourceFile: function(locale) {
+                if (!map[locale]) {
+                    map[locale] = {
+                        pathName: locale + ".json",
+                        resources: [],
+                        addResource: function(r) { this.resources.push(r); }
+                    };
+                }
+                return map[locale];
+            },
+            _files: map
+        };
+    }
+
+    test("dedupByBaseTranslation false writes even when target equals source", function(done) {
+        var res = makeTestResource("hello", "Hello");
+        var translated = makeTranslated("Hello", "Hello", "Hello");
+        var db = {
+            getResourceByCleanHashKey: jest.fn(function(key, cb) {
+                cb(null, key === "hello::fr-FR" ? translated : null);
+            })
+        };
+        var resFileType = makeCollector();
+        var newres = { add: jest.fn() };
+        var makeLookupParams = function(resource, locale) {
+            return { db: db, resource: resource, locale: locale, policy: [] };
+        };
+
+        writeTranslatedResource({
+            db: db,
+            resFileType: resFileType,
+            newres: newres,
+            res: res,
+            locale: "fr-FR",
+            dedupByBaseTranslation: false,
+            deviceType: undefined,
+            API: makeApi(),
+            makeLookupParams: makeLookupParams
+        });
+
+        setImmediate(function() {
+            expect(resFileType._files["fr-FR"].resources.length).toBe(1);
+            expect(newres.add).not.toHaveBeenCalled();
+            done();
+        });
+    });
+
+    test("dedupByBaseTranslation true + langDefault resolves base and skips same target", function(done) {
+        var res = makeTestResource("hello", "Hello");
+        var frTranslated = makeTranslated("Hola", "Hello", "Hello");
+        var baseTranslated = makeTranslated("Hola", "Hello", "Hello");
+        var locale = "es-CO";
+        var langDefaultLocale = Utils.getBaseLocale(locale);
+        var db = {
+            getResourceByCleanHashKey: jest.fn(function(key, cb) {
+                if (key === "hello::" + langDefaultLocale) {
+                    cb(null, baseTranslated);
+                    return;
+                }
+                if (key === "hello::" + locale) {
+                    cb(null, frTranslated);
+                    return;
+                }
+                cb(null, null);
+            })
+        };
+        var resFileType = makeCollector();
+        var newres = { add: jest.fn() };
+        var makeLookupParams = function(resource, locale) {
+            return { db: db, resource: resource, locale: locale, policy: [] };
+        };
+
+        writeTranslatedResource({
+            db: db,
+            resFileType: resFileType,
+            newres: newres,
+            res: res,
+            locale: locale,
+            dedupByBaseTranslation: true,
+            translationLocales: [langDefaultLocale, locale],
+            deviceType: undefined,
+            API: makeApi(),
+            makeLookupParams: makeLookupParams
+        });
+
+        setImmediate(function() {
+            try {
+                expect(resFileType._files[locale]).toBeUndefined();
+                expect(newres.add).not.toHaveBeenCalled();
+                done();
+            } catch (e) {
+                done(e);
+            }
+        });
     });
 });

@@ -123,83 +123,20 @@ CFileType.prototype.write = function(translations, locales) {
             translationLocales.forEach(function(locale) {
                 this.logger.trace("Localizing C strings to " + locale);
 
-                baseLocale = Utils.isBaseLocale(locale);
-                langDefaultLocale = Utils.getBaseLocale(locale);
                 customInheritLocale = this.project.getLocaleInherit(locale);
-                baseTranslation = res.getSource();
-
-                if (baseLocale){
-                    langDefaultLocale = "en-US";  // language default locale need to compare with root data
-                }
-
-                if (locale !== 'en-US' && (translationLocales.includes(langDefaultLocale))) {
-                    db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(langDefaultLocale), function(err, translated) {
-                        if (translated) {
-                            baseTranslation = pluginUtils.getTarget(translated, deviceType);
-                        } else {
-                            lookupUtils.lookupByPolicy(makeLookupParams(res, langDefaultLocale), function(policyTranslation) {
-                                if (policyTranslation) {
-                                    baseTranslation = pluginUtils.getTarget(policyTranslation, deviceType);
-                                }
-                            });
-                        }
-                    }.bind(this));
-                }
-
-                db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(locale), function(err, translated) {
-                    var r = translated;
-                    if (!translated) {
-                        var checkOrInherit = function(policyTranslation) {
-                            if (policyTranslation && (baseTranslation !== pluginUtils.getTarget(policyTranslation, deviceType))) {
-                                pluginUtils.addResource(resFileType, policyTranslation, res, locale, undefined, deviceType);
-                            } else if (!policyTranslation && customInheritLocale) {
-                                db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(customInheritLocale), function(err, inheritTranslated) {
-                                    if (!inheritTranslated) {
-                                        lookupUtils.lookupByPolicy(makeLookupParams(res, customInheritLocale), function(inheritPolicyTranslation) {
-                                            if (inheritPolicyTranslation && (baseTranslation !== pluginUtils.getTarget(inheritPolicyTranslation, deviceType))) {
-                                                pluginUtils.addResource(resFileType, inheritPolicyTranslation, res, locale, undefined, deviceType);
-                                            } else {
-                                                pluginUtils.addNewResource(this.newres, res, locale);
-                                            }
-                                        }.bind(this));
-                                    } else if (baseTranslation !== pluginUtils.getTarget(inheritTranslated, deviceType)) {
-                                        pluginUtils.addResource(resFileType, inheritTranslated, res, locale, undefined, deviceType);
-                                    } else {
-                                        pluginUtils.addNewResource(this.newres, res, locale);
-                                    }
-                                }.bind(this));
-                            } else {
-                                pluginUtils.addNewResource(this.newres, res, locale);
-                            }
-                        }.bind(this);
-
-                        lookupUtils.lookupByPolicy(makeLookupParams(res, locale), function(policyTranslation) {
-                            checkOrInherit(policyTranslation);
-                        });
-                    } else if (( this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getSource()) &&
-                        this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getKey()))) {
-                        if (r) {
-                            this.logger.trace("extracted   source: " + this.API.utils.cleanString(res.getSource()));
-                            this.logger.trace("translation source: " + this.API.utils.cleanString(r.getSource()));
-                        }
-                        pluginUtils.addNewResource(this.newres, res, locale);
-                    } else {
-                        if (res.reskey != r.reskey) {
-                            // if reskeys don't match, we matched on cleaned string.
-                            //so we need to overwrite reskey of the translated resource to match
-                            r = r.clone();
-                            r.reskey = res.reskey;
-                        }
-                        if (baseTranslation != pluginUtils.getTarget(r, deviceType)) {
-                            file = resFileType.getResourceFile(locale);
-                            r.setTarget(pluginUtils.getTarget(r, deviceType));
-                            file.addResource(r);
-                            this.logger.trace("Added " + r.reskey + " to " + file.pathName);
-                        } else {
-                            this.logger.trace("Same translation as base translation for " + res.reskey + " to " + locale);
-                        }
-                    }
-                }.bind(this));
+                lookupUtils.writeTranslatedResource({
+                    db: db,
+                    resFileType: resFileType,
+                    newres: this.newres,
+                    res: res,
+                    locale: locale,
+                    customInheritLocale: customInheritLocale,
+                    dedupByBaseTranslation: true,
+                    translationLocales: translationLocales,
+                    deviceType: deviceType,
+                    API: this.API,
+                    makeLookupParams: makeLookupParams
+                });
             }.bind(this));
         }
         resources = [];
