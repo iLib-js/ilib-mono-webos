@@ -39,6 +39,12 @@
             <target>이용이 불가능합니다</target>
         </segment>
     </unit>
+    <unit id="8">
+        <segment>
+          <source>Good      Morning</source>
+          <target>좋은 아침</target>
+        </segment>
+      </unit>
     </group>
   </file>
 </xliff>

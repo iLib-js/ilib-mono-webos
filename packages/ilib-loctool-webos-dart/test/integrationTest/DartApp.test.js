@@ -124,11 +124,16 @@ describe('[integration] test the localization result of webos-dart app', () => {
         expect(jsonData["TV Name"]).toBe("Nombre del Monitor"); // metadata - common
     });
     test("dartsample_test_es_ES", function() {
-        expect.assertions(2);
+        expect.assertions(7);
         filePath = path.join(resourcePath, 'es_ES.json');
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
         jsonData = pluginUtils.loadData(filePath);
+        expect(Object.keys(jsonData).length).toBe(5);
+        expect(jsonData["App List"]).toBe("Lista de Aplicaciones");
+        expect(jsonData["Search"]).toBe("Buscar");
+        expect(jsonData["Back button"]).toBe("Botón regresar");
+        expect(jsonData["App Rating"]).toBe("Clasificación de Aplicación");
         expect(jsonData["TV Name"]).toBe("Nombre del monitor"); // metadata - localemap
     });
     test("dartsample_test_en_US", function() {
@@ -140,34 +145,39 @@ describe('[integration] test the localization result of webos-dart app', () => {
         expect(jsonData["Programme"]).toBe("Channel");
     });
     test("dartsample_test_en_GB", function() {
-        expect.assertions(2);
+        expect.assertions(4);
         filePath = path.join(resourcePath, 'en_GB.json');
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
         jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["Programme"]).toBe("Programme");
+        expect(jsonData["TV Name"]).toBe("Monitor Name"); // metadata
+        expect(jsonData["OK"]).toBe("(common)OK"); // common
     });
     test("dartsample_test_en_AU", function() {
-        expect.assertions(3);
+        expect.assertions(4);
         filePath = path.join(resourcePath, 'en_AU.json');
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
         jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["Programme"]).toBe("Programme");
-        expect(jsonData["TV Name"]).toBe("Monitor Name"); // metadata - localeInherit
+        expect(jsonData["TV Name"]).toBe("Monitor Name"); // metadata - customInherit
+        expect(jsonData["OK"]).toBe("(common)OK"); // common - customInherit
     });
     test("dartsample_test_zxx", function() {
-        expect.assertions(8);
+        expect.assertions(10);
         filePath = path.join(resourcePath, 'zxx.json');
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
         jsonData = pluginUtils.loadData(filePath);
-        expect(Object.keys(jsonData).length).toBe(7);
+        expect(Object.keys(jsonData).length).toBe(9);
         expect(jsonData["App List"]).toBe("[Ãþþ Ľíšţ3210]");
         expect(jsonData["Back button"]).toBe("[ßàçķ büţţõñ543210]");
         expect(jsonData["Programme"]).toBe("[Pŕõğŕàmmë43210]");
         expect(jsonData["Search"]).toBe("[Šëàŕçĥ210]");
         expect(jsonData["Internal Speaker"]).toBe("[Ïñţëŕñàľ Šþëàķëŕ76543210]");
         expect(jsonData["TV Name"]).toBe("[ŤV Ňàmë3210]");
+        expect(jsonData["OK"]).toBe("[Øĸ0]");
+        expect(jsonData["Good      Morning"]).toBe("[Ĝõõð      Mõŕñíñğ876543210]");
     });
 });

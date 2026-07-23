@@ -2,7 +2,31 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="es-ES" version="2.0">
   <file id="sample-webos-dart_f1" original="sample-webos-dart">
     <group id="sample-webos-dart_g1" name="x-dart">
+      <unit id="1">
+        <segment>
+          <source>Search</source>
+          <target>Buscar</target>
+        </segment>
+      </unit>
+      <unit id="2">
+        <segment>
+          <source>App List</source>
+          <target>Lista de Aplicaciones</target>
+        </segment>
+      </unit>
       <unit id="3">
+        <segment>
+          <source>Back button</source>
+          <target>Botón regresar</target>
+        </segment>
+      </unit>
+      <unit id="4">
+        <segment>
+          <source>App Rating</source>
+          <target>Clasificación de Aplicación</target>
+        </segment>
+      </unit>
+      <unit id="5">
         <mda:metadata>
           <mda:metaGroup category="device-type">
             <mda:meta type="Monitor">Nombre del monitor</mda:meta>
