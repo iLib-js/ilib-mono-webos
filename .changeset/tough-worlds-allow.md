@@ -2,4 +2,4 @@
 "ilib-loctool-webos-dart": patch
 ---
 
-Use uncompressed source text as resource key
+Fix a Dart key extraction bug: do not compress source text when generating resource keys, matching C/C++ behavior.
