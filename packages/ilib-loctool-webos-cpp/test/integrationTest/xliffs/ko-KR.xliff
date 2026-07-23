@@ -54,6 +54,12 @@
           <target>* 이 기능은 TV가 꺼질 때 한 번만 실행됩니다.</target>
         </segment>
       </unit>
+      <unit id="8">
+        <segment>
+          <source>Good Morning</source>
+          <target>좋은 아침</target>
+        </segment>
+      </unit>
     </group>
   </file>
 </xliff>

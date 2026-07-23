@@ -1,7 +1,7 @@
 /*
  * DartFile.js - plugin to extract resources from a Dart source code file
  *
- * Copyright (c) 2023-2025, JEDLSoft
+ * Copyright (c) 2023-2026 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -153,10 +153,12 @@ DartFile.prototype.parse = function(data) {
             var commentResult = reI18nComment.exec(line);
             comment = (commentResult && commentResult.length > 1) ? commentResult[1] : undefined;
 
+            match = DartFile.unescapeString(match);
+
             var r = this.API.newResource({
                 resType: "string",
                 project: this.project.getProjectId(),
-                key: this.makeKey(match),
+                key: match,
                 sourceLocale: this.project.sourceLocale,
                 source: DartFile.unescapeString(match),
                 autoKey: true,

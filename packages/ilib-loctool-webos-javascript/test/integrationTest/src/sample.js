@@ -8,3 +8,4 @@ msg7.reason = $L('Internal Speaker + Wired Headphones');
 msg8.reason = $L('TV Name');
 
 $L('%deviceType% Speaker'),
+$L('Good      Morning'); // multispaces -> cleaned up in the resource bundle

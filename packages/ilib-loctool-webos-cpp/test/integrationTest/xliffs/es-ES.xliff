@@ -8,7 +8,7 @@
           <target>Salida de sonido</target>
         </segment>
       </unit>
-      <unit id="3">
+      <unit id="2">
         <mda:metadata>
           <mda:metaGroup category="device-type">
             <mda:meta type="Monitor">Nombre del monitor</mda:meta>
@@ -19,6 +19,12 @@
         <segment>
          <source>TV Name</source>
          <target>Nombre TV</target>
+        </segment>
+      </unit>
+      <unit id="3">
+        <segment>
+          <source>Update</source>
+          <target>Actualizar</target>
         </segment>
       </unit>
     </group>

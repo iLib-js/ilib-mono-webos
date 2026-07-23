@@ -1,7 +1,7 @@
 /*
  * CApp.test.js - test the localization result of webos-c app.
  *
- * Copyright (c) 2025 JEDLSoft
+ * Copyright (c) 2025-2026 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -95,7 +95,7 @@ describe("[integration] test the localization result of webos-c app", () => {
         }
      });
     test("csample_test_ko_KR", function() {
-        expect.assertions(5);
+        expect.assertions(6);
         filePath = path.join(resourcePath, 'ko', fileName);
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
@@ -104,6 +104,7 @@ describe("[integration] test the localization result of webos-c app", () => {
         expect(jsonData["OK"]).toBe("확인");
         expect(jsonData["Yes"]).toBe("예");
         expect(jsonData["NOT AVAILABLE"]).toBe("\"Monitor\" 이용이 불가능합니다"); //metadata
+        expect(jsonData["Good      Morning"]).toBe("좋은 아침"); // multispaces
     });
     test("csample_test_es_CO", function() {
         expect.assertions(4);
@@ -132,22 +133,24 @@ describe("[integration] test the localization result of webos-c app", () => {
         expect(jsonData["TV Name"]).toBe("TV Name(en-US)");
     });
     test("csample_test_en_AU", function() {
-        expect.assertions(3);
+        expect.assertions(4);
         filePath = path.join(resourcePath, 'en/AU', fileName);
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
         jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["Programme"]).toBe("Programme");
         expect(jsonData["TV Name"]).toBe("Monitor Name"); // metadata - customInherit
+        expect(jsonData["OK"]).toBe("(common)OK"); // common - customInherit
     });
     test("csample_test_en_GB", function() {
-        expect.assertions(3);
+        expect.assertions(4);
         filePath = path.join(resourcePath, 'en/GB', fileName);
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
         jsonData = pluginUtils.loadData(filePath);
         expect(jsonData["Programme"]).toBe("Programme");
         expect(jsonData["TV Name"]).toBe("Monitor Name");
+        expect(jsonData["OK"]).toBe("(common)OK");
     });
     test("csample_test_zxx", function() {
         expect.assertions(6);
