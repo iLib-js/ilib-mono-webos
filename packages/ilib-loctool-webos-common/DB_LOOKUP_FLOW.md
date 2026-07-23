@@ -92,10 +92,12 @@ Step 3  customInherit common
         else (same as base) → skip (dedup)
 ```
 
-**baseTranslation** is computed before the chain:
-1. Initialized to `res.getSource()`
-2. `langDefaultLocale` direct lookup — hit updates `baseTranslation`
-3. `langDefaultLocale` common fallback — hit updates `baseTranslation`
+**baseTranslation resolution** in shared `writeTranslatedResource`:
+1. If `baseTranslation` is explicitly passed: use it as-is.
+2. Else if `dedupByBaseTranslation=true` and `translationLocales` is provided:
+   - derive `langDefaultLocale` (`en-US` for base locales)
+   - direct lookup on `langDefaultLocale`, then policy fallback
+3. Else if `dedupByBaseTranslation=true`: use `res.getSource()` as fallback base.
 
 ### 2-2. Dart (differs from JS/C/Cpp)
 
@@ -128,8 +130,9 @@ Step 3  customInherit common
              addResource(resPath)          ← no baseTranslation comparison
 ```
 
-**No `baseTranslation` computation.** Dart intentionally writes a locale
-entry even when its translation is identical to the parent locale.
+`dedupByBaseTranslation` is set to `false` for Dart, so base-translation
+comparison is intentionally disabled. Dart preserves locale entries even when
+translation text matches parent/base locale.
 
 ---
 
@@ -176,9 +179,9 @@ intentional policy difference: Dart preserves a locale-specific entry in the
 output even when the translation matches the parent locale. The other three
 plugins skip such entries as duplicates.
 
-### Race condition (all plugins, pre-existing)
+### Async ordering note
 
-`baseTranslation` is updated inside async DB callbacks. The comparison
-happens in a later callback in the same event-loop turn. Under the
-synchronous in-process DB used in production this is safe, but it is a
-latent ordering dependency.
+`writeTranslatedResource` resolves dedup base translation first and only then
+starts locale-direct/policy/inherit lookup. This removes the earlier
+call-site ordering dependency where base resolution and main lookup were
+interleaved across callbacks.

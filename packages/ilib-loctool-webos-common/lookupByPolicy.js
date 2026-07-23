@@ -214,11 +214,13 @@ function writeTranslatedResource(params) {
         baseTranslation = res.getSource();
     }
 
+    // Return true when this candidate should be written for the target locale.
     var differsFromBaseTranslation = function(translated) {
         if (!dedupByBaseTranslation) return true;
         return baseTranslation !== pluginUtils.getTarget(translated, deviceType);
     };
 
+    // Resolve base translation for dedup before entering the main lookup chain.
     var resolveBaseTranslation = function(done) {
         if (!dedupByBaseTranslation || hasExplicitBaseTranslation || !Array.isArray(translationLocales)) {
             done();

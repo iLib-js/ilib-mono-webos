@@ -396,4 +396,90 @@ describe("writeTranslatedResource", function() {
             }
         });
     });
+
+    test("explicit baseTranslation is used even when translationLocales is present", function(done) {
+        var res = makeTestResource("hello", "Hello");
+        var frTranslated = makeTranslated("Hola", "Hello", "Hello");
+        var baseTranslated = makeTranslated("Bonjour", "Hello", "Hello");
+        var locale = "es-CO";
+        var langDefaultLocale = Utils.getBaseLocale(locale);
+        var db = {
+            getResourceByCleanHashKey: jest.fn(function(key, cb) {
+                if (key === "hello::" + langDefaultLocale) {
+                    cb(null, baseTranslated);
+                    return;
+                }
+                if (key === "hello::" + locale) {
+                    cb(null, frTranslated);
+                    return;
+                }
+                cb(null, null);
+            })
+        };
+        var resFileType = makeCollector();
+        var newres = { add: jest.fn() };
+        var makeLookupParams = function(resource, locale) {
+            return { db: db, resource: resource, locale: locale, policy: [] };
+        };
+
+        writeTranslatedResource({
+            db: db,
+            resFileType: resFileType,
+            newres: newres,
+            res: res,
+            locale: locale,
+            dedupByBaseTranslation: true,
+            baseTranslation: "Hola",
+            translationLocales: [langDefaultLocale, locale],
+            deviceType: undefined,
+            API: makeApi(),
+            makeLookupParams: makeLookupParams
+        });
+
+        setImmediate(function() {
+            try {
+                expect(db.getResourceByCleanHashKey).not.toHaveBeenCalledWith("hello::" + langDefaultLocale, expect.any(Function));
+                expect(resFileType._files[locale]).toBeUndefined();
+                done();
+            } catch (e) {
+                done(e);
+            }
+        });
+    });
+
+    test("dedup uses source as fallback base when translationLocales is absent", function(done) {
+        var res = makeTestResource("hello", "Hello");
+        var translated = makeTranslated("Hello", "Hello", "Hello");
+        var db = {
+            getResourceByCleanHashKey: jest.fn(function(key, cb) {
+                cb(null, key === "hello::fr-FR" ? translated : null);
+            })
+        };
+        var resFileType = makeCollector();
+        var newres = { add: jest.fn() };
+        var makeLookupParams = function(resource, locale) {
+            return { db: db, resource: resource, locale: locale, policy: [] };
+        };
+
+        writeTranslatedResource({
+            db: db,
+            resFileType: resFileType,
+            newres: newres,
+            res: res,
+            locale: "fr-FR",
+            dedupByBaseTranslation: true,
+            deviceType: undefined,
+            API: makeApi(),
+            makeLookupParams: makeLookupParams
+        });
+
+        setImmediate(function() {
+            try {
+                expect(resFileType._files["fr-FR"]).toBeUndefined();
+                done();
+            } catch (e) {
+                done(e);
+            }
+        });
+    });
 });
