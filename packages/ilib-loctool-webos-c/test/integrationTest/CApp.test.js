@@ -95,7 +95,7 @@ describe("[integration] test the localization result of webos-c app", () => {
         }
      });
     test("csample_test_ko_KR", function() {
-        expect.assertions(5);
+        expect.assertions(6);
         filePath = path.join(resourcePath, 'ko', fileName);
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
@@ -104,6 +104,7 @@ describe("[integration] test the localization result of webos-c app", () => {
         expect(jsonData["OK"]).toBe("확인");
         expect(jsonData["Yes"]).toBe("예");
         expect(jsonData["NOT AVAILABLE"]).toBe("\"Monitor\" 이용이 불가능합니다"); //metadata
+        expect(jsonData["Good      Morning"]).toBe("좋은 아침"); // multispaces
     });
     test("csample_test_es_CO", function() {
         expect.assertions(4);

@@ -6,3 +6,4 @@ translate('App Rating', );
 translate('Internal Speaker', );
 translate('TV Name');
 translate('OK');
+translate('Good      Morning'); // multispaces

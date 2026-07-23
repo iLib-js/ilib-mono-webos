@@ -95,7 +95,7 @@ describe("[integration] test the localization result of webos-cpp app", () => {
         }
     });
     test("cppsample_test_ko_KR", function() {
-        expect.assertions(6);
+        expect.assertions(7);
         filePath = path.join(resourcePath, 'ko', fileName);
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
@@ -104,10 +104,11 @@ describe("[integration] test the localization result of webos-cpp app", () => {
         expect(jsonData["No"]).toBe("아니오");
         expect(jsonData["Update"]).toBe("업데이트");
         expect(jsonData["Cancel"]).toBe("취소");
+        expect(jsonData["Good      Morning"]).toBe("좋은 아침");
         expect(jsonData["* This feature is applied once and only once when the TV is turned off."]).toBe("* 이 기능은 기기 전원이 꺼질 때 한번만 실행됩니다."); //metadata
     });
     test("cppsample_test_es_CO", function() {
-        expect.assertions(5);
+        expect.assertions(6);
         filePath = path.join(resourcePath, "es", fileName);
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
@@ -116,14 +117,18 @@ describe("[integration] test the localization result of webos-cpp app", () => {
         expect(jsonData["OK"]).toBe("Aceptar"); // common
         expect(jsonData["TV Information"]).toBe("Información del dispositivo");
         expect(jsonData["TV Name"]).toBe("Nombre del dispositivo(common)"); //metadata-common
+        expect(jsonData["Update"]).toBe("Actualizar");
     });
     test("cppsample_test_es_ES", function() {
-            expect.assertions(2);
-            filePath = path.join(resourcePath, 'es/ES', fileName);
-            expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
-            jsonData = pluginUtils.loadData(filePath);
-            expect(jsonData["TV Name"]).toBe("Nombre del dispositivo");
-        });
+        expect.assertions(5);
+        filePath = path.join(resourcePath, 'es/ES', fileName);
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
+        jsonData = pluginUtils.loadData(filePath);
+        expect(Object.keys(jsonData).length).toBe(2);
+        expect(jsonData["Sound Out"]).toBe("Salida de sonido");
+        expect(jsonData["TV Name"]).toBe("Nombre del dispositivo");
+        expect(jsonData["Update"]).toBeUndefined(); // same as baseTranslation
+    });
     test("cppsample_test_en_US", function() {
         expect.assertions(3);
         filePath = path.join(resourcePath, fileName);
@@ -153,17 +158,19 @@ describe("[integration] test the localization result of webos-cpp app", () => {
         expect(jsonData["OK"]).toBe("(common)OK");
     });
     test("cppsample_test_zxx", function() {
-        expect.assertions(8);
+        expect.assertions(10);
         filePath = path.join(resourcePath, "zxx", fileName);
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
         jsonData = pluginUtils.loadData(filePath);
+        expect(Object.keys(jsonData).length).toBe(11);
         expect(jsonData["Cancel"]).toBe("[Çàñçëľ210]");
         expect(jsonData["No"]).toBe("[Ňõ0]");
         expect(jsonData["Programme"]).toBe("[Pŕõğŕàmmë43210]");
         expect(jsonData["Sound Out"]).toBe("[Šõüñð Øüţ43210]");
         expect(jsonData["Update"]).toBe("[Úþðàţë210]");
         expect(jsonData["Yes"]).toBe("[Ŷëš10]");
+        expect(jsonData["Good      Morning"]).toBe("[Ĝõõð      Mõŕñíñğ876543210]");
         expect(jsonData["* This feature is applied once and only once when the TV is turned off."]).toBe("[* Ťĥíš fëàţüŕë íš àþþľíëð õñçë àñð õñľÿ õñçë ŵĥëñ ţĥë ŤV íš ţüŕñëð õff.32109876543210]");
     });
   });

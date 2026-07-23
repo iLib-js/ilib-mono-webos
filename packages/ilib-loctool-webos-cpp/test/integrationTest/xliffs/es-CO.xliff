@@ -21,6 +21,12 @@
           <target>Información de TV</target>
         </segment>
       </unit>
+      <unit id="3">
+        <segment>
+          <source>Update</source>
+          <target>Actualizar</target>
+        </segment>
+      </unit>
     </group>
   </file>
 </xliff>

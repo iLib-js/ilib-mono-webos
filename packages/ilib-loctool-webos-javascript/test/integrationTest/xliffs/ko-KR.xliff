@@ -39,6 +39,12 @@
           <target>TV 스피커 + 유선 헤드폰</target>
         </segment>
       </unit>
+      <unit id="12">
+        <segment>
+          <source>Good Morning</source>
+          <target>좋은 아침</target>
+        </segment>
+      </unit>
     </group>
   </file>
 </xliff>
