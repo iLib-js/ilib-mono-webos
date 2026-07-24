@@ -19,14 +19,20 @@
 
 var ResourceString = require("loctool/lib/ResourceString.js");
 var Utils = require("loctool/lib/utils.js");
+var pluginUtils = require("./utils.js");
 
 /**
  * Build the DB key for a given resource, locale, and policy entry.
- * Returns undefined if the key cannot be built (e.g. missing project name).
+ * Returns undefined if the key cannot be built (e.g. missing project name),
+ * which causes lookupByPolicy to silently skip that step.
+ *
+ * When adding a new policy step to buildPolicy(), add a matching branch here
+ * that handles the new entry.project value. A missing branch means lookupByPolicy
+ * returns undefined for that step even when the entry is present.
  *
  * @param {Resource} resource
  * @param {string} locale
- * @param {Object} entry - policy entry
+ * @param {Object} entry - policy entry from buildPolicy()
  * @param {string} [commonPrjName]
  * @param {string} [commonPrjType]
  * @returns {string|undefined}
@@ -47,7 +53,12 @@ function buildKey(resource, locale, entry, commonPrjName, commonPrjType) {
  * Step 0 (locale direct via cleanHashKeyForTranslation) is NOT included here —
  * callers perform that lookup themselves, then call lookupByPolicy on miss.
  *
- * @param {Object} [options]
+ * To add a new fallback step:
+ *   1. Push a new entry object here (e.g. { keyType: "hashKey", project: "brand", datatype: "..." }).
+ *   2. Add a matching `if (entry.project === "brand")` branch in buildKey() above.
+ *   3. If the step needs extra context fields, add them to the object returned by createLookupParams().
+ *
+ * @param {Object} [options] - reserved for future step configuration; currently unused
  * @returns {Array<{keyType: string, project: string, datatype: string}>}
  */
 function buildPolicy(options) {
@@ -183,13 +194,15 @@ function lookupByPolicy(params, callback) {
  * @param {string}   [params.deviceType]
  * @param {Object}   params.API                  - loctool API (for cleanString)
  * @param {function} params.makeLookupParams
+ * @param {function(): void} [callback] - optional completion callback; called after all DB ops finish
  *
  * Dedup modes:
  * - Dart-style write-through: { dedupByBaseTranslation: false }
  * - Legacy explicit base compare: { baseTranslation: "..." } or { dedupByBaseTranslation: true, baseTranslation: "..." }
  * - Lang-default compare (C/Cpp/JS): { dedupByBaseTranslation: true, translationLocales: [...] }
  */
-function writeTranslatedResource(params) {
+function writeTranslatedResource(params, callback) {
+    var done = typeof callback === "function" ? callback : function() {};
     var db = params.db;
     var resFileType = params.resFileType;
     var newres = params.newres;
@@ -207,7 +220,6 @@ function writeTranslatedResource(params) {
     var deviceType = params.deviceType;
     var API = params.API;
     var makeLookupParams = params.makeLookupParams;
-    var pluginUtils = require("./utils.js");
 
     // When dedup is enabled without an explicit base translation, compare against source by default.
     if (dedupByBaseTranslation && typeof baseTranslation === "undefined") {
@@ -268,11 +280,14 @@ function writeTranslatedResource(params) {
                     } else {
                         pluginUtils.addNewResource(newres, res, locale);
                     }
+                    done();
                 });
             } else if (differsFromBaseTranslation(inheritTranslated)) {
                 pluginUtils.addResource(resFileType, inheritTranslated, res, locale, resPath, deviceType);
+                done();
             } else {
                 pluginUtils.addNewResource(newres, res, locale);
+                done();
             }
         });
     };
@@ -286,10 +301,12 @@ function writeTranslatedResource(params) {
                 lookupByPolicy(makeLookupParams(res, locale), function(policyTranslation) {
                     if (policyTranslation && differsFromBaseTranslation(policyTranslation)) {
                         pluginUtils.addResource(resFileType, policyTranslation, res, locale, resPath, deviceType);
+                        done();
                     } else if (!policyTranslation && customInheritLocale) {
                         handleInherit();
                     } else {
                         pluginUtils.addNewResource(newres, res, locale);
+                        done();
                     }
                 });
             } else if (
@@ -297,6 +314,7 @@ function writeTranslatedResource(params) {
                 API.utils.cleanString(res.getSource()) !== API.utils.cleanString(r.getKey())
             ) {
                 pluginUtils.addNewResource(newres, res, locale);
+                done();
             } else {
                 if (res.reskey !== r.reskey) {
                     r = r.clone();
@@ -308,6 +326,7 @@ function writeTranslatedResource(params) {
                     }
                     pluginUtils.addResource(resFileType, r, res, locale, resPath, deviceType);
                 }
+                done();
             }
         });
     });

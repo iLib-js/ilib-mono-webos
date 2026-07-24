@@ -259,6 +259,7 @@ describe("writeTranslatedResource", function() {
             getContext: function() { return "main"; },
             getKey: function() { return key; },
             getSource: function() { return source; },
+            getFlavor: function() { return undefined; },
             cleanHashKeyForTranslation: function(locale) { return key + "::" + locale; },
             clone: function() {
                 var copy = makeTestResource(key, source);
@@ -273,18 +274,22 @@ describe("writeTranslatedResource", function() {
 
     function makeTranslated(target, source, key) {
         var make = function(t, s, k) {
-            return {
+            var obj = {
                 reskey: "tr-" + (k || "key"),
                 getSource: function() { return s || "src"; },
                 getKey: function() { return k || "key"; },
+                getFlavor: function() { return undefined; },
                 target: t,
                 metadata: { target: t },
                 setTargetLocale: function(locale) { this._targetLocale = locale; },
-                setTarget: function(value) { this.target = value; },
-                clone: function() {
-                    return make(this.target, this.getSource(), this.getKey());
-                }
+                setTarget: function(value) { this.target = value; }
             };
+            obj.clone = function() {
+                var copy = make(this.target, this.getSource(), this.getKey());
+                copy.reskey = this.reskey;
+                return copy;
+            };
+            return obj;
         };
 
         return make(target, source, key);
@@ -301,19 +306,30 @@ describe("writeTranslatedResource", function() {
     function makeCollector() {
         var map = {};
         return {
-            getResourceFile: function(locale) {
-                if (!map[locale]) {
-                    map[locale] = {
-                        pathName: locale + ".json",
+            getResourceFile: function(locale, resPath) {
+                var key = resPath || locale;
+                if (!map[key]) {
+                    map[key] = {
+                        pathName: key + ".json",
                         resources: [],
                         addResource: function(r) { this.resources.push(r); }
                     };
                 }
-                return map[locale];
+                return map[key];
             },
             _files: map
         };
     }
+
+    function makeNewres() {
+        var added = [];
+        return {
+            add: jest.fn(function(r) { added.push(r); }),
+            _added: added
+        };
+    }
+
+    // ── dedup mode tests ──────────────────────────────────────────────────────
 
     test("dedupByBaseTranslation false writes even when target equals source", function(done) {
         var res = makeTestResource("hello", "Hello");
@@ -324,7 +340,7 @@ describe("writeTranslatedResource", function() {
             })
         };
         var resFileType = makeCollector();
-        var newres = { add: jest.fn() };
+        var newres = makeNewres();
         var makeLookupParams = function(resource, locale) {
             return { db: db, resource: resource, locale: locale, policy: [] };
         };
@@ -339,9 +355,7 @@ describe("writeTranslatedResource", function() {
             deviceType: undefined,
             API: makeApi(),
             makeLookupParams: makeLookupParams
-        });
-
-        setImmediate(function() {
+        }, function() {
             expect(resFileType._files["fr-FR"].resources.length).toBe(1);
             expect(newres.add).not.toHaveBeenCalled();
             done();
@@ -368,7 +382,7 @@ describe("writeTranslatedResource", function() {
             })
         };
         var resFileType = makeCollector();
-        var newres = { add: jest.fn() };
+        var newres = makeNewres();
         var makeLookupParams = function(resource, locale) {
             return { db: db, resource: resource, locale: locale, policy: [] };
         };
@@ -384,16 +398,10 @@ describe("writeTranslatedResource", function() {
             deviceType: undefined,
             API: makeApi(),
             makeLookupParams: makeLookupParams
-        });
-
-        setImmediate(function() {
-            try {
-                expect(resFileType._files[locale]).toBeUndefined();
-                expect(newres.add).not.toHaveBeenCalled();
-                done();
-            } catch (e) {
-                done(e);
-            }
+        }, function() {
+            expect(resFileType._files[locale]).toBeUndefined();
+            expect(newres.add).not.toHaveBeenCalled();
+            done();
         });
     });
 
@@ -417,7 +425,7 @@ describe("writeTranslatedResource", function() {
             })
         };
         var resFileType = makeCollector();
-        var newres = { add: jest.fn() };
+        var newres = makeNewres();
         var makeLookupParams = function(resource, locale) {
             return { db: db, resource: resource, locale: locale, policy: [] };
         };
@@ -434,16 +442,10 @@ describe("writeTranslatedResource", function() {
             deviceType: undefined,
             API: makeApi(),
             makeLookupParams: makeLookupParams
-        });
-
-        setImmediate(function() {
-            try {
-                expect(db.getResourceByCleanHashKey).not.toHaveBeenCalledWith("hello::" + langDefaultLocale, expect.any(Function));
-                expect(resFileType._files[locale]).toBeUndefined();
-                done();
-            } catch (e) {
-                done(e);
-            }
+        }, function() {
+            expect(db.getResourceByCleanHashKey).not.toHaveBeenCalledWith("hello::" + langDefaultLocale, expect.any(Function));
+            expect(resFileType._files[locale]).toBeUndefined();
+            done();
         });
     });
 
@@ -456,7 +458,7 @@ describe("writeTranslatedResource", function() {
             })
         };
         var resFileType = makeCollector();
-        var newres = { add: jest.fn() };
+        var newres = makeNewres();
         var makeLookupParams = function(resource, locale) {
             return { db: db, resource: resource, locale: locale, policy: [] };
         };
@@ -471,15 +473,246 @@ describe("writeTranslatedResource", function() {
             deviceType: undefined,
             API: makeApi(),
             makeLookupParams: makeLookupParams
+        }, function() {
+            expect(resFileType._files["fr-FR"]).toBeUndefined();
+            done();
         });
+    });
 
-        setImmediate(function() {
-            try {
-                expect(resFileType._files["fr-FR"]).toBeUndefined();
-                done();
-            } catch (e) {
-                done(e);
-            }
+    // ── direct miss → policy hit ──────────────────────────────────────────────
+
+    test("direct miss + policy hit + differs from base → addResource", function(done) {
+        var res = makeTestResource("hello", "Hello");
+        var commonTranslated = makeTranslated("안녕", "Hello", "hello");
+        var policy = buildPolicy();
+        var commonKey = ResourceString.hashKey("common", "ko-KR", "hello", "x-json", undefined);
+        var db = {
+            getResourceByCleanHashKey: jest.fn(function(key, cb) {
+                cb(null, key === commonKey ? commonTranslated : null);
+            })
+        };
+        var resFileType = makeCollector();
+        var newres = makeNewres();
+        var makeLookupParams = createLookupParams(
+            { commonPrjName: "common", commonPrjType: "x-json" },
+            db,
+            policy
+        );
+
+        writeTranslatedResource({
+            db: db,
+            resFileType: resFileType,
+            newres: newres,
+            res: res,
+            locale: "ko-KR",
+            dedupByBaseTranslation: true,
+            deviceType: undefined,
+            API: makeApi(),
+            makeLookupParams: makeLookupParams
+        }, function() {
+            expect(resFileType._files["ko-KR"].resources.length).toBe(1);
+            expect(newres.add).not.toHaveBeenCalled();
+            done();
+        });
+    });
+
+    test("direct miss + policy hit + same as base → addNewResource (skip)", function(done) {
+        var res = makeTestResource("hello", "Hello");
+        var commonTranslated = makeTranslated("Hello", "Hello", "hello");
+        var policy = buildPolicy();
+        var commonKey = ResourceString.hashKey("common", "ko-KR", "hello", "x-json", undefined);
+        var db = {
+            getResourceByCleanHashKey: jest.fn(function(key, cb) {
+                cb(null, key === commonKey ? commonTranslated : null);
+            })
+        };
+        var resFileType = makeCollector();
+        var newres = makeNewres();
+        var makeLookupParams = createLookupParams(
+            { commonPrjName: "common", commonPrjType: "x-json" },
+            db,
+            policy
+        );
+
+        writeTranslatedResource({
+            db: db,
+            resFileType: resFileType,
+            newres: newres,
+            res: res,
+            locale: "ko-KR",
+            dedupByBaseTranslation: true,
+            deviceType: undefined,
+            API: makeApi(),
+            makeLookupParams: makeLookupParams
+        }, function() {
+            expect(resFileType._files["ko-KR"]).toBeUndefined();
+            expect(newres.add).toHaveBeenCalledTimes(1);
+            done();
+        });
+    });
+
+    // ── direct miss + policy miss → customInherit fallback ────────────────────
+
+    test("direct miss + policy miss + customInherit direct hit → addResource", function(done) {
+        var res = makeTestResource("hello", "Hello");
+        var inheritTranslated = makeTranslated("Hola", "Hello", "hello");
+        var db = {
+            getResourceByCleanHashKey: jest.fn(function(key, cb) {
+                cb(null, key === "hello::es" ? inheritTranslated : null);
+            })
+        };
+        var resFileType = makeCollector();
+        var newres = makeNewres();
+        var makeLookupParams = function(resource, locale) {
+            return { db: db, resource: resource, locale: locale, policy: [] };
+        };
+
+        writeTranslatedResource({
+            db: db,
+            resFileType: resFileType,
+            newres: newres,
+            res: res,
+            locale: "es-CO",
+            customInheritLocale: "es",
+            dedupByBaseTranslation: true,
+            deviceType: undefined,
+            API: makeApi(),
+            makeLookupParams: makeLookupParams
+        }, function() {
+            expect(resFileType._files["es-CO"].resources.length).toBe(1);
+            expect(newres.add).not.toHaveBeenCalled();
+            done();
+        });
+    });
+
+    test("direct miss + policy miss + customInherit direct miss + inherit policy hit → addResource", function(done) {
+        var res = makeTestResource("hello", "Hello");
+        var policy = buildPolicy();
+        var inheritCommonKey = ResourceString.hashKey("common", "es", "hello", "x-json", undefined);
+        var inheritTranslated = makeTranslated("Hola", "Hello", "hello");
+        var db = {
+            getResourceByCleanHashKey: jest.fn(function(key, cb) {
+                cb(null, key === inheritCommonKey ? inheritTranslated : null);
+            })
+        };
+        var resFileType = makeCollector();
+        var newres = makeNewres();
+        var makeLookupParams = createLookupParams(
+            { commonPrjName: "common", commonPrjType: "x-json" },
+            db,
+            policy
+        );
+
+        writeTranslatedResource({
+            db: db,
+            resFileType: resFileType,
+            newres: newres,
+            res: res,
+            locale: "es-CO",
+            customInheritLocale: "es",
+            dedupByBaseTranslation: true,
+            deviceType: undefined,
+            API: makeApi(),
+            makeLookupParams: makeLookupParams
+        }, function() {
+            expect(resFileType._files["es-CO"].resources.length).toBe(1);
+            expect(newres.add).not.toHaveBeenCalled();
+            done();
+        });
+    });
+
+    test("all lookups miss → addNewResource", function(done) {
+        var res = makeTestResource("hello", "Hello");
+        var db = {
+            getResourceByCleanHashKey: jest.fn(function(key, cb) { cb(null, null); })
+        };
+        var resFileType = makeCollector();
+        var newres = makeNewres();
+        var makeLookupParams = function(resource, locale) {
+            return { db: db, resource: resource, locale: locale, policy: [] };
+        };
+
+        writeTranslatedResource({
+            db: db,
+            resFileType: resFileType,
+            newres: newres,
+            res: res,
+            locale: "ko-KR",
+            dedupByBaseTranslation: true,
+            deviceType: undefined,
+            API: makeApi(),
+            makeLookupParams: makeLookupParams
+        }, function() {
+            expect(resFileType._files["ko-KR"]).toBeUndefined();
+            expect(newres.add).toHaveBeenCalledTimes(1);
+            done();
+        });
+    });
+
+    // ── direct hit paths ──────────────────────────────────────────────────────
+
+    test("direct hit + source mismatch → addNewResource", function(done) {
+        var res = makeTestResource("hello", "Hello Updated");
+        var translated = makeTranslated("안녕", "Hello Old", "Hello Old");
+        var db = {
+            getResourceByCleanHashKey: jest.fn(function(key, cb) {
+                cb(null, key === "hello::ko-KR" ? translated : null);
+            })
+        };
+        var resFileType = makeCollector();
+        var newres = makeNewres();
+        var makeLookupParams = function(resource, locale) {
+            return { db: db, resource: resource, locale: locale, policy: [] };
+        };
+
+        writeTranslatedResource({
+            db: db,
+            resFileType: resFileType,
+            newres: newres,
+            res: res,
+            locale: "ko-KR",
+            dedupByBaseTranslation: false,
+            deviceType: undefined,
+            API: makeApi(),
+            makeLookupParams: makeLookupParams
+        }, function() {
+            expect(resFileType._files["ko-KR"]).toBeUndefined();
+            expect(newres.add).toHaveBeenCalledTimes(1);
+            done();
+        });
+    });
+
+    test("direct hit + reskey mismatch → clone with updated reskey + addResource", function(done) {
+        var res = makeTestResource("hello", "Hello");
+        var translated = makeTranslated("안녕", "Hello", "Hello");
+        // translated.reskey differs from res.reskey to trigger clone path
+        translated.reskey = "tr-Hello";
+        var db = {
+            getResourceByCleanHashKey: jest.fn(function(key, cb) {
+                cb(null, key === "hello::ko-KR" ? translated : null);
+            })
+        };
+        var resFileType = makeCollector();
+        var newres = makeNewres();
+        var makeLookupParams = function(resource, locale) {
+            return { db: db, resource: resource, locale: locale, policy: [] };
+        };
+
+        writeTranslatedResource({
+            db: db,
+            resFileType: resFileType,
+            newres: newres,
+            res: res,
+            locale: "ko-KR",
+            dedupByBaseTranslation: false,
+            deviceType: undefined,
+            API: makeApi(),
+            makeLookupParams: makeLookupParams
+        }, function() {
+            expect(resFileType._files["ko-KR"].resources.length).toBe(1);
+            expect(resFileType._files["ko-KR"].resources[0].reskey).toBe(res.reskey);
+            expect(newres.add).not.toHaveBeenCalled();
+            done();
         });
     });
 });
