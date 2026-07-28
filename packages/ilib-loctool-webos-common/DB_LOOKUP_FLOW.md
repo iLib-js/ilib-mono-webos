@@ -1,8 +1,8 @@
 # DB Lookup Flow in `write()` Localize Mode
 
 Documents the translation DB lookup chain used by each webOS loctool plugin
-during `localize` mode. Describes both the shared policy engine provided by
-this package and the per-plugin differences.
+during `localize` mode. Describes both the lookup flow and the shared
+resolution engine provided by this package.
 
 ## Plugins covered
 
@@ -13,51 +13,9 @@ this package and the per-plugin differences.
 
 ---
 
-## 1. Shared lookup engine (`lookupByPolicy.js`)
+## 1. Full lookup chain per plugin
 
-All four plugins now delegate common-project DB lookups to the helpers in
-this package instead of building keys inline.
-
-### Call sequence inside `write()`
-
-```
-detectCommonData(this, translations)          // populates commonPrjName/commonPrjType
-policy = buildPolicy()
-makeLookupParams = createLookupParams(this, db, policy)
-
-// per resource, per locale:
-db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(locale), ...)
-  hit  → use translated directly
-  miss → lookupByPolicy(makeLookupParams(res, locale), callback)
-```
-
-### `buildPolicy()` — current policy array
-
-| Step | project | keyType  | datatype |
-|------|---------|----------|----------|
-| 0    | common  | hashKey  | common   |
-
-`buildKey` returns `undefined` when `commonPrjName`/`commonPrjType` are
-absent (i.e. no common project was detected), causing that step to be
-skipped automatically — no separate flag needed.
-
-### `detectCommonData(fileType, translations)`
-
-Inspects the translations set for a `"common"` project entry. On detection,
-sets `fileType.commonPrjName` and `fileType.commonPrjType`. No-ops when
-common data is absent or `translations` is undefined.
-
-### `createLookupParams(fileType, db, policy)`
-
-Returns a `makeLookupParams(resource, locale)` factory. Captures `db` and
-`policy` once; reads `commonPrjName`/`commonPrjType` lazily from `fileType`
-on every call so values populated by `detectCommonData` are reflected.
-
----
-
-## 2. Full lookup chain per plugin
-
-### 2-1. JS / C / Cpp (identical structure)
+### 1-1. JS / C / Cpp (identical structure)
 
 ```
 Step 0  locale direct
@@ -92,14 +50,7 @@ Step 3  customInherit common
         else (same as base) → skip (dedup)
 ```
 
-**baseTranslation resolution** in shared `writeTranslatedResource`:
-1. If `baseTranslation` is explicitly passed: use it as-is.
-2. Else if `dedupByBaseTranslation=true` and `translationLocales` is provided:
-   - derive `langDefaultLocale` (`en-US` for base locales)
-   - direct lookup on `langDefaultLocale`, then policy fallback
-3. Else if `dedupByBaseTranslation=true`: use `res.getSource()` as fallback base.
-
-### 2-2. Dart (differs from JS/C/Cpp)
+### 1-2. Dart (differs from JS/C/Cpp)
 
 ```
 Step 0  locale direct
@@ -130,9 +81,103 @@ Step 3  customInherit common
              addResource(resPath)          ← no baseTranslation comparison
 ```
 
-`dedupByBaseTranslation` is set to `false` for Dart, so base-translation
-comparison is intentionally disabled. Dart preserves locale entries even when
-translation text matches parent/base locale.
+Dart does not compute `baseTranslation` / `langDefaultLocale`. It preserves
+locale entries even when translation text matches parent/base locale.
+
+---
+
+## 2. Shared resolution engine
+
+All four plugins delegate the lookup chain above to two modules in this
+package:
+
+- `translationResolver.js` — orchestrator (full fallback chain + dedup + dispatch)
+- `lookupByPolicy.js` — lower-level policy-based DB lookup
+
+### Call sequence inside `write()`
+
+```
+resolver = buildResolver(db, translations, options?)
+    → detectCommonData(translations)      // internal, no side effects
+    → buildPolicy(options)                // declarative policy array
+    → makeLookupParams factory            // captures db, policy, common data
+    → returns { db, policy, makeLookupParams }
+
+// per resource, per locale:
+resolveTranslation({ resolver, resFileType, newres, res, locale, ... })
+    → resolveBaseTranslation (if dedup enabled)
+    → locale-direct lookup
+    → lookupByPolicy fallback
+    → customInherit fallback (direct + policy)
+    → dedup check + dispatch (addResource / addNewResource)
+```
+
+### `buildResolver(db, translations, options?)`
+
+Creates a resolver context with no side effects. Internally:
+1. Calls `detectCommonData(translations)` — returns `{ commonPrjName, commonPrjType }`
+2. Calls `buildPolicy(options)` — returns the policy array
+3. Builds a `makeLookupParams(resource, locale)` factory capturing all the above
+
+### `buildPolicy(options?)` — current policy array
+
+| Step | project | keyType  | datatype |
+|------|---------|----------|----------|
+| 0    | common  | hashKey  | common   |
+
+`buildKey` returns `undefined` when `commonPrjName`/`commonPrjType` are
+absent (i.e. no common project was detected), causing that step to be
+skipped automatically — no separate flag needed.
+
+The `options` parameter is reserved for plugin-specific policy configuration
+(e.g. additional fallback steps). Currently unused.
+
+### `lookupByPolicy(params, callback)`
+
+Walks the policy array, calling `buildKey()` for each entry and querying
+the DB. Returns the first hit, or `undefined` if all steps miss.
+
+### `resolveTranslation(params, callback)`
+
+Orchestrates the full lookup chain described in Section 1. Implements every
+step (locale-direct → policy → customInherit) and the dedup/dispatch logic
+in a single function, so plugins only need one call per resource+locale.
+
+Internal flow:
+
+1. **resolveBaseTranslation** — determines the comparison base for dedup:
+   - If `baseTranslation` is explicitly passed: use it as-is.
+   - If `dedupByBaseTranslation=true` and `translationLocales` is provided:
+     derive `langDefaultLocale`, look up via direct then policy fallback.
+   - If `dedupByBaseTranslation=true` with no other info: use `res.getSource()`.
+   - If `dedupByBaseTranslation=false` (Dart): skip entirely.
+
+2. **locale-direct lookup** — `db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(locale))`
+   - Hit + source mismatch → `addNewResource`
+   - Hit + reskey mismatch → clone with corrected reskey
+   - Hit + differs from base → `addResource`
+   - Hit + same as base → skip (dedup)
+   - Miss → step 3
+
+3. **policy fallback** — `lookupByPolicy(makeLookupParams(res, locale))`
+   - Hit + differs from base → `addResource`
+   - Miss + customInheritLocale → step 4
+   - Miss + no inherit → `addNewResource`
+
+4. **resolveFromInheritLocale** — customInherit direct, then customInherit policy
+   - Hit + differs from base → `addResource`
+   - Hit + same as base → `addNewResource`
+   - All miss → `addNewResource`
+
+Key params controlling behavior:
+
+| Param | Effect |
+|---|---|
+| `dedupByBaseTranslation` | `true`: skip writes matching base. `false`: always write (Dart). |
+| `translationLocales` | Enables lang-default lookup for base resolution (JS/C/Cpp). |
+| `baseTranslation` | Explicit override — skips automatic base resolution. |
+| `resPath` | Passed to `addResource` for Dart's per-file output. |
+| `customInheritLocale` | Enables inherit fallback steps. |
 
 ---
 
@@ -163,7 +208,7 @@ use the clean variant; common lookups use the raw variant.
 
 ---
 
-## 5. Policy notes
+## 5. Design notes
 
 ### Common step gating
 
@@ -181,7 +226,14 @@ plugins skip such entries as duplicates.
 
 ### Async ordering note
 
-`writeTranslatedResource` resolves dedup base translation first and only then
-starts locale-direct/policy/inherit lookup. This removes the earlier
-call-site ordering dependency where base resolution and main lookup were
-interleaved across callbacks.
+`resolveTranslation` resolves dedup base translation first (via
+`resolveBaseTranslation`) and only then starts locale-direct/policy/inherit
+lookup. This ensures deterministic dedup comparison regardless of which
+lookup path produces the final translation.
+
+### Extensibility via policy options
+
+To add a new fallback step (e.g. brand project lookup):
+1. Add an entry in `buildPolicy(options)` conditionally based on `options`
+2. Add a matching key-building branch in `buildKey()`
+3. No changes needed in `lookupByPolicy()` or `resolveTranslation()`
