@@ -20,7 +20,9 @@ resolution engine provided by this package.
 ```
 Step 0  locale direct
         key: res.cleanHashKeyForTranslation(locale)
-        hit  → [D]
+        hit  + key matched but source mismatched → addNewResource
+        hit  + baseTranslation ≠ target       → addResource
+        hit  + baseTranslation = target       → skip (dedup)
         miss → Step 1
 
 Step 1  common project (locale)
@@ -42,12 +44,6 @@ Step 3  customInherit common
         hit  + baseTranslation ≠ target → addResource
         hit  + baseTranslation = target → addNewResource
         miss                            → addNewResource
-
-[D] locale direct hit
-        source mismatch → addNewResource
-        reskey mismatch → clone, overwrite reskey
-        baseTranslation ≠ target → addResource
-        else (same as base) → skip (dedup)
 ```
 
 ### 1-2. Dart (differs from JS/C/Cpp)
@@ -55,30 +51,27 @@ Step 3  customInherit common
 ```
 Step 0  locale direct
         key: res.cleanHashKeyForTranslation(locale)
-        hit  → [D]
+        hit  + key matched but source mismatched → addNewResource
+        hit                                      → addResource(resPath)
         miss → Step 1
 
 Step 1  common project (locale)
         key: ResourceString.hashKey(commonPrjName, locale, key, commonPrjType, flavor)
         skipped when commonPrjName/commonPrjType absent
-        hit  → addResource(resPath)        ← no baseTranslation comparison
+        hit  → addResource(resPath)
         miss → Step 2
 
 Step 2  customInherit direct
         key: res.cleanHashKeyForTranslation(customInheritLocale)
         skipped when customInheritLocale absent
-        hit  → addResource(resPath)        ← no baseTranslation comparison
+        hit  → addResource(resPath)
         miss → Step 3
 
 Step 3  customInherit common
         key: ResourceString.hashKey(commonPrjName, customInheritLocale, ...)
         skipped when commonPrjName/commonPrjType absent
-        hit  → addResource(resPath) / miss → addNewResource
-
-[D] locale direct hit
-        source mismatch → addNewResource
-        hit: set translated.target via getTarget(translated, deviceType)
-             addResource(resPath)          ← no baseTranslation comparison
+        hit  → addResource(resPath)
+        miss → addNewResource
 ```
 
 Dart does not compute `baseTranslation` / `langDefaultLocale`. It preserves
@@ -153,7 +146,7 @@ Internal flow:
    - If `dedupByBaseTranslation=false` (Dart): skip entirely.
 
 2. **locale-direct lookup** — `db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(locale))`
-   - Hit + source mismatch → `addNewResource`
+   - Hit + key matched but source mismatched → `addNewResource`
    - Hit + reskey mismatch → clone with corrected reskey
    - Hit + differs from base → `addResource`
    - Hit + same as base → skip (dedup)
@@ -209,6 +202,13 @@ use the clean variant; common lookups use the raw variant.
 ---
 
 ## 5. Design notes
+
+### Reskey correction on locale-direct hit
+
+When Step 0 hits and the translated resource's `reskey` differs from the
+source resource's `reskey` (matched via cleaned string rather than exact key),
+the translated resource is cloned and its `reskey` is overwritten to match
+the source before being passed to `addResource`.
 
 ### Common step gating
 

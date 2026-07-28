@@ -54,7 +54,7 @@ function buildKey(resource, locale, entry, commonPrjName, commonPrjType) {
  * To add a new fallback step:
  *   1. Push a new entry object here (e.g. { keyType: "hashKey", project: "brand", datatype: "..." }).
  *   2. Add a matching `if (entry.project === "brand")` branch in buildKey() above.
- *   3. If the step needs extra context fields, add them to the object returned by createLookupParams().
+ *   3. If the step needs extra context fields, add them to the makeLookupParams factory in buildResolver().
  *
  * @param {Object} [options] - reserved for future step configuration; currently unused
  * @returns {Array<{keyType: string, project: string, datatype: string}>}

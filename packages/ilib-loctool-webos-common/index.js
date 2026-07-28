@@ -19,6 +19,5 @@
 
 module.exports = {
     utils: require("./utils.js"),
-    lookupByPolicy: require("./lookupByPolicy.js"),
     translationResolver: require("./translationResolver.js")
 };

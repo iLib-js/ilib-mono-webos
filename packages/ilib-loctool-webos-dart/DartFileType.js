@@ -24,7 +24,9 @@ var Locale = require("ilib/lib/Locale.js");
 var DartFile = require("./DartFile.js");
 var JsonResourceFileType = require("ilib-loctool-webos-json-resource");
 var Utils = require("loctool/lib/utils.js")
-var { utils: pluginUtils, translationResolver: { buildResolver, resolveTranslation } } = require("ilib-loctool-webos-common");
+var { utils: pluginUtils, translationResolver } = require("ilib-loctool-webos-common");
+var buildResolver = translationResolver.buildResolver;
+var resolveTranslation = translationResolver.resolveTranslation;
 
 var DartFileType = function(project) {
     this.type = "x-dart";

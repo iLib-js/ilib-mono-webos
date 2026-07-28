@@ -140,6 +140,8 @@ function resolveTranslation(params, callback) {
         baseTranslation = res.getSource();
     }
 
+    // ── internal helpers (closures over params) ────────────────────────────────
+
     // Return true when this candidate should be written for the target locale.
     var differsFromBaseTranslation = function(translated) {
         if (!dedupByBaseTranslation) return true;
@@ -206,6 +208,8 @@ function resolveTranslation(params, callback) {
         });
     };
 
+    // ── execution: main lookup chain ───────────────────────────────────────────
+
     // Resolve base translation first so dedup comparison is deterministic for all lookup paths.
     resolveBaseTranslation(function() {
         db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(locale), function(err, translated) {
@@ -224,17 +228,21 @@ function resolveTranslation(params, callback) {
                     }
                 });
             } else if (
+                // Key matched but source changed — translation is stale, request new translation.
                 API.utils.cleanString(res.getSource()) !== API.utils.cleanString(r.getSource()) &&
                 API.utils.cleanString(res.getSource()) !== API.utils.cleanString(r.getKey())
             ) {
                 pluginUtils.addNewResource(newres, res, locale);
                 done();
             } else {
+                // Matched on cleaned string, not exact reskey — align reskey before writing.
                 if (res.reskey !== r.reskey) {
                     r = r.clone();
                     r.reskey = res.reskey;
                 }
                 if (differsFromBaseTranslation(r)) {
+                    // Dart path (dedupByBaseTranslation=false): resolve device-specific
+                    // target from metadata before writing.
                     if (!dedupByBaseTranslation && translated.metadata) {
                         translated.target = pluginUtils.getTarget(translated, deviceType);
                     }
