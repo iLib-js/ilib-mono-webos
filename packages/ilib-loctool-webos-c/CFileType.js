@@ -113,6 +113,7 @@ CFileType.prototype.write = function(translations, locales) {
             return locale !== this.project.sourceLocale && locale !== this.project.pseudoLocale;
         }.bind(this));
 
+    // Build resolver: detects common project data and prepares policy-based lookup.
     var resolver = buildResolver(db, translations);
 
     if (mode === "localize") {
@@ -123,6 +124,7 @@ CFileType.prototype.write = function(translations, locales) {
                 this.logger.trace("Localizing C strings to " + locale);
 
                 customInheritLocale = this.project.getLocaleInherit(locale);
+                // Resolve translation via fallback chain (direct → policy → inherit) with dedup.
                 resolveTranslation({
                     resolver: resolver,
                     resFileType: resFileType,
