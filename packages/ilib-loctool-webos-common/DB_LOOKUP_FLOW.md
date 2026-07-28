@@ -75,15 +75,15 @@ Step 2  customInherit direct
         key: res.cleanHashKeyForTranslation(customInheritLocale)
         skipped when customInheritLocale absent
         hit  + baseTranslation ≠ target → addResource
-             else                        → addNewResource
+        hit  + baseTranslation = target → addNewResource
         miss → Step 3
 
 Step 3  customInherit common
         key: ResourceString.hashKey(commonPrjName, customInheritLocale, ...)
         skipped when commonPrjName/commonPrjType absent
         hit  + baseTranslation ≠ target → addResource
-             else                        → addNewResource
-        miss → addNewResource
+        hit  + baseTranslation = target → addNewResource
+        miss                            → addNewResource
 
 [D] locale direct hit
         source mismatch → addNewResource

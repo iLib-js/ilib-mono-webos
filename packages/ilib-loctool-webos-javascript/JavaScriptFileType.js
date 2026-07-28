@@ -22,7 +22,7 @@ var path = require("path");
 var JavaScriptFile = require("./JavaScriptFile.js");
 var JsonResourceFileType = require("ilib-loctool-webos-json-resource");
 var Utils = require("loctool/lib/utils.js")
-var { utils: pluginUtils, lookupByPolicy: lookupUtils } = require("ilib-loctool-webos-common");
+var { utils: pluginUtils, translationResolver: { buildResolver, resolveTranslation } } = require("ilib-loctool-webos-common");
 
 var JavaScriptFileType = function(project) {
     this.type = "javascript";
@@ -125,10 +125,7 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
             return locale !== this.project.sourceLocale && locale !== this.project.pseudoLocale;
         }.bind(this));
 
-    lookupUtils.detectCommonData(this, translations);
-
-    var policy = lookupUtils.buildPolicy();
-    var makeLookupParams = lookupUtils.createLookupParams(this, db, policy);
+    var resolver = buildResolver(db, translations);
 
     if (mode === "localize") {
         for (var i = 0; i < resources.length; i++) {
@@ -139,8 +136,8 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
                 this.logger.trace("Localizing JavaScript strings to " + locale);
 
                 customInheritLocale = this.project.getLocaleInherit(locale);
-                lookupUtils.writeTranslatedResource({
-                    db: db,
+                resolveTranslation({
+                    resolver: resolver,
                     resFileType: resFileType,
                     newres: this.newres,
                     res: res,
@@ -149,8 +146,7 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
                     dedupByBaseTranslation: true,
                     translationLocales: translationLocales,
                     deviceType: deviceType,
-                    API: this.API,
-                    makeLookupParams: makeLookupParams
+                    API: this.API
                 });
             }.bind(this));
         }

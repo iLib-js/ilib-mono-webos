@@ -24,7 +24,7 @@ var Locale = require("ilib/lib/Locale.js");
 var DartFile = require("./DartFile.js");
 var JsonResourceFileType = require("ilib-loctool-webos-json-resource");
 var Utils = require("loctool/lib/utils.js")
-var { utils: pluginUtils, lookupByPolicy: lookupUtils } = require("ilib-loctool-webos-common");
+var { utils: pluginUtils, translationResolver: { buildResolver, resolveTranslation } } = require("ilib-loctool-webos-common");
 
 var DartFileType = function(project) {
     this.type = "x-dart";
@@ -175,10 +175,7 @@ DartFileType.prototype.write = function(translations, locales) {
             return locale !== this.project.sourceLocale && locale !== this.project.pseudoLocale;
         }.bind(this));
 
-    lookupUtils.detectCommonData(this, translations);
-
-    var policy = lookupUtils.buildPolicy();
-    var makeLookupParams = lookupUtils.createLookupParams(this, db, policy);
+    var resolver = buildResolver(db, translations);
 
     if (mode === "localize") {
         for (var i = 0; i < resources.length; i++) {
@@ -189,8 +186,8 @@ DartFileType.prototype.write = function(translations, locales) {
                 this.logger.trace("Localizing Dart strings to " + locale);
                 customInheritLocale = this.project.getLocaleInherit(locale);
 
-                lookupUtils.writeTranslatedResource({
-                    db: db,
+                resolveTranslation({
+                    resolver: resolver,
                     resFileType: resFileType,
                     newres: this.newres,
                     res: res,
@@ -199,8 +196,7 @@ DartFileType.prototype.write = function(translations, locales) {
                     dedupByBaseTranslation: false,
                     resPath: resPath,
                     deviceType: deviceType,
-                    API: this.API,
-                    makeLookupParams: makeLookupParams
+                    API: this.API
                 });
             }.bind(this));
         }
