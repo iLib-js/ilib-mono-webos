@@ -37,6 +37,12 @@ var ResourceString = require("loctool/lib/ResourceString.js");
  */
 function buildKey(resource, locale, entry, commonPrjName, commonPrjType) {
 
+    if (entry.project === "current" && entry.datatype === "universal") {
+        var project = resource.getProject && resource.getProject();
+        if (!project) return undefined;
+        return ResourceString.cleanHashKey(project, locale, resource.getKey(), entry.datatype, resource.getFlavor());
+    }
+
     if (entry.project === "common") {
         if (!commonPrjName || !commonPrjType) return undefined;
         return ResourceString.hashKey(commonPrjName, locale, resource.getKey(), commonPrjType, resource.getFlavor());
@@ -61,6 +67,14 @@ function buildKey(resource, locale, entry, commonPrjName, commonPrjType) {
  */
 function buildPolicy(options) {
     var policy = [];
+
+    if (options && options.includeUniversal) {
+        policy.push({
+            keyType: "hashKey",
+            project: "current",
+            datatype: "universal"
+        });
+    }
 
     policy.push({
         keyType: "hashKey",

@@ -52,6 +52,27 @@ describe("buildPolicy", function() {
         });
         expect(policy[0].needsCommonData).toBeUndefined();
     });
+
+    test("includeUniversal option adds universal step before common", function() {
+        var policy = buildPolicy({ includeUniversal: true });
+        expect(policy).toHaveLength(2);
+        expect(policy[0]).toMatchObject({
+            keyType: "hashKey",
+            project: "current",
+            datatype: "universal"
+        });
+        expect(policy[1]).toMatchObject({
+            keyType: "hashKey",
+            project: "common",
+            datatype: "common"
+        });
+    });
+
+    test("includeUniversal false does not add universal step", function() {
+        var policy = buildPolicy({ includeUniversal: false });
+        expect(policy).toHaveLength(1);
+        expect(policy[0].project).toBe("common");
+    });
 });
 
 // ── lookupByPolicy ────────────────────────────────────────────────────────────
@@ -120,6 +141,112 @@ describe("lookupByPolicy", function() {
         }, function(result) {
             expect(result).toBeUndefined();
             expect(db.getResourceByCleanHashKey).not.toHaveBeenCalled();
+            done();
+        });
+    });
+
+    test("universal step hit returns result before reaching common", function(done) {
+        var universalKey = ResourceString.cleanHashKey("myapp", "ko-KR", "hello", "universal", undefined);
+        var fakeUniversal = { target: "유니버설 안녕" };
+        var db = makeDb({ [universalKey]: fakeUniversal });
+
+        var policy = buildPolicy({ includeUniversal: true });
+        lookupByPolicy({
+            db: db,
+            resource: makeResource("myapp", "hello"),
+            locale: "ko-KR",
+            policy: policy,
+            commonPrjName: "common",
+            commonPrjType: "x-json"
+        }, function(result) {
+            expect(result).toBe(fakeUniversal);
+            expect(db.getResourceByCleanHashKey).toHaveBeenCalledTimes(1);
+            done();
+        });
+    });
+
+    test("universal step miss falls through to common step", function(done) {
+        var commonKey = ResourceString.hashKey("common", "ko-KR", "hello", "x-json", undefined);
+        var fakeCommon = { target: "공통 안녕" };
+        var db = makeDb({ [commonKey]: fakeCommon });
+
+        var policy = buildPolicy({ includeUniversal: true });
+        lookupByPolicy({
+            db: db,
+            resource: makeResource("myapp", "hello"),
+            locale: "ko-KR",
+            policy: policy,
+            commonPrjName: "common",
+            commonPrjType: "x-json"
+        }, function(result) {
+            expect(result).toBe(fakeCommon);
+            // first call for universal (miss), second call for common (hit)
+            expect(db.getResourceByCleanHashKey).toHaveBeenCalledTimes(2);
+            done();
+        });
+    });
+
+    test("universal step skipped when resource has no getProject", function(done) {
+        var resourceNoProject = {
+            getKey: function() { return "hello"; },
+            getFlavor: function() { return undefined; }
+            // getProject intentionally missing
+        };
+        var commonKey = ResourceString.hashKey("common", "ko-KR", "hello", "x-json", undefined);
+        var fakeCommon = { target: "공통 안녕" };
+        var db = makeDb({ [commonKey]: fakeCommon });
+
+        var policy = buildPolicy({ includeUniversal: true });
+        lookupByPolicy({
+            db: db,
+            resource: resourceNoProject,
+            locale: "ko-KR",
+            policy: policy,
+            commonPrjName: "common",
+            commonPrjType: "x-json"
+        }, function(result) {
+            expect(result).toBe(fakeCommon);
+            // universal skipped (no project), only common looked up
+            expect(db.getResourceByCleanHashKey).toHaveBeenCalledTimes(1);
+            done();
+        });
+    });
+
+    test("universal step skipped when getProject returns falsy", function(done) {
+        var resourceNullProject = {
+            getProject: function() { return undefined; },
+            getKey: function() { return "hello"; },
+            getFlavor: function() { return undefined; }
+        };
+        var db = makeDb({});
+
+        var policy = buildPolicy({ includeUniversal: true });
+        lookupByPolicy({
+            db: db,
+            resource: resourceNullProject,
+            locale: "ko-KR",
+            policy: policy
+            // no commonPrjName either, so both steps skip
+        }, function(result) {
+            expect(result).toBeUndefined();
+            expect(db.getResourceByCleanHashKey).not.toHaveBeenCalled();
+            done();
+        });
+    });
+
+    test("universal step with flavor generates correct key", function(done) {
+        var universalKey = ResourceString.cleanHashKey("myapp", "ko-KR", "hello", "universal", "tv");
+        var fakeUniversal = { target: "TV 유니버설 안녕" };
+        var db = makeDb({ [universalKey]: fakeUniversal });
+
+        var policy = buildPolicy({ includeUniversal: true });
+        lookupByPolicy({
+            db: db,
+            resource: makeResource("myapp", "hello", "tv"),
+            locale: "ko-KR",
+            policy: policy
+        }, function(result) {
+            expect(result).toBe(fakeUniversal);
             done();
         });
     });

@@ -128,7 +128,7 @@ JavaScriptFileType.prototype.write = function(translations, locales) {
         }.bind(this));
 
     // Build resolver: detects common project data and prepares policy-based lookup.
-    var resolver = buildResolver(db, translations);
+    var resolver = buildResolver(db, translations, { includeUniversal: true });
 
     if (mode === "localize") {
         for (var i = 0; i < resources.length; i++) {
