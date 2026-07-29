@@ -1,7 +1,7 @@
 /*
  * DartFileType.js - Represents a collection of Dart files
  *
- * Copyright (c) 2023-2025, JEDLSoft
+ * Copyright (c) 2023-2026 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,18 +21,18 @@ var fs = require("fs");
 var path = require("path");
 var mm = require("micromatch");
 var Locale = require("ilib/lib/Locale.js");
-var ResourceString = require("loctool/lib/ResourceString.js");
 var DartFile = require("./DartFile.js");
 var JsonResourceFileType = require("ilib-loctool-webos-json-resource");
 var Utils = require("loctool/lib/utils.js")
-var pluginUtils = require("ilib-loctool-webos-common/utils.js");
+var { utils: pluginUtils, translationResolver } = require("ilib-loctool-webos-common");
+var buildResolver = translationResolver.buildResolver;
+var resolveTranslation = translationResolver.resolveTranslation;
 
 var DartFileType = function(project) {
     this.type = "x-dart";
     this.datatype = "x-dart";
     this.resourceType = "json";
     this.extensions = [".dart"];
-    this.isCommonDataLoaded = false;
     this.project = project;
     this.API = project.getAPI();
     this.extracted = this.API.newTranslationSet(project.getSourceLocale());
@@ -177,17 +177,8 @@ DartFileType.prototype.write = function(translations, locales) {
             return locale !== this.project.sourceLocale && locale !== this.project.pseudoLocale;
         }.bind(this));
 
-    if ((typeof(translations) !== 'undefined') && (typeof(translations.getProjects()) !== 'undefined') && (translations.getProjects().indexOf("common") !== -1)) {
-        this.isCommonDataLoaded = true;
-    }
-
-    if (this.isCommonDataLoaded) {
-        var commonts = translations.getBy({project: "common"});
-        if (commonts.length > 0){
-            this.commonPrjName = "common";
-            this.commonPrjType = commonts[0].getDataType();
-        }
-    }
+    // Build resolver: detects common project data and prepares policy-based lookup.
+    var resolver = buildResolver(db, translations);
 
     if (mode === "localize") {
         for (var i = 0; i < resources.length; i++) {
@@ -198,70 +189,20 @@ DartFileType.prototype.write = function(translations, locales) {
                 this.logger.trace("Localizing Dart strings to " + locale);
                 customInheritLocale = this.project.getLocaleInherit(locale);
 
-                db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(locale), function(err, translated) {
-                    var r = translated;
-                    if (!translated) {
-                        db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(locale), function(err, translated) {
-                        var r = translated;
-                        if (!translated && this.isCommonDataLoaded) {
-                            var manipulateKey = ResourceString.hashKey(this.commonPrjName, locale, res.getKey(), this.commonPrjType, res.getFlavor());
-                            db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
-                                if (translated) {
-                                    pluginUtils.addResource(resFileType, translated, res, locale, resPath, deviceType);
-                                } else if(!translated && customInheritLocale){
-                                    db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(customInheritLocale), function(err, translated) {
-                                        if (!translated){
-                                            var manipulateKey = ResourceString.hashKey(this.commonPrjName, customInheritLocale, res.getKey(), this.commonPrjType, res.getFlavor());
-                                            db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
-                                                if (translated){
-                                                    pluginUtils.addResource(resFileType, translated, res, locale, resPath, deviceType);
-                                                } else {
-                                                    pluginUtils.addNewResource(this.newres, res, locale);
-                                                }
-                                            }.bind(this));
-                                        } else {
-                                            pluginUtils.addResource(resFileType, translated, res, locale, resPath, deviceType);
-                                        }
-                                    }.bind(this));
-                                } else {
-                                    pluginUtils.addNewResource(this.newres, res, locale);
-                                }
-                            }.bind(this));
-                        } else if (!translated && customInheritLocale) {
-                            db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(customInheritLocale), function(err, translated) {
-                                var r = translated;
-                                if (translated){
-                                    pluginUtils.addResource(resFileType, translated, res, locale, resPath, deviceType);
-                                } else {
-                                    pluginUtils.addNewResource(this.newres, res, locale);
-                                }
-                            }.bind(this));
-                        } else if (!translated || ( this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getSource()) &&
-                            this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getKey()))) {
-                            if (r) {
-                                this.logger.trace("extracted   source: " + this.API.utils.cleanString(res.getSource()));
-                                this.logger.trace("translation source: " + this.API.utils.cleanString(r.getSource()));
-                            }
-                            pluginUtils.addNewResource(this.newres, res, locale);
-                        } else {
-                            pluginUtils.addResource(resFileType, translated, res, locale, resPath, deviceType);
-                        }
-                    }.bind(this));
-                    } else {
-                        if (( this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getSource()) &&
-                                this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getKey()))) {
-                                if (r) {
-                                    this.logger.trace("extracted   source: " + this.API.utils.cleanString(res.getSource()));
-                                    this.logger.trace("translation source: " + this.API.utils.cleanString(r.getSource()));
-                                }
-                                pluginUtils.addNewResource(this.newres, res, locale);
-                            } else {
-                                if (translated.metadata) translated.target = pluginUtils.getTarget(translated, deviceType);
-                                pluginUtils.addResource(resFileType, translated, res, locale, resPath, deviceType);
-                            }
-                        }
-                    }.bind(this));
-                }.bind(this));
+                // Resolve translation via fallback chain (direct → policy → inherit) with dedup.
+                resolveTranslation({
+                    resolver: resolver,
+                    resFileType: resFileType,
+                    newres: this.newres,
+                    res: res,
+                    locale: locale,
+                    customInheritLocale: customInheritLocale,
+                    dedupByBaseTranslation: false,
+                    resPath: resPath,
+                    deviceType: deviceType,
+                    API: this.API
+                });
+            }.bind(this));
         }
 
         resources = [];

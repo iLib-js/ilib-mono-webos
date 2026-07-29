@@ -1,16 +1,19 @@
 # ilib-loctool-webos-dart
 
-ilib-webos-loctool-dart is a plugin for the loctool that
+ilib-loctool-webos-dart is a plugin for loctool that
 allows it to read and localize [Dart](https://docs.fileformat.com/programming/dart/) files. This plugin is optimized for the webOS platform.
 
 ### Dart FileType
-This plugin expects the code uses the [flutter_translate](https://pub.dev/packages/flutter_translate) library.  
+This plugin expects the code to use the [flutter_translate](https://pub.dev/packages/flutter_translate) library.  
 
 However, it has some different behavior on webOS.   
 This is because we are using the `flutter_translate` library with some modifications to meet the needs of webOS.   
 **The key of translation() must not be split by dot(.) symbol.**   
-because webOS localization is plain-text based (not text-IDased).  
-The localization tool doesn't generate resources in nested JSON format except for the case of the plural.
+because webOS localization is plain-text based (not text-ID based).  
+The localization tool does not generate resources in nested JSON format, except for plural cases.
+
+Also, this plugin intentionally keeps locale entries even when the translated value is the same as the base locale translation.
+Because `flutter_translate` does not provide locale fallback behavior in this workflow, removing entries that duplicate base locale values could cause missing runtime strings.
 
 It extracts string usages used in the examples below by considering them as strings that need to be translated.
 
@@ -32,7 +35,7 @@ Please check the [webos-dart](https://github.com/iLib-js/ilib-mono-webos/tree/ma
 
 Copyright (c) 2023-2026, JEDLSoft
 
-This plugin is license under Apache2. [LICENSE](https://github.com/iLib-js/ilib-mono-webos/blob/main/packages/ilib-loctool-webos-dart/LICENSE) file for more details.
+This plugin is licensed under Apache 2.0. See the [LICENSE](https://github.com/iLib-js/ilib-mono-webos/blob/main/packages/ilib-loctool-webos-dart/LICENSE) file for details.
 
 ## Release Notes
 

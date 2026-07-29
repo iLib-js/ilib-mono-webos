@@ -1,7 +1,7 @@
 /*
  * CFileType.js - Represents a collection of C files
  *
- * Copyright (c) 2019-2023, 2025 JEDLSoft
+ * Copyright (c) 2019-2023, 2025-2026 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,9 +21,10 @@ var fs = require("fs");
 var path = require("path");
 var CFile = require("./CFile.js");
 var JsonResourceFileType = require("ilib-loctool-webos-json-resource");
-var ResourceString = require("loctool/lib/ResourceString.js");
 var Utils = require("loctool/lib/utils.js")
-var pluginUtils = require("ilib-loctool-webos-common/utils.js");
+var { utils: pluginUtils, translationResolver } = require("ilib-loctool-webos-common");
+var buildResolver = translationResolver.buildResolver;
+var resolveTranslation = translationResolver.resolveTranslation;
 
 var CFileType = function(project) {
     this.type = "c";
@@ -32,7 +33,6 @@ var CFileType = function(project) {
     this.project = project;
     this.API = project.getAPI();
     this.extensions = [ ".c"];
-    this.isCommonDataLoaded = false;
     this.extracted = this.API.newTranslationSet(project.getSourceLocale());
     this.newres = this.API.newTranslationSet(project.getSourceLocale());
     this.pseudo = this.API.newTranslationSet(project.getSourceLocale());
@@ -113,17 +113,8 @@ CFileType.prototype.write = function(translations, locales) {
             return locale !== this.project.sourceLocale && locale !== this.project.pseudoLocale;
         }.bind(this));
 
-    if ((typeof(translations) !== 'undefined') && (typeof(translations.getProjects()) !== 'undefined') && (translations.getProjects().indexOf("common") !== -1)) {
-        this.isCommonDataLoaded = true;
-    }
-
-    if (this.isCommonDataLoaded) {
-        var commonts = translations.getBy({project: "common"});
-        if (commonts.length > 0){
-            this.commonPrjName = "common";
-            this.commonPrjType = commonts[0].getDataType();
-        }
-    }
+    // Build resolver: detects common project data and prepares policy-based lookup.
+    var resolver = buildResolver(db, translations);
 
     if (mode === "localize") {
         for (var i = 0; i < resources.length; i++) {
@@ -132,90 +123,20 @@ CFileType.prototype.write = function(translations, locales) {
             translationLocales.forEach(function(locale) {
                 this.logger.trace("Localizing C strings to " + locale);
 
-                baseLocale = Utils.isBaseLocale(locale);
-                langDefaultLocale = Utils.getBaseLocale(locale);
                 customInheritLocale = this.project.getLocaleInherit(locale);
-                baseTranslation = res.getSource();
-
-                if (baseLocale){
-                    langDefaultLocale = "en-US";  // language default locale need to compare with root data
-                }
-
-                if (locale !== 'en-US' && (translationLocales.includes(langDefaultLocale))) {
-                    db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(langDefaultLocale), function(err, translated) {
-                        if (translated) {
-                            baseTranslation = pluginUtils.getTarget(translated, deviceType);
-                        } else if (this.isCommonDataLoaded) {
-                            var manipulateKey = ResourceString.hashKey(this.commonPrjName, langDefaultLocale, res.getKey(), this.commonPrjType, res.getFlavor());
-                            db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
-                                if (translated){
-                                    baseTranslation = pluginUtils.getTarget(translated, deviceType);
-                                }
-                            }.bind(this));
-                        }
-                    }.bind(this));
-                }
-
-                db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(locale), function(err, translated) {
-                    var r = translated;
-                    if (!translated && this.isCommonDataLoaded) {
-                        var manipulateKey = ResourceString.hashKey(this.commonPrjName, locale, res.getKey(), this.commonPrjType, res.getFlavor());
-                        db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
-                            if (translated && (baseTranslation !== pluginUtils.getTarget(translated, deviceType))){
-                                pluginUtils.addResource(resFileType, translated, res, locale, undefined, deviceType);
-                            } else if(!translated && customInheritLocale){
-                                db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(customInheritLocale), function(err, translated) {
-                                    if (!translated){
-                                        var manipulateKey = ResourceString.hashKey(this.commonPrjName, customInheritLocale, res.getKey(), this.commonPrjType, res.getFlavor());
-                                        db.getResourceByCleanHashKey(manipulateKey, function(err, translated) {
-                                            if (translated && (baseTranslation !== pluginUtils.getTarget(translated, deviceType))) {
-                                                pluginUtils.addResource(resFileType, translated, res, locale, undefined, deviceType);
-                                            } else {
-                                                pluginUtils.addNewResource(this.newres, res, locale);
-                                            }
-                                        }.bind(this));
-                                    } else if (translated && (baseTranslation !== pluginUtils.getTarget(translated, deviceType))){
-                                        pluginUtils.addResource(resFileType, translated, res, locale, undefined, deviceType);
-                                    } else {
-                                        pluginUtils.addNewResource(this.newres, res, locale);
-                                    }
-                                }.bind(this));
-                            } else {
-                                pluginUtils.addNewResource(this.newres, res, locale);
-                            }
-                        }.bind(this));
-                    } else if (!translated && customInheritLocale) {
-                        db.getResourceByCleanHashKey(res.cleanHashKeyForTranslation(customInheritLocale), function(err, translated) {
-                            if (translated && (baseTranslation !== pluginUtils.getTarget(translated, deviceType))){
-                                pluginUtils.addResource(resFileType, translated, res, locale, undefined, deviceType);
-                            } else {
-                                pluginUtils.addNewResource(this.newres, res, locale);
-                            }
-                        }.bind(this));
-                    } else if (!translated || ( this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getSource()) &&
-                        this.API.utils.cleanString(res.getSource()) !== this.API.utils.cleanString(r.getKey()))) {
-                        if (r) {
-                            this.logger.trace("extracted   source: " + this.API.utils.cleanString(res.getSource()));
-                            this.logger.trace("translation source: " + this.API.utils.cleanString(r.getSource()));
-                        }
-                        pluginUtils.addNewResource(this.newres, res, locale);
-                    } else {
-                        if (res.reskey != r.reskey) {
-                            // if reskeys don't match, we matched on cleaned string.
-                            //so we need to overwrite reskey of the translated resource to match
-                            r = r.clone();
-                            r.reskey = res.reskey;
-                        }
-                        if (baseTranslation != pluginUtils.getTarget(r, deviceType)) {
-                            file = resFileType.getResourceFile(locale);
-                            r.setTarget(pluginUtils.getTarget(r, deviceType));
-                            file.addResource(r);
-                            this.logger.trace("Added " + r.reskey + " to " + file.pathName);
-                        } else {
-                            this.logger.trace("Same translation as base translation for " + res.reskey + " to " + locale);
-                        }
-                    }
-                }.bind(this));
+                // Resolve translation via fallback chain (direct → policy → inherit) with dedup.
+                resolveTranslation({
+                    resolver: resolver,
+                    resFileType: resFileType,
+                    newres: this.newres,
+                    res: res,
+                    locale: locale,
+                    customInheritLocale: customInheritLocale,
+                    dedupByBaseTranslation: true,
+                    translationLocales: translationLocales,
+                    deviceType: deviceType,
+                    API: this.API
+                });
             }.bind(this));
         }
         resources = [];

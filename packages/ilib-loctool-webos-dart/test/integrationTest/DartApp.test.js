@@ -1,7 +1,7 @@
 /*
  * DartApp.test.js - test the localization result of webos-dart app.
  *
- * Copyright (c) 2025 JEDLSoft
+ * Copyright (c) 2025-2026 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ const fs = require("fs");
 const path = require('path');
 
 const ProjectFactory = require("loctool/lib/ProjectFactory.js");
-const pluginUtils = require("ilib-loctool-webos-common/utils.js");
+const { utils: pluginUtils } = require("ilib-loctool-webos-common");
 
 describe('[integration] test the localization result of webos-dart app', () => {
     const projectRoot = (process.cwd().indexOf("integrationTest")) > -1 ? ".": "./test/integrationTest";
@@ -101,7 +101,7 @@ describe('[integration] test the localization result of webos-dart app', () => {
         }
     });
     test("dartsample_test_ko_KR", function() {
-        expect.assertions(5);
+        expect.assertions(6);
         filePath = path.join(resourcePath, 'ko.json');
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
@@ -110,6 +110,7 @@ describe('[integration] test the localization result of webos-dart app', () => {
         expect(jsonData["Back button"]).toBe("이전 버튼");
         expect(jsonData["Search"]).toBe("통합 검색");
         expect(jsonData["Internal Speaker"]).toBe("모니터 스피커"); // metadata
+        expect(jsonData["Good      Morning"]).toBe("좋은 아침"); // keep multispaces
     });
     test("dartsample_test_es_CO", function() {
         expect.assertions(6);

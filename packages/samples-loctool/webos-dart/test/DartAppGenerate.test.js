@@ -1,7 +1,7 @@
 /*
  * DartAppGenerate.test.js - test the localization result in generate mode of webos-dart app.
  *
- * Copyright (c) 2025 JEDLSoft
+ * Copyright (c) 2025-2026 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
 
 const fs = require("fs");
 const path = require('path');
-const pluginUtils = require("ilib-loctool-webos-common/utils.js");
+const { utils: pluginUtils } = require("ilib-loctool-webos-common");
 
 const ProjectFactory = require("loctool/lib/ProjectFactory.js");
 const GenerateModeProcess = require("loctool/lib/GenerateModeProcess.js");
