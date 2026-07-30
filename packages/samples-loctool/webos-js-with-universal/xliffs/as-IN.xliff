@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="as-IN" version="2.0">
+  <file id="sample-webos-js-with-universal_f1" original="sample-webos-js-with-universal">
+    <group id="sample-webos-js-with-universal_g1" name="universal">
+      <unit id="1">
+        <segment>
+          <source>RETRY</source>
+          <target>পুনৰ চেষ্টা</target>
+        </segment>
+      </unit>
+      <unit id="2">
+        <segment>
+          <source>Restart</source>
+          <target>পুনৰাম্ভ কৰক</target>
+        </segment>
+      </unit>
+    </group>
+  </file>
+</xliff>

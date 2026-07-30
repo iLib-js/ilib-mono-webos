@@ -101,7 +101,7 @@ describe('[integration] test the localization result of webos-dart app', () => {
         }
     });
     test("dartsample_test_ko_KR", function() {
-        expect.assertions(6);
+        expect.assertions(8);
         filePath = path.join(resourcePath, 'ko.json');
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
@@ -111,6 +111,8 @@ describe('[integration] test the localization result of webos-dart app', () => {
         expect(jsonData["Search"]).toBe("통합 검색");
         expect(jsonData["Internal Speaker"]).toBe("모니터 스피커"); // metadata
         expect(jsonData["Good      Morning"]).toBe("좋은 아침"); // keep multispaces
+        expect(jsonData["EXIT APP"]).toBe("앱 종료"); // universal only
+        expect(jsonData["RETRY"]).toBe("재시도(universal)"); // universal > common
     });
     test("dartsample_test_es_CO", function() {
         expect.assertions(6);
@@ -171,7 +173,7 @@ describe('[integration] test the localization result of webos-dart app', () => {
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
         jsonData = pluginUtils.loadData(filePath);
-        expect(Object.keys(jsonData).length).toBe(9);
+        expect(Object.keys(jsonData).length).toBe(11);
         expect(jsonData["App List"]).toBe("[Ãþþ Ľíšţ3210]");
         expect(jsonData["Back button"]).toBe("[ßàçķ büţţõñ543210]");
         expect(jsonData["Programme"]).toBe("[Pŕõğŕàmmë43210]");

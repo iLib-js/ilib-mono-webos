@@ -74,7 +74,7 @@ describe("[integration] test the localization result of webos-c app", () => {
         }
     });
     test("csample_test_ko_KR_generate_mode", function() {
-        expect.assertions(6);
+        expect.assertions(8);
         filePath = path.join(resourcePath, 'ko', fileName);
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
@@ -84,6 +84,8 @@ describe("[integration] test the localization result of webos-c app", () => {
         expect(jsonData["Yes"]).toBe("예");
         expect(jsonData["Time Settings"]).toBe("시간 설정");
         expect(jsonData["NOT AVAILABLE"]).toBe("\"Monitor\" 이용이 불가능합니다");
+        expect(jsonData["EXIT APP"]).toBe("앱 종료"); // universal
+        expect(jsonData["RETRY"]).toBe("재시도(universal)"); // universal
     });
     test("csample_test_en_AU_generate_mode", function() {
         expect.assertions(3);

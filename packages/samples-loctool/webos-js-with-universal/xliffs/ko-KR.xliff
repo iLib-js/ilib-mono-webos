@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="ko-KR" version="2.0">
+  <file id="sample-webos-js-with-universal_f1" original="sample-webos-js-with-universal">
+    <group id="sample-webos-js-with-universal_g1" name="universal">
+      <unit id="1">
+        <segment>
+          <source>EXIT APP</source>
+          <target>앱 나가기</target>
+        </segment>
+      </unit>
+      <unit id="2">
+        <segment>
+          <source>Hello</source>
+          <target>안녕</target>
+        </segment>
+      </unit>
+      <unit id="3">
+        <segment>
+          <source>Thank you</source>
+          <target>고마워</target>
+        </segment>
+      </unit>
+      <unit id="4">
+        <segment>
+          <source>RETRY</source>
+          <target>재시도</target>
+        </segment>
+      </unit>
+      <unit id="5">
+        <segment>
+          <source>Bye</source>
+          <target>잘가</target>
+        </segment>
+      </unit>
+      <unit id="6">
+        <segment>
+          <source>SETTINGS</source>
+          <target>설정</target>
+        </segment>
+      </unit>
+      <unit id="7">
+        <segment>
+          <source>TV Name : </source>
+          <target>TV Name :</target>
+        </segment>
+      </unit>
+      <unit id="8">
+        <segment>
+          <source>Time Settings</source>
+          <target>[App] 시간 설정</target>
+        </segment>
+      </unit>
+      <unit id="9">
+        <segment>
+          <source>Live TV</source>
+          <target>현재 방송</target>
+        </segment>
+      </unit>
+      <unit id="10" name="volumeModeHigh">
+        <segment>
+          <source>High</source>
+          <target>높음</target>
+        </segment>
+      </unit>
+      <unit id="11">
+        <segment>
+          <source>High</source>
+          <target>최고</target>
+        </segment>
+      </unit>
+      <unit id="12">
+        <segment>
+          <source>TV On Screen</source>
+          <target>TV 켜짐 화면</target>
+        </segment>
+      </unit>
+      <unit id="177">
+        <segment>
+          <source>IPv6 e.g.: {ipAddress}</source>
+          <target>IPv6 예시: {ipAddress}</target>
+        </segment>
+      </unit>
+      <unit id="178">
+        <segment>
+          <source>IPv4 e.g.: {ip4Address}</source>
+          <target>IPv4 예시: {ip4Address}</target>
+        </segment>
+      </unit>
+    </group>
+    <group id="sample-webos-js-with-universal_g2" name="x-json">
+      <unit id="200">
+        <segment>
+          <source>Live TV</source>
+          <target>현재 방송</target>
+        </segment>
+      </unit>
+    </group>
+  </file>
+</xliff>

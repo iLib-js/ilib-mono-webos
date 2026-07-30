@@ -1,0 +1,30 @@
+{
+    "private": true,
+    "name": "sample-webos-js-with-universal",
+    "description": "Sample localization project using the universal datatype",
+    "repository": "git@github.com:iLib-js/ilib-mono-webos.git",
+    "license": "Apache-2.0",
+    "version": "1.0.0",
+    "scripts": {
+        "loc": "loctool -2 --xliffStyle webOS --localeMap es-CO:es,fr-CA:fr --localeInherit en-AU:en-GB --pseudo",
+        "debug": "node --inspect-brk node_modules/loctool/loctool.js -2 --xliffStyle webOS --localeMap es-CO:es --localeInherit en-AU:en-GB --pseudo",
+        "clean": "rm -rf *.xliff resources resources2",
+        "loc-generate": "loctool generate -2 --translations xliffs --xliffStyle webOS --projectType custom --sourceLocale en-KR --resourceFileTypes json=webos-json-resource --plugins webos-javascript,webos-json  --projectId sample-webos-js-with-universal -l as-IN,de-DE,en-AU,en-US,en-GB,en-JP,es-ES,es-CO,fr-CA,fr-FR,ja-JP,ko-KR,ko-US,ko-TW --localeMap es-CO:es,fr-CA:fr --localeInherit en-AU:en-GB,en-JP:en-GB",
+        "loc-generate-debug": "node --inspect-brk node_modules/loctool/loctool.js generate -2 --translations xliffs --xliffStyle webOS --projectType webos-js --sourceLocale en-KR --resourceFileTypes json=webos-json-resource --plugins webos-javascript,webos-json --projectId sample-webos-js-with-universal -l de-DE,en-AU,en-US,en-GB,en-JP,es-ES,es-CO,fr-CA,fr-FR,ja-JP,ko-KR,ko-US,ko-TW --localeMap es-CO:es,fr-CA:fr --localeInherit en-AU:en-GB,en-JP,en-GB",
+        "coverage": "pnpm test --coverage",
+        "test": "pnpm test:jest",
+        "test:jest": "LANG=en_US.UTF8 node node_modules/jest/bin/jest.js",
+        "test-debug": "node --inspect-brk node_modules/jest/bin/jest.js -i"
+    },
+    "dependencies": {
+        "ilib-loctool-webos-javascript": "workspace:*",
+        "ilib-loctool-webos-json": "workspace:*",
+        "ilib-loctool-webos-json-resource": "workspace:*",
+        "ilib-loctool-webos-common": "workspace:*",
+        "loctool": "^2.33.1"
+    },
+    "devDependencies": {
+        "ilib": "^14.21.3",
+        "jest": "^30.3.0"
+    }
+}

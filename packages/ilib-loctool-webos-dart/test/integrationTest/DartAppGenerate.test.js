@@ -79,7 +79,7 @@ describe('[integration] test the localization result (generate mode) of webos-da
         }
     });
     test("dartsample_generate_test_ko_KR", function() {
-        expect.assertions(7);
+        expect.assertions(9);
         filePath = path.join(resourcePath, 'ko.json');
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
@@ -90,6 +90,8 @@ describe('[integration] test the localization result (generate mode) of webos-da
         expect(jsonData["Live TV"]).toBe("현재 방송");
         expect(jsonData["Search"]).toBe("통합 검색");
         expect(jsonData["Internal Speaker"]).toBe("내부 스피커");
+        expect(jsonData["EXIT APP"]).toBe("앱 종료"); // universal
+        expect(jsonData["RETRY"]).toBe("재시도(universal)"); // universal
     });
     test("dartsample_generate_test_en_AU", function() {
         expect.assertions(3);

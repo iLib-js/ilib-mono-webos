@@ -95,7 +95,7 @@ describe("[integration] test the localization result of webos-cpp app", () => {
         }
     });
     test("cppsample_test_ko_KR", function() {
-        expect.assertions(7);
+        expect.assertions(9);
         filePath = path.join(resourcePath, 'ko', fileName);
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
@@ -106,6 +106,8 @@ describe("[integration] test the localization result of webos-cpp app", () => {
         expect(jsonData["Cancel"]).toBe("취소");
         expect(jsonData["Good      Morning"]).toBe("좋은 아침");
         expect(jsonData["* This feature is applied once and only once when the TV is turned off."]).toBe("* 이 기능은 기기 전원이 꺼질 때 한번만 실행됩니다."); //metadata
+        expect(jsonData["EXIT APP"]).toBe("앱 종료"); // universal only
+        expect(jsonData["RETRY"]).toBe("재시도(universal)"); // universal > common
     });
     test("cppsample_test_es_CO", function() {
         expect.assertions(6);
@@ -163,7 +165,7 @@ describe("[integration] test the localization result of webos-cpp app", () => {
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
         jsonData = pluginUtils.loadData(filePath);
-        expect(Object.keys(jsonData).length).toBe(11);
+        expect(Object.keys(jsonData).length).toBe(13);
         expect(jsonData["Cancel"]).toBe("[Çàñçëľ210]");
         expect(jsonData["No"]).toBe("[Ňõ0]");
         expect(jsonData["Programme"]).toBe("[Pŕõğŕàmmë43210]");

@@ -9,3 +9,5 @@ std::string test8_label = ResBundleAdaptor::instance().getLocString("* This feat
 std::string test9_label = ResBundleAdaptor::instance().getLocString("TV Information");
 std::string test10_label = ResBundleAdaptor::instance().getLocString("TV Name");
 std::string test11_label = ResBundleAdaptor::instance().getLocString("Good      Morning"); // multispaces
+std::string test12_label = ResBundleAdaptor::instance().getLocString("EXIT APP");
+std::string test13_label = ResBundleAdaptor::instance().getLocString("RETRY");

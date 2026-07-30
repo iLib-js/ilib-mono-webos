@@ -95,19 +95,22 @@ describe('[integration] test the localization result of webos-js app', () => {
         }
     });
     test("jssample_test_ko_KR", function() {
-        expect.assertions(8);
+        expect.assertions(11);
         let rb = new ResBundle({
             locale:"ko-KR",
             basePath : defaultRSPath
         });
         expect(rb).toBeTruthy();
-        expect(rb.getString("Hello").toString()).toBe("안녕");
-        expect(rb.getString("Thank you").toString()).toBe("고마워");
-        expect(rb.getString("Bye").toString()).toBe("잘가");
-        expect(rb.getString("Time Settings").toString()).toBe("시간 설정");
+        expect(rb.getString("Hello").toString()).toBe("안녕"); // self type (javascript)
+        expect(rb.getString("Thank you").toString()).toBe("고마워"); // self type (javascript)
+        expect(rb.getString("Bye").toString()).toBe("잘가"); // self type (javascript)
+        expect(rb.getString("Time Settings").toString()).toBe("시간 설정"); // common
         expect(rb.getString("%deviceType% Speaker").toString()).toBe("모니터 스피커"); //metadata-common
         expect(rb.getString("Internal Speaker + Wired Headphones").toString()).toBe("모니터 스피커 + 유선 헤드폰"); //metadata
         expect(rb.getString("Good Morning").toString()).toBe("좋은 아침"); // clean multispaces
+        expect(rb.getString("EXIT APP").toString()).toBe("앱 종료"); // universal only
+        expect(rb.getString("Sound Out").toString()).toBe("사운드 출력(universal)"); // universal only
+        expect(rb.getString("RETRY").toString()).toBe("재시도(universal)"); // universal > common
     });
     test("jssample_test_ko_CN", function() {
         expect.assertions(2);
