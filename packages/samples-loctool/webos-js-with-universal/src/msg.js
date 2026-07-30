@@ -30,6 +30,10 @@ export function findMsgByCode (code) {
             break;
         case 10:
             msg.reason = $L('%deviceType% Speaker');
+            break;
+        case 11:
+            msg.reason = $L('Lookup Priority');
+            break;
         default:
             msg.reason = $L('Bye');
             break;

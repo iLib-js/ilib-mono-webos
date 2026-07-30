@@ -41,7 +41,7 @@ describe('test the localization result of webos-js app', () => {
         });
     }, 50000);
     test("jssample_test_ko_KR", function() {
-        expect.assertions(13);
+        expect.assertions(14);
         let rb = new ResBundle({
             locale:"ko-KR",
             basePath : defaultRSPath
@@ -62,6 +62,9 @@ describe('test the localization result of webos-js app', () => {
         expect(rb.getString("Please enter password.").toString()).toBe("[common] 비밀번호를 입력해 주세요.");
         // common-metadata
         expect(rb.getString("%deviceType% Speaker").toString()).toBe("모니터 스피커");
+
+        // lookup priority: javascript > universal > common
+        expect(rb.getString("Lookup Priority").toString()).toBe("우선순위(javascript)");
     });
     test("jssample_test_ko_US", function() {
         expect.assertions(2);

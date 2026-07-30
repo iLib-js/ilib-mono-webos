@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="ko-KR" version="2.0">
   <file id="sample-webos-js-with-universal_f1" original="sample-webos-js-with-universal">
+    <group id="sample-webos-js-with-universal_g0" name="javascript">
+      <unit id="300">
+        <segment>
+          <source>Lookup Priority</source>
+          <target>우선순위(javascript)</target>
+        </segment>
+      </unit>
+    </group>
     <group id="sample-webos-js-with-universal_g1" name="universal">
       <unit id="1">
         <segment>
@@ -84,6 +92,12 @@
         <segment>
           <source>IPv4 e.g.: {ip4Address}</source>
           <target>IPv4 예시: {ip4Address}</target>
+        </segment>
+      </unit>
+      <unit id="179">
+        <segment>
+          <source>Lookup Priority</source>
+          <target>우선순위(universal)</target>
         </segment>
       </unit>
     </group>

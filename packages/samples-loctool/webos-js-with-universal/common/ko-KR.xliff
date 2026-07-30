@@ -30,6 +30,12 @@
           <target>TV 스피커</target>
         </segment>
       </unit>
+      <unit id="common_4">
+        <segment>
+          <source>Lookup Priority</source>
+          <target>우선순위(common)</target>
+        </segment>
+      </unit>
     </group>
   </file>
 </xliff>
