@@ -8,6 +8,12 @@
           <target>재시도(common)</target>
         </segment>
       </unit>
+      <unit id="2">
+        <segment>
+          <source>See you later</source>
+          <target>또 만나(common)</target>
+        </segment>
+      </unit>
     </group>
   </file>
 </xliff>

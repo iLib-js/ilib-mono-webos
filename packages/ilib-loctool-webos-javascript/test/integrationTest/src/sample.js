@@ -11,3 +11,4 @@ msg10.reason = $L('RETRY');
 
 $L('%deviceType% Speaker'),
 $L('Good      Morning'); // multispaces -> cleaned up in the resource bundle
+$L('See   you   later'); // multispaces - common cleanHashKey lookup

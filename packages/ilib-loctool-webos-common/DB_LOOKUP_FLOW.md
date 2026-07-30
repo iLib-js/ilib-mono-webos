@@ -15,6 +15,9 @@ resolution engine provided by this package.
 
 ## 1. Full lookup chain per plugin
 
+> This section describes the original (pre-refactor) lookup behavior as
+> implemented in each plugin's `write()` method.
+
 ### 1-1. JS / C / Cpp (identical structure)
 
 ```
@@ -90,10 +93,10 @@ package:
 ### Call sequence inside `write()`
 
 ```
-resolver = buildResolver(db, translations, options?)
+resolver = buildResolver(db, translations, projectName, options?)
     → detectCommonData(translations)      // internal, no side effects
-    → buildPolicy(options)                // declarative policy array
-    → makeLookupParams factory            // captures db, policy, common data
+    → buildPolicy(projectName, common, options)  // concrete values in entries
+    → makeLookupParams factory            // captures db and policy
     → returns { db, policy, makeLookupParams }
 
 // per resource, per locale:
@@ -105,25 +108,37 @@ resolveTranslation({ resolver, resFileType, newres, res, locale, ... })
     → dedup check + dispatch (addResource / addNewResource)
 ```
 
-### `buildResolver(db, translations, options?)`
+### `buildResolver(db, translations, projectName, options?)`
 
 Creates a resolver context with no side effects. Internally:
 1. Calls `detectCommonData(translations)` — returns `{ commonPrjName, commonPrjType }`
-2. Calls `buildPolicy(options)` — returns the policy array
-3. Builds a `makeLookupParams(resource, locale)` factory capturing all the above
+2. Calls `buildPolicy(projectName, common, options)` — returns the policy array with concrete values
+3. Builds a `makeLookupParams(resource, locale)` factory capturing db and policy
 
-### `buildPolicy(options?)` — current policy array
+### `buildPolicy(projectName, common, options?)` — policy array
 
-| Step | project | keyType  | datatype |
-|------|---------|----------|----------|
-| 0    | common  | hashKey  | common   |
+Policy entries contain concrete project names and datatypes resolved at
+build time. No symbolic values like "self" or "common" — what you see in
+the array is exactly what gets queried.
 
-`buildKey` returns `undefined` when `commonPrjName`/`commonPrjType` are
-absent (i.e. no common project was detected), causing that step to be
-skipped automatically — no separate flag needed.
+Default (no `includeUniversal`, common data present):
 
-The `options` parameter is reserved for plugin-specific policy configuration
-(e.g. additional fallback steps). Currently unused.
+| Step | project | datatype |
+|------|---------|----------|
+| 0    | (commonPrjName) | (commonPrjType) |
+
+With `options.includeUniversal = true` and common data present:
+
+| Step | project | datatype |
+|------|---------|----------|
+| 0    | (projectName) | universal |
+| 1    | (commonPrjName) | (commonPrjType) |
+
+When common data is absent (`detectCommonData` found nothing), the common
+step is omitted entirely — no entry is added to the array.
+
+The `options.includeUniversal` flag prepends a universal (datatype-independent)
+lookup step using the provided `projectName` before falling back to common.
 
 ### `lookupByPolicy(params, callback)`
 
@@ -194,10 +209,24 @@ Key params controlling behavior:
 | Lookup target | Function | Notes |
 |---------------|----------|-------|
 | locale direct | `res.cleanHashKeyForTranslation(locale)` | Normalizes whitespace (cleanHashKey) |
-| common project | `ResourceString.hashKey(commonPrjName, locale, key, commonPrjType, flavor)` | No whitespace normalization |
+| universal | `ResourceString.cleanHashKey(projectName, locale, key, "universal", flavor)` | Own project, datatype-independent |
+| common | `ResourceString.cleanHashKey(commonPrjName, locale, key, commonPrjType, flavor)` | Shared common project pool |
 
-`cleanHashKey` (multi-space normalized) vs `hashKey` (raw): direct lookups
-use the clean variant; common lookups use the raw variant.
+`buildKey()` has no branching — it always calls `cleanHashKey()` with the
+project and datatype stored in the policy entry.
+
+### Why `cleanHashKey` instead of `hashKey`
+
+The original implementation used `ResourceString.hashKey()` for common/policy
+lookups. The refactored version uses `cleanHashKey()` uniformly. The
+difference is whitespace normalization: `cleanHashKey` collapses consecutive
+whitespace into a single space before hashing.
+
+In practice this only matters for JavaScript sources — C, C++, and Dart
+extractors preserve whitespace in keys as-is, so `hashKey` and `cleanHashKey`
+produce identical results for those languages. Using `cleanHashKey`
+consistently eliminates a subtle mismatch where JS source keys with
+irregular whitespace could fail to match their DB entries via `hashKey`.
 
 ---
 
@@ -212,10 +241,9 @@ the source before being passed to `addResource`.
 
 ### Common step gating
 
-The `isCommonDataLoaded` flag has been removed. `buildKey` returns
-`undefined` when `commonPrjName`/`commonPrjType` are absent, which is only
-the case when `detectCommonData` found no common project — equivalent guard,
-no extra flag.
+Common step gating happens at `buildPolicy()` time: when `detectCommonData`
+returns no common project, no common entry is added to the policy array.
+`lookupByPolicy()` simply iterates what it receives — no runtime check needed.
 
 ### Dart baseTranslation policy (intentional)
 
@@ -233,7 +261,10 @@ lookup path produces the final translation.
 
 ### Extensibility via policy options
 
-To add a new fallback step (e.g. brand project lookup):
-1. Add an entry in `buildPolicy(options)` conditionally based on `options`
-2. Add a matching key-building branch in `buildKey()`
-3. No changes needed in `lookupByPolicy()` or `resolveTranslation()`
+To add a new fallback step:
+1. Pass the new project/datatype info to `buildResolver()` / `buildPolicy()`
+2. Add a new entry with concrete project/datatype values in `buildPolicy()`
+3. No changes needed in `buildKey()`, `lookupByPolicy()`, or `resolveTranslation()`
+
+`buildKey()` is a single-line function with no branching — new policy
+entries work automatically.

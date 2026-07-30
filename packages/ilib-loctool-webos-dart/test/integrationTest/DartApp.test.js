@@ -101,7 +101,7 @@ describe('[integration] test the localization result of webos-dart app', () => {
         }
     });
     test("dartsample_test_ko_KR", function() {
-        expect.assertions(8);
+        expect.assertions(9);
         filePath = path.join(resourcePath, 'ko.json');
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
@@ -113,6 +113,7 @@ describe('[integration] test the localization result of webos-dart app', () => {
         expect(jsonData["Good      Morning"]).toBe("좋은 아침"); // keep multispaces
         expect(jsonData["EXIT APP"]).toBe("앱 종료"); // universal only
         expect(jsonData["RETRY"]).toBe("재시도(universal)"); // universal > common
+        expect(jsonData["See   you   later"]).toBe("또 만나(common)"); // common cleanHashKey (multispaces in source)
     });
     test("dartsample_test_es_CO", function() {
         expect.assertions(6);
@@ -173,7 +174,7 @@ describe('[integration] test the localization result of webos-dart app', () => {
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
         jsonData = pluginUtils.loadData(filePath);
-        expect(Object.keys(jsonData).length).toBe(11);
+        expect(Object.keys(jsonData).length).toBe(12);
         expect(jsonData["App List"]).toBe("[Ãþþ Ľíšţ3210]");
         expect(jsonData["Back button"]).toBe("[ßàçķ büţţõñ543210]");
         expect(jsonData["Programme"]).toBe("[Pŕõğŕàmmë43210]");

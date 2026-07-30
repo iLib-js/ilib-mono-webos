@@ -95,7 +95,7 @@ describe('[integration] test the localization result of webos-js app', () => {
         }
     });
     test("jssample_test_ko_KR", function() {
-        expect.assertions(11);
+        expect.assertions(12);
         let rb = new ResBundle({
             locale:"ko-KR",
             basePath : defaultRSPath
@@ -111,6 +111,7 @@ describe('[integration] test the localization result of webos-js app', () => {
         expect(rb.getString("EXIT APP").toString()).toBe("앱 종료"); // universal only
         expect(rb.getString("Sound Out").toString()).toBe("사운드 출력(universal)"); // universal only
         expect(rb.getString("RETRY").toString()).toBe("재시도(universal)"); // universal > common
+        expect(rb.getString("See you later").toString()).toBe("또 만나(common)"); // common cleanHashKey (multispaces in source)
     });
     test("jssample_test_ko_CN", function() {
         expect.assertions(2);

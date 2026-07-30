@@ -11,3 +11,4 @@ std::string test10_label = ResBundleAdaptor::instance().getLocString("TV Name");
 std::string test11_label = ResBundleAdaptor::instance().getLocString("Good      Morning"); // multispaces
 std::string test12_label = ResBundleAdaptor::instance().getLocString("EXIT APP");
 std::string test13_label = ResBundleAdaptor::instance().getLocString("RETRY");
+std::string test14_label = ResBundleAdaptor::instance().getLocString("See   you   later"); // multispaces - common cleanHashKey

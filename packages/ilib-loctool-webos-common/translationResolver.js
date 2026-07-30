@@ -52,18 +52,20 @@ function detectCommonData(translations) {
  * createLookupParams separately. Plugins call this once in write() and pass
  * the returned object to resolveTranslation().
  *
- * The common-project info is captured into the resolver at build time; this
- * function has no side effects on its arguments.
+ * All concrete values (project name, common project data) are resolved at
+ * build time and baked into the policy array. lookupByPolicy receives only
+ * { db, resource, locale, policy } — the policy entries are self-describing.
  *
- * @param {Object} db           - project.db handle
- * @param {Object} translations - the translations set passed to write()
- * @param {Object} [options]    - options passed to buildPolicy() for plugin-specific
- *   policy configuration (e.g. additional fallback steps)
+ * @param {Object} db             - project.db handle
+ * @param {Object} translations   - the translations set passed to write()
+ * @param {string} projectName    - current project name (e.g. project.getProjectId())
+ * @param {Object} [options]      - options passed to buildPolicy() for plugin-specific
+ *   policy configuration (e.g. { includeUniversal: true })
  * @returns {Object} resolver context with { db, policy, makeLookupParams }
  */
-function buildResolver(db, translations, options) {
+function buildResolver(db, translations, projectName, options) {
     var common = detectCommonData(translations);
-    var policy = buildPolicy(options);
+    var policy = buildPolicy(projectName, common, options);
 
     // Create lookup params factory
     var makeLookupParams = function(resource, locale) {
@@ -71,9 +73,7 @@ function buildResolver(db, translations, options) {
             db: db,
             resource: resource,
             locale: locale,
-            policy: policy,
-            commonPrjName: common.commonPrjName,
-            commonPrjType: common.commonPrjType
+            policy: policy
         };
     };
 

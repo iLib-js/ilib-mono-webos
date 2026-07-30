@@ -8,3 +8,4 @@ char *localized_string5 = (gchar*)resBundle_getLocString(_g_res_bundle_object, "
 char *localized_string6 = (gchar*)resBundle_getLocString(_g_res_bundle_object, "Good      Morning"); // multispaces
 char *localized_string7 = (gchar*)resBundle_getLocString(_g_res_bundle_object, "EXIT APP");
 char *localized_string8 = (gchar*)resBundle_getLocString(_g_res_bundle_object, "RETRY");
+char *localized_string9 = (gchar*)resBundle_getLocString(_g_res_bundle_object, "See   you   later"); // multispaces - common cleanHashKey

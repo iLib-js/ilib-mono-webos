@@ -21,49 +21,20 @@ var ResourceString = require("loctool/lib/ResourceString.js");
 
 /**
  * Build the DB key for a given resource, locale, and policy entry.
- * Returns undefined if the key cannot be built (e.g. missing project name),
- * which causes lookupByPolicy to silently skip that step.
  *
- * Supported entry branches:
- *   - "current" + datatype "universal": datatype-independent translation stored
- *     under the *current* project. The key is built from the resource's own
- *     project (resource.getProject()); the step is skipped when that is absent.
- *   - "common": translation stored in the shared common project pool. Requires
- *     commonPrjName/commonPrjType (captured at buildResolver() time); the step
- *     is skipped when either is missing.
- *
- * Key-builder choice: the "universal" branch uses ResourceString.cleanHashKey()
- * while the "common" branch uses ResourceString.hashKey(). Both keys are later
- * queried via db.getResourceByCleanHashKey() in lookupByPolicy() — the common
- * branch intentionally mirrors the pre-refactor behavior, where a hashKey()
- * value was passed to getResourceByCleanHashKey(). Do not "normalize" the two
- * builders to match without verifying against the DB key format.
- *
- * When adding a new policy step to buildPolicy(), add a matching branch here
- * that handles the new entry.project value. A missing branch means lookupByPolicy
- * returns undefined for that step even when the entry is present.
+ * Each policy entry contains the concrete project name and datatype resolved
+ * at buildPolicy() time. This function simply delegates to
+ * ResourceString.cleanHashKey() without branching.
  *
  * @param {Resource} resource
  * @param {string} locale
- * @param {Object} entry - policy entry from buildPolicy()
- * @param {string} [commonPrjName]
- * @param {string} [commonPrjType]
- * @returns {string|undefined}
+ * @param {Object} entry - policy entry from buildPolicy(); must have .project and .datatype
+ * @returns {string}
  */
-function buildKey(resource, locale, entry, commonPrjName, commonPrjType) {
-
-    if (entry.project === "current" && entry.datatype === "universal") {
-        var project = resource.getProject && resource.getProject();
-        if (!project) return undefined;
-        return ResourceString.cleanHashKey(project, locale, resource.getKey(), entry.datatype, resource.getFlavor());
-    }
-
-    if (entry.project === "common") {
-        if (!commonPrjName || !commonPrjType) return undefined;
-        return ResourceString.hashKey(commonPrjName, locale, resource.getKey(), commonPrjType, resource.getFlavor());
-    }
-
-    return undefined;
+function buildKey(resource, locale, entry) {
+    return ResourceString.cleanHashKey(
+        entry.project, locale, resource.getKey(), entry.datatype, resource.getFlavor()
+    );
 }
 
 /**
@@ -77,41 +48,36 @@ function buildKey(resource, locale, entry, commonPrjName, commonPrjType) {
  * higher-priority entries earlier in the array:
  *
  *   priority high → low:
- *     universal (current project, datatype-independent) → common (shared pool)
+ *     universal (own project, datatype-independent) → common (shared pool)
  *
- * Current options:
- *   - options.includeUniversal {boolean} — when true, prepends a "universal"
- *     step that looks up a datatype-independent translation within the current
- *     project before falling back to the common project pool.
+ * Concrete project names and datatypes are resolved at policy-creation time
+ * and stored directly in the entry objects. This eliminates runtime branching
+ * in buildKey() and makes the policy array self-describing — you can inspect
+ * it to see exactly which DB keys will be queried.
  *
- * To add a new fallback step:
- *   1. Add a new entry object (see the "universal" entry above as a reference).
- *   2. Add a matching branch in buildKey() (see the existing
- *      `if (entry.project === "current")` and `if (entry.project === "common")` branches).
- *   3. If the step needs extra context fields, add them to the makeLookupParams factory in buildResolver().
- *   4. Consider priority: insert the entry at the appropriate position in the
- *      array so that more specific lookups are tried before broader ones.
- *
+ * @param {string} projectName - the current project name (e.g. from project.getProjectId())
+ * @param {{commonPrjName: (string|undefined), commonPrjType: (string|undefined)}} common
+ *   - detected common project data from detectCommonData()
  * @param {Object} [options] - plugin-specific policy configuration
- * @param {boolean} [options.includeUniversal] - prepend universal (current project) lookup step
- * @returns {Array<{keyType: string, project: string, datatype: string}>}
+ * @param {boolean} [options.includeUniversal] - prepend universal (own project) lookup step
+ * @returns {Array<{project: string, datatype: string}>}
  */
-function buildPolicy(options) {
+function buildPolicy(projectName, common, options) {
     var policy = [];
 
-    if (options && options.includeUniversal) {
+    if (options && options.includeUniversal && projectName) {
         policy.push({
-            keyType: "hashKey",
-            project: "current",
+            project: projectName,
             datatype: "universal"
         });
     }
 
-    policy.push({
-        keyType: "hashKey",
-        project: "common",
-        datatype: "common"
-    });
+    if (common && common.commonPrjName && common.commonPrjType) {
+        policy.push({
+            project: common.commonPrjName,
+            datatype: common.commonPrjType
+        });
+    }
 
     return policy;
 }
@@ -127,8 +93,6 @@ function buildPolicy(options) {
  * @param {Resource} params.resource            - source resource being looked up
  * @param {string}   params.locale              - target locale
  * @param {Array}    params.policy              - policy array from buildPolicy()
- * @param {string}   [params.commonPrjName]     - common project name (e.g. "common")
- * @param {string}   [params.commonPrjType]     - common project datatype
  * @param {number}   [params.startIndex=0]      - internal recursion index; callers omit this
  * @param {function(Resource|undefined): void} callback
  */
@@ -142,12 +106,7 @@ function lookupByPolicy(params, callback) {
     }
 
     var entry = policy[step];
-
-    var key = buildKey(params.resource, params.locale, entry, params.commonPrjName, params.commonPrjType);
-    if (!key) {
-        lookupByPolicy(Object.assign({}, params, { startIndex: step + 1 }), callback);
-        return;
-    }
+    var key = buildKey(params.resource, params.locale, entry);
 
     params.db.getResourceByCleanHashKey(key, function(err, translated) {
         if (translated) {
