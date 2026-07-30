@@ -25,7 +25,7 @@ var ResourceString = require("loctool/lib/ResourceString.js");
  * which causes lookupByPolicy to silently skip that step.
  *
  * Supported entry branches:
- *   - "current" + datatype "universal": locale-independent translation stored
+ *   - "current" + datatype "universal": datatype-independent translation stored
  *     under the *current* project. The key is built from the resource's own
  *     project (resource.getProject()); the step is skipped when that is absent.
  *   - "common": translation stored in the shared common project pool. Requires
@@ -77,11 +77,11 @@ function buildKey(resource, locale, entry, commonPrjName, commonPrjType) {
  * higher-priority entries earlier in the array:
  *
  *   priority high → low:
- *     universal (current project, all locales) → common (shared pool)
+ *     universal (current project, datatype-independent) → common (shared pool)
  *
  * Current options:
  *   - options.includeUniversal {boolean} — when true, prepends a "universal"
- *     step that looks up a locale-independent translation within the current
+ *     step that looks up a datatype-independent translation within the current
  *     project before falling back to the common project pool.
  *
  * To add a new fallback step:
