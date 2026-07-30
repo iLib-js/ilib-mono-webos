@@ -24,6 +24,21 @@ var ResourceString = require("loctool/lib/ResourceString.js");
  * Returns undefined if the key cannot be built (e.g. missing project name),
  * which causes lookupByPolicy to silently skip that step.
  *
+ * Supported entry branches:
+ *   - "current" + datatype "universal": locale-independent translation stored
+ *     under the *current* project. The key is built from the resource's own
+ *     project (resource.getProject()); the step is skipped when that is absent.
+ *   - "common": translation stored in the shared common project pool. Requires
+ *     commonPrjName/commonPrjType (captured at buildResolver() time); the step
+ *     is skipped when either is missing.
+ *
+ * Key-builder choice: the "universal" branch uses ResourceString.cleanHashKey()
+ * while the "common" branch uses ResourceString.hashKey(). Both keys are later
+ * queried via db.getResourceByCleanHashKey() in lookupByPolicy() — the common
+ * branch intentionally mirrors the pre-refactor behavior, where a hashKey()
+ * value was passed to getResourceByCleanHashKey(). Do not "normalize" the two
+ * builders to match without verifying against the DB key format.
+ *
  * When adding a new policy step to buildPolicy(), add a matching branch here
  * that handles the new entry.project value. A missing branch means lookupByPolicy
  * returns undefined for that step even when the entry is present.
