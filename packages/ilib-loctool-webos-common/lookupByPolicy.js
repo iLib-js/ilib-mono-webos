@@ -57,12 +57,28 @@ function buildKey(resource, locale, entry, commonPrjName, commonPrjType) {
  * Step 0 (locale direct via cleanHashKeyForTranslation) is NOT included here —
  * callers perform that lookup themselves, then call lookupByPolicy on miss.
  *
- * To add a new fallback step:
- *   1. Push a new entry object here (e.g. { keyType: "hashKey", project: "brand", datatype: "..." }).
- *   2. Add a matching `if (entry.project === "brand")` branch in buildKey() above.
- *   3. If the step needs extra context fields, add them to the makeLookupParams factory in buildResolver().
+ * Policy steps are tried in array order (index 0 first). The first hit wins
+ * and terminates the lookup. When adding new steps, place more specific /
+ * higher-priority entries earlier in the array:
  *
- * @param {Object} [options] - reserved for future step configuration; currently unused
+ *   priority high → low:
+ *     universal (current project, all locales) → common (shared pool)
+ *
+ * Current options:
+ *   - options.includeUniversal {boolean} — when true, prepends a "universal"
+ *     step that looks up a locale-independent translation within the current
+ *     project before falling back to the common project pool.
+ *
+ * To add a new fallback step:
+ *   1. Add a new entry object (see the "universal" entry above as a reference).
+ *   2. Add a matching branch in buildKey() (see the existing
+ *      `if (entry.project === "current")` and `if (entry.project === "common")` branches).
+ *   3. If the step needs extra context fields, add them to the makeLookupParams factory in buildResolver().
+ *   4. Consider priority: insert the entry at the appropriate position in the
+ *      array so that more specific lookups are tried before broader ones.
+ *
+ * @param {Object} [options] - plugin-specific policy configuration
+ * @param {boolean} [options.includeUniversal] - prepend universal (current project) lookup step
  * @returns {Array<{keyType: string, project: string, datatype: string}>}
  */
 function buildPolicy(options) {
