@@ -61,5 +61,19 @@
         </segment>
       </unit>
     </group>
+    <group id="sample-webos-cpp_g2" name="universal">
+      <unit id="101">
+        <segment>
+          <source>EXIT APP</source>
+          <target>앱 종료</target>
+        </segment>
+      </unit>
+      <unit id="102">
+        <segment>
+          <source>RETRY</source>
+          <target>재시도(universal)</target>
+        </segment>
+      </unit>
+    </group>
   </file>
 </xliff>

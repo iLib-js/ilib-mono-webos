@@ -46,5 +46,25 @@
         </segment>
       </unit>
     </group>
+    <group id="sample-webos-js_g2" name="universal">
+      <unit id="101">
+        <segment>
+          <source>EXIT APP</source>
+          <target>앱 종료</target>
+        </segment>
+      </unit>
+      <unit id="102">
+        <segment>
+          <source>Sound Out</source>
+          <target>사운드 출력(universal)</target>
+        </segment>
+      </unit>
+      <unit id="103">
+        <segment>
+          <source>RETRY</source>
+          <target>재시도(universal)</target>
+        </segment>
+      </unit>
+    </group>
   </file>
 </xliff>

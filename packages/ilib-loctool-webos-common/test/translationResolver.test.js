@@ -18,7 +18,6 @@
  */
 
 var { buildResolver, resolveTranslation } = require("../translationResolver.js");
-var { buildPolicy } = require("../lookupByPolicy.js");
 var TranslationSet = require("loctool/lib/TranslationSet.js");
 var ResourceString = require("loctool/lib/ResourceString.js");
 var Utils = require("loctool/lib/utils.js");
@@ -150,19 +149,19 @@ function makeCommonTs() {
 // ── buildResolver ────────────────────────────────────────────────────────────
 
 describe("buildResolver", function() {
-    test("translations undefined — no common data in lookup params", function() {
+    test("translations undefined — empty policy (no common data)", function() {
         var db = makeDb({});
-        var resolver = buildResolver(db, undefined);
+        var resolver = buildResolver(db, undefined, "myapp");
         expect(resolver.db).toBe(db);
-        expect(resolver.policy).toEqual(buildPolicy());
+        expect(resolver.policy).toEqual([]);
         expect(typeof resolver.makeLookupParams).toBe("function");
 
         var params = resolver.makeLookupParams(makeTestResource("a", "A"), "ko-KR");
-        expect(params.commonPrjName).toBeUndefined();
-        expect(params.commonPrjType).toBeUndefined();
+        expect(params.db).toBe(db);
+        expect(params.policy).toEqual([]);
     });
 
-    test("no common project in translations — no common data in lookup params", function() {
+    test("no common project in translations — empty policy", function() {
         var ts = new TranslationSet();
         ts.add(new ResourceString({
             project: "myapp",
@@ -173,38 +172,35 @@ describe("buildResolver", function() {
             target: "안녕"
         }));
         var db = makeDb({});
-        var resolver = buildResolver(db, ts);
+        var resolver = buildResolver(db, ts, "myapp");
 
-        var params = resolver.makeLookupParams(makeTestResource("a", "A"), "ko-KR");
-        expect(params.commonPrjName).toBeUndefined();
+        expect(resolver.policy).toEqual([]);
     });
 
-    test("common project present — lookup params carry commonPrjName and commonPrjType", function() {
+    test("common project present — policy includes common entry with detected datatype", function() {
         var ts = makeCommonTs();
         var db = makeDb({});
-        var resolver = buildResolver(db, ts);
+        var resolver = buildResolver(db, ts, "myapp");
 
-        var params = resolver.makeLookupParams(makeTestResource("a", "A"), "ko-KR");
-        expect(params.commonPrjName).toBe("common");
-        expect(params.commonPrjType).toBe("javascript");
+        expect(resolver.policy).toEqual([
+            { project: "common", datatype: "javascript" }
+        ]);
     });
 
-    test("common project present but getBy returns empty — no common data in lookup params", function() {
+    test("common project present but getBy returns empty — empty policy", function() {
         var ts = new TranslationSet();
         ts.getProjects = function() { return ["common"]; };
         ts.getBy = function() { return []; };
         var db = makeDb({});
-        var resolver = buildResolver(db, ts);
+        var resolver = buildResolver(db, ts, "myapp");
 
-        var params = resolver.makeLookupParams(makeTestResource("a", "A"), "ko-KR");
-        expect(params.commonPrjName).toBeUndefined();
-        expect(params.commonPrjType).toBeUndefined();
+        expect(resolver.policy).toEqual([]);
     });
 
     test("makeLookupParams builds correct params object", function() {
         var ts = makeCommonTs();
         var db = makeDb({});
-        var resolver = buildResolver(db, ts);
+        var resolver = buildResolver(db, ts, "myapp");
 
         var resource = makeTestResource("hello", "Hello");
         var params = resolver.makeLookupParams(resource, "ko-KR");
@@ -212,22 +208,24 @@ describe("buildResolver", function() {
         expect(params.db).toBe(db);
         expect(params.resource).toBe(resource);
         expect(params.locale).toBe("ko-KR");
-        expect(params.policy).toEqual(buildPolicy());
-        expect(params.commonPrjName).toBe("common");
-        expect(params.commonPrjType).toBe("javascript");
+        expect(params.policy).toEqual([
+            { project: "common", datatype: "javascript" }
+        ]);
     });
 
     test("common data is captured at build time and reused across calls", function() {
         var ts = makeCommonTs();
         var db = makeDb({});
-        var resolver = buildResolver(db, ts);
+        var resolver = buildResolver(db, ts, "myapp");
 
         var first = resolver.makeLookupParams(makeTestResource("a", "A"), "ko-KR");
         var second = resolver.makeLookupParams(makeTestResource("b", "B"), "ja-JP");
 
-        expect(first.commonPrjName).toBe("common");
-        expect(second.commonPrjName).toBe("common");
-        expect(second.commonPrjType).toBe("javascript");
+        // Both share the same policy (same reference)
+        expect(first.policy).toBe(second.policy);
+        expect(first.policy).toEqual([
+            { project: "common", datatype: "javascript" }
+        ]);
     });
 });
 
@@ -350,10 +348,9 @@ describe("resolveTranslation", function() {
     test("direct miss + policy hit + differs from base → addResource", function(done) {
         var res = makeTestResource("hello", "Hello");
         var commonTranslated = makeTranslated("안녕", "Hello", "hello");
-        var policy = buildPolicy();
-        var commonKey = ResourceString.hashKey("common", "ko-KR", "hello", "javascript", undefined);
+        var commonKey = ResourceString.cleanHashKey("common", "ko-KR", "hello", "javascript", undefined);
         var db = makeDb({ [commonKey]: commonTranslated });
-        var resolver = buildResolver(db, makeCommonTs());
+        var resolver = buildResolver(db, makeCommonTs(), "myapp");
         var resFileType = makeCollector();
         var newres = makeNewres();
 
@@ -376,9 +373,9 @@ describe("resolveTranslation", function() {
     test("direct miss + policy hit + same as base → addNewResource (skip)", function(done) {
         var res = makeTestResource("hello", "Hello");
         var commonTranslated = makeTranslated("Hello", "Hello", "hello");
-        var commonKey = ResourceString.hashKey("common", "ko-KR", "hello", "javascript", undefined);
+        var commonKey = ResourceString.cleanHashKey("common", "ko-KR", "hello", "javascript", undefined);
         var db = makeDb({ [commonKey]: commonTranslated });
-        var resolver = buildResolver(db, makeCommonTs());
+        var resolver = buildResolver(db, makeCommonTs(), "myapp");
         var resFileType = makeCollector();
         var newres = makeNewres();
 
@@ -427,10 +424,10 @@ describe("resolveTranslation", function() {
 
     test("direct miss + policy miss + customInherit direct miss + inherit policy hit → addResource", function(done) {
         var res = makeTestResource("hello", "Hello");
-        var inheritCommonKey = ResourceString.hashKey("common", "es", "hello", "javascript", undefined);
+        var inheritCommonKey = ResourceString.cleanHashKey("common", "es", "hello", "javascript", undefined);
         var inheritTranslated = makeTranslated("Hola", "Hello", "hello");
         var db = makeDb({ [inheritCommonKey]: inheritTranslated });
-        var resolver = buildResolver(db, makeCommonTs());
+        var resolver = buildResolver(db, makeCommonTs(), "myapp");
         var resFileType = makeCollector();
         var newres = makeNewres();
 

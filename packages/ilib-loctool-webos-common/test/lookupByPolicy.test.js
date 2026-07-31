@@ -19,12 +19,10 @@
 
 var { buildPolicy, lookupByPolicy } = require("../lookupByPolicy.js");
 var ResourceString = require("loctool/lib/ResourceString.js");
-var Utils = require("loctool/lib/utils.js");
 
 // Minimal resource mock — only the fields lookupByPolicy needs
-function makeResource(project, key, flavor) {
+function makeResource(key, flavor) {
     return {
-        getProject: function() { return project; },
         getKey: function() { return key; },
         getFlavor: function() { return flavor || undefined; }
     };
@@ -42,15 +40,58 @@ function makeDb(hitMap) {
 // ── buildPolicy ──────────────────────────────────────────────────────────────
 
 describe("buildPolicy", function() {
-    test("default (no options) returns common-only policy", function() {
-        var policy = buildPolicy();
+    test("returns common step when common data is provided", function() {
+        var common = { commonPrjName: "common", commonPrjType: "x-json" };
+        var policy = buildPolicy("myapp", common);
         expect(policy).toHaveLength(1);
         expect(policy[0]).toMatchObject({
-            keyType: "hashKey",
             project: "common",
-            datatype: "common"
+            datatype: "x-json"
         });
-        expect(policy[0].needsCommonData).toBeUndefined();
+    });
+
+    test("returns empty policy when common data is absent", function() {
+        var common = { commonPrjName: undefined, commonPrjType: undefined };
+        var policy = buildPolicy("myapp", common);
+        expect(policy).toHaveLength(0);
+    });
+
+    test("includeUniversal prepends universal step with actual project name", function() {
+        var common = { commonPrjName: "common", commonPrjType: "x-json" };
+        var policy = buildPolicy("myapp", common, { includeUniversal: true });
+        expect(policy).toHaveLength(2);
+        expect(policy[0]).toMatchObject({
+            project: "myapp",
+            datatype: "universal"
+        });
+        expect(policy[1]).toMatchObject({
+            project: "common",
+            datatype: "x-json"
+        });
+    });
+
+    test("includeUniversal without projectName skips universal step", function() {
+        var common = { commonPrjName: "common", commonPrjType: "x-json" };
+        var policy = buildPolicy(undefined, common, { includeUniversal: true });
+        expect(policy).toHaveLength(1);
+        expect(policy[0].project).toBe("common");
+    });
+
+    test("includeUniversal false does not add universal step", function() {
+        var common = { commonPrjName: "common", commonPrjType: "x-json" };
+        var policy = buildPolicy("myapp", common, { includeUniversal: false });
+        expect(policy).toHaveLength(1);
+        expect(policy[0].project).toBe("common");
+    });
+
+    test("no common data with includeUniversal returns universal-only policy", function() {
+        var common = { commonPrjName: undefined, commonPrjType: undefined };
+        var policy = buildPolicy("myapp", common, { includeUniversal: true });
+        expect(policy).toHaveLength(1);
+        expect(policy[0]).toMatchObject({
+            project: "myapp",
+            datatype: "universal"
+        });
     });
 });
 
@@ -61,7 +102,7 @@ describe("lookupByPolicy", function() {
         var db = makeDb({});
         lookupByPolicy({
             db: db,
-            resource: makeResource("myapp", "hello"),
+            resource: makeResource("hello"),
             locale: "ko-KR",
             policy: []
         }, function(result) {
@@ -71,36 +112,18 @@ describe("lookupByPolicy", function() {
         });
     });
 
-    test("missing commonPrjName/Type skips common step without DB call", function(done) {
-        var db = makeDb({});
-        var policy = buildPolicy();
-        lookupByPolicy({
-            db: db,
-            resource: makeResource("myapp", "hello"),
-            locale: "ko-KR",
-            policy: policy
-            // commonPrjName/commonPrjType absent — buildKey returns undefined → skip
-        }, function(result) {
-            expect(result).toBeUndefined();
-            expect(db.getResourceByCleanHashKey).not.toHaveBeenCalled();
-            done();
-        });
-    });
-
     test("common step hit returns result", function(done) {
-        var ResourceString = require("loctool/lib/ResourceString.js");
-        var commonKey = ResourceString.hashKey("common", "ko-KR", "hello", "x-json", undefined);
+        var commonKey = ResourceString.cleanHashKey("common", "ko-KR", "hello", "x-json", undefined);
         var fakeCommon = { target: "공통 안녕" };
         var db = makeDb({ [commonKey]: fakeCommon });
 
-        var policy = buildPolicy();
+        var common = { commonPrjName: "common", commonPrjType: "x-json" };
+        var policy = buildPolicy("myapp", common);
         lookupByPolicy({
             db: db,
-            resource: makeResource("myapp", "hello"),
+            resource: makeResource("hello"),
             locale: "ko-KR",
-            policy: policy,
-            commonPrjName: "common",
-            commonPrjType: "x-json"
+            policy: policy
         }, function(result) {
             expect(result).toBe(fakeCommon);
             expect(db.getResourceByCleanHashKey).toHaveBeenCalledTimes(1);
@@ -108,23 +131,92 @@ describe("lookupByPolicy", function() {
         });
     });
 
-    test("missing commonPrjName skips common step", function(done) {
+    test("common step miss returns undefined", function(done) {
         var db = makeDb({});
-        var policy = buildPolicy();
+        var common = { commonPrjName: "common", commonPrjType: "x-json" };
+        var policy = buildPolicy("myapp", common);
         lookupByPolicy({
             db: db,
-            resource: makeResource("myapp", "hello"),
+            resource: makeResource("hello"),
             locale: "ko-KR",
             policy: policy
-            // commonPrjName and commonPrjType intentionally missing
         }, function(result) {
             expect(result).toBeUndefined();
-            expect(db.getResourceByCleanHashKey).not.toHaveBeenCalled();
+            expect(db.getResourceByCleanHashKey).toHaveBeenCalledTimes(1);
             done();
         });
     });
 
+    test("universal step hit returns result before reaching common", function(done) {
+        var universalKey = ResourceString.cleanHashKey("myapp", "ko-KR", "hello", "universal", undefined);
+        var fakeUniversal = { target: "유니버설 안녕" };
+        var db = makeDb({ [universalKey]: fakeUniversal });
+
+        var common = { commonPrjName: "common", commonPrjType: "x-json" };
+        var policy = buildPolicy("myapp", common, { includeUniversal: true });
+        lookupByPolicy({
+            db: db,
+            resource: makeResource("hello"),
+            locale: "ko-KR",
+            policy: policy
+        }, function(result) {
+            expect(result).toBe(fakeUniversal);
+            expect(db.getResourceByCleanHashKey).toHaveBeenCalledTimes(1);
+            done();
+        });
+    });
+
+    test("universal step miss falls through to common step", function(done) {
+        var commonKey = ResourceString.cleanHashKey("common", "ko-KR", "hello", "x-json", undefined);
+        var fakeCommon = { target: "공통 안녕" };
+        var db = makeDb({ [commonKey]: fakeCommon });
+
+        var common = { commonPrjName: "common", commonPrjType: "x-json" };
+        var policy = buildPolicy("myapp", common, { includeUniversal: true });
+        lookupByPolicy({
+            db: db,
+            resource: makeResource("hello"),
+            locale: "ko-KR",
+            policy: policy
+        }, function(result) {
+            expect(result).toBe(fakeCommon);
+            // first call for universal (miss), second call for common (hit)
+            expect(db.getResourceByCleanHashKey).toHaveBeenCalledTimes(2);
+            done();
+        });
+    });
+
+    test("all steps miss returns undefined", function(done) {
+        var db = makeDb({});
+        var common = { commonPrjName: "common", commonPrjType: "x-json" };
+        var policy = buildPolicy("myapp", common, { includeUniversal: true });
+        lookupByPolicy({
+            db: db,
+            resource: makeResource("hello"),
+            locale: "ko-KR",
+            policy: policy
+        }, function(result) {
+            expect(result).toBeUndefined();
+            expect(db.getResourceByCleanHashKey).toHaveBeenCalledTimes(2);
+            done();
+        });
+    });
+
+    test("flavor is included in generated key", function(done) {
+        var universalKey = ResourceString.cleanHashKey("myapp", "ko-KR", "hello", "universal", "tv");
+        var fakeUniversal = { target: "TV 유니버설 안녕" };
+        var db = makeDb({ [universalKey]: fakeUniversal });
+
+        var common = { commonPrjName: "common", commonPrjType: "x-json" };
+        var policy = buildPolicy("myapp", common, { includeUniversal: true });
+        lookupByPolicy({
+            db: db,
+            resource: makeResource("hello", "tv"),
+            locale: "ko-KR",
+            policy: policy
+        }, function(result) {
+            expect(result).toBe(fakeUniversal);
+            done();
+        });
+    });
 });
-
-
-
