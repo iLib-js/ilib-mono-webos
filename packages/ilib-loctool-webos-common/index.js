@@ -17,7 +17,6 @@
  * limitations under the License.
  */
 
-/** @module ilib-loctool-webos-common */
 module.exports = {
     utils: require("./utils.js"),
     translationResolver: require("./translationResolver.js")
