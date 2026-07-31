@@ -93,28 +93,28 @@ function buildPolicy(projectName, common, options) {
  * @param {Resource} params.resource            - source resource being looked up
  * @param {string}   params.locale              - target locale
  * @param {Array}    params.policy              - policy array from buildPolicy()
- * @param {number}   [params.startIndex=0]      - internal recursion index; callers omit this
  * @param {function(Resource|undefined): void} callback
  */
 function lookupByPolicy(params, callback) {
-    var step = typeof params.startIndex === "number" ? params.startIndex : 0;
     var policy = params.policy;
 
-    if (step >= policy.length) {
-        callback(undefined);
-        return;
+    function next(step) {
+        if (step >= policy.length) {
+            callback(undefined);
+            return;
+        }
+
+        var key = buildKey(params.resource, params.locale, policy[step]);
+        params.db.getResourceByCleanHashKey(key, function(err, translated) {
+            if (translated) {
+                callback(translated);
+            } else {
+                next(step + 1);
+            }
+        });
     }
 
-    var entry = policy[step];
-    var key = buildKey(params.resource, params.locale, entry);
-
-    params.db.getResourceByCleanHashKey(key, function(err, translated) {
-        if (translated) {
-            callback(translated);
-        } else {
-            lookupByPolicy(Object.assign({}, params, { startIndex: step + 1 }), callback);
-        }
-    });
+    next(0);
 }
 
 module.exports = {

@@ -1,5 +1,5 @@
 /*
- * JsAppGenerate.test.js - test the localization result in generate mode of webos-js app.
+ * JsUniversalAppGenerate.test.js - test the localization result in generate mode of webos-js app.
  *
  * Copyright (c) 2025-2026 JEDLSoft
  *
@@ -26,7 +26,7 @@ const { utils: pluginUtils } = require("ilib-loctool-webos-common");
 const ProjectFactory = require("loctool/lib/ProjectFactory.js");
 const GenerateModeProcess = require("loctool/lib/GenerateModeProcess.js");
 
-describe('test the localization result (generate mode) of webos-js app', () => {
+describe('test the localization result (generate mode) of webos-js-with-universal app', () => {
     beforeAll(async() => {
         const outputPath = "./resources2";
         if (fs.existsSync(outputPath)) {
@@ -74,7 +74,7 @@ describe('test the localization result (generate mode) of webos-js app', () => {
         GenerateModeProcess(project);
 
     }, 50000);
-    test("jssample_generate_test_ko_KR", function() {
+    test("jsuniv_generate_test_ko_KR", function() {
         expect.assertions(8);
         let rb = new ResBundle({
             locale:"ko-KR",
@@ -91,7 +91,7 @@ describe('test the localization result (generate mode) of webos-js app', () => {
         // common data
         expect(rb.getString("Please enter password.").toString()).toBe("Please enter password.");
     });
-    test("jssample_generate_test_ko_US", function() {
+    test("jsuniv_generate_test_ko_US", function() {
         expect.assertions(2);
         let rb = new ResBundle({
             locale:"ko-US",
@@ -100,7 +100,7 @@ describe('test the localization result (generate mode) of webos-js app', () => {
         expect(rb).toBeTruthy();
         expect(rb.getString("Antenna NEXTGEN TV").toString()).toBe("안테나 NEXTGEN TV");
     });
-    test("jssample_test_ko_TW", function() {
+    test("jsuniv_test_ko_TW", function() {
         expect.assertions(2);
         let rb = new ResBundle({
             locale:"ko-TW",
@@ -109,7 +109,7 @@ describe('test the localization result (generate mode) of webos-js app', () => {
         expect(rb).toBeTruthy();
         expect(rb.getString("TV On Screen").toString()).toBe("기기 켜짐 화면");
     })
-    test("jssample_generate_test_en_AU", function() {
+    test("jsuniv_generate_test_en_AU", function() {
         expect.assertions(7);
 
         let rb = new ResBundle({
@@ -126,7 +126,7 @@ describe('test the localization result (generate mode) of webos-js app', () => {
         expect(pluginUtils.isExistKey(fullPath, "Programme")).toBeTruthy();
         expect(pluginUtils.isExistKey(fullPath, "Ivory Coast")).toBeFalsy();
     });
-    test("jssample_generate_test_en_GB", function() {
+    test("jsuniv_generate_test_en_GB", function() {
         expect.assertions(7);
 
         let rb = new ResBundle({
@@ -143,7 +143,7 @@ describe('test the localization result (generate mode) of webos-js app', () => {
         expect(pluginUtils.isExistKey(fullPath, "Programme")).toBeTruthy();
         expect(pluginUtils.isExistKey(fullPath, "Ivory Coast")).toBeFalsy();
     });
-    test("jssample_generate_test_fr_CA", function() {
+    test("jsuniv_generate_test_fr_CA", function() {
         expect.assertions(3);
 
         let rb = new ResBundle({
@@ -154,7 +154,7 @@ describe('test the localization result (generate mode) of webos-js app', () => {
         expect(rb.getString("Agree").toString()).toBe("D’accord");
         expect(rb.getString("Programme").toString()).toBe("Programme");
     });
-    test("jssample_generate_test_fr_FR", function() {
+    test("jsuniv_generate_test_fr_FR", function() {
         expect.assertions(4);
         let rb = new ResBundle({
             locale:"fr-FR",
@@ -167,7 +167,7 @@ describe('test the localization result (generate mode) of webos-js app', () => {
         let fullPath = path.join(defaultRSPath, "en/FR/strings.json");
         expect(pluginUtils.isExistKey(fullPath, "Others")).toBeFalsy();
     });
-    test("jssample_generate_test_es_ES", function() {
+    test("jsuniv_generate_test_es_ES", function() {
         expect.assertions(2);
         let rb = new ResBundle({
             locale:"es-ES",
@@ -176,7 +176,7 @@ describe('test the localization result (generate mode) of webos-js app', () => {
         expect(rb).toBeTruthy();
         expect(rb.getString("Sound Out").toString()).toBe("Salida de sonido");
     });
-    test("jssample_generate_test_es_CO", function() {
+    test("jsuniv_generate_test_es_CO", function() {
         expect.assertions(2);
         let rb = new ResBundle({
             locale:"es-CO",
@@ -185,7 +185,7 @@ describe('test the localization result (generate mode) of webos-js app', () => {
         expect(rb).toBeTruthy();
         expect(rb.getString("Sound Out").toString()).toBe("Salida de Audio");
     });
-    test("jssample_generate_test_ja_JP", function() {
+    test("jsuniv_generate_test_ja_JP", function() {
         expect.assertions(5);
         let rb = new ResBundle({
             locale:"ja-JP",
@@ -198,7 +198,7 @@ describe('test the localization result (generate mode) of webos-js app', () => {
 
         expect(rb.getString("To read the Terms and Conditions, go to Settings > Support >  Privacy & Terms.").toString()).toBe("To read the Terms and Conditions, go to Settings > Support >  Privacy & Terms.");
     });
-    test("jssample_generate_test_de_DE", function() {
+    test("jsuniv_generate_test_de_DE", function() {
         expect.assertions(6);
         let rb = new ResBundle({
             locale:"de-DE",
@@ -211,7 +211,7 @@ describe('test the localization result (generate mode) of webos-js app', () => {
         expect(rb.getString("RETRY").toString()).toBe("WIEDERHOLEN");
         expect(rb.getString("SETTINGS").toString()).toBe("EINSTELLUNGEN");
     });
-    test("jssample_generate_test_as_IN", function() {
+    test("jsuniv_generate_test_as_IN", function() {
         expect.assertions(3);
         let rb = new ResBundle({
             locale:"as-IN",

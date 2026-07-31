@@ -1,5 +1,5 @@
 /*
- * JsApp.test.js - test the localization result of webos-js app.
+ * JsUniversalApp.test.js - test the localization result of webos-js-with-universal app.
  *
  * Copyright (c) 2025-2026 JEDLSoft
  *
@@ -23,7 +23,7 @@ const ResBundle = require("ilib/lib/ResBundle");
 const defaultRSPath = path.join(process.cwd(), "resources");
 const { utils: pluginUtils } = require("ilib-loctool-webos-common");
 
-describe('test the localization result of webos-js app', () => {
+describe('test the localization result of webos-js-with-universal app', () => {
     const generalOptions = '-2 --xliffStyle webOS --pseudo --localizeOnly';
     const localeInherit = '--localeInherit en-AU:en-GB';
     const localeMap = '--localeMap es-CO:es,fr-CA:fr';
@@ -40,7 +40,7 @@ describe('test the localization result of webos-js app', () => {
             });
         });
     }, 50000);
-    test("jssample_test_ko_KR", function() {
+    test("jsuniv_test_ko_KR", function() {
         expect.assertions(14);
         let rb = new ResBundle({
             locale:"ko-KR",
@@ -66,7 +66,7 @@ describe('test the localization result of webos-js app', () => {
         // lookup priority: javascript > universal > common
         expect(rb.getString("Lookup Priority").toString()).toBe("우선순위(javascript)");
     });
-    test("jssample_test_ko_US", function() {
+    test("jsuniv_test_ko_US", function() {
         expect.assertions(2);
         let rb = new ResBundle({
             locale:"ko-US",
@@ -75,7 +75,7 @@ describe('test the localization result of webos-js app', () => {
         expect(rb).toBeTruthy();
         expect(rb.getString("Antenna NEXTGEN TV").toString()).toBe("안테나 NEXTGEN TV");
     });
-    test("jssample_test_ko_TW", function() {
+    test("jsuniv_test_ko_TW", function() {
         expect.assertions(2);
         let rb = new ResBundle({
             locale:"ko-TW",
@@ -84,7 +84,7 @@ describe('test the localization result of webos-js app', () => {
         expect(rb).toBeTruthy();
         expect(rb.getString("TV On Screen").toString()).toBe("기기 켜짐 화면");
     });
-    test("jssample_test_en_AU", function() {
+    test("jsuniv_test_en_AU", function() {
         expect.assertions(10);
 
         let rb = new ResBundle({
@@ -108,7 +108,7 @@ describe('test the localization result of webos-js app', () => {
         // multi-spaces
         expect(rb.getString("Go to  'Settings > General > Channels > Channel Tuning & Settings > Transponder Edit' and add one.").toString()).toBe("Go to 'Settings > General > Programmes > Programme Tuning & Settings > Transponder Edit' and add one.");
     });
-    test("jssample_test_en_GB", function() {
+    test("jsuniv_test_en_GB", function() {
         expect.assertions(10);
 
         let rb = new ResBundle({
@@ -132,7 +132,7 @@ describe('test the localization result of webos-js app', () => {
         // multi-spaces
         expect(rb.getString("Go to  'Settings > General > Channels > Channel Tuning & Settings > Transponder Edit' and add one.").toString()).toBe("Go to 'Settings > General > Programmes > Programme Tuning & Settings > Transponder Edit' and add one.");
     });
-    test("jssample_test_fr_CA", function() {
+    test("jsuniv_test_fr_CA", function() {
         expect.assertions(5);
 
         let rb = new ResBundle({
@@ -148,7 +148,7 @@ describe('test the localization result of webos-js app', () => {
         fullPath = path.join(defaultRSPath, "fr/strings.json");
         expect(pluginUtils.isExistKey(fullPath, "Exit")).toBeTruthy();
     });
-    test("jssample_test_fr_FR", function() {
+    test("jsuniv_test_fr_FR", function() {
         expect.assertions(6);
         let rb = new ResBundle({
             locale:"fr-FR",
@@ -165,7 +165,7 @@ describe('test the localization result of webos-js app', () => {
         expect(pluginUtils.isExistKey(fullPath, "Exit")).toBeFalsy();
         
     });
-    test("jssample_test_es_ES", function() {
+    test("jsuniv_test_es_ES", function() {
         expect.assertions(4);
         let rb = new ResBundle({
             locale:"es-ES",
@@ -178,7 +178,7 @@ describe('test the localization result of webos-js app', () => {
         fullPath = path.join(defaultRSPath, "es/ES/strings.json");
         expect(pluginUtils.isExistKey(fullPath, "OK")).toBeTruthy();
     });
-    test("jssample_test_es_CO", function() {
+    test("jsuniv_test_es_CO", function() {
         expect.assertions(3);
         let rb = new ResBundle({
             locale:"es-CO",
@@ -188,7 +188,7 @@ describe('test the localization result of webos-js app', () => {
         expect(rb.getString("Sound Out").toString()).toBe("Salida de Audio");
         expect(rb.getString("OK").toString()).toBe("Aceptar"); // common data
     });
-    test("jssample_test_ja_JP", function() {
+    test("jsuniv_test_ja_JP", function() {
         expect.assertions(6);
 
         let rb = new ResBundle({
@@ -204,7 +204,7 @@ describe('test the localization result of webos-js app', () => {
         // fyi. https://github.com/iLib-js/ilib-loctool-webos-javascript/pull/34
         expect(rb.getString("To read the Terms and Conditions, go to Settings > Support >  Privacy & Terms.").toString()).toBe("利用規約を読むには、設定 > サポート > 利用規約 & 法的情報に移動します。");
     });
-    test("jssample_test_de_DE", function() {
+    test("jsuniv_test_de_DE", function() {
         expect.assertions(6);
         let rb = new ResBundle({
             locale:"de-DE",
@@ -217,7 +217,7 @@ describe('test the localization result of webos-js app', () => {
         expect(rb.getString("RETRY").toString()).toBe("WIEDERHOLEN");
         expect(rb.getString("SETTINGS").toString()).toBe("EINSTELLUNGEN");
     });
-    test("jssample_test_as_IN", function() {
+    test("jsuniv_test_as_IN", function() {
         expect.assertions(3);
         let rb = new ResBundle({
             locale:"as-IN",
@@ -228,7 +228,7 @@ describe('test the localization result of webos-js app', () => {
         expect(rb.getString("Restart").toString()).toBe("পুনৰাম্ভ কৰক");
     });
 
-    test("jssample_test_appinfo_locale_files", function() {
+    test("jsuniv_test_appinfo_locale_files", function() {
         expect.assertions(8);
 
         const asAppinfo = path.join(defaultRSPath, "as/appinfo.json");
@@ -246,7 +246,7 @@ describe('test the localization result of webos-js app', () => {
         expect(pluginUtils.loadData(koAppinfo)["title"]).toBe("현재 방송");
     });
 
-    test("jssample_test_appinfo_zxx_file_list", function() {
+    test("jsuniv_test_appinfo_zxx_file_list", function() {
         expect.assertions(1);
         const zxxPath = path.join(defaultRSPath, "zxx");
         const pseudoAppInfoFiles = [];
@@ -272,7 +272,7 @@ describe('test the localization result of webos-js app', () => {
         ]);
     });
 
-    test("jssample_test_appinfo_zxx_single_file_keys", function() {
+    test("jsuniv_test_appinfo_zxx_single_file_keys", function() {
         expect.assertions(2);
         const filePath = path.join(defaultRSPath, "zxx", "appinfo.json");
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
