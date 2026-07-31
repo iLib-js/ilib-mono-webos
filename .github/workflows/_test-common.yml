@@ -67,7 +67,6 @@ jobs:
                   pnpm exec bats "$f"
                 done
             - name: Upload coverage to Codecov
-              if: hashFiles('packages/**/coverage/**') != ''
               uses: codecov/codecov-action@v5
               with:
                   token: ${{ secrets.CODECOV_TOKEN }}
