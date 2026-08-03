@@ -1,8 +1,8 @@
-# DB Lookup Flow in `write()` Localize Mode
+# `write()` Mode: Localize and Generate
 
-Documents the translation DB lookup chain used by each webOS loctool plugin
-during `localize` mode. Describes both the lookup flow and the shared
-resolution engine provided by this package.
+Documents the translation resolution and resource write logic used by each
+webOS loctool plugin in both `localize` and `generate` modes. Describes the
+shared utilities provided by this package.
 
 ## Plugins covered
 
@@ -268,3 +268,47 @@ To add a new fallback step:
 
 `buildKey()` is a single-line function with no branching — new policy
 entries work automatically.
+
+---
+
+## 6. Generate mode
+
+Generate mode does not use DB lookup. Instead, it:
+1. Fetches all translated resources for the target locales via `project.getTranslations(locales)`
+2. Filters and deduplicates using `filterGenResources()` in `writeUtils.js`
+3. Writes the result using `writeGenResources()`
+
+### Filter and priority (`filterGenResources`)
+
+```
+filterGenResources(resources, projectName, selfDatatype, options?)
+```
+
+- Excludes resources not belonging to the current project (e.g. `"common"`)
+- Deduplicates by `(reskey, locale, flavor)` with priority: self datatype > `"universal"`
+- `options.includeUniversal: true` enables the universal fallback — mirrors `buildPolicy({ includeUniversal: true })` in localize mode
+
+To add a new fallback datatype: pass `options.includeUniversal` (or extend
+`filterGenResources` options analogously to `buildPolicy`).
+
+### Write (`writeGenResources`)
+
+```
+writeGenResources(project, translationLocales, genresources, params)
+```
+
+- Appends cloned resources for `customInherit` locales that have no translations
+- Writes each resource to its resource file
+- `params.dedupByBaseTranslation`:
+  - `true` (JS/C/Cpp): resolves base translation via DB, skips if target matches base
+  - `false` (Dart): write-through, no dedup
+
+### Comparison: localize vs generate
+
+| | Localize mode | Generate mode |
+|--|--|--|
+| Input | Extracted source resources | Already-translated resources from xliff |
+| DB lookup | Yes — `resolveTranslation()` | Minimal — base translation dedup only |
+| Priority | Policy array (`buildPolicy`) | `filterGenResources` options |
+| Common project | Included via policy | Excluded |
+| Shared utility | `translationResolver.js` | `writeUtils.js` |

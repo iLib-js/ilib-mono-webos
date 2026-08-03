@@ -24,9 +24,12 @@ var Locale = require("ilib/lib/Locale.js");
 var DartFile = require("./DartFile.js");
 var JsonResourceFileType = require("ilib-loctool-webos-json-resource");
 var Utils = require("loctool/lib/utils.js")
-var { utils: pluginUtils, translationResolver } = require("ilib-loctool-webos-common");
+var { utils: pluginUtils, translationResolver, writeUtils } = require("ilib-loctool-webos-common");
 var buildResolver = translationResolver.buildResolver;
 var resolveTranslation = translationResolver.resolveTranslation;
+var filterGenResources = writeUtils.filterGenResources;
+var writePseudoResources = writeUtils.writePseudoResources;
+var writeGenResources = writeUtils.writeGenResources;
 
 var DartFileType = function(project) {
     this.type = "x-dart";
@@ -170,7 +173,7 @@ DartFileType.prototype.write = function(translations, locales) {
     var mode = this.project.settings.mode;
     var deviceType = pluginUtils.getDeviceType(this.project.settings);
     var customInheritLocale;
-    var res, file, resPath,
+    var res, resPath,
         resources = this.extracted.getAll(),
         db = this.project.db,
         translationLocales = locales.filter(function(locale) {
@@ -205,57 +208,24 @@ DartFileType.prototype.write = function(translations, locales) {
             }.bind(this));
         }
 
-        resources = [];
-        var typeValue = this.type.replace("x-", "");
-        if (this.project.settings[typeValue] === undefined ||
-            (this.project.settings[typeValue] && !(this.project.settings[typeValue].disablePseudo === true))){
-            resources = this.pseudo.getAll().filter(function(resource) {
-                return resource.datatype === this.datatype;
-            }.bind(this));
-        }
+        // write pseudo resources
+        writePseudoResources(this.pseudo, this.project.settings, this.type.replace("x-", ""), this.datatype,
+            resFileType, this.project.sourceLocale, deviceType,
+            function(res) { return this.getLocalizedPath(res.mapping, res.getPath(), res.getTargetLocale()); }.bind(this));
     } else {
         // generate mode
-        this.genresources = this.project.getTranslations(translationLocales);
-        this.customInherit = translationLocales.filter(function(locale){
-            return this.project.getLocaleInherit(locale) !== undefined;
-        }.bind(this));
-
-        if (this.customInherit.length > 0) {
-            this.customInherit.forEach(function(lo){
-                var res = this.project.getTranslations([lo]);
-                if (res.length === 0) {
-                    var inheritlocale = this.project.getLocaleInherit(lo);
-                    var inheritlocaleRes = this.project.getTranslations([inheritlocale]);
-                    inheritlocaleRes.forEach(function(r){
-                        var newres = r.clone();
-                        newres.setTargetLocale(lo);
-                        this.genresources.push(newres);
-                    }.bind(this))
-                }
-            }.bind(this));
-        }
-    }
-
-    if (mode === "localize") {
-        for (var i = 0; i < resources.length; i++) {
-            res = resources[i];
-            if (res.getTargetLocale() !== this.project.sourceLocale && res.getSource() !== pluginUtils.getTarget(res, deviceType)) {
-                file = resFileType.getResourceFile(res.getTargetLocale(), this.getLocalizedPath(res.mapping, res.getPath(), res.getTargetLocale()))
-                res.setTarget(pluginUtils.getTarget(res, deviceType));
-                file.addResource(res);
-                this.logger.trace("Added " + res.reskey + " to " + file.pathName);
-            }
-        }
-    } else {
-        // generate mode
-        var locale;
-        for (var i = 0; i< this.genresources.length;i++) {
-            res = this.genresources[i];
-            locale = res.getTargetLocale();
-            res.setTarget(pluginUtils.getTarget(res, deviceType));
-            file = resFileType.getResourceFile(res.getTargetLocale());
-            file.addResource(res);
-        }
+        this.genresources = filterGenResources(
+            this.project.getTranslations(translationLocales),
+            this.project.getProjectId(),
+            this.datatype,
+            { includeUniversal: true }
+        );
+        writeGenResources(this.project, translationLocales, this.genresources, {
+            resFileType: resFileType,
+            db: db,
+            deviceType: deviceType,
+            dedupByBaseTranslation: false
+        });
     }
 };
 

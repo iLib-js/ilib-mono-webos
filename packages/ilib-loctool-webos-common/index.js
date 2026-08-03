@@ -19,5 +19,6 @@
 
 module.exports = {
     utils: require("./utils.js"),
-    translationResolver: require("./translationResolver.js")
+    translationResolver: require("./translationResolver.js"),
+    writeUtils: require("./writeUtils.js")
 };
