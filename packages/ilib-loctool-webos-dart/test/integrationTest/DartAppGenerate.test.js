@@ -79,11 +79,12 @@ describe('[integration] test the localization result (generate mode) of webos-da
         }
     });
     test("dartsample_generate_test_ko_KR", function() {
-        expect.assertions(9);
+        expect.assertions(10);
         filePath = path.join(resourcePath, 'ko.json');
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
         jsonData = pluginUtils.loadData(filePath);
+        expect(Object.keys(jsonData).length).toBe(9);
         expect(jsonData["App List"]).toBe("앱 목록");
         expect(jsonData["Back button"]).toBe("이전 버튼");
         expect(jsonData["Delete All"]).toBe("모두 삭제");

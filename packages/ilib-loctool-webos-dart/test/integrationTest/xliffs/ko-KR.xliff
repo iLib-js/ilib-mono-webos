@@ -65,6 +65,12 @@
           <target>재시도(universal)</target>
         </segment>
       </unit>
+      <unit id="103">
+        <segment>
+          <source>Search</source>
+          <target>통합 검색(universal)</target>
+        </segment>
+      </unit>
     </group>
   </file>
 </xliff>

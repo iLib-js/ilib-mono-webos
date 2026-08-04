@@ -65,6 +65,12 @@
           <target>재시도(universal)</target>
         </segment>
       </unit>
+      <unit id="104">
+        <segment>
+          <source>Hello</source>
+          <target>안녕(universal)</target>
+        </segment>
+      </unit>
     </group>
   </file>
 </xliff>

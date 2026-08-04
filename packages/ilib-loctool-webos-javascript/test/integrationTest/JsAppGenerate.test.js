@@ -70,16 +70,21 @@ describe('[integration] test the localization result (generate mode) of webos-js
         }
     });
     test("jssample_generate_test_ko_KR", function() {
-        expect.assertions(6);
+        expect.assertions(11);
         let rb = new ResBundle({
             locale:"ko-KR",
             basePath : defaultRSPath
         });
         expect(rb).toBeTruthy();
+        expect(Object.keys(rb.getResObj()).length).toBe(9);
         expect(rb.getString("Hello").toString()).toBe("안녕");
         expect(rb.getString("Thank you").toString()).toBe("고마워");
         expect(rb.getString("Bye").toString()).toBe("잘가");
+        expect(rb.getString("Good Morning").toString()).toBe("좋은 아침");
         expect(rb.getString("TV On Screen").toString()).toBe("TV 켜짐 화면");
         expect(rb.getString("Internal Speaker + Wired Headphones").toString()).toBe("프로젝터 내부 스피커 + 유선 헤드폰");
+        expect(rb.getString("EXIT APP").toString()).toBe("앱 종료"); // universal
+        expect(rb.getString("Sound Out").toString()).toBe("사운드 출력(universal)"); // universal
+        expect(rb.getString("RETRY").toString()).toBe("재시도(universal)"); // universal
     });
 });

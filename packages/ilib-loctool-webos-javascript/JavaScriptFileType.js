@@ -22,12 +22,12 @@ var path = require("path");
 var JavaScriptFile = require("./JavaScriptFile.js");
 var JsonResourceFileType = require("ilib-loctool-webos-json-resource");
 var Utils = require("loctool/lib/utils.js")
-var { utils: pluginUtils, translationResolver, writeUtils } = require("ilib-loctool-webos-common");
+var { utils: pluginUtils, translationResolver, pseudoWriter, generateWriter } = require("ilib-loctool-webos-common");
 var buildResolver = translationResolver.buildResolver;
 var resolveTranslation = translationResolver.resolveTranslation;
-var filterGenResources = writeUtils.filterGenResources;
-var writePseudoResources = writeUtils.writePseudoResources;
-var writeGenResources = writeUtils.writeGenResources;
+var filterGenResources = generateWriter.filterGenResources;
+var writePseudoResources = pseudoWriter.writePseudoResources;
+var writeGenResources = generateWriter.writeGenResources;
 
 var JavaScriptFileType = function(project) {
     this.type = "javascript";

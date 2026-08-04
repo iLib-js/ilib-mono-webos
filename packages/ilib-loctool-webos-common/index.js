@@ -20,5 +20,6 @@
 module.exports = {
     utils: require("./utils.js"),
     translationResolver: require("./translationResolver.js"),
-    writeUtils: require("./writeUtils.js")
+    pseudoWriter: require("./pseudoWriter.js"),
+    generateWriter: require("./generateWriter.js")
 };
