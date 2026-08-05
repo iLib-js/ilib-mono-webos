@@ -209,9 +209,16 @@ DartFileType.prototype.write = function(translations, locales) {
         }
 
         // write pseudo resources
-        writePseudoResources(this.pseudo, this.project.settings, this.type.replace("x-", ""), this.datatype,
-            resFileType, this.project.sourceLocale, deviceType,
-            function(res) { return this.getLocalizedPath(res.mapping, res.getPath(), res.getTargetLocale()); }.bind(this));
+        writePseudoResources({
+            pseudo: this.pseudo,
+            settings: this.project.settings,
+            settingsKey: this.type.replace("x-", ""),
+            datatype: this.datatype,
+            resFileType: resFileType,
+            sourceLocale: this.project.sourceLocale,
+            deviceType: deviceType,
+            resPathFn: function(res) { return this.getLocalizedPath(res.mapping, res.getPath(), res.getTargetLocale()); }.bind(this)
+        });
     } else {
         // generate mode
         this.genresources = filterGenResources(
@@ -220,7 +227,10 @@ DartFileType.prototype.write = function(translations, locales) {
             this.datatype,
             { includeUniversal: true }
         );
-        writeGenResources(this.project, translationLocales, this.genresources, {
+        writeGenResources({
+            project: this.project,
+            translationLocales: translationLocales,
+            genresources: this.genresources,
             resFileType: resFileType,
             db: db,
             deviceType: deviceType,

@@ -164,7 +164,10 @@ describe("writeGenResources", function() {
     test("write-through (dedupByBaseTranslation=false): writes all resources", function() {
         var res = makeGenRes("key1", "Hello", "안녕");
         var resFileType = makeResFileType();
-        writeGenResources(makeProject(), ["ko-KR"], [res], {
+        writeGenResources({
+            project: makeProject(),
+            translationLocales: ["ko-KR"],
+            genresources: [res],
             resFileType: resFileType,
             db: makeDb(),
             deviceType: undefined,
@@ -178,7 +181,10 @@ describe("writeGenResources", function() {
         var baseRes = { target: "English" };
         var db = makeDb({ "key1::en": baseRes });
         var resFileType = makeResFileType();
-        writeGenResources(makeProject(), ["ko-KR"], [res], {
+        writeGenResources({
+            project: makeProject(),
+            translationLocales: ["ko-KR"],
+            genresources: [res],
             resFileType: resFileType,
             db: db,
             deviceType: undefined,
@@ -190,7 +196,10 @@ describe("writeGenResources", function() {
     test("dedup: skips when translation equals source (no base found)", function() {
         var res = makeGenRes("key1", "Hello", "Hello");
         var resFileType = makeResFileType();
-        writeGenResources(makeProject(), ["ko-KR"], [res], {
+        writeGenResources({
+            project: makeProject(),
+            translationLocales: ["ko-KR"],
+            genresources: [res],
             resFileType: resFileType,
             db: makeDb(),
             deviceType: undefined,
@@ -207,7 +216,10 @@ describe("writeGenResources", function() {
         );
         var genresources = [];
         var resFileType = makeResFileType();
-        writeGenResources(project, ["en-AU"], genresources, {
+        writeGenResources({
+            project: project,
+            translationLocales: ["en-AU"],
+            genresources: genresources,
             resFileType: resFileType,
             db: makeDb(),
             deviceType: undefined,
@@ -224,7 +236,10 @@ describe("writeGenResources", function() {
         );
         var genresources = [ownRes];
         var resFileType = makeResFileType();
-        writeGenResources(project, ["en-AU"], genresources, {
+        writeGenResources({
+            project: project,
+            translationLocales: ["en-AU"],
+            genresources: genresources,
             resFileType: resFileType,
             db: makeDb(),
             deviceType: undefined,
@@ -240,7 +255,10 @@ describe("writeGenResources", function() {
         var baseRes = { target: "English" };
         var db = makeDb({ "key1::fr-FR": baseRes });
         var resFileType = makeResFileType();
-        writeGenResources(makeProject(), ["fr-CA"], [res], {
+        writeGenResources({
+            project: makeProject(),
+            translationLocales: ["fr-CA"],
+            genresources: [res],
             resFileType: resFileType,
             db: db,
             deviceType: undefined,
@@ -255,7 +273,10 @@ describe("writeGenResources", function() {
         var baseRes = { target: "English" };
         var db = makeDb({ "key1::en-US": baseRes });
         var resFileType = makeResFileType();
-        writeGenResources(makeProject(), ["fr-CA"], [res], {
+        writeGenResources({
+            project: makeProject(),
+            translationLocales: ["fr-CA"],
+            genresources: [res],
             resFileType: resFileType,
             db: db,
             deviceType: undefined,
@@ -266,7 +287,10 @@ describe("writeGenResources", function() {
 
     test("empty genresources produces no writes", function() {
         var resFileType = makeResFileType();
-        writeGenResources(makeProject(), ["ko-KR"], [], {
+        writeGenResources({
+            project: makeProject(),
+            translationLocales: ["ko-KR"],
+            genresources: [],
             resFileType: resFileType,
             db: makeDb(),
             deviceType: undefined,

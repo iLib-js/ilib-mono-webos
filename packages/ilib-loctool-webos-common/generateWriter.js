@@ -28,12 +28,18 @@ var pluginUtils = require("./utils.js");
  * included as a fallback when options.includeUniversal is true.
  * Resources with other datatypes are discarded.
  *
- * Mirrors the buildPolicy() options pattern used in localize mode.
+ * projectName and selfDatatype are always-present filter inputs, so they
+ * stay positional. includeUniversal is deliberately wrapped in an options
+ * object to mirror the buildPolicy() options pattern used in localize mode
+ * (see buildResolver() -> buildPolicy()), keeping the "generate mode" and
+ * "localize mode" opt-in flags shaped the same way. Any future opt-in flags
+ * should be added to this same options object rather than as new positional
+ * args.
  *
  * @param {Array} resources - result of project.getTranslations()
  * @param {string} projectName - current project id (project.getProjectId())
  * @param {string} selfDatatype - plugin's own datatype (e.g. "javascript")
- * @param {Object} [options]
+ * @param {Object} [options] - opt-in flags, mirroring buildPolicy() options
  * @param {boolean} [options.includeUniversal] - include "universal" as a fallback datatype
  * @returns {Array} filtered and deduplicated array
  */
@@ -67,16 +73,22 @@ function filterGenResources(resources, projectName, selfDatatype, options) {
  * Handles both dedup-by-base-translation (JS/C/Cpp) and write-through (Dart)
  * via the dedupByBaseTranslation flag — same semantics as resolveTranslation().
  *
- * @param {Object} project - loctool project
- * @param {Array<string>} translationLocales - filtered locale list
- * @param {Array} genresources - result of filterGenResources()
+ * All inputs are passed as a single params object, matching resolveTranslation()
+ * in the localize-mode write family.
+ *
  * @param {Object} params
+ * @param {Object} params.project - loctool project
+ * @param {Array<string>} params.translationLocales - filtered locale list
+ * @param {Array} params.genresources - result of filterGenResources()
  * @param {Object} params.resFileType
  * @param {Object} params.db - project.db
  * @param {string} params.deviceType
  * @param {boolean} params.dedupByBaseTranslation - false for Dart, true for JS/C/Cpp
  */
-function writeGenResources(project, translationLocales, genresources, params) {
+function writeGenResources(params) {
+    var project = params.project;
+    var translationLocales = params.translationLocales;
+    var genresources = params.genresources;
     var resFileType = params.resFileType;
     var db = params.db;
     var deviceType = params.deviceType;

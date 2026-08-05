@@ -275,7 +275,7 @@ entries work automatically.
 
 Generate mode does not use DB lookup. Instead, it:
 1. Fetches all translated resources for the target locales via `project.getTranslations(locales)`
-2. Filters and deduplicates using `filterGenResources()` in `writeUtils.js`
+2. Filters and deduplicates using `filterGenResources()` in `generateWriter.js`
 3. Writes the result using `writeGenResources()`
 
 ### Filter and priority (`filterGenResources`)
@@ -294,11 +294,13 @@ To add a new fallback datatype: pass `options.includeUniversal` (or extend
 ### Write (`writeGenResources`)
 
 ```
-writeGenResources(project, translationLocales, genresources, params)
+writeGenResources(params)
 ```
 
 - Appends cloned resources for `customInherit` locales that have no translations
 - Writes each resource to its resource file
+- `params.project`, `params.translationLocales`, `params.genresources` — primary inputs
+- `params.resFileType`, `params.db`, `params.deviceType`
 - `params.dedupByBaseTranslation`:
   - `true` (JS/C/Cpp): resolves base translation via DB, skips if target matches base
   - `false` (Dart): write-through, no dedup
@@ -311,4 +313,4 @@ writeGenResources(project, translationLocales, genresources, params)
 | DB lookup | Yes — `resolveTranslation()` | Minimal — base translation dedup only |
 | Priority | Policy array (`buildPolicy`) | `filterGenResources` options |
 | Common project | Included via policy | Excluded |
-| Shared utility | `translationResolver.js` | `writeUtils.js` |
+| Shared utility | `translationResolver.js`, `pseudoWriter.js` | `generateWriter.js` |

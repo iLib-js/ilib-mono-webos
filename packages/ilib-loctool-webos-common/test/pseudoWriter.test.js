@@ -52,7 +52,15 @@ describe("writePseudoResources", function() {
         var res = makePseudoRes("ko-KR", "Hello", "안녕");
         var pseudo = makePseudo([res]);
         var resFileType = makeResFileType();
-        writePseudoResources(pseudo, {}, "javascript", "javascript", resFileType, "en-US", undefined);
+        writePseudoResources({
+            pseudo: pseudo,
+            settings: {},
+            settingsKey: "javascript",
+            datatype: "javascript",
+            resFileType: resFileType,
+            sourceLocale: "en-US",
+            deviceType: undefined
+        });
         expect(resFileType.file.addResource).toHaveBeenCalledTimes(1);
     });
 
@@ -60,7 +68,15 @@ describe("writePseudoResources", function() {
         var res = makePseudoRes("ko-KR", "Hello", "Hello");
         var pseudo = makePseudo([res]);
         var resFileType = makeResFileType();
-        writePseudoResources(pseudo, {}, "javascript", "javascript", resFileType, "en-US", undefined);
+        writePseudoResources({
+            pseudo: pseudo,
+            settings: {},
+            settingsKey: "javascript",
+            datatype: "javascript",
+            resFileType: resFileType,
+            sourceLocale: "en-US",
+            deviceType: undefined
+        });
         expect(resFileType.file.addResource).not.toHaveBeenCalled();
     });
 
@@ -68,7 +84,15 @@ describe("writePseudoResources", function() {
         var res = makePseudoRes("en-US", "Hello", "안녕");
         var pseudo = makePseudo([res]);
         var resFileType = makeResFileType();
-        writePseudoResources(pseudo, {}, "javascript", "javascript", resFileType, "en-US", undefined);
+        writePseudoResources({
+            pseudo: pseudo,
+            settings: {},
+            settingsKey: "javascript",
+            datatype: "javascript",
+            resFileType: resFileType,
+            sourceLocale: "en-US",
+            deviceType: undefined
+        });
         expect(resFileType.file.addResource).not.toHaveBeenCalled();
     });
 
@@ -76,7 +100,15 @@ describe("writePseudoResources", function() {
         var res = makePseudoRes("ko-KR", "Hello", "안녕", "x-dart");
         var pseudo = makePseudo([res]);
         var resFileType = makeResFileType();
-        writePseudoResources(pseudo, {}, "javascript", "javascript", resFileType, "en-US", undefined);
+        writePseudoResources({
+            pseudo: pseudo,
+            settings: {},
+            settingsKey: "javascript",
+            datatype: "javascript",
+            resFileType: resFileType,
+            sourceLocale: "en-US",
+            deviceType: undefined
+        });
         expect(resFileType.file.addResource).not.toHaveBeenCalled();
     });
 
@@ -84,8 +116,15 @@ describe("writePseudoResources", function() {
         var res = makePseudoRes("ko-KR", "Hello", "안녕");
         var pseudo = makePseudo([res]);
         var resFileType = makeResFileType();
-        writePseudoResources(pseudo, { javascript: { disablePseudo: true } }, "javascript", "javascript",
-            resFileType, "en-US", undefined);
+        writePseudoResources({
+            pseudo: pseudo,
+            settings: { javascript: { disablePseudo: true } },
+            settingsKey: "javascript",
+            datatype: "javascript",
+            resFileType: resFileType,
+            sourceLocale: "en-US",
+            deviceType: undefined
+        });
         expect(resFileType.file.addResource).not.toHaveBeenCalled();
     });
 
@@ -94,7 +133,16 @@ describe("writePseudoResources", function() {
         var pseudo = makePseudo([res]);
         var resFileType = makeResFileType();
         var resPathFn = jest.fn(function() { return "some/path.json"; });
-        writePseudoResources(pseudo, {}, "javascript", "javascript", resFileType, "en-US", undefined, resPathFn);
+        writePseudoResources({
+            pseudo: pseudo,
+            settings: {},
+            settingsKey: "javascript",
+            datatype: "javascript",
+            resFileType: resFileType,
+            sourceLocale: "en-US",
+            deviceType: undefined,
+            resPathFn: resPathFn
+        });
         expect(resFileType.getResourceFile).toHaveBeenCalledWith("ko-KR", "some/path.json");
     });
 
@@ -102,14 +150,30 @@ describe("writePseudoResources", function() {
         var res = makePseudoRes("ko-KR", "Hello", "안녕");
         var pseudo = makePseudo([res]);
         var resFileType = makeResFileType();
-        writePseudoResources(pseudo, {}, "javascript", "javascript", resFileType, "en-US", undefined);
+        writePseudoResources({
+            pseudo: pseudo,
+            settings: {},
+            settingsKey: "javascript",
+            datatype: "javascript",
+            resFileType: resFileType,
+            sourceLocale: "en-US",
+            deviceType: undefined
+        });
         expect(resFileType.getResourceFile).toHaveBeenCalledWith("ko-KR", undefined);
     });
 
     test("empty pseudo produces no writes", function() {
         var pseudo = makePseudo([]);
         var resFileType = makeResFileType();
-        writePseudoResources(pseudo, {}, "javascript", "javascript", resFileType, "en-US", undefined);
+        writePseudoResources({
+            pseudo: pseudo,
+            settings: {},
+            settingsKey: "javascript",
+            datatype: "javascript",
+            resFileType: resFileType,
+            sourceLocale: "en-US",
+            deviceType: undefined
+        });
         expect(resFileType.file.addResource).not.toHaveBeenCalled();
     });
 });

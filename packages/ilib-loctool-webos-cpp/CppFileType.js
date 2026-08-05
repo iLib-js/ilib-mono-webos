@@ -154,8 +154,15 @@ CppFileType.prototype.write = function(translations, locales) {
         }
 
         // write pseudo resources
-        writePseudoResources(this.pseudo, this.project.settings, this.type, this.datatype,
-            resFileType, this.project.sourceLocale, deviceType);
+        writePseudoResources({
+            pseudo: this.pseudo,
+            settings: this.project.settings,
+            settingsKey: this.type,
+            datatype: this.datatype,
+            resFileType: resFileType,
+            sourceLocale: this.project.sourceLocale,
+            deviceType: deviceType
+        });
     } else {
         // generate mode
         this.genresources = filterGenResources(
@@ -164,7 +171,10 @@ CppFileType.prototype.write = function(translations, locales) {
             this.datatype,
             { includeUniversal: true }
         );
-        writeGenResources(this.project, translationLocales, this.genresources, {
+        writeGenResources({
+            project: this.project,
+            translationLocales: translationLocales,
+            genresources: this.genresources,
             resFileType: resFileType,
             db: db,
             deviceType: deviceType,
