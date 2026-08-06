@@ -1,5 +1,5 @@
 /*
- * generateWriter.js - Resource filtering and writing for generate mode
+ * generateModeWriter.js - Resource writing for generate mode
  *
  * Copyright (c) 2026 JEDLSoft
  *
@@ -21,29 +21,22 @@ var Utils = require("loctool/lib/utils.js");
 var pluginUtils = require("./utils.js");
 
 /**
- * Filter resources from project.getTranslations() for generate mode.
+ * Filter and deduplicate resources by project and datatype priority.
  *
- * Keeps only resources for the given project, then deduplicates by
+ * Keeps only resources belonging to the given project, then deduplicates by
  * (reskey, locale, flavor). Self datatype always wins; universal is
  * included as a fallback when options.includeUniversal is true.
  * Resources with other datatypes are discarded.
  *
- * projectName and selfDatatype are always-present filter inputs, so they
- * stay positional. includeUniversal is deliberately wrapped in an options
- * object to mirror the buildPolicy() options pattern used in localize mode
- * (see buildResolver() -> buildPolicy()), keeping the "generate mode" and
- * "localize mode" opt-in flags shaped the same way. Any future opt-in flags
- * should be added to this same options object rather than as new positional
- * args.
- *
+ * @private
  * @param {Array} resources - result of project.getTranslations()
  * @param {string} projectName - current project id (project.getProjectId())
  * @param {string} selfDatatype - plugin's own datatype (e.g. "javascript")
- * @param {Object} [options] - opt-in flags, mirroring buildPolicy() options
+ * @param {Object} [options] - opt-in flags
  * @param {boolean} [options.includeUniversal] - include "universal" as a fallback datatype
  * @returns {Array} filtered and deduplicated array
  */
-function filterGenResources(resources, projectName, selfDatatype, options) {
+function filterResources(resources, projectName, selfDatatype, options) {
     var datatypes = [selfDatatype];
     if (options && options.includeUniversal) {
         datatypes.push("universal");
@@ -68,31 +61,38 @@ function filterGenResources(resources, projectName, selfDatatype, options) {
 }
 
 /**
- * Run generate mode: resolve customInherit clones, then write resources.
+ * Filter and write resources for generate mode.
  *
+ * Combines filtering/dedup of raw translations with the write logic.
  * Handles both dedup-by-base-translation (JS/C/Cpp) and write-through (Dart)
- * via the dedupByBaseTranslation flag — same semantics as resolveTranslation().
- *
- * All inputs are passed as a single params object, matching resolveTranslation()
- * in the localize-mode write family.
+ * via the dedupByBaseTranslation flag.
  *
  * @param {Object} params
  * @param {Object} params.project - loctool project
  * @param {Array<string>} params.translationLocales - filtered locale list
- * @param {Array} params.genresources - result of filterGenResources()
+ * @param {Array} params.resources - raw result of project.getTranslations()
+ * @param {string} params.selfDatatype - plugin's own datatype (e.g. "javascript")
  * @param {Object} params.resFileType
  * @param {Object} params.db - project.db
  * @param {string} params.deviceType
  * @param {boolean} params.dedupByBaseTranslation - false for Dart, true for JS/C/Cpp
+ * @param {boolean} [params.includeUniversal] - include "universal" datatype in filter
  */
-function writeGenResources(params) {
+function writeGenerateModeResources(params) {
     var project = params.project;
     var translationLocales = params.translationLocales;
-    var genresources = params.genresources;
     var resFileType = params.resFileType;
     var db = params.db;
     var deviceType = params.deviceType;
     var dedupByBaseTranslation = params.dedupByBaseTranslation;
+
+    // Filter by project ownership and datatype priority
+    var genresources = filterResources(
+        params.resources,
+        project.getProjectId(),
+        params.selfDatatype,
+        { includeUniversal: params.includeUniversal }
+    );
 
     // append cloned resources for customInherit locales that have no translations
     var customInherit = translationLocales.filter(function(locale) {
@@ -159,6 +159,5 @@ function writeGenResources(params) {
 }
 
 module.exports = {
-    filterGenResources: filterGenResources,
-    writeGenResources: writeGenResources
+    writeGenerateModeResources: writeGenerateModeResources
 };

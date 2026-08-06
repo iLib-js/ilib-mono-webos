@@ -22,12 +22,11 @@ var path = require("path");
 var CFile = require("./CFile.js");
 var JsonResourceFileType = require("ilib-loctool-webos-json-resource");
 var Utils = require("loctool/lib/utils.js")
-var { utils: pluginUtils, translationResolver, pseudoWriter, generateWriter } = require("ilib-loctool-webos-common");
+var { utils: pluginUtils, translationResolver, pseudoWriter, generateModeWriter } = require("ilib-loctool-webos-common");
 var buildResolver = translationResolver.buildResolver;
 var resolveTranslation = translationResolver.resolveTranslation;
-var filterGenResources = generateWriter.filterGenResources;
 var writePseudoResources = pseudoWriter.writePseudoResources;
-var writeGenResources = generateWriter.writeGenResources;
+var writeGenerateModeResources = generateModeWriter.writeGenerateModeResources;
 
 var CFileType = function(project) {
     this.type = "c";
@@ -115,10 +114,9 @@ CFileType.prototype.write = function(translations, locales) {
             return locale !== this.project.sourceLocale && locale !== this.project.pseudoLocale;
         }.bind(this));
 
-    // Build resolver: detects common project data and prepares policy-based lookup.
-    var resolver = buildResolver(db, translations, this.project.getProjectId(), { includeUniversal: true });
-
     if (mode === "localize") {
+        // Build resolver: detects common project data and prepares policy-based lookup.
+        var resolver = buildResolver(db, translations, this.project.getProjectId(), { includeUniversal: true });
         for (var i = 0; i < resources.length; i++) {
             res = resources[i];
             // for each extracted string, write out the translations of it
@@ -154,20 +152,16 @@ CFileType.prototype.write = function(translations, locales) {
         });
     } else {
         // generate mode
-        this.genresources = filterGenResources(
-            this.project.getTranslations(translationLocales),
-            this.project.getProjectId(),
-            this.datatype,
-            { includeUniversal: true }
-        );
-        writeGenResources({
+        writeGenerateModeResources({
             project: this.project,
             translationLocales: translationLocales,
-            genresources: this.genresources,
+            resources: this.project.getTranslations(translationLocales),
+            selfDatatype: this.datatype,
             resFileType: resFileType,
             db: db,
             deviceType: deviceType,
-            dedupByBaseTranslation: true
+            dedupByBaseTranslation: true,
+            includeUniversal: true
         });
     }
 };

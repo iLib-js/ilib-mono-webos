@@ -275,33 +275,37 @@ entries work automatically.
 
 Generate mode does not use DB lookup. Instead, it:
 1. Fetches all translated resources for the target locales via `project.getTranslations(locales)`
-2. Filters and deduplicates using `filterGenResources()` in `generateWriter.js`
-3. Writes the result using `writeGenResources()`
+2. Filters, deduplicates, and writes resources using `writeGenerateModeResources()` in `generateModeWriter.js`
 
-### Filter and priority (`filterGenResources`)
+### `writeGenerateModeResources(params)`
+
+A single entry point that handles both filtering and writing:
 
 ```
-filterGenResources(resources, projectName, selfDatatype, options?)
+writeGenerateModeResources({
+    project,
+    translationLocales,
+    resources,          // raw result of project.getTranslations()
+    selfDatatype,       // plugin's own datatype (e.g. "javascript")
+    resFileType,
+    db,
+    deviceType,
+    dedupByBaseTranslation,
+    includeUniversal
+})
 ```
+
+#### Internal filter logic
 
 - Excludes resources not belonging to the current project (e.g. `"common"`)
 - Deduplicates by `(reskey, locale, flavor)` with priority: self datatype > `"universal"`
-- `options.includeUniversal: true` enables the universal fallback — mirrors `buildPolicy({ includeUniversal: true })` in localize mode
+- `includeUniversal: true` enables the universal fallback — mirrors `buildPolicy({ includeUniversal: true })` in localize mode
 
-To add a new fallback datatype: pass `options.includeUniversal` (or extend
-`filterGenResources` options analogously to `buildPolicy`).
-
-### Write (`writeGenResources`)
-
-```
-writeGenResources(params)
-```
+#### Write logic
 
 - Appends cloned resources for `customInherit` locales that have no translations
 - Writes each resource to its resource file
-- `params.project`, `params.translationLocales`, `params.genresources` — primary inputs
-- `params.resFileType`, `params.db`, `params.deviceType`
-- `params.dedupByBaseTranslation`:
+- `dedupByBaseTranslation`:
   - `true` (JS/C/Cpp): resolves base translation via DB, skips if target matches base
   - `false` (Dart): write-through, no dedup
 
@@ -311,6 +315,6 @@ writeGenResources(params)
 |--|--|--|
 | Input | Extracted source resources | Already-translated resources from xliff |
 | DB lookup | Yes — `resolveTranslation()` | Minimal — base translation dedup only |
-| Priority | Policy array (`buildPolicy`) | `filterGenResources` options |
+| Priority | Policy array (`buildPolicy`) | `writeGenerateModeResources` internal filter |
 | Common project | Included via policy | Excluded |
-| Shared utility | `translationResolver.js`, `pseudoWriter.js` | `generateWriter.js` |
+| Shared utility | `translationResolver.js`, `pseudoWriter.js` | `generateModeWriter.js` |
