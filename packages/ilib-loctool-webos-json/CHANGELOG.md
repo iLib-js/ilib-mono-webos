@@ -1,5 +1,11 @@
 # ilib-loctool-webos-json
 
+## 1.2.3
+
+### Patch Changes
+
+- fc1afc3: Update dependencies (loctool: 2.33.1)
+
 ## 1.2.2
 
 ### Patch Changes

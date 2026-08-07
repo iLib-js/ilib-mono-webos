@@ -1,5 +1,11 @@
 # ilib-loctool-webos-ts-resource
 
+## 1.5.13
+
+### Patch Changes
+
+- fc1afc3: Update dependencies (loctool: 2.33.1)
+
 ## 1.5.12
 
 ### Patch Changes

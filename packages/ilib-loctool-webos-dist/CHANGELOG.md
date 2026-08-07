@@ -1,5 +1,54 @@
 # ilib-loctool-webos-dist
 
+## 1.20.7
+
+### Patch Changes
+
+- 3f7c475: ilib-loctool-webos-dart:
+  - Fix a Dart key extraction bug: do not compress source text when generating resource keys, matching C/C++ behavior.
+- dee476c: ilib-loctool-webos-common:
+
+  - buildPolicy() now accepts options.includeUniversal to prepend a universal lookup step
+  - buildKey() handles the new "universal" entry
+
+  ilib-loctool-webos-javascript:
+  ilib-loctool-webos-dart:
+  ilib-loctool-webos-cpp:
+  ilib-loctool-webos-c:
+
+  - Add universal datatype fallback in policy-based translation lookup (self type → universal → common)
+    - Enable `includeUniversal` option in each FileType.js to allow datatype-independent project-level fallback before common pool
+    - Universal translations are shared across all file type handlers within the same project, unlike common which pulls from a separate shared project pool
+
+- fc1afc3: Update dependencies (loctool: 2.33.1)
+- 506f4e5: ilib-loctool-webos-javascript
+  ilib-loctool-webos-common
+  ilib-loctool-webos-dart
+  ilib-loctool-webos-cpp
+  ilib-loctool-webos-c
+  - Centralize common DB lookup logic from FileType.write()
+    Replace per-plugin ResourceString.hashKey manual lookups with a shared lookupByPolicy engine in ilib-loctool-webos-common
+- a8834f3: ilib-loctool-webos-javascript
+  ilib-loctool-webos-common
+  ilib-loctool-webos-dart
+  ilib-loctool-webos-cpp
+  ilib-loctool-webos-c
+  - Fix generate mode to only output resources for the plugin's own project and datatype, no longer leaking resources from other datatypes.
+  - Apply localize mode's datatype priority (self datatype over universal) to generate mode. Shared generate-mode write() logic extracted into generateModeWriter in ilib-loctool-webos-common.
+- Updated dependencies [cfa297c]
+- Updated dependencies [dee476c]
+- Updated dependencies [fc1afc3]
+- Updated dependencies [a8834f3]
+- Updated dependencies [19602e8]
+  - ilib-loctool-webos-javascript@1.13.3
+  - ilib-loctool-webos-dart@1.5.3
+  - ilib-loctool-webos-cpp@1.10.3
+  - ilib-loctool-webos-c@1.10.3
+  - ilib-loctool-webos-json-resource@1.7.10
+  - ilib-loctool-webos-ts-resource@1.5.13
+  - ilib-loctool-webos-json@1.2.3
+  - ilib-loctool-webos-qml@1.10.3
+
 ## 1.20.6
 
 ### Patch Changes

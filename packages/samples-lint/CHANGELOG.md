@@ -1,5 +1,12 @@
 # lint-webos-sample
 
+## 1.0.6
+
+### Patch Changes
+
+- Updated dependencies [fc1afc3]
+  - ilib-lint-webos@1.3.1
+
 ## 1.0.5
 
 ### Patch Changes

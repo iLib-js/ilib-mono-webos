@@ -1,5 +1,12 @@
 # integration-sample-webos-json
 
+## 1.0.12
+
+### Patch Changes
+
+- Updated dependencies [fc1afc3]
+  - ilib-loctool-webos-json@1.2.3
+
 ## 1.0.11
 
 ### Patch Changes

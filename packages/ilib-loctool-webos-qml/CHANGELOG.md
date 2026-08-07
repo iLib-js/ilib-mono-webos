@@ -1,5 +1,17 @@
 # ilib-loctool-webos-qml
 
+## 1.10.3
+
+### Patch Changes
+
+- fc1afc3: Update dependencies (loctool: 2.33.1)
+- Updated dependencies [dee476c]
+- Updated dependencies [cfa297c]
+- Updated dependencies [fc1afc3]
+- Updated dependencies [a8834f3]
+  - ilib-loctool-webos-common@1.2.5
+  - ilib-loctool-webos-ts-resource@1.5.13
+
 ## 1.10.2
 
 ### Patch Changes

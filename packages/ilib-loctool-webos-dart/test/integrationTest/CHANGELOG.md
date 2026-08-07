@@ -1,5 +1,17 @@
 # integration-sample-webos-dart
 
+## 1.0.11
+
+### Patch Changes
+
+- Updated dependencies [cfa297c]
+- Updated dependencies [dee476c]
+- Updated dependencies [fc1afc3]
+- Updated dependencies [a8834f3]
+- Updated dependencies [19602e8]
+  - ilib-loctool-webos-dart@1.5.3
+  - ilib-loctool-webos-ts-resource@1.5.13
+
 ## 1.0.10
 
 ### Patch Changes
