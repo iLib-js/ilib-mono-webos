@@ -22,9 +22,11 @@ var path = require("path");
 var CppFile = require("./CppFile.js");
 var JsonResourceFileType = require("ilib-loctool-webos-json-resource");
 var Utils = require("loctool/lib/utils.js")
-var { utils: pluginUtils, translationResolver } = require("ilib-loctool-webos-common");
+var { utils: pluginUtils, translationResolver, pseudoWriter, generateModeWriter } = require("ilib-loctool-webos-common");
 var buildResolver = translationResolver.buildResolver;
 var resolveTranslation = translationResolver.resolveTranslation;
+var writePseudoResources = pseudoWriter.writePseudoResources;
+var writeGenerateModeResources = generateModeWriter.writeGenerateModeResources;
 
 var CppFileType = function(project) {
     this.type = "cpp";
@@ -114,19 +116,17 @@ CppFileType.prototype.write = function(translations, locales) {
     var resFileType = this.project.getResourceFileType(this.resourceType);
     var mode = this.project.settings.mode;
     var deviceType = pluginUtils.getDeviceType(this.project.settings);
-    var baseLocale, langDefaultLocale, baseTranslation;
     var customInheritLocale;
-    var res, file,
+    var res,
         resources = this.extracted.getAll(),
         db = this.project.db,
         translationLocales = locales.filter(function(locale) {
             return locale !== this.project.sourceLocale && locale !== this.project.pseudoLocale;
         }.bind(this));
 
-    // Build resolver: detects common project data and prepares policy-based lookup.
-    var resolver = buildResolver(db, translations, this.project.getProjectId(), { includeUniversal: true });
-
     if (mode === "localize") {
+        // Build resolver: detects common project data and prepares policy-based lookup.
+        var resolver = buildResolver(db, translations, this.project.getProjectId(), { includeUniversal: true });
         for (var i = 0; i < resources.length; i++) {
             res = resources[i];
 
@@ -150,79 +150,30 @@ CppFileType.prototype.write = function(translations, locales) {
                 });
             }.bind(this));
         }
-        resources = [];
-        if (this.project.settings[this.type] === undefined ||
-            (this.project.settings[this.type] && !(this.project.settings[this.type].disablePseudo === true))){
-            resources = this.pseudo.getAll().filter(function(resource) {
-                return resource.datatype === this.datatype;
-            }.bind(this));
-        }
+
+        // write pseudo resources
+        writePseudoResources({
+            pseudo: this.pseudo,
+            settings: this.project.settings,
+            settingsKey: this.type,
+            datatype: this.datatype,
+            resFileType: resFileType,
+            sourceLocale: this.project.sourceLocale,
+            deviceType: deviceType
+        });
     } else {
         // generate mode
-        this.genresources = this.project.getTranslations(translationLocales);
-        this.customInherit = translationLocales.filter(function(locale){
-            return this.project.getLocaleInherit(locale) !== undefined;
-        }.bind(this));
-
-        if (this.customInherit.length > 0) {
-            this.customInherit.forEach(function(lo){
-                var res = this.project.getTranslations([lo]);
-                if (res.length === 0) {
-                    var inheritlocale = this.project.getLocaleInherit(lo);
-                    var inheritlocaleRes = this.project.getTranslations([inheritlocale]);
-                    inheritlocaleRes.forEach(function(r){
-                        var newres = r.clone();
-                        newres.setTargetLocale(lo);
-                        this.genresources.push(newres);
-                    }.bind(this))
-                }
-            }.bind(this));
-        }
-    }
-    if (mode === "localize") {
-        for (var i = 0; i < resources.length; i++) {
-            res = resources[i];
-            if (res.getTargetLocale() !== this.project.sourceLocale && res.getSource() !== pluginUtils.getTarget(res, deviceType)) {
-                file = resFileType.getResourceFile(res.getTargetLocale());
-                file.addResource(res);
-                this.logger.trace("Added " + res.reskey + " to " + file.pathName);
-            }
-        }
-    } else {
-        // generate mode:  compare baseTranslation data
-        var locale;
-        for (var i = 0; i< this.genresources.length;i++) {
-            res = this.genresources[i];
-            locale = res.getTargetLocale();
-            baseLocale = Utils.isBaseLocale(locale);
-            langDefaultLocale = Utils.getBaseLocale(locale);
-            baseTranslation = res.getSource();
-
-            if (baseLocale){
-                langDefaultLocale = "en-US";
-            }
-            var langkey = res.cleanHashKeyForTranslation(langDefaultLocale);
-            var enUSKey = res.cleanHashKeyForTranslation("en-US");
-
-            db.getResourceByCleanHashKey(langkey, function(err, translated) {
-                if (translated){
-                    baseTranslation = pluginUtils.getTarget(translated, deviceType);
-                } else {
-                    db.getResourceByCleanHashKey(enUSKey, function(err, translated) {
-                        if (translated){
-                            baseTranslation = pluginUtils.getTarget(translated, deviceType);
-                        }
-                    }.bind(this));
-                }
-            }.bind(this));
-
-            if ((locale == "en-US" && res.getSource() !== pluginUtils.getTarget(res, deviceType)) ||
-                (baseTranslation !== pluginUtils.getTarget(res, deviceType))) {
-                file = resFileType.getResourceFile(res.getTargetLocale());
-                res.setTarget(pluginUtils.getTarget(res, deviceType));
-                file.addResource(res);
-            }
-        }
+        writeGenerateModeResources({
+            project: this.project,
+            translationLocales: translationLocales,
+            resources: this.project.getTranslations(translationLocales),
+            selfDatatype: this.datatype,
+            resFileType: resFileType,
+            db: db,
+            deviceType: deviceType,
+            dedupByBaseTranslation: true,
+            includeUniversal: true
+        });
     }
 };
 

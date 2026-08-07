@@ -59,8 +59,10 @@ function detectCommonData(translations) {
  * @param {Object} db             - project.db handle
  * @param {Object} translations   - the translations set passed to write()
  * @param {string} projectName    - current project name (e.g. project.getProjectId())
- * @param {Object} [options]      - options passed to buildPolicy() for plugin-specific
- *   policy configuration (e.g. { includeUniversal: true })
+ * @param {Object} [options]      - opt-in flags forwarded verbatim to buildPolicy() for
+ *   plugin-specific policy configuration (e.g. { includeUniversal: true }). This function
+ *   does not read the flags itself; it only passes them through, which is why they live in
+ *   one options object rather than as positional args.
  * @returns {Object} resolver context with { db, policy, makeLookupParams }
  */
 function buildResolver(db, translations, projectName, options) {

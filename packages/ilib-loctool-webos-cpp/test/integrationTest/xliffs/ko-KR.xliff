@@ -74,6 +74,12 @@
           <target>재시도(universal)</target>
         </segment>
       </unit>
+      <unit id="103">
+        <segment>
+          <source>Time Settings</source>
+          <target>시간 설정(universal)</target>
+        </segment>
+      </unit>
     </group>
   </file>
 </xliff>
