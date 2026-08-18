@@ -1,5 +1,16 @@
 # integration-sample-webos-cpp
 
+## 1.0.11
+
+### Patch Changes
+
+- Updated dependencies [cfa297c]
+- Updated dependencies [dee476c]
+- Updated dependencies [fc1afc3]
+- Updated dependencies [a8834f3]
+  - ilib-loctool-webos-cpp@1.10.3
+  - ilib-loctool-webos-json-resource@1.7.10
+
 ## 1.0.10
 
 ### Patch Changes

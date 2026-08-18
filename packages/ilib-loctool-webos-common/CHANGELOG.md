@@ -1,5 +1,17 @@
 # ilib-loctool-webos-common
 
+## 1.2.5
+
+### Patch Changes
+
+- dee476c: - buildPolicy() now accepts options.includeUniversal to prepend a universal lookup step.
+  - buildKey() handles the new "universal" entry
+- cfa297c: Centralize common DB lookup logic from FileType.write()
+  - Replace per-plugin ResourceString.hashKey manual lookups with a shared lookupByPolicy engine in ilib-loctool-webos-common
+- fc1afc3: Update dependencies (loctool: 2.33.1)
+- a8834f3: - Fix generate mode to only output resources for the plugin's own project and datatype, no longer leaking resources from other datatypes.
+  - Apply localize mode's datatype priority (self datatype over universal) to generate mode. Shared generate-mode write() logic extracted into generateModeWriter in ilib-loctool-webos-common.
+
 ## 1.2.4
 
 ### Patch Changes

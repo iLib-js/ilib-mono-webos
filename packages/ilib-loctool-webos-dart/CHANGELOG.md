@@ -1,5 +1,25 @@
 # ilib-loctool-webos-dart
 
+## 1.5.3
+
+### Patch Changes
+
+- cfa297c: Centralize common DB lookup logic from FileType.write()
+  - Replace per-plugin ResourceString.hashKey manual lookups with a shared lookupByPolicy engine in ilib-loctool-webos-common
+- dee476c: Add universal datatype fallback in policy-based translation lookup (self type → universal → common)
+  - Enable `includeUniversal` option in each FileType.js to allow datatype-independent project-level fallback before common pool
+  - Universal translations are shared across all file type handlers within the same project, unlike common which pulls from a separate shared project pool
+- fc1afc3: Update dependencies (loctool: 2.33.1)
+- a8834f3: - Fix generate mode to only output resources for the plugin's own project and datatype, no longer leaking resources from other datatypes.
+  - Apply localize mode's datatype priority (self datatype over universal) to generate mode. Shared generate-mode write() logic extracted into generateModeWriter in ilib-loctool-webos-common.
+- 19602e8: Fix a Dart key extraction bug: do not compress source text when generating resource keys, matching C/C++ behavior.
+- Updated dependencies [dee476c]
+- Updated dependencies [cfa297c]
+- Updated dependencies [fc1afc3]
+- Updated dependencies [a8834f3]
+  - ilib-loctool-webos-common@1.2.5
+  - ilib-loctool-webos-json-resource@1.7.10
+
 ## 1.5.2
 
 ### Patch Changes

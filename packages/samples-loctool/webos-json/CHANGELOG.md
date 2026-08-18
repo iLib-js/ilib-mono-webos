@@ -1,5 +1,16 @@
 # sample-webos-qcardinfo
 
+## 1.1.14
+
+### Patch Changes
+
+- Updated dependencies [dee476c]
+- Updated dependencies [cfa297c]
+- Updated dependencies [fc1afc3]
+- Updated dependencies [a8834f3]
+  - ilib-loctool-webos-common@1.2.5
+  - ilib-loctool-webos-json@1.2.3
+
 ## 1.1.13
 
 ### Patch Changes

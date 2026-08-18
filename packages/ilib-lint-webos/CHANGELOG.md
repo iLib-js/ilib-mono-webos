@@ -1,5 +1,11 @@
 # ilib-lint-webos
 
+## 1.3.1
+
+### Patch Changes
+
+- fc1afc3: Update dependencies (loctool: 2.33.1)
+
 ## 1.3.0
 
 ### Minor Changes

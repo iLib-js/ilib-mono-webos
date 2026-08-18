@@ -1,5 +1,11 @@
 # ilib-xliff-webos
 
+## 1.0.12
+
+### Patch Changes
+
+- fc1afc3: Update dependencies (loctool: 2.33.1)
+
 ## 1.0.11
 
 ### Patch Changes
