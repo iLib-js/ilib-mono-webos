@@ -24,3 +24,9 @@ static String sn_home_0016(tvModel) => translate(
       );
 
 translate("Trailing commas", );
+
+  String get doNotSellPrivacyPractices =>
+      rtlCode +
+      translate(
+          'For more information, please visit: https://www.example.foo/privacy') +
+      emptyString;

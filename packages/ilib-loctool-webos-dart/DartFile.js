@@ -91,10 +91,20 @@ DartFile.cleanString = function(string) {
  */
 DartFile.trimComments = function(data) {
     if (!data) return;
-    // comment style: // , /* */ single, multi line
-    var trimData = data.replace(/\/\/\s*((?!i18n).)*[$/\n]/g, "").
-                    replace(/\/\*+([^*]|\*(?!\/))*\*+\//g, "").
-                    replace(/\/\*(.*)\*\//g, "");
+    // Remove comments while preserving string literals.
+    // Match string literals (single or double quoted) first to skip them,
+    // then match // line comments (except i18n) and /* */ block comments.
+    var trimData = data.replace(
+        /"(\\"|[^"])*"|'(\\'|[^'])*'|\/\/\s*((?!i18n).)*[$/\n]|\/\*+([^*]|\*(?!\/))*\*+\/|\/\*(.*)\*\//g,
+        function(match) {
+            // If the match starts with a quote, it's a string literal — preserve it
+            if (match[0] === '"' || match[0] === "'") {
+                return match;
+            }
+            // Otherwise it's a comment — remove it
+            return "";
+        }
+    );
     return trimData;
 };
 

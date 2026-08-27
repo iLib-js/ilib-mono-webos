@@ -1480,4 +1480,24 @@ describe("qmlfile", function() {
         var set = qf.getTranslationSet();
         expect(set.size()).toBe(1);
     });
+    test("QMLFileParseStringWithURLContainingDoubleSlash", function() {
+        expect.assertions(5);
+
+        var qf = new QMLFile({
+            project: p,
+            pathName: undefined,
+            type: qmlft
+        });
+        expect(qf).toBeTruthy();
+
+        qf.parse('        var msg = qsTr("For more information, please visit: https://www.example.foo/privacy") + "\n";\n');
+
+        var set = qf.getTranslationSet();
+        expect(set).toBeTruthy();
+        expect(set.size()).toBe(1);
+
+        var resources = set.getAll();
+        expect(resources[0].getSource()).toBe("For more information, please visit: https://www.example.foo/privacy");
+        expect(resources[0].getKey()).toBe("For more information, please visit: https://www.example.foo/privacy");
+    });
 });

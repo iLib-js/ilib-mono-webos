@@ -932,4 +932,24 @@ describe("cfile", function() {
         expect(set).toBeTruthy();
         expect(set.size()).toBe(1);
     });
+    test("CFileParseStringWithURLContainingDoubleSlash", function() {
+        expect.assertions(5);
+
+        var cf = new CFile({
+            project: p,
+            pathName: undefined,
+            type: cft
+        });
+        expect(cf).toBeTruthy();
+
+        cf.parse('char* msg = (char *)resBundle_getLocString(resBundle, "For more information, please visit: https://www.example.foo/privacy");\n');
+
+        var set = cf.getTranslationSet();
+        expect(set).toBeTruthy();
+        expect(set.size()).toBe(1);
+
+        var resources = set.getAll();
+        expect(resources[0].getSource()).toBe("For more information, please visit: https://www.example.foo/privacy");
+        expect(resources[0].getKey()).toBe("For more information, please visit: https://www.example.foo/privacy");
+    });
 });

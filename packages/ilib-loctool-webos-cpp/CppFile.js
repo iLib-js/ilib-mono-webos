@@ -94,10 +94,18 @@ CppFile.trimComment = function(commentString) {
 */
  CppFile.removeCommentLines = function(data) {
     if (!data) return;
-    // comment style: // , /* */ single, multi line
-    var trimData = data.replace(/\/\/\s*((?!i18n).)*[$/\n]/g, "").
-                replace(/\/\*(((?!i18n).)*)\*\//g, "").
-                replace(/\/\*+((?!i18n)[^*]|\*(?!\/))*\*+\//g, "");
+    // Remove comments while preserving string literals.
+    // Match string literals (double quoted) first to skip them,
+    // then match // line comments (except i18n) and /* */ block comments.
+    var trimData = data.replace(
+        /"(\\"|[^"])*"|\/\/\s*((?!i18n).)*[$/\n]|\/\*(((?!i18n).)*)\*\/|\/\*+((?!i18n)[^*]|\*(?!\/))*\*+\//g,
+        function(match) {
+            if (match[0] === '"') {
+                return match;
+            }
+            return "";
+        }
+    );
     return trimData;
  };
 

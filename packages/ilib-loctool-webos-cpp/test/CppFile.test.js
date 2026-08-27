@@ -839,4 +839,24 @@ describe("cppfile", function() {
         expect(r[0].getSource()).toBe("Go to Settings");
         expect(r[0].getKey()).toBe("Go to Settings");
     });
+    test("CppFileParseStringWithURLContainingDoubleSlash", function() {
+        expect.assertions(5);
+
+        var cppf = new CppFile({
+            project: p,
+            pathName: undefined,
+            type: cppft
+        });
+        expect(cppf).toBeTruthy();
+
+        cppf.parse('std::string msg = getLocString("For more information, please visit: https://www.example.foo/privacy");\n');
+
+        var set = cppf.getTranslationSet();
+        expect(set).toBeTruthy();
+        expect(set.size()).toBe(1);
+
+        var resources = set.getAll();
+        expect(resources[0].getSource()).toBe("For more information, please visit: https://www.example.foo/privacy");
+        expect(resources[0].getKey()).toBe("For more information, please visit: https://www.example.foo/privacy");
+    });
 });

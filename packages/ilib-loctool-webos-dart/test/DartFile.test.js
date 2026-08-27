@@ -1121,6 +1121,46 @@ describe("dartfile", function() {
         var rs2 = r.generatePseudo("zxx-Hebr-XX", rb);
         expect(rs2.getTarget()).toBe('[טהִס ִס ַ טֶסט6543210]');
     });
+    test("DartFileParseStringWithURLContainingDoubleSlash", function() {
+        expect.assertions(5);
+
+        var d = new DartFile({
+            project: p,
+            pathName: undefined,
+            type: dft
+        });
+        expect(d).toBeTruthy();
+
+        d.parse("translate('For more information, please visit: https://www.example.foo/privacy')");
+
+        var set = d.getTranslationSet();
+        expect(set).toBeTruthy();
+
+        var r = set.getBySource("For more information, please visit: https://www.example.foo/privacy");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("For more information, please visit: https://www.example.foo/privacy");
+        expect(r.getKey()).toBe("For more information, please visit: https://www.example.foo/privacy");
+    });
+    test("DartFileParseStringWithURLContainingDoubleSlashDoubleQuote", function() {
+        expect.assertions(5);
+
+        var d = new DartFile({
+            project: p,
+            pathName: undefined,
+            type: dft
+        });
+        expect(d).toBeTruthy();
+
+        d.parse('translate("Visit http://www.example.foo/info for details")');
+
+        var set = d.getTranslationSet();
+        expect(set).toBeTruthy();
+
+        var r = set.getBySource("Visit http://www.example.foo/info for details");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("Visit http://www.example.foo/info for details");
+        expect(r.getKey()).toBe("Visit http://www.example.foo/info for details");
+    });
     test("DartFileNotParseComment", function() {
         expect.assertions(2);
 
