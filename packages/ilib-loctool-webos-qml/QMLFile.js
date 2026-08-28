@@ -103,7 +103,7 @@ QMLFile.removeCommentLines = function(data) {
     // then match // line comments (except i18n) and /* */ block comments.
     var trimData = data.replace(/\r(\n)*/g, "\n").  // newline character for window
                     replace(
-                        /"(\\"|[^"])*"|'(\\'|[^'])*'|\/\/(?!\:|\~)\s*((?!i18n).)*[$/\n]|\/\*+([^*]|\*(?!\/))*\*+\/|\/\*(.*)\*\//g,
+                        /"(\\.|[^"\\])*"|'(\\.|[^'\\])*'|\/\/(?!\:|\~)\s*((?!i18n).)*[$/\n]|\/\*+([^*]|\*(?!\/))*\*+\/|\/\*(.*)\*\//g,
                         function(match) {
                             if (match[0] === '"' || match[0] === "'") {
                                 return match;
