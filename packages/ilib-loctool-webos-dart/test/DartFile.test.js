@@ -1207,4 +1207,45 @@ describe("dartfile", function() {
         expect(r[0].getKey()).toBe("This is a test2");
         expect(r[0].getComment()).toBe(undefined);
     });
+    test("DartFileRemoveCommentAfterDoubleQuotedStringEndingInBackslash", function() {
+        expect.assertions(4);
+
+        var d = new DartFile({
+            project: p,
+            pathName: undefined,
+            type: dft
+        });
+        expect(d).toBeTruthy();
+
+        // The first string ends in an escaped backslash. The regex must not
+        // treat its closing quote as escaped and absorb the following comment,
+        // otherwise the commented-out call would be wrongly extracted.
+        d.parse('var path = "C:\\\\dir\\\\";\n// translate("evil")\nvar g = translate("good");\n');
+
+        var set = d.getTranslationSet();
+        expect(set).toBeTruthy();
+        expect(set.size()).toBe(1);
+
+        var r = set.getAll();
+        expect(r[0].getSource()).toBe("good");
+    });
+    test("DartFileRemoveCommentAfterSingleQuotedStringEndingInBackslash", function() {
+        expect.assertions(4);
+
+        var d = new DartFile({
+            project: p,
+            pathName: undefined,
+            type: dft
+        });
+        expect(d).toBeTruthy();
+
+        d.parse("var path = 'C:\\\\dir\\\\';\n// translate('evil')\nvar g = translate('good');\n");
+
+        var set = d.getTranslationSet();
+        expect(set).toBeTruthy();
+        expect(set.size()).toBe(1);
+
+        var r = set.getAll();
+        expect(r[0].getSource()).toBe("good");
+    });
 });

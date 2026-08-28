@@ -859,4 +859,47 @@ describe("cppfile", function() {
         expect(resources[0].getSource()).toBe("For more information, please visit: https://www.example.foo/privacy");
         expect(resources[0].getKey()).toBe("For more information, please visit: https://www.example.foo/privacy");
     });
+    test("CppFileRemoveCommentAfterStringEndingInBackslash", function() {
+        expect.assertions(4);
+
+        var cppf = new CppFile({
+            project: p,
+            pathName: undefined,
+            type: cppft
+        });
+        expect(cppf).toBeTruthy();
+
+        // The first string ends in an escaped backslash. The regex must not
+        // treat its closing quote as escaped and absorb the following comment,
+        // otherwise the commented-out call would be wrongly extracted.
+        cppf.parse('std::string path = "C:\\\\dir\\\\";\n// getLocString("evil")\nstd::string g = getLocString("good");\n');
+
+        var set = cppf.getTranslationSet();
+        expect(set).toBeTruthy();
+        expect(set.size()).toBe(1);
+
+        var resources = set.getAll();
+        expect(resources[0].getSource()).toBe("good");
+    });
+    test("CppFileRemoveCommentAfterCharLiteralWithDoubleQuote", function() {
+        expect.assertions(4);
+
+        var cppf = new CppFile({
+            project: p,
+            pathName: undefined,
+            type: cppft
+        });
+        expect(cppf).toBeTruthy();
+
+        // A char literal containing a double quote must not open a string
+        // region that swallows the following comment.
+        cppf.parse('char q = \'"\';\n// getLocString("evil")\nstd::string g = getLocString("good");\n');
+
+        var set = cppf.getTranslationSet();
+        expect(set).toBeTruthy();
+        expect(set.size()).toBe(1);
+
+        var resources = set.getAll();
+        expect(resources[0].getSource()).toBe("good");
+    });
 });

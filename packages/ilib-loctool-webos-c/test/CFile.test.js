@@ -952,4 +952,47 @@ describe("cfile", function() {
         expect(resources[0].getSource()).toBe("For more information, please visit: https://www.example.foo/privacy");
         expect(resources[0].getKey()).toBe("For more information, please visit: https://www.example.foo/privacy");
     });
+    test("CFileRemoveCommentAfterStringEndingInBackslash", function() {
+        expect.assertions(4);
+
+        var cf = new CFile({
+            project: p,
+            pathName: undefined,
+            type: cft
+        });
+        expect(cf).toBeTruthy();
+
+        // The first string ends in an escaped backslash. The regex must not
+        // treat its closing quote as escaped and absorb the following comment,
+        // otherwise the commented-out call would be wrongly extracted.
+        cf.parse('char* path = "C:\\\\dir\\\\";\n// resBundle_getLocString(res, "evil")\nchar* g = (char *)resBundle_getLocString(res, "good");\n');
+
+        var set = cf.getTranslationSet();
+        expect(set).toBeTruthy();
+        expect(set.size()).toBe(1);
+
+        var resources = set.getAll();
+        expect(resources[0].getSource()).toBe("good");
+    });
+    test("CFileRemoveCommentAfterCharLiteralWithDoubleQuote", function() {
+        expect.assertions(4);
+
+        var cf = new CFile({
+            project: p,
+            pathName: undefined,
+            type: cft
+        });
+        expect(cf).toBeTruthy();
+
+        // A char literal containing a double quote must not open a string
+        // region that swallows the following comment.
+        cf.parse('char q = \'"\';\n// resBundle_getLocString(res, "evil")\nchar* g = (char *)resBundle_getLocString(res, "good");\n');
+
+        var set = cf.getTranslationSet();
+        expect(set).toBeTruthy();
+        expect(set.size()).toBe(1);
+
+        var resources = set.getAll();
+        expect(resources[0].getSource()).toBe("good");
+    });
 });

@@ -1500,4 +1500,26 @@ describe("qmlfile", function() {
         expect(resources[0].getSource()).toBe("For more information, please visit: https://www.example.foo/privacy");
         expect(resources[0].getKey()).toBe("For more information, please visit: https://www.example.foo/privacy");
     });
+    test("QMLFileRemoveCommentAfterStringEndingInBackslash", function() {
+        expect.assertions(4);
+
+        var qf = new QMLFile({
+            project: p,
+            pathName: undefined,
+            type: qmlft
+        });
+        expect(qf).toBeTruthy();
+
+        // The first string ends in an escaped backslash. The regex must not
+        // treat its closing quote as escaped and absorb the following comment,
+        // otherwise the commented-out call would be wrongly extracted.
+        qf.parse('var path = "C:\\\\dir\\\\";\n// qsTr("evil")\nvar g = qsTr("good");\n');
+
+        var set = qf.getTranslationSet();
+        expect(set).toBeTruthy();
+        expect(set.size()).toBe(1);
+
+        var resources = set.getAll();
+        expect(resources[0].getSource()).toBe("good");
+    });
 });
