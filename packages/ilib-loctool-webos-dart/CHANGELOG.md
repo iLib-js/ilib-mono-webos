@@ -1,5 +1,14 @@
 # ilib-loctool-webos-dart
 
+## 1.5.4
+
+### Patch Changes
+
+- 4b2f01d: Fix comment removal to preserve string and character literals:
+
+  Strings containing `//` (e.g. URLs like `"https://example.com"`) are no
+  longer corrupted by having their contents stripped as comments.
+
 ## 1.5.3
 
 ### Patch Changes

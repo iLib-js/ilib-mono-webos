@@ -1,5 +1,20 @@
 # ilib-loctool-webos-dist
 
+## 1.20.8
+
+### Patch Changes
+
+- 4b2f01d: ilib-loctool-webos-c
+  ilib-loctool-webos-cpp
+  ilib-loctool-webos-dart
+  ilib-loctool-webos-qml
+  - Fix comment removal so string and character literals are preserved correctly.
+- Updated dependencies [4b2f01d]
+  - ilib-loctool-webos-c@1.10.4
+  - ilib-loctool-webos-cpp@1.10.4
+  - ilib-loctool-webos-dart@1.5.4
+  - ilib-loctool-webos-qml@1.10.4
+
 ## 1.20.7
 
 ### Patch Changes
