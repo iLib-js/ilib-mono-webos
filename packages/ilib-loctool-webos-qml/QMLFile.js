@@ -1,7 +1,7 @@
 /*
  * QMLFile.js - plugin to extract resources from a QML source code file
  *
- * Copyright (c) 2020-2023, JEDLSoft
+ * Copyright (c) 2020-2023, 2026 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -98,11 +98,19 @@ QMLFile.trimComment = function(commentString) {
 QMLFile.removeCommentLines = function(data) {
     if (!data) return;
 
-    // comment style: // , /* */ single, multi line
+    // Remove comments while preserving string literals.
+    // Match string literals (single or double quoted) first to skip them,
+    // then match // line comments (except i18n) and /* */ block comments.
     var trimData = data.replace(/\r(\n)*/g, "\n").  // newline character for window
-                    replace(/\/\/(?!\:|\~)\s*((?!i18n).)*[$/\n]/g, "").
-                    replace(/\/\*+([^*]|\*(?!\/))*\*+\//g, "").
-                    replace(/\/\*(.*)\*\//g, "");
+                    replace(
+                        /"(\\.|[^"\\])*"|'(\\.|[^'\\])*'|\/\/(?!\:|\~)\s*((?!i18n).)*[$/\n]|\/\*+([^*]|\*(?!\/))*\*+\/|\/\*(.*)\*\//g,
+                        function(match) {
+                            if (match[0] === '"' || match[0] === "'") {
+                                return match;
+                            }
+                            return "";
+                        }
+                    );
     return trimData;
 };
 
@@ -214,7 +222,7 @@ QMLFile.prototype.parse = function(data) {
             this.set.add(r);
         } else {
             this.logger.warn("Warning: Bogus empty string in get string call: ");
-            this.logger.warn("... " + data.substring(result.index, reGetString.lastIndex) + " ...");
+            this.logger.warn("... " + data.substring(result.index, reqsTrString.lastIndex) + " ...");
         }
         result = reqsTrString.exec(data);
     }

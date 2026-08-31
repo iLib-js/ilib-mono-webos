@@ -1,7 +1,7 @@
 /*
  * CppFile.test.js - test the C++ file handler object.
  *
- * Copyright (c) 2020-2021, 2023 JEDLSoft
+ * Copyright (c) 2020-2021, 2023, 2026 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -838,5 +838,108 @@ describe("cppfile", function() {
         expect(r).toBeTruthy();
         expect(r[0].getSource()).toBe("Go to Settings");
         expect(r[0].getKey()).toBe("Go to Settings");
+    });
+    test("CppFileParseStringWithURLContainingDoubleSlash", function() {
+        expect.assertions(5);
+
+        var cppf = new CppFile({
+            project: p,
+            pathName: undefined,
+            type: cppft
+        });
+        expect(cppf).toBeTruthy();
+
+        cppf.parse('std::string msg = getLocString("For more information, please visit: https://www.example.foo/privacy");\n');
+
+        var set = cppf.getTranslationSet();
+        expect(set).toBeTruthy();
+        expect(set.size()).toBe(1);
+
+        var resources = set.getAll();
+        expect(resources[0].getSource()).toBe("For more information, please visit: https://www.example.foo/privacy");
+        expect(resources[0].getKey()).toBe("For more information, please visit: https://www.example.foo/privacy");
+    });
+    test("CppFileRemoveCommentAfterStringEndingInBackslash", function() {
+        expect.assertions(4);
+
+        var cppf = new CppFile({
+            project: p,
+            pathName: undefined,
+            type: cppft
+        });
+        expect(cppf).toBeTruthy();
+
+        // The first string ends in an escaped backslash. The regex must not
+        // treat its closing quote as escaped and absorb the following comment,
+        // otherwise the commented-out call would be wrongly extracted.
+        cppf.parse('std::string path = "C:\\\\dir\\\\";\n// getLocString("evil")\nstd::string g = getLocString("good");\n');
+
+        var set = cppf.getTranslationSet();
+        expect(set).toBeTruthy();
+        expect(set.size()).toBe(1);
+
+        var resources = set.getAll();
+        expect(resources[0].getSource()).toBe("good");
+    });
+    test("CppFileRemoveCommentAfterCharLiteralWithDoubleQuote", function() {
+        expect.assertions(4);
+
+        var cppf = new CppFile({
+            project: p,
+            pathName: undefined,
+            type: cppft
+        });
+        expect(cppf).toBeTruthy();
+
+        // A char literal containing a double quote must not open a string
+        // region that swallows the following comment.
+        cppf.parse('char q = \'"\';\n// getLocString("evil")\nstd::string g = getLocString("good");\n');
+
+        var set = cppf.getTranslationSet();
+        expect(set).toBeTruthy();
+        expect(set.size()).toBe(1);
+
+        var resources = set.getAll();
+        expect(resources[0].getSource()).toBe("good");
+    });
+    test("CppFileNotParseCommentedOutGetLocStringAfterApostropheInI18nComment", function() {
+        expect.assertions(4);
+
+        var cppf = new CppFile({
+            project: p,
+            pathName: undefined,
+            type: cppft
+        });
+        expect(cppf).toBeTruthy();
+
+        cppf.parse(
+            "        std::string a = getLocString(\"Signal is unstable.\"); // i18n user's signal\n" +
+            "        //std::string b = getLocString(\"Should not be extracted.\"); // i18n commented out\n" +
+            "        std::string c = getLocString(\"Please try again.\"); // i18n\n" +
+            "        char_append(msg, ' ');\n"
+        );
+
+        var set = cppf.getTranslationSet();
+        expect(set).toBeTruthy();
+        expect(set.size()).toBe(2);
+
+        var r = set.getBySource("Should not be extracted.");
+        expect(r).toBeFalsy();
+    });
+    test("CppFileExtractNonExistentFile", function() {
+        expect.assertions(2);
+
+        var cppf = new CppFile({
+            project: p,
+            pathName: "./does-not-exist.cpp",
+            type: cppft
+        });
+        expect(cppf).toBeTruthy();
+
+        // should attempt to read the file and not throw
+        cppf.extract();
+
+        var set = cppf.getTranslationSet();
+        expect(set.size()).toBe(0);
     });
 });

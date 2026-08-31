@@ -1,7 +1,7 @@
 /*
  * DartFile.test.js - test the Dart file handler object.
  *
- * Copyright (c) 2023-2025, JEDLSoft
+ * Copyright (c) 2023-2026 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -1121,6 +1121,46 @@ describe("dartfile", function() {
         var rs2 = r.generatePseudo("zxx-Hebr-XX", rb);
         expect(rs2.getTarget()).toBe('[טהִס ִס ַ טֶסט6543210]');
     });
+    test("DartFileParseStringWithURLContainingDoubleSlash", function() {
+        expect.assertions(5);
+
+        var d = new DartFile({
+            project: p,
+            pathName: undefined,
+            type: dft
+        });
+        expect(d).toBeTruthy();
+
+        d.parse("translate('For more information, please visit: https://www.example.foo/privacy')");
+
+        var set = d.getTranslationSet();
+        expect(set).toBeTruthy();
+
+        var r = set.getBySource("For more information, please visit: https://www.example.foo/privacy");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("For more information, please visit: https://www.example.foo/privacy");
+        expect(r.getKey()).toBe("For more information, please visit: https://www.example.foo/privacy");
+    });
+    test("DartFileParseStringWithURLContainingDoubleSlashDoubleQuote", function() {
+        expect.assertions(5);
+
+        var d = new DartFile({
+            project: p,
+            pathName: undefined,
+            type: dft
+        });
+        expect(d).toBeTruthy();
+
+        d.parse('translate("Visit http://www.example.foo/info for details")');
+
+        var set = d.getTranslationSet();
+        expect(set).toBeTruthy();
+
+        var r = set.getBySource("Visit http://www.example.foo/info for details");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("Visit http://www.example.foo/info for details");
+        expect(r.getKey()).toBe("Visit http://www.example.foo/info for details");
+    });
     test("DartFileNotParseComment", function() {
         expect.assertions(2);
 
@@ -1166,5 +1206,122 @@ describe("dartfile", function() {
         expect(r[0].getSource()).toBe("This is a test2");
         expect(r[0].getKey()).toBe("This is a test2");
         expect(r[0].getComment()).toBe(undefined);
+    });
+    test("DartFileRemoveCommentAfterDoubleQuotedStringEndingInBackslash", function() {
+        expect.assertions(4);
+
+        var d = new DartFile({
+            project: p,
+            pathName: undefined,
+            type: dft
+        });
+        expect(d).toBeTruthy();
+
+        // The first string ends in an escaped backslash. The regex must not
+        // treat its closing quote as escaped and absorb the following comment,
+        // otherwise the commented-out call would be wrongly extracted.
+        d.parse('var path = "C:\\\\dir\\\\";\n// translate("evil")\nvar g = translate("good");\n');
+
+        var set = d.getTranslationSet();
+        expect(set).toBeTruthy();
+        expect(set.size()).toBe(1);
+
+        var r = set.getAll();
+        expect(r[0].getSource()).toBe("good");
+    });
+    test("DartFileRemoveCommentAfterSingleQuotedStringEndingInBackslash", function() {
+        expect.assertions(4);
+
+        var d = new DartFile({
+            project: p,
+            pathName: undefined,
+            type: dft
+        });
+        expect(d).toBeTruthy();
+
+        d.parse("var path = 'C:\\\\dir\\\\';\n// translate('evil')\nvar g = translate('good');\n");
+
+        var set = d.getTranslationSet();
+        expect(set).toBeTruthy();
+        expect(set.size()).toBe(1);
+
+        var r = set.getAll();
+        expect(r[0].getSource()).toBe("good");
+    });
+    test("DartFileParseEmptyStringTranslate", function() {
+        expect.assertions(2);
+
+        var d = new DartFile({
+            project: p,
+            pathName: undefined,
+            type: dft
+        });
+        expect(d).toBeTruthy();
+
+        d.parse('translate("");');
+
+        var set = d.getTranslationSet();
+        expect(set.size()).toBe(0);
+    });
+    test("DartFileParseEmptyStringTranslateWithArgs", function() {
+        expect.assertions(2);
+
+        var d = new DartFile({
+            project: p,
+            pathName: undefined,
+            type: dft
+        });
+        expect(d).toBeTruthy();
+
+        d.parse('translate("", args: {});');
+
+        var set = d.getTranslationSet();
+        expect(set.size()).toBe(0);
+    });
+    test("DartFileParseEmptyStringTranslatePlural", function() {
+        expect.assertions(2);
+
+        var d = new DartFile({
+            project: p,
+            pathName: undefined,
+            type: dft
+        });
+        expect(d).toBeTruthy();
+
+        d.parse('translatePlural("", count);');
+
+        var set = d.getTranslationSet();
+        expect(set.size()).toBe(0);
+    });
+    test("DartFileParseEmptyStringTranslateWithKey", function() {
+        expect.assertions(2);
+
+        var d = new DartFile({
+            project: p,
+            pathName: undefined,
+            type: dft
+        });
+        expect(d).toBeTruthy();
+
+        d.parse('translate("", key: "mykey");');
+
+        var set = d.getTranslationSet();
+        expect(set.size()).toBe(0);
+    });
+    test("DartFileExtractNonExistentFile", function() {
+        expect.assertions(2);
+
+        var d = new DartFile({
+            project: p,
+            pathName: "./does-not-exist.dart",
+            type: dft
+        });
+        expect(d).toBeTruthy();
+
+        // should attempt to read the file and not throw
+        d.extract();
+
+        var set = d.getTranslationSet();
+        expect(set.size()).toBe(0);
     });
 });

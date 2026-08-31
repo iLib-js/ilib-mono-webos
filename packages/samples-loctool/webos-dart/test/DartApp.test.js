@@ -42,11 +42,12 @@ describe('test the localization result of webos-dart app', () => {
         });
     }, 50000);
     test("dartsample_test_ko_KR", function() {
-        expect.assertions(9);
+        expect.assertions(11);
         filePath = path.join(resourcePath, 'ko.json');
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
         jsonData = pluginUtils.loadData(filePath);
+        expect(Object.keys(jsonData).length).toBe(9);
         expect(jsonData["App List"]).toBe("앱 목록");
         expect(jsonData["App Rating"]).toBe("앱 등급");
         expect(jsonData["Back button"]).toBe("이전 버튼");
@@ -55,6 +56,7 @@ describe('test the localization result of webos-dart app', () => {
         expect(jsonData["{appName} app cannot be deleted."]).toBe("{appName}앱은 삭제될 수 없습니다.");
         expect(jsonData["The first option is {arg1}."]).toBe("첫 번째 옵션은 {arg1} 입니다.");
         expect(jsonData["Exclusive features for {%TV_model} are all gathered here."]).toBe("{%TV_model}에서만 제공하는 유용한 기능들이 모여 있어요.");
+        expect(jsonData["For more information, please visit: https://www.example.foo/privacy"]).toBe("자세한 내용은 https://www.example.foo/privacy에서 확인하실 수 있습니다.");
     });
     test("dartsample_test_fr_CA", function() {
         expect.assertions(6);

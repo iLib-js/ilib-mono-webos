@@ -1,7 +1,7 @@
 /*
  * CFile.test.js - test the c file handler object.
  *
- * Copyright (c) 2019-2021, 2023, 2025 JEDLSoft
+ * Copyright (c) 2019-2021, 2023, 2025-2026 JEDLSoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -931,5 +931,164 @@ describe("cfile", function() {
         var set = cf.getTranslationSet();
         expect(set).toBeTruthy();
         expect(set.size()).toBe(1);
+    });
+    test("CFileParseStringWithURLContainingDoubleSlash", function() {
+        expect.assertions(5);
+
+        var cf = new CFile({
+            project: p,
+            pathName: undefined,
+            type: cft
+        });
+        expect(cf).toBeTruthy();
+
+        cf.parse('char* msg = (char *)resBundle_getLocString(resBundle, "For more information, please visit: https://www.example.foo/privacy");\n');
+
+        var set = cf.getTranslationSet();
+        expect(set).toBeTruthy();
+        expect(set.size()).toBe(1);
+
+        var resources = set.getAll();
+        expect(resources[0].getSource()).toBe("For more information, please visit: https://www.example.foo/privacy");
+        expect(resources[0].getKey()).toBe("For more information, please visit: https://www.example.foo/privacy");
+    });
+    test("CFileRemoveCommentAfterStringEndingInBackslash", function() {
+        expect.assertions(4);
+
+        var cf = new CFile({
+            project: p,
+            pathName: undefined,
+            type: cft
+        });
+        expect(cf).toBeTruthy();
+
+        // The first string ends in an escaped backslash. The regex must not
+        // treat its closing quote as escaped and absorb the following comment,
+        // otherwise the commented-out call would be wrongly extracted.
+        cf.parse('char* path = "C:\\\\dir\\\\";\n// resBundle_getLocString(res, "evil")\nchar* g = (char *)resBundle_getLocString(res, "good");\n');
+
+        var set = cf.getTranslationSet();
+        expect(set).toBeTruthy();
+        expect(set.size()).toBe(1);
+
+        var resources = set.getAll();
+        expect(resources[0].getSource()).toBe("good");
+    });
+    test("CFileRemoveCommentAfterCharLiteralWithDoubleQuote", function() {
+        expect.assertions(4);
+
+        var cf = new CFile({
+            project: p,
+            pathName: undefined,
+            type: cft
+        });
+        expect(cf).toBeTruthy();
+
+        // A char literal containing a double quote must not open a string
+        // region that swallows the following comment.
+        cf.parse('char q = \'"\';\n// resBundle_getLocString(res, "evil")\nchar* g = (char *)resBundle_getLocString(res, "good");\n');
+
+        var set = cf.getTranslationSet();
+        expect(set).toBeTruthy();
+        expect(set.size()).toBe(1);
+
+        var resources = set.getAll();
+        expect(resources[0].getSource()).toBe("good");
+    });
+    test("CFileNotParseCommentedOutGetLocStringWithTrailingI18nComment", function() {
+        expect.assertions(4);
+
+        var cf = new CFile({
+            project: p,
+            pathName: undefined,
+            type: cft
+        });
+        expect(cf).toBeTruthy();
+
+        // A commented-out resBundle_getLocString() call whose line also has a
+        // trailing "// i18n" comment must not be extracted. The active call on
+        // the following line should be the only extracted string.
+        cf.parse(
+            '        //QEVENTNINE-8485, ADTECDEVOP-204\n' +
+            '        //localeString = (char*) resBundle_getLocString(_gResBundle, "Failed to register Magic Remote, press the GUIDE button for 5 seconds to re-register."); // i18n It means Remote pairing is failed.\n' +
+            '        localeString = (char*) resBundle_getLocString(_gResBundle, "Remote registration is failed. Please press the OK(Wheel) button again to register."); // i18n It means Remote pairing is failed.\n'
+        );
+
+        var set = cf.getTranslationSet();
+        expect(set).toBeTruthy();
+        expect(set.size()).toBe(1);
+
+        var resources = set.getAll();
+        expect(resources[0].getSource()).toBe("Remote registration is failed. Please press the OK(Wheel) button again to register.");
+    });
+    test("CFileNotParseCommentedOutGetLocStringAfterApostropheInI18nComment", function() {
+        expect.assertions(4);
+
+        var cf = new CFile({
+            project: p,
+            pathName: undefined,
+            type: cft
+        });
+        expect(cf).toBeTruthy();
+
+        cf.parse(
+            "        char* a = (char *)resBundle_getLocString(res, \"Signal is unstable.\"); // i18n user's signal\n" +
+            "        //char* b = (char *)resBundle_getLocString(res, \"Should not be extracted.\"); // i18n commented out\n" +
+            "        char* c = (char *)resBundle_getLocString(res, \"Please try again.\"); // i18n\n" +
+            "        char_append(msg, ' ');\n"
+        );
+
+        var set = cf.getTranslationSet();
+        expect(set).toBeTruthy();
+        expect(set.size()).toBe(2);
+
+        var r = set.getBySource("Should not be extracted.");
+        expect(r).toBeFalsy();
+    });
+    test("CFileParseEmptyStringGetLocString", function() {
+        expect.assertions(2);
+
+        var cf = new CFile({
+            project: p,
+            pathName: undefined,
+            type: cft
+        });
+        expect(cf).toBeTruthy();
+
+        cf.parse('char* btn= (char *)resBundle_getLocString(res, "");');
+
+        var set = cf.getTranslationSet();
+        expect(set.size()).toBe(0);
+    });
+    test("CFileParseEmptyStringGetLocStringWithKey", function() {
+        expect.assertions(2);
+
+        var cf = new CFile({
+            project: p,
+            pathName: undefined,
+            type: cft
+        });
+        expect(cf).toBeTruthy();
+
+        cf.parse('char* btn= (char *)resBundle_getLocStringWithKey(res, "btn.key", "");');
+
+        var set = cf.getTranslationSet();
+        expect(set.size()).toBe(0);
+    });
+    test("CFileExtractNonExistentFile", function() {
+        expect.assertions(2);
+
+        var cf = new CFile({
+            project: p,
+            pathName: "./does-not-exist.c",
+            type: cft
+        });
+        expect(cf).toBeTruthy();
+
+        // should attempt to read the file and not throw
+        cf.extract();
+
+        var set = cf.getTranslationSet();
+        expect(set.size()).toBe(0);
     });
 });
