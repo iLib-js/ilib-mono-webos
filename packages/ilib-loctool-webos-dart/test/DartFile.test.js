@@ -1248,4 +1248,80 @@ describe("dartfile", function() {
         var r = set.getAll();
         expect(r[0].getSource()).toBe("good");
     });
+    test("DartFileParseEmptyStringTranslate", function() {
+        expect.assertions(2);
+
+        var d = new DartFile({
+            project: p,
+            pathName: undefined,
+            type: dft
+        });
+        expect(d).toBeTruthy();
+
+        d.parse('translate("");');
+
+        var set = d.getTranslationSet();
+        expect(set.size()).toBe(0);
+    });
+    test("DartFileParseEmptyStringTranslateWithArgs", function() {
+        expect.assertions(2);
+
+        var d = new DartFile({
+            project: p,
+            pathName: undefined,
+            type: dft
+        });
+        expect(d).toBeTruthy();
+
+        d.parse('translate("", args: {});');
+
+        var set = d.getTranslationSet();
+        expect(set.size()).toBe(0);
+    });
+    test("DartFileParseEmptyStringTranslatePlural", function() {
+        expect.assertions(2);
+
+        var d = new DartFile({
+            project: p,
+            pathName: undefined,
+            type: dft
+        });
+        expect(d).toBeTruthy();
+
+        d.parse('translatePlural("", count);');
+
+        var set = d.getTranslationSet();
+        expect(set.size()).toBe(0);
+    });
+    test("DartFileParseEmptyStringTranslateWithKey", function() {
+        expect.assertions(2);
+
+        var d = new DartFile({
+            project: p,
+            pathName: undefined,
+            type: dft
+        });
+        expect(d).toBeTruthy();
+
+        d.parse('translate("", key: "mykey");');
+
+        var set = d.getTranslationSet();
+        expect(set.size()).toBe(0);
+    });
+    test("DartFileExtractNonExistentFile", function() {
+        expect.assertions(2);
+
+        var d = new DartFile({
+            project: p,
+            pathName: "./does-not-exist.dart",
+            type: dft
+        });
+        expect(d).toBeTruthy();
+
+        // should attempt to read the file and not throw
+        d.extract();
+
+        var set = d.getTranslationSet();
+        expect(set.size()).toBe(0);
+    });
 });

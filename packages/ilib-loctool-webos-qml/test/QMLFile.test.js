@@ -1522,4 +1522,80 @@ describe("qmlfile", function() {
         var resources = set.getAll();
         expect(resources[0].getSource()).toBe("good");
     });
+    test("QMLFileParseEmptyStringQsTr", function() {
+        expect.assertions(2);
+
+        var qf = new QMLFile({
+            project: p,
+            pathName: undefined,
+            type: qmlft
+        });
+        expect(qf).toBeTruthy();
+
+        qf.parse('qsTr("")');
+
+        var set = qf.getTranslationSet();
+        expect(set.size()).toBe(0);
+    });
+    test("QMLFileParseEmptyStringQsTrWithDisambiguation", function() {
+        expect.assertions(2);
+
+        var qf = new QMLFile({
+            project: p,
+            pathName: undefined,
+            type: qmlft
+        });
+        expect(qf).toBeTruthy();
+
+        qf.parse('qsTr("", "context")');
+
+        var set = qf.getTranslationSet();
+        expect(set.size()).toBe(0);
+    });
+    test("QMLFileParseEmptyStringQsTranslate", function() {
+        expect.assertions(2);
+
+        var qf = new QMLFile({
+            project: p,
+            pathName: undefined,
+            type: qmlft
+        });
+        expect(qf).toBeTruthy();
+
+        qf.parse('qsTranslate("context", "")');
+
+        var set = qf.getTranslationSet();
+        expect(set.size()).toBe(0);
+    });
+    test("QMLFileParseEmptyStringQsTranslateWithDisambiguation", function() {
+        expect.assertions(2);
+
+        var qf = new QMLFile({
+            project: p,
+            pathName: undefined,
+            type: qmlft
+        });
+        expect(qf).toBeTruthy();
+
+        qf.parse('qsTranslate("context", "", "")');
+
+        var set = qf.getTranslationSet();
+        expect(set.size()).toBe(0);
+    });
+    test("QMLFileExtractNonExistentFile", function() {
+        expect.assertions(2);
+
+        var qf = new QMLFile({
+            project: p,
+            pathName: "./does-not-exist.qml",
+            type: qmlft
+        });
+        expect(qf).toBeTruthy();
+
+        // should attempt to read the file and not throw
+        qf.extract();
+
+        var set = qf.getTranslationSet();
+        expect(set.size()).toBe(0);
+    });
 });

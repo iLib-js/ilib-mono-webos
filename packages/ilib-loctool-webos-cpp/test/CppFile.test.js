@@ -926,4 +926,20 @@ describe("cppfile", function() {
         var r = set.getBySource("Should not be extracted.");
         expect(r).toBeFalsy();
     });
+    test("CppFileExtractNonExistentFile", function() {
+        expect.assertions(2);
+
+        var cppf = new CppFile({
+            project: p,
+            pathName: "./does-not-exist.cpp",
+            type: cppft
+        });
+        expect(cppf).toBeTruthy();
+
+        // should attempt to read the file and not throw
+        cppf.extract();
+
+        var set = cppf.getTranslationSet();
+        expect(set.size()).toBe(0);
+    });
 });

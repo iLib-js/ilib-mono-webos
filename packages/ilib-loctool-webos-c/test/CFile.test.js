@@ -1045,4 +1045,50 @@ describe("cfile", function() {
         var r = set.getBySource("Should not be extracted.");
         expect(r).toBeFalsy();
     });
+    test("CFileParseEmptyStringGetLocString", function() {
+        expect.assertions(2);
+
+        var cf = new CFile({
+            project: p,
+            pathName: undefined,
+            type: cft
+        });
+        expect(cf).toBeTruthy();
+
+        cf.parse('char* btn= (char *)resBundle_getLocString(res, "");');
+
+        var set = cf.getTranslationSet();
+        expect(set.size()).toBe(0);
+    });
+    test("CFileParseEmptyStringGetLocStringWithKey", function() {
+        expect.assertions(2);
+
+        var cf = new CFile({
+            project: p,
+            pathName: undefined,
+            type: cft
+        });
+        expect(cf).toBeTruthy();
+
+        cf.parse('char* btn= (char *)resBundle_getLocStringWithKey(res, "btn.key", "");');
+
+        var set = cf.getTranslationSet();
+        expect(set.size()).toBe(0);
+    });
+    test("CFileExtractNonExistentFile", function() {
+        expect.assertions(2);
+
+        var cf = new CFile({
+            project: p,
+            pathName: "./does-not-exist.c",
+            type: cft
+        });
+        expect(cf).toBeTruthy();
+
+        // should attempt to read the file and not throw
+        cf.extract();
+
+        var set = cf.getTranslationSet();
+        expect(set.size()).toBe(0);
+    });
 });

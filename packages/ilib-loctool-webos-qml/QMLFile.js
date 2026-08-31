@@ -222,7 +222,7 @@ QMLFile.prototype.parse = function(data) {
             this.set.add(r);
         } else {
             this.logger.warn("Warning: Bogus empty string in get string call: ");
-            this.logger.warn("... " + data.substring(result.index, reGetString.lastIndex) + " ...");
+            this.logger.warn("... " + data.substring(result.index, reqsTrString.lastIndex) + " ...");
         }
         result = reqsTrString.exec(data);
     }
