@@ -902,4 +902,28 @@ describe("cppfile", function() {
         var resources = set.getAll();
         expect(resources[0].getSource()).toBe("good");
     });
+    test("CppFileNotParseCommentedOutGetLocStringAfterApostropheInI18nComment", function() {
+        expect.assertions(4);
+
+        var cppf = new CppFile({
+            project: p,
+            pathName: undefined,
+            type: cppft
+        });
+        expect(cppf).toBeTruthy();
+
+        cppf.parse(
+            "        std::string a = getLocString(\"Signal is unstable.\"); // i18n user's signal\n" +
+            "        //std::string b = getLocString(\"Should not be extracted.\"); // i18n commented out\n" +
+            "        std::string c = getLocString(\"Please try again.\"); // i18n\n" +
+            "        char_append(msg, ' ');\n"
+        );
+
+        var set = cppf.getTranslationSet();
+        expect(set).toBeTruthy();
+        expect(set.size()).toBe(2);
+
+        var r = set.getBySource("Should not be extracted.");
+        expect(r).toBeFalsy();
+    });
 });

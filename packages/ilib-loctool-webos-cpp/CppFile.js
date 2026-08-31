@@ -98,7 +98,7 @@ CppFile.trimComment = function(commentString) {
     // Match char literals and string literals first to skip them,
     // then match // line comments (except i18n) and /* */ block comments.
     var trimData = data.replace(
-        /'(\\.|[^'\\])*'|"(\\.|[^"\\])*"|\/\/\s*((?!i18n).)*[$/\n]|\/\*(((?!i18n).)*)\*\/|\/\*+((?!i18n)[^*]|\*(?!\/))*\*+\//g,
+        /'(\\.|[^'\\])'|"(\\.|[^"\\])*"|\/\/\s*((?!i18n).)*[$/\n]|\/\*(((?!i18n).)*)\*\/|\/\*+((?!i18n)[^*]|\*(?!\/))*\*+\//g,
         function(match) {
             if (match[0] === '"' || match[0] === "'") {
                 return match;

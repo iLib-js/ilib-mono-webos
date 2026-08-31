@@ -995,4 +995,54 @@ describe("cfile", function() {
         var resources = set.getAll();
         expect(resources[0].getSource()).toBe("good");
     });
+    test("CFileNotParseCommentedOutGetLocStringWithTrailingI18nComment", function() {
+        expect.assertions(4);
+
+        var cf = new CFile({
+            project: p,
+            pathName: undefined,
+            type: cft
+        });
+        expect(cf).toBeTruthy();
+
+        // A commented-out resBundle_getLocString() call whose line also has a
+        // trailing "// i18n" comment must not be extracted. The active call on
+        // the following line should be the only extracted string.
+        cf.parse(
+            '        //QEVENTNINE-8485, ADTECDEVOP-204\n' +
+            '        //localeString = (char*) resBundle_getLocString(_gResBundle, "Failed to register Magic Remote, press the GUIDE button for 5 seconds to re-register."); // i18n It means Remote pairing is failed.\n' +
+            '        localeString = (char*) resBundle_getLocString(_gResBundle, "Remote registration is failed. Please press the OK(Wheel) button again to register."); // i18n It means Remote pairing is failed.\n'
+        );
+
+        var set = cf.getTranslationSet();
+        expect(set).toBeTruthy();
+        expect(set.size()).toBe(1);
+
+        var resources = set.getAll();
+        expect(resources[0].getSource()).toBe("Remote registration is failed. Please press the OK(Wheel) button again to register.");
+    });
+    test("CFileNotParseCommentedOutGetLocStringAfterApostropheInI18nComment", function() {
+        expect.assertions(4);
+
+        var cf = new CFile({
+            project: p,
+            pathName: undefined,
+            type: cft
+        });
+        expect(cf).toBeTruthy();
+
+        cf.parse(
+            "        char* a = (char *)resBundle_getLocString(res, \"Signal is unstable.\"); // i18n user's signal\n" +
+            "        //char* b = (char *)resBundle_getLocString(res, \"Should not be extracted.\"); // i18n commented out\n" +
+            "        char* c = (char *)resBundle_getLocString(res, \"Please try again.\"); // i18n\n" +
+            "        char_append(msg, ' ');\n"
+        );
+
+        var set = cf.getTranslationSet();
+        expect(set).toBeTruthy();
+        expect(set.size()).toBe(2);
+
+        var r = set.getBySource("Should not be extracted.");
+        expect(r).toBeFalsy();
+    });
 });
