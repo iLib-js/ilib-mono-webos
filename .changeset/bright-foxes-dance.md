@@ -5,9 +5,7 @@
 "ilib-loctool-webos-qml": patch
 ---
 
-Fix comment removal to lex string/character literals correctly:
+Fix comment removal to preserve string and character literals:
 
-- A string ending in escaped backslash (e.g. `"path\\"`) no longer
-  consumes its closing quote, letting a following comment survive.
-- (C/C++) A double quote inside a char literal (e.g. `'"'`) no longer
-  opens a spurious string region that swallows a following comment.
+Strings containing `//` (e.g. URLs like `"https://example.com"`) are no
+longer corrupted by having their contents stripped as comments.
