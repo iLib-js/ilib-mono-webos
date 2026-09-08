@@ -467,7 +467,6 @@ describe("javascriptfile", function() {
             type: jsft
         });
         expect(j).toBeTruthy();
-        debugger;
         j.parse("\trb.getString('This is a test'); // i18N translator comments.");
 
         var set = j.getTranslationSet();
