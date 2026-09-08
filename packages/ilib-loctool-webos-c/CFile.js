@@ -109,7 +109,7 @@ CFile.removeCommentLines = function(data) {
 };
 
 var reGetLocString = new RegExp(/\bresBundle_getLocString\(\s*([^"][^,]*|"(\\"|[^"])*")\s*\,\s*"((\\"|[^"])*)"\s*\)/g);
-var reGetLocStringWithKey = new RegExp(/\bresBundle_getLocStringWithKey\(\s*([^"][^,]*|"(\\"|[^"])*")\s*\,\s*"((\\"|[^"])*)"\s*\,\s*"((\\"|[^"])*)"\)/g);
+var reGetLocStringWithKey = new RegExp(/\bresBundle_getLocStringWithKey\(\s*([^"][^,]*|"(\\"|[^"])*")\s*\,\s*"((\\"|[^"])*)"\s*\,\s*"((\\"|[^"])*)"\s*\)/g);
 var reI18nComment = new RegExp(/\/(\*|\/)\s*i18n\s*(.*)($|\*\/)/);
 
 /**
