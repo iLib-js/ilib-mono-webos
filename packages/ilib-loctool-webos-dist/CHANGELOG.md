@@ -1,5 +1,18 @@
 # ilib-loctool-webos-dist
 
+## 1.20.9
+
+### Patch Changes
+
+- fe25764: ilib-loctool-webos-javascript
+  ilib-loctool-webos-cpp
+  ilib-loctool-webos-c
+  - Fix string extraction when extra whitespace surrounds argument separators.
+- Updated dependencies [fe25764]
+  - ilib-loctool-webos-javascript@1.13.4
+  - ilib-loctool-webos-cpp@1.10.5
+  - ilib-loctool-webos-c@1.10.5
+
 ## 1.20.8
 
 ### Patch Changes

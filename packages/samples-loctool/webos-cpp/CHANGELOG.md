@@ -1,5 +1,12 @@
 # sample-webos-cpp
 
+## 1.1.14
+
+### Patch Changes
+
+- Updated dependencies [fe25764]
+  - ilib-loctool-webos-cpp@1.10.5
+
 ## 1.1.13
 
 ### Patch Changes

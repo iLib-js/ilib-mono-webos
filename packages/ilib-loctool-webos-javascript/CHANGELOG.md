@@ -1,5 +1,15 @@
 # ilib-loctool-webos-javascript
 
+## 1.13.4
+
+### Patch Changes
+
+- fe25764: Fix string extraction when extra whitespace surrounds argument separators:
+  - (js) `$L({ value : 'text', key : 'id' })` with a space before the
+    colon or comma is now extracted correctly.
+  - (c/cpp) `getLocString("text", "key" )` with a space before the closing
+    parenthesis is now extracted correctly, matching the single-argument form.
+
 ## 1.13.3
 
 ### Patch Changes
