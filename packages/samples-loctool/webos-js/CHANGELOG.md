@@ -1,5 +1,12 @@
 # sample-webos-js
 
+## 1.1.15
+
+### Patch Changes
+
+- Updated dependencies [fe25764]
+  - ilib-loctool-webos-javascript@1.13.4
+
 ## 1.1.14
 
 ### Patch Changes

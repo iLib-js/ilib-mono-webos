@@ -1,5 +1,12 @@
 # integration-sample-webos-c
 
+## 1.0.13
+
+### Patch Changes
+
+- Updated dependencies [fe25764]
+  - ilib-loctool-webos-c@1.10.5
+
 ## 1.0.12
 
 ### Patch Changes
