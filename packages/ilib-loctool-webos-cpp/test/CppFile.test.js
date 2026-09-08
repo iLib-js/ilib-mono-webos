@@ -420,6 +420,28 @@ describe("cppfile", function() {
         expect(r[0].getSource()).toBe("Standard");
         expect(r[0].getKey()).toBe("PictureMode.Standard");
     });
+    test("CppFileParseWithKeySpaceBeforeCloseParen", function() {
+        expect.assertions(5);
+
+        var cppf = new CppFile({
+            project: p,
+            pathName: undefined,
+            type: cppft
+        });
+        expect(cppf).toBeTruthy();
+
+        // space between the closing quote and the closing parenthesis
+        cppf.parse('ResBundleAdaptor::Instance().getLocString("PictureMode.Standard", "Standard" );');
+        var set = cppf.getTranslationSet();
+        expect(set).toBeTruthy();
+
+        var r = set.getBy({
+            reskey: "PictureMode.Standard"
+        });
+        expect(r).toBeTruthy();
+        expect(r[0].getSource()).toBe("Standard");
+        expect(r[0].getKey()).toBe("PictureMode.Standard");
+    });
     test("CppFileParseWithKey2", function() {
         expect.assertions(8);
 

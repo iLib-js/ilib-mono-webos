@@ -435,6 +435,28 @@ describe("cfile", function() {
         expect(r[0].getSource()).toBe("Standard");
         expect(r[0].getKey()).toBe("PictureMode.Standard");
     });
+    test("CFileParseWithKeySpaceBeforeCloseParen", function() {
+        expect.assertions(5);
+
+        var cf = new CFile({
+            project: p,
+            pathName: undefined,
+            type: cft
+        });
+        expect(cf).toBeTruthy();
+
+        // space between the closing quote and the closing parenthesis
+        cf.parse('resBundle_getLocStringWithKey(resBundle, "PictureMode.Standard", "Standard" );');
+        var set = cf.getTranslationSet();
+        expect(set).toBeTruthy();
+
+        var r = set.getBy({
+            reskey: "PictureMode.Standard"
+        });
+        expect(r).toBeTruthy();
+        expect(r[0].getSource()).toBe("Standard");
+        expect(r[0].getKey()).toBe("PictureMode.Standard");
+    });
     test("CFileParseWithKey2", function() {
         expect.assertions(8);
 

@@ -110,7 +110,7 @@ CppFile.trimComment = function(commentString) {
  };
 
 var reGetLocString = new RegExp(/\bgetLocString\(\s*"((\\"|[^"])*)"\s*\)/g);
-var reGetLocStringWithKey = new RegExp(/\bgetLocString\(\s*"((\\"|[^"])*)"\s*,\s*"((\\"|[^"])*)"\)/g);
+var reGetLocStringWithKey = new RegExp(/\bgetLocString\(\s*"((\\"|[^"])*)"\s*,\s*"((\\"|[^"])*)"\s*\)/g);
 var reI18nComment = new RegExp(/\/(\*|\/)\s*i18n\s*(.*)($|\*\/)/);
 
 /**

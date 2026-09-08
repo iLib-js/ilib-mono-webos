@@ -236,6 +236,48 @@ describe("javascriptfile", function() {
         expect(r.getSource()).toBe("Channel");
         expect(r.getKey()).toBe("speaker_channel");
     });
+    test("JavaScriptFileParseSimpleSingleQuotesByKeyValueSpaceBeforeColon", function() {
+        expect.assertions(5);
+
+        var j = new JavaScriptFile({
+            project: p,
+            pathName: undefined,
+            type: jsft
+        });
+        expect(j).toBeTruthy();
+
+        // space between the key/value name and the colon
+        j.parse("$L({value : 'Deselect All', key : 'link_app_0065'})");
+
+        var set = j.getTranslationSet();
+        expect(set).toBeTruthy();
+
+        var r = set.getBySource("Deselect All");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("Deselect All");
+        expect(r.getKey()).toBe("link_app_0065");
+    });
+    test("JavaScriptFileParseSimpleSingleQuotesByKeyValueSpaceBeforeComma", function() {
+        expect.assertions(5);
+
+        var j = new JavaScriptFile({
+            project: p,
+            pathName: undefined,
+            type: jsft
+        });
+        expect(j).toBeTruthy();
+
+        // space before the comma separating the key and value
+        j.parse("$L({ key : 'speaker_channel' , value : 'Channel' })");
+
+        var set = j.getTranslationSet();
+        expect(set).toBeTruthy();
+
+        var r = set.getBySource("Channel");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("Channel");
+        expect(r.getKey()).toBe("speaker_channel");
+    });
     test("JavaScriptFileParseJSSimpleSingleQuotes", function() {
         expect.assertions(5);
 
