@@ -1,5 +1,15 @@
 # sample-webos-js-with-universal
 
+## 1.0.3
+
+### Patch Changes
+
+- Updated dependencies [5875507]
+  - ilib-loctool-webos-json-resource@1.7.11
+  - ilib-loctool-webos-javascript@1.13.5
+  - ilib-loctool-webos-common@1.2.6
+  - ilib-loctool-webos-json@1.2.4
+
 ## 1.0.2
 
 ### Patch Changes
