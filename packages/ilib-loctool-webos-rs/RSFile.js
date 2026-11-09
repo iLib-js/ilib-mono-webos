@@ -36,6 +36,9 @@ var RSFile = function(props) {
     this.API = props.project.getAPI();
     this.logger = this.API.getLogger("loctool.plugin.webOSRSFile");
     this.set = this.API.newTranslationSet(this.project ? this.project.sourceLocale : "zxx-XX");
+    this.mapping = (this.type && typeof(this.type.getMapping) === "function") ?
+        this.type.getMapping(this.pathName) :
+        undefined;
 };
 
 /**
@@ -154,6 +157,7 @@ RSFile.prototype.parse = function(data) {
                 datatype: this.type.datatype,
                 index: this.resourceIndex++
             });
+            r.mapping = this.mapping;
             this.set.add(r);
         } else {
             this.logger.warn("Warning: Bogus empty string in get string call: ");
@@ -192,6 +196,7 @@ RSFile.prototype.parse = function(data) {
                 datatype: this.type.datatype,
                 index: this.resourceIndex++
             });
+            r.mapping = this.mapping;
             this.set.add(r);
         } else {
             this.logger.warn("Warning: Bogus empty string in get string call: ");

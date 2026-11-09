@@ -13,6 +13,41 @@ bundle.get_loc_string("Yes");
 bundle.get_loc_string_with_key("PictureMode.Standard", "Standard");
 ```
 
+### Resource file path
+The location of the generated JSON resource files is configured with `mappings` in the `rs` section of
+the `settings` in your `project.json` file. Each key of `mappings` is a glob pattern that is matched against
+the path of the Rust source file, and the `template` of the first matching pattern decides the output path.
+In generate mode, there is no source file to match, so the first mapping is used.
+
+Note: The JSON resource file type keeps one resource file per locale. If several mappings are configured,
+all strings of a locale are written to the path of the mapping that is used first for that locale.
+
+```json
+"settings": {
+    "rs": {
+        "mappings": {
+            "**/*.rs": {
+                "template": "[resourceDir]/[localeDir]/rsstrings.json"
+            }
+        }
+    }
+}
+```
+
+If no `mappings` are configured, the default above is used, which generates the files below:
+```
+resources/rsstrings.json        (en-US)
+resources/ko/rsstrings.json     (ko-KR)
+resources/en/GB/rsstrings.json  (en-GB)
+```
+
+The template supports the substitutions of loctool's path templates, such as `[dir]`, `[resourceDir]`,
+`[locale]`, `[language]`, `[region]`, `[localeUnder]`. The `[localeDir]` keyword follows the webOS
+resource directory layout:
+* `en-US` is written at the root (the keyword becomes an empty string).
+* A language default locale uses the language only (e.g. `ko-KR` -> `ko`).
+* Other locales use each part of the locale as a directory (e.g. `en-GB` -> `en/GB`).
+
 #### Sample
 The simple sample is provided in the [samples-loctool](https://github.com/iLib-js/ilib-mono-webos/tree/main/packages/samples-loctool).
 

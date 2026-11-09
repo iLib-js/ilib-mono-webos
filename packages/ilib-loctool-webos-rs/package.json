@@ -54,7 +54,9 @@
     },
     "dependencies": {
         "ilib-loctool-webos-json-resource": "workspace:*",
-        "ilib-loctool-webos-common": "workspace:*"
+        "ilib-loctool-webos-common": "workspace:*",
+        "ilib": "^15.0.0",
+        "micromatch": "^4.0.8"
     },
     "peerDependencies": {
         "loctool": "2.34.1"

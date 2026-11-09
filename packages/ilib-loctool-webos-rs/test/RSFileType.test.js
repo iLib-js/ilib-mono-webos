@@ -30,6 +30,27 @@ var p = new CustomProject({
     locales:["en-GB"]
 });
 
+var p2 = new CustomProject({
+    id: "app",
+    plugins: ["../."],
+    sourceLocale: "en-US",
+    resourceDirs: {
+        "json": "resources"
+    }
+}, "./testfiles", {
+    locales:["en-GB"],
+    rs: {
+        mappings: {
+            "src/**/*.rs": {
+                "template": "[dir]/i18n/[localeDir]/strings.json"
+            },
+            "**/*.rs": {
+                "template": "[resourceDir]/[localeUnder].json"
+            }
+        }
+    }
+});
+
 describe("rsfiletype", function() {
     test("RSFileTypeConstructor", function() {
         expect.assertions(1);
@@ -85,5 +106,95 @@ describe("rsfiletype", function() {
         var rsft = new RSFileType(p);
         expect(rsft).toBeTruthy();
         expect(rsft.getExtensions()[0]).toBe(".rs");
+    });
+    test("RSFileTypeGetMappingDefault", function() {
+        expect.assertions(2);
+
+        var rsft = new RSFileType(p);
+        expect(rsft).toBeTruthy();
+        expect(rsft.getMapping("src/foo.rs")).toStrictEqual({
+            "template": "[resourceDir]/[localeDir]/rsstrings.json"
+        });
+    });
+    test("RSFileTypeGetMappingUndefinedPath", function() {
+        expect.assertions(2);
+
+        var rsft = new RSFileType(p);
+        expect(rsft).toBeTruthy();
+        expect(rsft.getMapping(undefined)).toBeUndefined();
+    });
+    test("RSFileTypeGetMappingCustom", function() {
+        expect.assertions(3);
+
+        var rsft = new RSFileType(p2);
+        expect(rsft).toBeTruthy();
+        expect(rsft.getMapping("src/ui/foo.rs")).toStrictEqual({
+            "template": "[dir]/i18n/[localeDir]/strings.json"
+        });
+        expect(rsft.getMapping("lib/foo.rs")).toStrictEqual({
+            "template": "[resourceDir]/[localeUnder].json"
+        });
+    });
+    test("RSFileTypeGetMappingCustomNoMatch", function() {
+        expect.assertions(2);
+
+        var rsft = new RSFileType(p2);
+        expect(rsft).toBeTruthy();
+        expect(rsft.getMapping("foo.c")).toBeUndefined();
+    });
+    test("RSFileTypeGetDefaultMapping", function() {
+        expect.assertions(2);
+
+        expect(new RSFileType(p).getDefaultMapping()).toStrictEqual({
+            "template": "[resourceDir]/[localeDir]/rsstrings.json"
+        });
+        expect(new RSFileType(p2).getDefaultMapping()).toStrictEqual({
+            "template": "[dir]/i18n/[localeDir]/strings.json"
+        });
+    });
+    test("RSFileTypeGetLocalizedPathDefault", function() {
+        expect.assertions(8);
+
+        var rsft = new RSFileType(p);
+        expect(rsft).toBeTruthy();
+        var locales = ["en-US", "ko-KR", "en-GB", "es-CO", "fr-FR", "zh-Hans-CN", "zh-Hant-TW"];
+        var expected = [
+            "testfiles/resources/rsstrings.json",
+            "testfiles/resources/ko/rsstrings.json",
+            "testfiles/resources/en/GB/rsstrings.json",
+            "testfiles/resources/es/CO/rsstrings.json",
+            "testfiles/resources/fr/rsstrings.json",
+            "testfiles/resources/zh/rsstrings.json",
+            "testfiles/resources/zh/Hant/TW/rsstrings.json"
+        ];
+        for (var i = 0; i < locales.length; i++) {
+            expect(rsft.getLocalizedPath(undefined, "src/foo.rs", locales[i])).toBe(expected[i]);
+        }
+    });
+    test("RSFileTypeGetLocalizedPathCustomDir", function() {
+        expect.assertions(4);
+
+        var rsft = new RSFileType(p2);
+        expect(rsft).toBeTruthy();
+        expect(rsft.getLocalizedPath(undefined, "src/ui/foo.rs", "en-US")).toBe("testfiles/src/ui/i18n/strings.json");
+        expect(rsft.getLocalizedPath(undefined, "src/ui/foo.rs", "ko-KR")).toBe("testfiles/src/ui/i18n/ko/strings.json");
+        expect(rsft.getLocalizedPath(undefined, "src/ui/foo.rs", "en-GB")).toBe("testfiles/src/ui/i18n/en/GB/strings.json");
+    });
+    test("RSFileTypeGetLocalizedPathCustomLocaleUnder", function() {
+        expect.assertions(4);
+
+        var rsft = new RSFileType(p2);
+        expect(rsft).toBeTruthy();
+        expect(rsft.getLocalizedPath(undefined, "lib/foo.rs", "ko-KR")).toBe("testfiles/resources/ko.json");
+        expect(rsft.getLocalizedPath(undefined, "lib/foo.rs", "en-GB")).toBe("testfiles/resources/en_GB.json");
+        expect(rsft.getLocalizedPath(undefined, "lib/foo.rs", "zh-Hant-TW")).toBe("testfiles/resources/zh_Hant_TW.json");
+    });
+    test("RSFileTypeGetLocalizedPathExplicitMapping", function() {
+        expect.assertions(2);
+
+        var rsft = new RSFileType(p);
+        expect(rsft).toBeTruthy();
+        var mapping = { "template": "[resourceDir]/[language]/app.json" };
+        expect(rsft.getLocalizedPath(mapping, "src/foo.rs", "ko-KR")).toBe("testfiles/resources/ko/app.json");
     });
 });

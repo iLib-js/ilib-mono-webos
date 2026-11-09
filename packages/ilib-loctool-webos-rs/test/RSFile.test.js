@@ -323,4 +323,29 @@ describe("rsfile", function() {
         expect(set.getBySource("Yes")).toBeTruthy();
         expect(set.getBySource("Hello, world!")).toBeTruthy();
     });
+    test("RSFileResourceHasMapping", function() {
+        expect.assertions(4);
+
+        var rsf = new RSFile({
+            project: p,
+            pathName: "src/foo.rs",
+            type: rsft
+        });
+        expect(rsf).toBeTruthy();
+
+        rsf.parse('get_loc_string(res_bundle, "OK");\nget_loc_string_with_key(res_bundle, "PictureMode.Standard", "Standard");');
+
+        var set = rsf.getTranslationSet();
+        var expected = { "template": "[resourceDir]/[localeDir]/rsstrings.json" };
+        expect(set.getBySource("OK").mapping).toStrictEqual(expected);
+        expect(set.getBySource("Standard").mapping).toStrictEqual(expected);
+        expect(rsf.mapping).toStrictEqual(expected);
+    });
+    test("RSFileConstructorWithoutType", function() {
+        expect.assertions(2);
+
+        var rsf = new RSFile({project: p, pathName: "src/foo.rs"});
+        expect(rsf).toBeTruthy();
+        expect(rsf.mapping).toBeUndefined();
+    });
 });

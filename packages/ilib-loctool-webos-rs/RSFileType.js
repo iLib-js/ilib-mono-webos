@@ -19,6 +19,8 @@
 
 var fs = require("fs");
 var path = require("path");
+var mm = require("micromatch");
+var Locale = require("ilib/lib/Locale.js");
 var RSFile = require("./RSFile.js");
 var JsonResourceFileType = require("ilib-loctool-webos-json-resource");
 var Utils = require("loctool/lib/utils.js")
@@ -66,6 +68,123 @@ var RSFileType = function(project) {
 };
 
 /**
+ * The locale whose resources are written at the root of the
+ * [localeDir] path (i.e. [localeDir] is replaced with an empty string).
+ * @private
+ */
+var rootLocale = "en-US";
+
+/**
+ * The default mappings used when the project does not configure
+ * `settings.rs.mappings` in its project.json file.
+ * @private
+ */
+var defaultMappings = {
+    "**/*.rs": {
+        "template": "[resourceDir]/[localeDir]/rsstrings.json"
+    }
+};
+
+/**
+ * Return the mappings configured for this project, or the default
+ * mappings if none are configured.
+ * @private
+ * @returns {Object} the mappings object keyed by glob pattern
+ */
+RSFileType.prototype._getMappings = function() {
+    var rsSettings = this.project.settings && this.project.settings.rs;
+    return (rsSettings && rsSettings.mappings) ? rsSettings.mappings : defaultMappings;
+};
+
+/**
+ * Return the mapping corresponding to this path.
+ * @param {String} pathName the path to check
+ * @returns {Object} the mapping object corresponding to the
+ * path or undefined if none of the mappings match
+ */
+RSFileType.prototype.getMapping = function(pathName) {
+    if (typeof(pathName) === "undefined") {
+        return undefined;
+    }
+    var mappings = this._getMappings();
+    var patterns = Object.keys(mappings);
+
+    var match = patterns.find(function(pattern) {
+        return mm.isMatch(pathName, pattern);
+    });
+
+    return match && mappings[match];
+};
+
+/**
+ * Return the mapping used when there is no source file to match
+ * against, such as in generate mode where the resources come from
+ * the translation files rather than from the Rust source files.
+ * This is the first configured mapping, or the default mapping.
+ * @returns {Object} the mapping object
+ */
+RSFileType.prototype.getDefaultMapping = function() {
+    var mappings = this._getMappings();
+    var patterns = Object.keys(mappings);
+    return patterns.length ? mappings[patterns[0]] : defaultMappings["**/*.rs"];
+};
+
+/**
+ * Return the location on disk where the resource file for the given
+ * locale should be written. The path is built from the template of the
+ * mapping. In addition to the substitutions supported by loctool's
+ * formatPath (eg. [dir], [resourceDir], [locale], [language],
+ * [localeUnder]), the [localeDir] keyword follows the webOS resource
+ * directory layout:
+ * <ul>
+ * <li>en-US is written at the root (eg. resources/rsstrings.json)
+ * <li>a language default locale uses the language only
+ *     (eg. ko-KR -> resources/ko/rsstrings.json)
+ * <li>other locales use the full locale as directories
+ *     (eg. en-GB -> resources/en/GB/rsstrings.json)
+ * </ul>
+ *
+ * @param {Object|undefined} mapping the mapping for the source file.
+ * If undefined, it is looked up from the pathname.
+ * @param {String|undefined} pathname path to the source file relative
+ * to the project root
+ * @param {String} locale the locale spec for the target locale
+ * @returns {String} the localized path name
+ */
+RSFileType.prototype.getLocalizedPath = function(mapping, pathname, locale) {
+    if (!mapping) {
+        mapping = this.getMapping(pathname);
+    }
+
+    var template = mapping && mapping.template;
+    if (!template) {
+        template = defaultMappings["**/*.rs"].template;
+    }
+
+    var loc = new Locale(locale);
+    var isBaseLocale = Utils.isBaseLocale(locale);
+    var lo = isBaseLocale ? loc.getLanguage() : loc.getSpec();
+    var localeDir = "";
+
+    if (isBaseLocale) {
+        if (loc.getSpec() !== rootLocale) {
+            localeDir = loc.getLanguage();
+        }
+    } else {
+        localeDir = loc.getSpec().replace(/-/g, "/");
+    }
+
+    var resourceDir = this.project.getResourceDirs(this.resourceType)[0] || "resources";
+    var output = Utils.formatPath(template.replace(/\[localeDir\]/g, localeDir), {
+        sourcepath: pathname,
+        locale: lo,
+        resourceDir: resourceDir
+    });
+
+    return path.join(this.project.target, output);
+};
+
+/**
  * Return true if the given path is a Rust file and is handled
  * by the current file type.
  *
@@ -107,7 +226,7 @@ RSFileType.prototype.write = function(translations, locales) {
     var mode = this.project.settings.mode;
     var deviceType = pluginUtils.getDeviceType(this.project.settings);
     var customInheritLocale;
-    var res,
+    var res, resPath,
         resources = this.extracted.getAll(),
         db = this.project.db,
         translationLocales = locales.filter(function(locale) {
@@ -122,6 +241,7 @@ RSFileType.prototype.write = function(translations, locales) {
             // for each extracted string, write out the translations of it
             translationLocales.forEach(function(locale) {
                 this.logger.trace("Localizing Rust strings to " + locale);
+                resPath = this.getLocalizedPath(res.mapping, res.getPath(), locale);
 
                 customInheritLocale = this.project.getLocaleInherit(locale);
                 // Resolve translation via fallback chain (direct → policy → inherit) with dedup.
@@ -134,6 +254,7 @@ RSFileType.prototype.write = function(translations, locales) {
                     customInheritLocale: customInheritLocale,
                     dedupByBaseTranslation: true,
                     translationLocales: translationLocales,
+                    resPath: resPath,
                     deviceType: deviceType,
                     API: this.API
                 });
@@ -148,7 +269,8 @@ RSFileType.prototype.write = function(translations, locales) {
             datatype: this.datatype,
             resFileType: resFileType,
             sourceLocale: this.project.sourceLocale,
-            deviceType: deviceType
+            deviceType: deviceType,
+            resPathFn: function(res) { return this.getLocalizedPath(res.mapping, res.getPath(), res.getTargetLocale()); }.bind(this)
         });
     } else {
         // generate mode
@@ -161,7 +283,9 @@ RSFileType.prototype.write = function(translations, locales) {
             db: db,
             deviceType: deviceType,
             dedupByBaseTranslation: true,
-            includeUniversal: true
+            includeUniversal: true,
+            // generate mode has no source files to match, so use the default mapping
+            resPathFn: function(res) { return this.getLocalizedPath(this.getDefaultMapping(), undefined, res.getTargetLocale()); }.bind(this)
         });
     }
 };
