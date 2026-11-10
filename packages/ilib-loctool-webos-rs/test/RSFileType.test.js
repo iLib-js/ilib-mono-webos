@@ -51,6 +51,32 @@ var p2 = new CustomProject({
     }
 });
 
+var p3 = new CustomProject({
+    id: "app",
+    plugins: ["../."],
+    sourceLocale: "en-US"
+}, "./testfiles", {
+    locales:["en-GB"],
+    rs: {
+        mappings: {
+            "src/**/*.rs": {
+                "template": "[resourceDir]/[localeDir]/rsstrings.json"
+            }
+        }
+    }
+});
+
+var p4 = new CustomProject({
+    id: "app",
+    plugins: ["../."],
+    sourceLocale: "en-US"
+}, "./testfiles", {
+    locales:["en-GB"],
+    rs: {
+        mappings: {}
+    }
+});
+
 describe("rsfiletype", function() {
     test("RSFileTypeConstructor", function() {
         expect.assertions(1);
@@ -93,6 +119,37 @@ describe("rsfiletype", function() {
         expect(rsft).toBeTruthy();
         expect(!rsft.handles("foors")).toBeTruthy();
     });
+    test("RSFileTypeHandlesUndefinedPath", function() {
+        expect.assertions(2);
+
+        var rsft = new RSFileType(p);
+        expect(rsft).toBeTruthy();
+        expect(rsft.handles(undefined)).toBeFalsy();
+    });
+    test("RSFileTypeHandlesDotSlashPath", function() {
+        expect.assertions(2);
+
+        var rsft = new RSFileType(p);
+        expect(rsft).toBeTruthy();
+        expect(rsft.handles("./src/foo.rs")).toBeTruthy();
+    });
+    test("RSFileTypeHandlesCustomMappingMatch", function() {
+        expect.assertions(3);
+
+        var rsft = new RSFileType(p3);
+        expect(rsft).toBeTruthy();
+        expect(rsft.handles("src/foo.rs")).toBeTruthy();
+        expect(rsft.handles("src/ui/bar.rs")).toBeTruthy();
+    });
+    test("RSFileTypeHandlesCustomMappingNoMatch", function() {
+        expect.assertions(3);
+
+        var rsft = new RSFileType(p3);
+        expect(rsft).toBeTruthy();
+        // Rust files outside of the mappings are not handled
+        expect(rsft.handles("lib/foo.rs")).toBeFalsy();
+        expect(rsft.handles("foo.rs")).toBeFalsy();
+    });
     test("RSFileTypeGetDataType", function() {
         expect.assertions(2);
 
@@ -122,6 +179,29 @@ describe("rsfiletype", function() {
         var rsft = new RSFileType(p);
         expect(rsft).toBeTruthy();
         expect(rsft.getMapping(undefined)).toBeUndefined();
+    });
+    test("RSFileTypeEmptyMappingsUseDefault", function() {
+        expect.assertions(5);
+
+        var rsft = new RSFileType(p4);
+        expect(rsft).toBeTruthy();
+        var expected = {
+            "template": "[resourceDir]/[localeDir]/rsstrings.json"
+        };
+        // an empty mappings object falls back to the default mappings
+        expect(rsft.getMapping("src/foo.rs")).toStrictEqual(expected);
+        expect(rsft.getDefaultMapping()).toStrictEqual(expected);
+        expect(rsft.handles("src/foo.rs")).toBeTruthy();
+        expect(rsft.getLocalizedPath(undefined, "src/foo.rs", "ko-KR")).toBe("testfiles/resources/ko/rsstrings.json");
+    });
+    test("RSFileTypeGetMappingDotSlashPath", function() {
+        expect.assertions(2);
+
+        var rsft = new RSFileType(p2);
+        expect(rsft).toBeTruthy();
+        expect(rsft.getMapping("./src/ui/foo.rs")).toStrictEqual({
+            "template": "[dir]/i18n/[localeDir]/strings.json"
+        });
     });
     test("RSFileTypeGetMappingCustom", function() {
         expect.assertions(3);

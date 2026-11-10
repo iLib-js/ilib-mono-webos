@@ -36,9 +36,7 @@ var RSFile = function(props) {
     this.API = props.project.getAPI();
     this.logger = this.API.getLogger("loctool.plugin.webOSRSFile");
     this.set = this.API.newTranslationSet(this.project ? this.project.sourceLocale : "zxx-XX");
-    this.mapping = (this.type && typeof(this.type.getMapping) === "function") ?
-        this.type.getMapping(this.pathName) :
-        undefined;
+    this.mapping = this.type && this.type.getMapping(this.pathName);
 };
 
 /**

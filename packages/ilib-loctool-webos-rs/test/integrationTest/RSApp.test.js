@@ -1,0 +1,171 @@
+/*
+ * RSApp.test.js - test the localization result of webos-rs app.
+ *
+ * Copyright (c) 2026 JEDLSoft
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+const fs = require("fs");
+const path = require('path');
+
+const ProjectFactory = require("loctool/lib/ProjectFactory.js");
+const { utils: pluginUtils } = require("ilib-loctool-webos-common");
+
+describe("[integration] test the localization result of webos-rs app", () => {
+    const projectRoot = (process.cwd().indexOf("integrationTest")) >-1 ? "." : "./test/integrationTest";
+    const resourcePath = path.join(projectRoot, "resources");
+    const fileName = "rsstrings.json";
+    let filePath, jsonData = {};
+
+    beforeAll(async() => {
+        if (fs.existsSync(resourcePath)) {
+            fs.rmSync(resourcePath, { recursive: true });
+        }
+        const projectSettings = {
+            rootDir: projectRoot,
+            id: "sample-webos-rs",
+            projectType: "webos-rs",
+            sourceLocale: "en-KR",
+            pseudoLocale : {
+                "zxx-XX": "debug"
+            },
+            resourceDirs : { "json": "resources" },
+            resourceFileTypes: { "json":"ilib-loctool-webos-json-resource" },
+            plugins: [ "ilib-loctool-webos-rs" ],
+        };
+
+        // no rs.mappings: the default mapping is used
+        const appSettings = {
+            localizeOnly: true,
+            translationsDir : ["./xliffs", "./common"],
+            mode: "localize",
+            metadata : {
+                "device-type": "Monitor"
+            },
+            xliffVersion: 2,
+            xliffStyle: "webOS",
+            nopseudo: false,
+            locales:[
+                "en-AU",
+                "en-GB",
+                "en-US",
+                "es-CO",
+                "es-ES",
+                "ko-KR"
+            ],
+            localeMap: {
+                "es-CO": "es"
+            },
+            localeInherit: {
+                "en-AU": "en-GB",
+            }
+        };
+        const project = ProjectFactory.newProject(projectSettings, appSettings);
+        project.addPath("src/test.rs");
+
+        if (project) {
+            project.init(function() {
+                project.extract(function() {
+                    project.generatePseudo();
+                    project.write(function() {
+                        project.save(function() {
+                            project.close(function() {
+                            });
+                        });
+                    });
+                });
+            });
+        }
+    }, 50000);
+    afterAll(async () => {
+        if (fs.existsSync(resourcePath)) {
+            fs.rmSync(resourcePath, { recursive: true });
+        }
+    });
+    test("rssample_test_ko_KR", function() {
+        expect.assertions(10);
+        filePath = path.join(resourcePath, 'ko', fileName);
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
+
+        jsonData = pluginUtils.loadData(filePath);
+        expect(jsonData["No"]).toBe("아니오");
+        expect(jsonData["OK"]).toBe("확인");
+        expect(jsonData["Yes"]).toBe("예");
+        expect(jsonData["NOT AVAILABLE"]).toBe("\"Monitor\" 이용이 불가능합니다"); //metadata
+        expect(jsonData["Good      Morning"]).toBe("좋은 아침"); // multispaces
+        expect(jsonData["EXIT APP"]).toBe("앱 종료"); // universal only, method-call style
+        expect(jsonData["RETRY"]).toBe("재시도(universal)"); // universal > common
+        expect(jsonData["See   you   later"]).toBe("또 만나(common)"); // common cleanHashKey (multispaces in source)
+        expect(jsonData["PictureMode.Standard"]).toBe("표준"); // get_loc_string_with_key
+    });
+    test("rssample_test_es_CO", function() {
+        expect.assertions(4);
+        filePath = path.join(resourcePath, 'es', fileName);
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
+
+        jsonData = pluginUtils.loadData(filePath);
+        expect(jsonData["Sound Out"]).toBe("Salida de Audio");
+        expect(jsonData["OK"]).toBe("Aceptar");
+        expect(jsonData["TV Name"]).toBe("Nombre del Monitor"); //metadata-common
+    });
+    test("rssample_test_es_ES", function() {
+        expect.assertions(2);
+        filePath = path.join(resourcePath, 'es/ES', fileName);
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
+        jsonData = pluginUtils.loadData(filePath);
+        expect(jsonData["TV Name"]).toBe("Nombre del monitor");
+    });
+    test("rssample_test_en_US", function() {
+        expect.assertions(3);
+        filePath = path.join(resourcePath, fileName);
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
+
+        jsonData = pluginUtils.loadData(filePath);
+        expect(jsonData["Programme"]).toBe("Channel");
+        expect(jsonData["TV Name"]).toBe("TV Name(en-US)");
+    });
+    test("rssample_test_en_AU", function() {
+        expect.assertions(4);
+        filePath = path.join(resourcePath, 'en/AU', fileName);
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
+
+        jsonData = pluginUtils.loadData(filePath);
+        expect(jsonData["Programme"]).toBe("Programme");
+        expect(jsonData["TV Name"]).toBe("Monitor Name"); // metadata - customInherit
+        expect(jsonData["OK"]).toBe("(common)OK"); // common - customInherit
+    });
+    test("rssample_test_en_GB", function() {
+        expect.assertions(4);
+        filePath = path.join(resourcePath, 'en/GB', fileName);
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
+
+        jsonData = pluginUtils.loadData(filePath);
+        expect(jsonData["Programme"]).toBe("Programme");
+        expect(jsonData["TV Name"]).toBe("Monitor Name");
+        expect(jsonData["OK"]).toBe("(common)OK");
+    });
+    test("rssample_test_zxx", function() {
+        expect.assertions(6);
+        filePath = path.join(resourcePath, 'zxx', fileName);
+        expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
+
+        jsonData = pluginUtils.loadData(filePath);
+        expect(jsonData["No"]).toBe("[Ňõ0]");
+        expect(jsonData["OK"]).toBe("[Øĸ0]");
+        expect(jsonData["Yes"]).toBe("[Ŷëš10]");
+        expect(jsonData["Programme"]).toBe("[Pŕõğŕàmmë43210]");
+        expect(jsonData["Sound Out"]).toBe("[Šõüñð Øüţ43210]");
+    });
+});

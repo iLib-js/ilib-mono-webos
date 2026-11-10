@@ -17,7 +17,8 @@ bundle.get_loc_string_with_key("PictureMode.Standard", "Standard");
 The location of the generated JSON resource files is configured with `mappings` in the `rs` section of
 the `settings` in your `project.json` file. Each key of `mappings` is a glob pattern that is matched against
 the path of the Rust source file, and the `template` of the first matching pattern decides the output path.
-In generate mode, there is no source file to match, so the first mapping is used.
+Only the Rust source files that match one of the patterns are localized. Rust files that do not match any
+pattern are not extracted. In generate mode, there is no source file to match, so the first mapping is used.
 
 Note: The JSON resource file type keeps one resource file per locale. If several mappings are configured,
 all strings of a locale are written to the path of the mapping that is used first for that locale.
@@ -34,7 +35,8 @@ all strings of a locale are written to the path of the mapping that is used firs
 }
 ```
 
-If no `mappings` are configured, the default above is used, which generates the files below:
+If no `mappings` are configured, or `mappings` is an empty object, the default above is used,
+which generates the files below:
 ```
 resources/rsstrings.json        (en-US)
 resources/ko/rsstrings.json     (ko-KR)

@@ -87,13 +87,23 @@ var defaultMappings = {
 
 /**
  * Return the mappings configured for this project, or the default
- * mappings if none are configured.
+ * mappings if none are configured. An empty mappings object is
+ * treated as not configured, because it would otherwise match no
+ * Rust files at all. In that case, a warning is logged once.
  * @private
  * @returns {Object} the mappings object keyed by glob pattern
  */
 RSFileType.prototype._getMappings = function() {
     var rsSettings = this.project.settings && this.project.settings.rs;
-    return (rsSettings && rsSettings.mappings) ? rsSettings.mappings : defaultMappings;
+    var mappings = rsSettings && rsSettings.mappings;
+    if (mappings && Object.keys(mappings).length) {
+        return mappings;
+    }
+    if (mappings && !this.emptyMappingsWarned) {
+        this.logger.warn("settings.rs.mappings is empty. The default mappings are used.");
+        this.emptyMappingsWarned = true;
+    }
+    return defaultMappings;
 };
 
 /**
@@ -108,9 +118,11 @@ RSFileType.prototype.getMapping = function(pathName) {
     }
     var mappings = this._getMappings();
     var patterns = Object.keys(mappings);
+    // normalize so that paths like "./src/foo.rs" match the patterns too
+    var normalized = path.normalize(pathName);
 
     var match = patterns.find(function(pattern) {
-        return mm.isMatch(pathName, pattern);
+        return mm.isMatch(normalized, pattern);
     });
 
     return match && mappings[match];
@@ -186,17 +198,23 @@ RSFileType.prototype.getLocalizedPath = function(mapping, pathname, locale) {
 
 /**
  * Return true if the given path is a Rust file and is handled
- * by the current file type.
+ * by the current file type. A Rust file is handled only if it
+ * matches one of the mappings, so that the mappings decide both
+ * which files are extracted and where their resources are written.
+ * Rust files that do not match any of the mappings are not handled.
  *
  * @param {String} pathName path to the file being questions
- * @returns {boolean} true if the path is a Rust file, or false
- * otherwise
+ * @returns {boolean} true if the path is a Rust file that matches
+ * one of the mappings, or false otherwise
  */
 RSFileType.prototype.handles = function(pathName) {
     this.logger.debug("RSFileType handles " + pathName + "?");
     var ret = false;
-    if (pathName.length > 3 && pathName.substring(pathName.length - 3) === ".rs") {
-        ret = true;
+    if (pathName && pathName.length > 3 && pathName.substring(pathName.length - 3) === ".rs") {
+        ret = !!this.getMapping(pathName);
+        if (!ret) {
+            this.logger.debug("No mapping matches " + pathName);
+        }
     }
 
     this.logger.debug(ret ? "Yes" : "No");
