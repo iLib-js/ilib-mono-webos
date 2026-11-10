@@ -194,6 +194,20 @@ describe("rsfiletype", function() {
         expect(rsft.handles("src/foo.rs")).toBeTruthy();
         expect(rsft.getLocalizedPath(undefined, "src/foo.rs", "ko-KR")).toBe("testfiles/resources/ko/rsstrings.json");
     });
+    test("RSFileTypeEmptyMappingsWarnOnce", function() {
+        expect.assertions(2);
+
+        var rsft = new RSFileType(p4);
+        var spy = jest.spyOn(rsft.logger, "warn");
+        rsft.getMapping("src/a.rs");
+        rsft.getMapping("src/b.rs");
+        rsft.handles("src/c.rs");
+
+        // the warning for the empty mappings is logged only once
+        expect(spy).toHaveBeenCalledTimes(1);
+        expect(spy.mock.calls[0][0]).toContain("settings.rs.mappings is empty");
+        spy.mockRestore();
+    });
     test("RSFileTypeGetMappingDotSlashPath", function() {
         expect.assertions(2);
 

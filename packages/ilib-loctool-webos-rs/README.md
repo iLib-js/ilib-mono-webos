@@ -2,8 +2,7 @@
 
 ilib-loctool-webos-rs is a plugin for loctool that allows it to read and localize Rust files. This plugin is optimized for the webOS platform.
 ### Rust FileType
-This plugin expects to be used [libwebosi18n](https://github.com/webosose/libwebosi18n) library to internationalize your Rust code.  
-It extracts string usages used in the examples below by considering them as strings that need to be translated.
+This plugin extracts string usages used in the examples below by considering them as strings that need to be translated.
 ```rust
 get_loc_string(res_bundle, "Yes");
 get_loc_string_with_key(res_bundle, "PictureMode.Standard", "Standard");

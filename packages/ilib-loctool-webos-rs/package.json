@@ -1,6 +1,6 @@
 {
     "name": "ilib-loctool-webos-rs",
-    "version": "1.0.0",
+    "version": "0.0.1",
     "main": "./RSFileType.js",
     "description": "A loctool plugin that knows how to process Rust files",
     "license": "Apache-2.0",
