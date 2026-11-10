@@ -75,7 +75,7 @@ function filterResources(resources, projectName, selfDatatype, options) {
  * @param {Object} params.resFileType
  * @param {Object} params.db - project.db
  * @param {string} params.deviceType
- * @param {boolean} params.dedupByBaseTranslation - false for Dart, true for JS/C/Cpp
+ * @param {boolean} params.dedupByBaseTranslation - false for Dart, true for JS/C/Cpp/Rust
  * @param {boolean} [params.includeUniversal] - include "universal" datatype in filter
  * @param {Function} [params.resPathFn] - optional callback(res) returning the localized resource path.
  *   Used by plugins whose resource path is configured via mappings (e.g. Rust).

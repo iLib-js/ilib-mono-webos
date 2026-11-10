@@ -12,6 +12,9 @@ bundle.get_loc_string("Yes");
 bundle.get_loc_string_with_key("PictureMode.Standard", "Standard");
 ```
 
+Note: Only normal string literals (`"..."`) are extracted. Raw string literals such as `r#"..."#`
+are not supported.
+
 ### Resource file path
 The location of the generated JSON resource files is configured with `mappings` in the `rs` section of
 the `settings` in your `project.json` file. Each key of `mappings` is a glob pattern that is matched against
@@ -48,6 +51,12 @@ resource directory layout:
 * `en-US` is written at the root (the keyword becomes an empty string).
 * A language default locale uses the language only (e.g. `ko-KR` -> `ko`).
 * Other locales use each part of the locale as a directory (e.g. `en-GB` -> `en/GB`).
+
+In the same way, `[locale]` and `[localeUnder]` use the language only for a language default locale
+(e.g. `ko-KR` -> `ko`, `en-US` -> `en`), and the full locale for the others (e.g. `en-GB` -> `en-GB` / `en_GB`).
+
+Note: In generate mode, there is no source file, so `[dir]` becomes an empty string. If the template
+uses `[dir]`, the resource files of generate mode are written to a different path than in localize mode.
 
 #### Sample
 The simple sample is provided in the [samples-loctool](https://github.com/iLib-js/ilib-mono-webos/tree/main/packages/samples-loctool).

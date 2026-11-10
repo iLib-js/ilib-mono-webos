@@ -126,7 +126,7 @@ RSFile.prototype.parse = function(data) {
 
     var comment, match, key;
 
-    // To extract res_bundle_get_loc_string()
+    // To extract get_loc_string()
     reGetLocString.lastIndex = 0; // just to be safe
     var result = reGetLocString.exec(data);
     while (result && result.length > 1) {
@@ -164,7 +164,7 @@ RSFile.prototype.parse = function(data) {
         result = reGetLocString.exec(data);
     }
 
-    // To extract res_bundle_get_loc_string_with_key()
+    // To extract get_loc_string_with_key()
     reGetLocStringWithKey.lastIndex = 0; // just to be safe
     var result = reGetLocStringWithKey.exec(data);
     while (result && result.length > 1 && result[3] && result[5]) {

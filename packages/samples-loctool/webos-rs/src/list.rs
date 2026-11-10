@@ -1,8 +1,6 @@
 //! list.rs - sample Rust source for the webOS loctool rs plugin.
 //! Uses the method-call style on a bundle receiver and keyed strings.
 
-use webosi18n::ResBundle;
-
 pub fn list_strings(bundle: &ResBundle) -> Vec<String> {
     vec![
         bundle.get_loc_string("Ivory Coast"),

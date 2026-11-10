@@ -1,7 +1,5 @@
 //! localize.rs - sample Rust source for the webOS loctool rs plugin.
 
-use webosi18n::ResBundle;
-
 pub enum ButtonLabelType {
     No,
     Yes,

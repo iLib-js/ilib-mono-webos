@@ -17,7 +17,6 @@
  * limitations under the License.
  */
 
-var fs = require("fs");
 var path = require("path");
 var mm = require("micromatch");
 var Locale = require("ilib/lib/Locale.js");
@@ -54,7 +53,7 @@ var RSFileType = function(project) {
     }
     if (project.pseudoLocales && typeof project.pseudoLocales == 'object') {
         this.pseudos = {};
-        for (locale in project.pseudoLocales) {
+        for (var locale in project.pseudoLocales) {
             var pseudo = this.API.getPseudoBundle(locale, this, project);
             if (pseudo) {
                 this.pseudos[locale] = pseudo;
@@ -118,7 +117,6 @@ RSFileType.prototype.getMapping = function(pathName) {
     }
     var mappings = this._getMappings();
     var patterns = Object.keys(mappings);
-    // normalize so that paths like "./src/foo.rs" match the patterns too
     var normalized = path.normalize(pathName);
 
     var match = patterns.find(function(pattern) {
@@ -203,7 +201,7 @@ RSFileType.prototype.getLocalizedPath = function(mapping, pathname, locale) {
  * which files are extracted and where their resources are written.
  * Rust files that do not match any of the mappings are not handled.
  *
- * @param {String} pathName path to the file being questions
+ * @param {String} pathName path to the file being questioned
  * @returns {boolean} true if the path is a Rust file that matches
  * one of the mappings, or false otherwise
  */
@@ -325,10 +323,10 @@ RSFileType.prototype.getResourceTypes = function() {
 };
 
 /**
- * Return the name of the node module that implements the resource file type, or
- * the path to a Rust file that implements the resource filetype.
- * @returns {Function|undefined} node module name or path, or undefined if this file type does not
- * need resource files
+ * Return the resource file type that this file type uses to write
+ * out its resources.
+ * @returns {Function|undefined} the resource file type, or undefined
+ * if this file type does not need resource files
  */
 RSFileType.prototype.getResourceFileType = function() {
     return JsonResourceFileType;
