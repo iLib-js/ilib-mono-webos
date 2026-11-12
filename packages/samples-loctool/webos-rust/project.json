@@ -1,0 +1,49 @@
+{
+    "name": "sample-webos-rust",
+    "id": "sample-webos-rust",
+    "projectType": "webos-rust",
+    "sourceLocale": "en-KR",
+    "pseudoLocale": {
+        "zxx-XX": "debug",
+        "zxx-Hebr-XX": "debug-rtl",
+        "zxx-Cyrl-XX": "debug-cyrillic",
+        "zxx-Hans-XX": "debug-han-simplified"
+    },
+    "resourceDirs": {
+        "json":"resources"
+    },
+    "resourceFileTypes": {
+        "json":"ilib-loctool-webos-json-resource"
+    },
+    "plugins": [
+        "ilib-loctool-webos-rust"
+    ],
+    "excludes": [
+        ".*",
+        "test",
+        "xliffs",
+        "common",
+        "resources"
+    ],
+    "settings": {
+        "translationsDir": ["./xliffs", "./common"],
+        "locales":[
+            "en-US",
+            "en-AU",
+            "en-GB",
+            "es-CO",
+            "es-ES",
+            "fr-CA",
+            "fr-FR",
+            "ko-KR",
+            "ja-JP"
+        ],
+        "rust": {
+            "mappings": {
+                "**/*.rs": {
+                    "template": "[resourceDir]/[localeDir]/rsstrings.json"
+                }
+            }
+        }
+    }
+}

@@ -17,6 +17,7 @@ Plugins are optimized for the webOS platform.
 * [ilib-loctool-webos-json-resource](https://github.com/iLib-js/ilib-mono-webos/tree/main/packages/ilib-loctool-webos-json-resource) : JSON resource file handler
 * [ilib-loctool-webos-ts-resource](https://github.com/iLib-js/ilib-mono-webos/tree/main/packages/ilib-loctool-webos-ts-resource) : TS resource file handler
 * [ilib-loctool-webos-dart](https://github.com/iLib-js/ilib-mono-webos/tree/main/packages/ilib-loctool-webos-dart) : Dart file handler
+* [ilib-loctool-webos-rust](https://github.com/iLib-js/ilib-mono-webos/tree/main/packages/ilib-loctool-webos-rust) : Rust file handler
 
 ## Documentation
 * webOS Open Source Edition: [Localization Guide](https://www.webosose.org/docs/guides/development/localization/localization-guide/)

@@ -252,6 +252,44 @@ describe("writeGenerateModeResources - write behavior", function() {
         expect(resFileType.file.addResource).toHaveBeenCalledTimes(1);
     });
 
+    test("resPathFn: passes the returned path to getResourceFile", function() {
+        var res = makeGenRes("key1", "Hello", "안녕");
+        var resFileType = makeResFileType();
+        var resPathFn = jest.fn(function() { return "out/ko/rsstrings.json"; });
+        writeGenerateModeResources({
+            project: makeProject(undefined, { "ko-KR": [res] }),
+            translationLocales: ["ko-KR"],
+            resources: [res],
+            selfDatatype: "javascript",
+            resFileType: resFileType,
+            db: makeDb(),
+            deviceType: undefined,
+            dedupByBaseTranslation: true,
+            includeUniversal: true,
+            resPathFn: resPathFn
+        });
+        expect(resPathFn).toHaveBeenCalledWith(res);
+        expect(resFileType.getResourceFile).toHaveBeenCalledWith("ko-KR", "out/ko/rsstrings.json");
+        expect(resFileType.file.addResource).toHaveBeenCalledTimes(1);
+    });
+
+    test("without resPathFn: getResourceFile receives an undefined path", function() {
+        var res = makeGenRes("key1", "Hello", "안녕");
+        var resFileType = makeResFileType();
+        writeGenerateModeResources({
+            project: makeProject(undefined, { "ko-KR": [res] }),
+            translationLocales: ["ko-KR"],
+            resources: [res],
+            selfDatatype: "javascript",
+            resFileType: resFileType,
+            db: makeDb(),
+            deviceType: undefined,
+            dedupByBaseTranslation: false,
+            includeUniversal: true
+        });
+        expect(resFileType.getResourceFile).toHaveBeenCalledWith("ko-KR", undefined);
+    });
+
     test("dedup (dedupByBaseTranslation=true): writes when translation differs from base", function() {
         var res = makeGenRes("key1", "Hello", "안녕");
         var baseRes = { target: "English" };

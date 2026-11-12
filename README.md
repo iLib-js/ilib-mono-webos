@@ -40,7 +40,7 @@ Here is the list of packages. Plugins are optimized for the webOS platform.
     <td>Category</td><td>Name</td><td>Description</td>
   </tr>
   <tr>
-    <td rowspan="11">localization</td>
+    <td rowspan="12">localization</td>
     <td>ilib-loctool-webos-c</td>
     <td>C filetype handler.</td>
   </tr>
@@ -59,6 +59,10 @@ Here is the list of packages. Plugins are optimized for the webOS platform.
   <tr>
     <td>ilib-loctool-webos-dart</td>
     <td><a href="https://docs.fileformat.com/programming/dart/">Dart</a> filetype handler.</td>
+  </tr>
+  <tr>
+    <td>ilib-loctool-webos-rust</td>
+    <td>Rust filetype handler.</td>
   </tr>
   <tr>
     <td>ilib-loctool-webos-json</td>
