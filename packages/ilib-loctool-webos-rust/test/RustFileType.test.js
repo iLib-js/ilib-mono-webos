@@ -291,4 +291,69 @@ describe("rustfiletype", function() {
         var mapping = { "template": "[resourceDir]/[language]/app.json" };
         expect(rft.getLocalizedPath(mapping, "src/foo.rs", "ko-KR")).toBe("testfiles/resources/ko/app.json");
     });
+    test("RustFileTypeGetLocalizedPathMappingWithoutTemplate", function() {
+        expect.assertions(3);
+
+        var rft = new RustFileType(p);
+        expect(rft).toBeTruthy();
+        // a mapping without a template falls back to the default template
+        expect(rft.getLocalizedPath({}, "src/foo.rs", "ko-KR")).toBe("testfiles/resources/ko/rsstrings.json");
+        expect(rft.getLocalizedPath({}, "src/foo.rs", "en-US")).toBe("testfiles/resources/rsstrings.json");
+    });
+    test("RustFileTypeConstructorPseudoLocaleConfig", function() {
+        expect.assertions(4);
+
+        var project = new CustomProject({
+            id: "app",
+            plugins: ["../."],
+            sourceLocale: "en-US",
+            pseudoLocale: {
+                "zxx-XX": "debug",
+                "as-XX": "debug-font"
+            }
+        }, "./testfiles", {
+            locales:["en-GB"]
+        });
+
+        var rft = new RustFileType(project);
+        expect(rft).toBeTruthy();
+        expect(rft.pseudos).toBeTruthy();
+        expect(rft.pseudos["zxx-XX"]).toBeTruthy();
+        expect(rft.pseudos["as-XX"]).toBeTruthy();
+    });
+    test("RustFileTypeGetExtracted", function() {
+        expect.assertions(2);
+
+        var rft = new RustFileType(p);
+        var extracted = rft.getExtracted();
+        expect(extracted).toBeTruthy();
+        expect(extracted.size()).toBe(0);
+    });
+    test("RustFileTypeGetNew", function() {
+        expect.assertions(2);
+
+        var rft = new RustFileType(p);
+        var newres = rft.getNew();
+        expect(newres).toBeTruthy();
+        expect(newres.size()).toBe(0);
+    });
+    test("RustFileTypeGetPseudo", function() {
+        expect.assertions(2);
+
+        var rft = new RustFileType(p);
+        var pseudo = rft.getPseudo();
+        expect(pseudo).toBeTruthy();
+        expect(pseudo.size()).toBe(0);
+    });
+    test("RustFileTypeAddSet", function() {
+        expect.assertions(2);
+
+        var rft = new RustFileType(p);
+        var rf = rft.newFile("src/foo.rs");
+        rf.parse('get_loc_string(res_bundle, "OK");');
+        rft.addSet(rf.getTranslationSet());
+
+        expect(rft.getExtracted().size()).toBe(1);
+        expect(rft.getExtracted().getBySource("OK")).toBeTruthy();
+    });
 });

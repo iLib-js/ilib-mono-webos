@@ -348,4 +348,182 @@ describe("rustfile", function() {
         expect(rf).toBeTruthy();
         expect(rf.mapping).toBeUndefined();
     });
+    test("RustFileParseWithLineComment", function() {
+        expect.assertions(4);
+
+        var rf = new RustFile({
+            project: p,
+            pathName: undefined,
+            type: rft
+        });
+        expect(rf).toBeTruthy();
+
+        rf.parse('let ok = get_loc_string(res_bundle, "OK"); // i18n button');
+
+        var set = rf.getTranslationSet();
+        var r = set.getBySource("OK");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("OK");
+        expect(r.getComment()).toBe("button");
+    });
+    test("RustFileParseWithBlockComment", function() {
+        expect.assertions(4);
+
+        var rf = new RustFile({
+            project: p,
+            pathName: undefined,
+            type: rft
+        });
+        expect(rf).toBeTruthy();
+
+        rf.parse('let cancel = get_loc_string(res_bundle, "Cancel"); /* i18n cancel button */');
+
+        var set = rf.getTranslationSet();
+        var r = set.getBySource("Cancel");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("Cancel");
+        expect(r.getComment()).toBe("cancel button");
+    });
+    test("RustFileParseWithColonComment", function() {
+        expect.assertions(4);
+
+        var rf = new RustFile({
+            project: p,
+            pathName: undefined,
+            type: rft
+        });
+        expect(rf).toBeTruthy();
+
+        rf.parse('let power = get_loc_string(res_bundle, "Power"); // i18n : Power button');
+
+        var set = rf.getTranslationSet();
+        var r = set.getBySource("Power");
+        expect(r).toBeTruthy();
+        expect(r.getSource()).toBe("Power");
+        expect(r.getComment()).toBe("Power button");
+    });
+    test("RustFileParseWithKeyAndComment", function() {
+        expect.assertions(4);
+
+        var rf = new RustFile({
+            project: p,
+            pathName: undefined,
+            type: rft
+        });
+        expect(rf).toBeTruthy();
+
+        rf.parse('let s = get_loc_string_with_key(res_bundle, "PictureMode.Standard", "Standard"); // i18n picture mode');
+
+        var set = rf.getTranslationSet();
+        var r = set.getBySource("Standard");
+        expect(r).toBeTruthy();
+        expect(r.getKey()).toBe("PictureMode.Standard");
+        expect(r.getComment()).toBe("picture mode");
+    });
+    test("RustFileTrimCommentUndefined", function() {
+        expect.assertions(1);
+
+        expect(RustFile.trimComment(undefined)).toBeUndefined();
+    });
+    test("RustFileParseEmptyString", function() {
+        expect.assertions(4);
+
+        var rf = new RustFile({
+            project: p,
+            pathName: undefined,
+            type: rft
+        });
+        expect(rf).toBeTruthy();
+
+        // The empty string is skipped, but the following call is still extracted.
+        rf.parse('let a = get_loc_string(res_bundle, "");\n' +
+                  'let b = get_loc_string(res_bundle, "Yes");');
+
+        var set = rf.getTranslationSet();
+        expect(set).toBeTruthy();
+        expect(set.size()).toBe(1);
+        expect(set.getBySource("Yes")).toBeTruthy();
+    });
+    test("RustFileParseWithKeyEmptyString", function() {
+        expect.assertions(4);
+
+        var rf = new RustFile({
+            project: p,
+            pathName: undefined,
+            type: rft
+        });
+        expect(rf).toBeTruthy();
+
+        // The call with an empty source is skipped, but the following call is still extracted.
+        rf.parse('let a = get_loc_string_with_key(res_bundle, "Key.Empty", "");\n' +
+                  'let b = get_loc_string_with_key(res_bundle, "Key.Two", "Two");');
+
+        var set = rf.getTranslationSet();
+        expect(set).toBeTruthy();
+        expect(set.size()).toBe(1);
+        expect(set.getBySource("Two").getKey()).toBe("Key.Two");
+    });
+    test("RustFileParseWithKeyEmptyKey", function() {
+        expect.assertions(3);
+
+        var rf = new RustFile({
+            project: p,
+            pathName: undefined,
+            type: rft
+        });
+        expect(rf).toBeTruthy();
+
+        rf.parse('let a = get_loc_string_with_key(res_bundle, "", "NoKey");');
+
+        var set = rf.getTranslationSet();
+        expect(set).toBeTruthy();
+        expect(set.size()).toBe(0);
+    });
+    test("RustFileExtractNonExistentFile", function() {
+        expect.assertions(3);
+
+        var rf = new RustFile({
+            project: p,
+            pathName: "./does-not-exist.rs",
+            type: rft
+        });
+        expect(rf).toBeTruthy();
+
+        // should not throw
+        rf.extract();
+
+        var set = rf.getTranslationSet();
+        expect(set).toBeTruthy();
+        expect(set.size()).toBe(0);
+    });
+    test("RustFileExtractEmptyFile", function() {
+        expect.assertions(2);
+
+        var rf = new RustFile({
+            project: p,
+            pathName: "./empty.rs",
+            type: rft
+        });
+
+        rf.extract();
+
+        var set = rf.getTranslationSet();
+        expect(set).toBeTruthy();
+        expect(set.size()).toBe(0);
+    });
+    test("RustFileExtractUndefinedPath", function() {
+        expect.assertions(2);
+
+        var rf = new RustFile({
+            project: p,
+            pathName: undefined,
+            type: rft
+        });
+
+        rf.extract();
+
+        var set = rf.getTranslationSet();
+        expect(set).toBeTruthy();
+        expect(set.size()).toBe(0);
+    });
 });

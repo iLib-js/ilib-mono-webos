@@ -15,6 +15,21 @@ bundle.get_loc_string_with_key("PictureMode.Standard", "Standard");
 Note: Only normal string literals (`"..."`) are extracted. Raw string literals such as `r#"..."#`
 are not supported.
 
+#### Comments for translators
+An `i18n` comment on the same line as the call is extracted as the comment of the resource, so that
+translators can see it. Both line comments and block comments are supported, and a colon after the
+`i18n` keyword is optional.
+```rust
+get_loc_string(res_bundle, "OK"); // i18n button
+get_loc_string(res_bundle, "Cancel"); /* i18n cancel button */
+get_loc_string(res_bundle, "Power"); // i18n : Power button
+```
+
+Calls inside other comments are not extracted.
+```rust
+// get_loc_string(res_bundle, "NotExtracted");
+```
+
 ### Resource file path
 The location of the generated JSON resource files is configured with `mappings` in the `rust` section of
 the `settings` in your `project.json` file. Each key of `mappings` is a glob pattern that is matched against

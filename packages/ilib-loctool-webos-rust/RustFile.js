@@ -74,6 +74,17 @@ RustFile.prototype.makeKey = function(source) {
     return RustFile.unescapeString(source);
 };
 
+/**
+ * Trim the comment markers and the leading colon from the text of an
+ * i18n comment, so that only the comment for the translators remains.
+ * For example, ": Power button" becomes "Power button".
+ *
+ * @static
+ * @param {String|undefined} commentString the text that follows the
+ * i18n keyword in the comment
+ * @returns {String|undefined} the trimmed comment, or undefined if no
+ * comment string is given
+ */
 RustFile.trimComment = function(commentString) {
     if (!commentString) return;
 
@@ -167,11 +178,11 @@ RustFile.prototype.parse = function(data) {
     // To extract get_loc_string_with_key()
     reGetLocStringWithKey.lastIndex = 0; // just to be safe
     var result = reGetLocStringWithKey.exec(data);
-    while (result && result.length > 1 && result[3] && result[5]) {
+    while (result && result.length > 1) {
         match = result[5];
         key = result[3];
 
-        if (match && match.length) {
+        if (match && match.length && key && key.length) {
             this.logger.trace("Found string key: " + this.makeKey(match) + ", string: '" + match + "'");
 
             var last = data.indexOf('\n', reGetLocStringWithKey.lastIndex);

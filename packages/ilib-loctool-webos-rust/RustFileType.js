@@ -41,16 +41,8 @@ var RustFileType = function(project) {
     this.pseudo = this.API.newTranslationSet(project.getSourceLocale());
     this.logger = this.API.getLogger("loctool.plugin.webOSRustFileType");
 
-    // generate all the pseudo bundles we'll need
-    if (project.pseudoLocale && Array.isArray(project.pseudoLocale)) {
-        this.pseudos = {};
-        project.pseudoLocale && project.pseudoLocale.forEach(function(locale) {
-            var pseudo = this.API.getPseudoBundle(locale, this, project);
-            if (pseudo) {
-                this.pseudos[locale] = pseudo;
-            }
-        }.bind(this));
-    }
+    // generate all the pseudo bundles we'll need. loctool normalizes the
+    // pseudoLocale option of project.json into the project.pseudoLocales object.
     if (project.pseudoLocales && typeof project.pseudoLocales == 'object') {
         this.pseudos = {};
         for (var locale in project.pseudoLocales) {
