@@ -1,18 +1,24 @@
-// Sample Rust source file for testing the webOS loctool rs plugin.
+// Sample Rust source file for testing the webOS loctool rust plugin.
 
 fn localization(res_bundle: &ResBundle) {
-    let yes = get_loc_string(res_bundle, "Yes");
-    let no = get_loc_string(res_bundle, "No");
-    let ok = get_loc_string(res_bundle, "OK");
-    let cancel = get_loc_string(res_bundle, "Cancel");
+    let yes = res_bundle.get_loc_string("Yes");
+    let no = res_bundle.get_loc_string("No");
+    let ok = res_bundle.get_loc_string("OK");
+    let cancel = res_bundle.get_loc_string("Cancel");
 
     // This string has a key associated with it.
-    let standard = get_loc_string_with_key(res_bundle, "PictureMode.Standard", "Standard");
+    let standard = res_bundle.get_loc_string_with_key("PictureMode.Standard", "Standard");
 
     // i18n This is a translator comment.
-    let greeting = get_loc_string(res_bundle, "Hello, world!");
+    let greeting = res_bundle.get_loc_string("Hello, world!");
 
-    // method-call style on a bundle receiver
-    let picture = bundle.get_loc_string("Picture");
-    let energy = bundle.get_loc_string_with_key("EnergyMode.Low", "Low");
+    // arguments broken into lines by rustfmt, with a trailing comma
+    let picture = res_bundle.get_loc_string(
+        "Picture",
+    );
+    let energy = res_bundle
+        .get_loc_string_with_key(
+            "EnergyMode.Low",
+            "Low",
+        );
 }

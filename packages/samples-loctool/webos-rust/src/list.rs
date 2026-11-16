@@ -1,5 +1,5 @@
-//! list.rs - sample Rust source for the webOS loctool rs plugin.
-//! Uses the method-call style on a bundle receiver and keyed strings.
+//! list.rs - sample Rust source for the webOS loctool rust plugin.
+//! Uses plain and keyed strings of the resource bundle.
 
 pub fn list_strings(bundle: &ResBundle) -> Vec<String> {
     vec![

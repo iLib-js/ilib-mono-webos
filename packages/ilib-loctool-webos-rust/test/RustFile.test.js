@@ -45,7 +45,7 @@ describe("rustfile", function() {
 
         var rf = new RustFile({
             project: p,
-            pathName: "./testfiles/rs/t1.rs",
+            pathName: "./t1.rs",
             type: rft
         });
 
@@ -104,7 +104,7 @@ describe("rustfile", function() {
         });
         expect(rf).toBeTruthy();
 
-        rf.parse('get_loc_string(res_bundle, "OK");');
+        rf.parse('res_bundle.get_loc_string("OK");');
 
         var set = rf.getTranslationSet();
         expect(set).toBeTruthy();
@@ -124,7 +124,7 @@ describe("rustfile", function() {
         });
         expect(rf).toBeTruthy();
 
-        rf.parse('get_loc_string(res_bundle, " OK ");');
+        rf.parse('res_bundle.get_loc_string(" OK ");');
 
         var set = rf.getTranslationSet();
         expect(set).toBeTruthy();
@@ -144,7 +144,7 @@ describe("rustfile", function() {
         });
         expect(rf).toBeTruthy();
 
-        rf.parse('get_loc_string_with_key(res_bundle, "PictureMode.Standard", "Standard");');
+        rf.parse('res_bundle.get_loc_string_with_key("PictureMode.Standard", "Standard");');
 
         var set = rf.getTranslationSet();
         expect(set).toBeTruthy();
@@ -168,13 +168,13 @@ describe("rustfile", function() {
 
         // get_loc_string_with_key contains "get_loc_string" as a substring;
         // make sure the plain get_loc_string regex does not also match it.
-        rf.parse('get_loc_string_with_key(res_bundle, "PictureMode.Standard", "Standard");');
+        rf.parse('res_bundle.get_loc_string_with_key("PictureMode.Standard", "Standard");');
 
         var set = rf.getTranslationSet();
         expect(set).toBeTruthy();
         expect(set.size()).toBe(1);
     });
-    test("RustFileParseMethodCallForm", function() {
+    test("RustFileParseMultiLineArguments", function() {
         expect.assertions(5);
 
         var rf = new RustFile({
@@ -184,8 +184,10 @@ describe("rustfile", function() {
         });
         expect(rf).toBeTruthy();
 
-        // method-call form with receiver and a single argument
-        rf.parse('let s = bundle.get_loc_string("Standard");');
+        // rustfmt breaks long arguments into lines and adds a trailing comma
+        rf.parse('let s = bundle.get_loc_string(\n' +
+                 '    "Standard",\n' +
+                 ');');
 
         var set = rf.getTranslationSet();
         expect(set).toBeTruthy();
@@ -195,7 +197,7 @@ describe("rustfile", function() {
         expect(r.getSource()).toBe("Standard");
         expect(r.getKey()).toBe("Standard");
     });
-    test("RustFileParseMethodCallWithKeyForm", function() {
+    test("RustFileParseWithKeyMultiLineArguments", function() {
         expect.assertions(5);
 
         var rf = new RustFile({
@@ -205,8 +207,12 @@ describe("rustfile", function() {
         });
         expect(rf).toBeTruthy();
 
-        // method-call form with receiver: (key, source)
-        rf.parse('let s = bundle.get_loc_string_with_key("PictureMode.Standard", "Standard");');
+        // rustfmt puts a chained method call on its own line and breaks the arguments
+        rf.parse('let s = bundle\n' +
+                 '    .get_loc_string_with_key(\n' +
+                 '        "PictureMode.Standard",\n' +
+                 '        "Standard",\n' +
+                 '    );');
 
         var set = rf.getTranslationSet();
         expect(set).toBeTruthy();
@@ -218,6 +224,94 @@ describe("rustfile", function() {
         expect(r[0].getSource()).toBe("Standard");
         expect(r[0].getKey()).toBe("PictureMode.Standard");
     });
+    test("RustFileParseEscapedQuotes", function() {
+        expect.assertions(3);
+
+        var rf = new RustFile({
+            project: p,
+            pathName: undefined,
+            type: rft
+        });
+        expect(rf).toBeTruthy();
+
+        rf.parse('let s = bundle.get_loc_string("Press \\"OK\\" to continue");');
+
+        var set = rf.getTranslationSet();
+        expect(set.size()).toBe(1);
+        expect(set.getBySource('Press "OK" to continue')).toBeTruthy();
+    });
+    test("RustFileParseReceiverExpression", function() {
+        expect.assertions(4);
+
+        var rf = new RustFile({
+            project: p,
+            pathName: undefined,
+            type: rft
+        });
+        expect(rf).toBeTruthy();
+
+        // the receiver can be any expression, including one with commas
+        rf.parse('let a = self.res_bundle.get_loc_string("N1");\n' +
+                 'let b = get_bundle(a, b).get_loc_string("N2");');
+
+        var set = rf.getTranslationSet();
+        expect(set.size()).toBe(2);
+        expect(set.getBySource("N1")).toBeTruthy();
+        expect(set.getBySource("N2")).toBeTruthy();
+    });
+    test("RustFileParseFunctionCallFormNotMatched", function() {
+        expect.assertions(2);
+
+        var rf = new RustFile({
+            project: p,
+            pathName: undefined,
+            type: rft
+        });
+        expect(rf).toBeTruthy();
+
+        // the resource bundle has no free functions, so calls without a receiver
+        // (e.g. get_loc_string(res_bundle, "Yes") or get_loc_string("No"))
+        // are NOT extracted
+        rf.parse('let a = get_loc_string(res_bundle, "Yes");\n' +
+                 'let b = get_loc_string_with_key(res_bundle, "PictureMode.Standard", "Standard");\n' +
+                 'let c = get_loc_string("No");');
+
+        expect(rf.getTranslationSet().size()).toBe(0);
+    });
+    test("RustFileParseWrongArgumentCountNotMatched", function() {
+        expect.assertions(2);
+
+        var rf = new RustFile({
+            project: p,
+            pathName: undefined,
+            type: rft
+        });
+        expect(rf).toBeTruthy();
+
+        // get_loc_string takes one string and get_loc_string_with_key takes two
+        rf.parse('let a = bundle.get_loc_string("A", "B");\n' +
+                 'let b = bundle.get_loc_string_with_key("X", "K", "S");\n' +
+                 'let c = bundle.get_loc_string_with_key("Standard");\n' +
+                 'let d = bundle.get_loc_string();');
+
+        expect(rf.getTranslationSet().size()).toBe(0);
+    });
+    test("RustFileParseNonLiteralArgumentNotMatched", function() {
+        expect.assertions(2);
+
+        var rf = new RustFile({
+            project: p,
+            pathName: undefined,
+            type: rft
+        });
+        expect(rf).toBeTruthy();
+
+        // only string literals can be extracted
+        rf.parse('let a = bundle.get_loc_string(label);\n' +
+                 'let b = bundle.get_loc_string_with_key(key, "Standard");');
+
+        expect(rf.getTranslationSet().size()).toBe(0);
+    });
     test("RustFileParseArbitraryReceiverName", function() {
         expect.assertions(4);
 
@@ -228,7 +322,7 @@ describe("rustfile", function() {
         });
         expect(rf).toBeTruthy();
 
-        // any receiver name before get_loc_string should be handled
+        // the receiver does not need to be named "bundle"
         rf.parse('let s = aaa.get_loc_string("Standard");');
 
         var set = rf.getTranslationSet();
@@ -236,8 +330,8 @@ describe("rustfile", function() {
         expect(set.getBySource("Standard")).toBeTruthy();
         expect(set.size()).toBe(1);
     });
-    test("RustFileParsePathSeparatorPrefix", function() {
-        expect.assertions(4);
+    test("RustFileParsePathCallNotMatched", function() {
+        expect.assertions(2);
 
         var rf = new RustFile({
             project: p,
@@ -246,13 +340,11 @@ describe("rustfile", function() {
         });
         expect(rf).toBeTruthy();
 
-        // Rust path separator (::) before get_loc_string should be handled
-        rf.parse('let s = foo::bar::get_loc_string("Standard");');
+        // path calls (::) are not the method-call form, so they are not extracted
+        rf.parse('let a = foo::bar::get_loc_string("Standard");\n' +
+                 'let b = ResBundle::get_loc_string(&bundle, "Yes");');
 
-        var set = rf.getTranslationSet();
-        expect(set).toBeTruthy();
-        expect(set.getBySource("Standard")).toBeTruthy();
-        expect(set.size()).toBe(1);
+        expect(rf.getTranslationSet().size()).toBe(0);
     });
     test("RustFileParseSuffixIdentifierNotMatched", function() {
         expect.assertions(3);
@@ -265,7 +357,7 @@ describe("rustfile", function() {
         expect(rf).toBeTruthy();
 
         // get_loc_string as a suffix of a larger identifier must NOT be extracted
-        rf.parse('let s = my_get_loc_string("ShouldNotBeExtracted");');
+        rf.parse('let s = bundle.my_get_loc_string("ShouldNotBeExtracted");');
 
         var set = rf.getTranslationSet();
         expect(set).toBeTruthy();
@@ -281,8 +373,8 @@ describe("rustfile", function() {
         });
         expect(rf).toBeTruthy();
 
-        rf.parse('let a = get_loc_string(res_bundle, "Yes");\n' +
-                  'let b = get_loc_string(res_bundle, "No");');
+        rf.parse('let a = res_bundle.get_loc_string("Yes");\n' +
+                  'let b = res_bundle.get_loc_string("No");');
 
         var set = rf.getTranslationSet();
         expect(set).toBeTruthy();
@@ -300,14 +392,14 @@ describe("rustfile", function() {
         expect(rf).toBeTruthy();
 
         // A commented-out call should not be extracted.
-        rf.parse('// get_loc_string(res_bundle, "ShouldNotBeExtracted");\n');
+        rf.parse('// res_bundle.get_loc_string("ShouldNotBeExtracted");\n');
 
         var set = rf.getTranslationSet();
         expect(set).toBeTruthy();
         expect(set.size()).toBe(0);
     });
     test("RustFileExtractFile", function() {
-        expect.assertions(4);
+        expect.assertions(8);
 
         var rf = new RustFile({
             project: p,
@@ -320,8 +412,13 @@ describe("rustfile", function() {
 
         var set = rf.getTranslationSet();
         expect(set).toBeTruthy();
+        expect(set.size()).toBe(8);
         expect(set.getBySource("Yes")).toBeTruthy();
         expect(set.getBySource("Hello, world!")).toBeTruthy();
+        expect(set.getBySource("Standard").getKey()).toBe("PictureMode.Standard");
+        // multi-line arguments with a trailing comma
+        expect(set.getBySource("Picture")).toBeTruthy();
+        expect(set.getBySource("Low").getKey()).toBe("EnergyMode.Low");
     });
     test("RustFileResourceHasMapping", function() {
         expect.assertions(4);
@@ -333,7 +430,7 @@ describe("rustfile", function() {
         });
         expect(rf).toBeTruthy();
 
-        rf.parse('get_loc_string(res_bundle, "OK");\nget_loc_string_with_key(res_bundle, "PictureMode.Standard", "Standard");');
+        rf.parse('res_bundle.get_loc_string("OK");\nres_bundle.get_loc_string_with_key("PictureMode.Standard", "Standard");');
 
         var set = rf.getTranslationSet();
         var expected = { "template": "[resourceDir]/[localeDir]/rsstrings.json" };
@@ -358,7 +455,7 @@ describe("rustfile", function() {
         });
         expect(rf).toBeTruthy();
 
-        rf.parse('let ok = get_loc_string(res_bundle, "OK"); // i18n button');
+        rf.parse('let ok = res_bundle.get_loc_string("OK"); // i18n button');
 
         var set = rf.getTranslationSet();
         var r = set.getBySource("OK");
@@ -376,7 +473,7 @@ describe("rustfile", function() {
         });
         expect(rf).toBeTruthy();
 
-        rf.parse('let cancel = get_loc_string(res_bundle, "Cancel"); /* i18n cancel button */');
+        rf.parse('let cancel = res_bundle.get_loc_string("Cancel"); /* i18n cancel button */');
 
         var set = rf.getTranslationSet();
         var r = set.getBySource("Cancel");
@@ -394,7 +491,7 @@ describe("rustfile", function() {
         });
         expect(rf).toBeTruthy();
 
-        rf.parse('let power = get_loc_string(res_bundle, "Power"); // i18n : Power button');
+        rf.parse('let power = res_bundle.get_loc_string("Power"); // i18n : Power button');
 
         var set = rf.getTranslationSet();
         var r = set.getBySource("Power");
@@ -412,7 +509,7 @@ describe("rustfile", function() {
         });
         expect(rf).toBeTruthy();
 
-        rf.parse('let s = get_loc_string_with_key(res_bundle, "PictureMode.Standard", "Standard"); // i18n picture mode');
+        rf.parse('let s = res_bundle.get_loc_string_with_key("PictureMode.Standard", "Standard"); // i18n picture mode');
 
         var set = rf.getTranslationSet();
         var r = set.getBySource("Standard");
@@ -436,8 +533,8 @@ describe("rustfile", function() {
         expect(rf).toBeTruthy();
 
         // The empty string is skipped, but the following call is still extracted.
-        rf.parse('let a = get_loc_string(res_bundle, "");\n' +
-                  'let b = get_loc_string(res_bundle, "Yes");');
+        rf.parse('let a = res_bundle.get_loc_string("");\n' +
+                  'let b = res_bundle.get_loc_string("Yes");');
 
         var set = rf.getTranslationSet();
         expect(set).toBeTruthy();
@@ -455,8 +552,8 @@ describe("rustfile", function() {
         expect(rf).toBeTruthy();
 
         // The call with an empty source is skipped, but the following call is still extracted.
-        rf.parse('let a = get_loc_string_with_key(res_bundle, "Key.Empty", "");\n' +
-                  'let b = get_loc_string_with_key(res_bundle, "Key.Two", "Two");');
+        rf.parse('let a = res_bundle.get_loc_string_with_key("Key.Empty", "");\n' +
+                  'let b = res_bundle.get_loc_string_with_key("Key.Two", "Two");');
 
         var set = rf.getTranslationSet();
         expect(set).toBeTruthy();
@@ -473,7 +570,7 @@ describe("rustfile", function() {
         });
         expect(rf).toBeTruthy();
 
-        rf.parse('let a = get_loc_string_with_key(res_bundle, "", "NoKey");');
+        rf.parse('let a = res_bundle.get_loc_string_with_key("", "NoKey");');
 
         var set = rf.getTranslationSet();
         expect(set).toBeTruthy();

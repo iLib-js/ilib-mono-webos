@@ -120,8 +120,24 @@ RustFile.removeCommentLines = function(data) {
     return trimData;
 };
 
-var reGetLocString = new RegExp(/\bget_loc_string\s*\(\s*(?:([^",][^,]*|"(\\"|[^"])*")\s*\,\s*)?"((\\"|[^"])*)"\s*\)/g);
-var reGetLocStringWithKey = new RegExp(/\bget_loc_string_with_key\s*\(\s*(?:([^",][^,]*|"(\\"|[^"])*")\s*\,\s*)?"((\\"|[^"])*)"\s*\,\s*"((\\"|[^"])*)"\s*\)/g);
+/*
+ * The resource bundle of webOS Rust apps provides only these two methods:
+ *
+ *     bundle.get_loc_string("source")
+ *     bundle.get_loc_string_with_key("key", "source")
+ *
+ * So the regexes match only the method-call form on a receiver ("." before the
+ * method name) with exactly one or two string literal arguments. A trailing comma
+ * is allowed because rustfmt adds one when it breaks the arguments into lines.
+ * Calls without a receiver, such as get_loc_string(res_bundle, "...") or
+ * get_loc_string("..."), and path calls such as ResBundle::get_loc_string(...)
+ * are not matched.
+ *
+ * reGetLocString: [1] source
+ * reGetLocStringWithKey: [1] key, [2] source
+ */
+var reGetLocString = new RegExp(/\.\s*get_loc_string\s*\(\s*"((?:\\.|[^"\\])*)"\s*,?\s*\)/g);
+var reGetLocStringWithKey = new RegExp(/\.\s*get_loc_string_with_key\s*\(\s*"((?:\\.|[^"\\])*)"\s*,\s*"((?:\\.|[^"\\])*)"\s*,?\s*\)/g);
 var reI18nComment = new RegExp(/\/(\*|\/)\s*i18n\s*(.*)($|\*\/)/);
 
 /**
@@ -141,7 +157,7 @@ RustFile.prototype.parse = function(data) {
     reGetLocString.lastIndex = 0; // just to be safe
     var result = reGetLocString.exec(data);
     while (result && result.length > 1) {
-        match = result[3];
+        match = result[1];
         if (match && match.length) {
             this.logger.trace("Found string key: " + this.makeKey(match) + ", string: '" + match + "'");
 
@@ -178,9 +194,9 @@ RustFile.prototype.parse = function(data) {
     // To extract get_loc_string_with_key()
     reGetLocStringWithKey.lastIndex = 0; // just to be safe
     var result = reGetLocStringWithKey.exec(data);
-    while (result && result.length > 1) {
-        match = result[5];
-        key = result[3];
+    while (result && result.length > 2) {
+        match = result[2];
+        key = result[1];
 
         if (match && match.length && key && key.length) {
             this.logger.trace("Found string key: " + this.makeKey(match) + ", string: '" + match + "'");

@@ -2,32 +2,25 @@
 
 ilib-loctool-webos-rust is a plugin for loctool that allows it to read and localize Rust files. This plugin is optimized for the webOS platform.
 ### Rust FileType
-This plugin extracts string usages used in the examples below by considering them as strings that need to be translated.
+This plugin extracts the strings passed to the two methods of the resource bundle, as shown in the examples below.
 ```rust
-get_loc_string(res_bundle, "Yes");
-get_loc_string_with_key(res_bundle, "PictureMode.Standard", "Standard");
-
-// method-call style on a bundle receiver is also supported
 bundle.get_loc_string("Yes");
 bundle.get_loc_string_with_key("PictureMode.Standard", "Standard");
 ```
 
-Note: Only normal string literals (`"..."`) are extracted. Raw string literals such as `r#"..."#`
-are not supported.
+Note: The following are valid Rust but are not extracted:
+* Strings that are not literals at the call site, such as constants or variables
+  (e.g. `bundle.get_loc_string(STANDARD)`).
+* Path calls such as `ResBundle::get_loc_string(&bundle, "Yes")`.
+* Raw string literals such as `r#"..."#`.
 
 #### Comments for translators
 An `i18n` comment on the same line as the call is extracted as the comment of the resource, so that
-translators can see it. Both line comments and block comments are supported, and a colon after the
-`i18n` keyword is optional.
+translators can see it.
 ```rust
-get_loc_string(res_bundle, "OK"); // i18n button
-get_loc_string(res_bundle, "Cancel"); /* i18n cancel button */
-get_loc_string(res_bundle, "Power"); // i18n : Power button
-```
-
-Calls inside other comments are not extracted.
-```rust
-// get_loc_string(res_bundle, "NotExtracted");
+bundle.get_loc_string("OK"); // i18n button
+bundle.get_loc_string("Cancel"); /* i18n cancel button */
+bundle.get_loc_string("Power"); // i18n : Power button
 ```
 
 ### Resource file path

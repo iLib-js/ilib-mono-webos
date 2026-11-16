@@ -350,7 +350,7 @@ describe("rustfiletype", function() {
 
         var rft = new RustFileType(p);
         var rf = rft.newFile("src/foo.rs");
-        rf.parse('get_loc_string(res_bundle, "OK");');
+        rf.parse('res_bundle.get_loc_string("OK");');
         rft.addSet(rf.getTranslationSet());
 
         expect(rft.getExtracted().size()).toBe(1);

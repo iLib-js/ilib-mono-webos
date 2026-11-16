@@ -105,7 +105,7 @@ describe("[integration] test the localization result of webos-rust app", () => {
         expect(jsonData["Yes"]).toBe("예");
         expect(jsonData["NOT AVAILABLE"]).toBe("\"Monitor\" 이용이 불가능합니다"); //metadata
         expect(jsonData["Good      Morning"]).toBe("좋은 아침"); // multispaces
-        expect(jsonData["EXIT APP"]).toBe("앱 종료"); // universal only, method-call style
+        expect(jsonData["EXIT APP"]).toBe("앱 종료"); // universal only
         expect(jsonData["RETRY"]).toBe("재시도(universal)"); // universal > common
         expect(jsonData["See   you   later"]).toBe("또 만나(common)"); // common cleanHashKey (multispaces in source)
         expect(jsonData["PictureMode.Standard"]).toBe("표준"); // get_loc_string_with_key
