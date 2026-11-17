@@ -80,6 +80,7 @@ Turborepo task dependency chain: `build` (outputs `lib/`) → `test` → `covera
 | `ilib-loctool-webos-javascript` | loctool plugin | JavaScript filetype handler |
 | `ilib-loctool-webos-qml` | loctool plugin | QML filetype handler |
 | `ilib-loctool-webos-dart` | loctool plugin | Dart filetype handler |
+| `ilib-loctool-webos-rust` | loctool plugin | Rust filetype handler |
 | `ilib-loctool-webos-json` | loctool plugin | JSON filetype handler |
 | `ilib-loctool-webos-json-resource` | loctool plugin | JSON resource filetype handler |
 | `ilib-loctool-webos-ts-resource` | loctool plugin | Qt TS resource filetype handler |

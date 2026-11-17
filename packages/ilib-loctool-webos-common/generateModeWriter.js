@@ -75,8 +75,11 @@ function filterResources(resources, projectName, selfDatatype, options) {
  * @param {Object} params.resFileType
  * @param {Object} params.db - project.db
  * @param {string} params.deviceType
- * @param {boolean} params.dedupByBaseTranslation - false for Dart, true for JS/C/Cpp
+ * @param {boolean} params.dedupByBaseTranslation - false for Dart, true for JS/C/Cpp/Rust
  * @param {boolean} [params.includeUniversal] - include "universal" datatype in filter
+ * @param {Function} [params.resPathFn] - optional callback(res) returning the localized resource path.
+ *   Used by plugins whose resource path is configured via mappings (e.g. Rust).
+ *   When omitted, the resource file type decides the path.
  */
 function writeGenerateModeResources(params) {
     var project = params.project;
@@ -85,6 +88,11 @@ function writeGenerateModeResources(params) {
     var db = params.db;
     var deviceType = params.deviceType;
     var dedupByBaseTranslation = params.dedupByBaseTranslation;
+    var resPathFn = params.resPathFn;
+    var getResourceFile = function(res, locale) {
+        var resPath = resPathFn ? resPathFn(res) : undefined;
+        return resFileType.getResourceFile(locale, resPath);
+    };
 
     // Filter by project ownership and datatype priority
     var genresources = filterResources(
@@ -122,7 +130,7 @@ function writeGenerateModeResources(params) {
         if (!dedupByBaseTranslation) {
             // Dart: write-through, no dedup
             res.setTarget(pluginUtils.getTarget(res, deviceType));
-            resFileType.getResourceFile(locale).addResource(res);
+            getResourceFile(res, locale).addResource(res);
             continue;
         }
 
@@ -153,7 +161,7 @@ function writeGenerateModeResources(params) {
         if ((locale === "en-US" && res.getSource() !== pluginUtils.getTarget(res, deviceType)) ||
             (baseTranslation !== pluginUtils.getTarget(res, deviceType))) {
             res.setTarget(pluginUtils.getTarget(res, deviceType));
-            resFileType.getResourceFile(locale).addResource(res);
+            getResourceFile(res, locale).addResource(res);
         }
     }
 }

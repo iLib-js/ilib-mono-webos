@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-KR" trgLang="es-CO" version="2.0">
+  <file id="sample-webos-rust_f1" original="sample-webos-rust">
+    <group id="sample-webos-rust_g1" name="x-rust">
+      <unit id="1">
+        <segment>
+          <source>Sound Out</source>
+          <target>Salida de Audio</target>
+        </segment>
+      </unit>
+      <unit id="3">
+        <mda:metadata>
+          <mda:metaGroup category="device-type">
+            <mda:meta type="Monitor">Nombre del Monitor</mda:meta>
+            <mda:meta type="Projector">Nombre del Proyector</mda:meta>
+            <mda:meta type="StanbyME">Nombre del dispositivo</mda:meta>
+          </mda:metaGroup>
+        </mda:metadata>
+        <segment>
+          <source>TV Name</source>
+          <target>Nombre de la TV</target>
+        </segment>
+      </unit>
+    </group>
+  </file>
+</xliff>
