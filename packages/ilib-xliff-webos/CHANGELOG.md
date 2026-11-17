@@ -1,5 +1,11 @@
 # ilib-xliff-webos
 
+## 1.0.13
+
+### Patch Changes
+
+- 5875507: Update dependencies (loctool: 2.34.1)
+
 ## 1.0.12
 
 ### Patch Changes

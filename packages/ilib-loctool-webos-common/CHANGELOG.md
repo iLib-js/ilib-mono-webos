@@ -1,5 +1,15 @@
 # ilib-loctool-webos-common
 
+## 1.3.0
+
+### Minor Changes
+
+- cf383ea: Add an optional `resPathFn` parameter to `writeGenerateModeResources()` so that plugins whose resource path is configured via mappings (e.g. Rust) can decide the output path in generate mode.
+
+### Patch Changes
+
+- 5875507: Update dependencies (loctool: 2.34.1)
+
 ## 1.2.5
 
 ### Patch Changes
