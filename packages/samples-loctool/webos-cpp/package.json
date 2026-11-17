@@ -8,9 +8,9 @@
     "scripts": {
         "loc": "loctool -2 --xliffStyle webOS --localeMap es-CO:es,fr-CA:fr --localeInherit en-AU:en-GB",
         "debug": "node --inspect-brk node_modules/loctool/loctool.js -2 --xliffStyle webOS --localeMap es-CO:es,fr-CA:fr --localeInherit en-AU:en-GB",
-        "loc-generate": "loctool generate -2 --translations xliffs --xliffStyle webOS --sourceLocale en-KR --resourceFileTypes json=webos-json-resource --resourceFileNames json=cppstrings.json --plugins webos-cpp -l en-AU,en-GB,ko-KR,es-CO,es-ES,fr-CA,fr-FR,ko-KR --localeMap es-CO:es,fr-CA:fr --localeInherit en-AU:en-GB --projectId sample-webos-cpp",
-        "loc-generate-debug": "node --inspect-brk node_modules/loctool/loctool.js generate -2 --translations xliffs --xliffStyle webOS --sourceLocale en-KR --resourceFileTypes json=webos-json-resource --plugins webos-cpp -l en-AU,en-GB,ko-KR,es-CO,es-ES,ko-KR --localeMap es-CO:es,fr-CA:fr --localeInherit en-AU:en-GB --projectId sample-webos-cpp",
-        "clean": "rm -rf *.xliff resources",
+        "loc-generate": "loctool generate -2 --translations xliffs --xliffStyle webOS --projectType webos-cpp --sourceLocale en-KR --resourceFileTypes json=webos-json-resource --resourceFileNames cpp=cppstrings.json --plugins webos-cpp -l en-AU,en-GB,ko-KR,es-CO,es-ES,fr-CA,fr-FR --localeMap es-CO:es,fr-CA:fr --localeInherit en-AU:en-GB --projectId sample-webos-cpp",
+        "loc-generate-debug": "node --inspect-brk node_modules/loctool/loctool.js generate -2 --translations xliffs --xliffStyle webOS --projectType webos-cpp --sourceLocale en-KR --resourceFileTypes json=webos-json-resource --resourceFileNames cpp=cppstrings.json --plugins webos-cpp -l en-AU,en-GB,ko-KR,es-CO,es-ES,fr-CA,fr-FR --localeMap es-CO:es,fr-CA:fr --localeInherit en-AU:en-GB --projectId sample-webos-cpp",
+        "clean": "rm -rf *.xliff resources resources2",
         "coverage": "pnpm test --coverage",
         "test": "pnpm test:jest",
         "test:jest": "LANG=en_US.UTF8 node node_modules/jest/bin/jest.js",
