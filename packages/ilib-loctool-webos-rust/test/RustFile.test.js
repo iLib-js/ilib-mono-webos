@@ -768,6 +768,39 @@ describe("rustfile", function() {
 
         expect(RustFile.trimComment(undefined)).toBeUndefined();
     });
+    test("RustFileTrimComment", function() {
+        expect.assertions(10);
+
+        expect(RustFile.trimComment(" : Power button")).toBe("Power button");
+        expect(RustFile.trimComment(":Power button")).toBe("Power button");
+        expect(RustFile.trimComment("cancel button */")).toBe("cancel button");
+        expect(RustFile.trimComment("button  ")).toBe("button");
+        // a colon, slash or star in the middle of the comment is kept
+        expect(RustFile.trimComment(" Format: HH:MM")).toBe("Format: HH:MM");
+        expect(RustFile.trimComment("time 10:30")).toBe("time 10:30");
+        expect(RustFile.trimComment("see a/b")).toBe("see a/b");
+        expect(RustFile.trimComment("5 * 3 items")).toBe("5 * 3 items");
+        // nothing remains
+        expect(RustFile.trimComment("  ")).toBeUndefined();
+        expect(RustFile.trimComment(" */")).toBeUndefined();
+    });
+    test("RustFileParseI18nCommentWithColons", function() {
+        expect.assertions(3);
+
+        var rf = new RustFile({
+            project: p,
+            pathName: undefined,
+            type: rft
+        });
+        expect(rf).toBeTruthy();
+
+        rf.parse('bundle.get_loc_string("Start time"); // i18n Format: HH:MM\n' +
+                 'bundle.get_loc_string("End time"); /* i18n : ends at 10:30 */\n');
+
+        var set = rf.getTranslationSet();
+        expect(set.getBySource("Start time").getComment()).toBe("Format: HH:MM");
+        expect(set.getBySource("End time").getComment()).toBe("ends at 10:30");
+    });
     test("RustFileParseEmptyString", function() {
         expect.assertions(4);
 

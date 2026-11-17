@@ -164,18 +164,20 @@ RustFile.prototype.makeKey = function(source) {
  * @param {String|undefined} commentString the text that follows the
  * i18n keyword in the comment
  * @returns {String|undefined} the trimmed comment, or undefined if no
- * comment string is given
+ * comment string is given or nothing remains after trimming
  */
 RustFile.trimComment = function(commentString) {
     if (!commentString) return;
 
+    // Only the markers at the beginning (a colon, slashes or stars) and the
+    // end ("*/") are removed, so that a colon, slash or star in the middle of
+    // the comment (e.g. "Format: HH:MM", "a/b") is kept.
     var trimComment = commentString.
-        replace(/\s*\*\//, "").
-        replace(/\s*\:\s*/, "").
-        replace(/\/\s*\**\s*/, "").
-        replace(/\s*\*\s*/, "");
-    return trimComment;
-}
+        replace(/\s*\*+\/\s*$/, "").
+        replace(/^[\s\/*]*:?\s*/, "").
+        replace(/\s+$/, "");
+    return trimComment || undefined;
+};
 
 /**
  * Remove single and multi-lines comments except for i18n comment style.

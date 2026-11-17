@@ -7,3 +7,4 @@ Fix the parsing of string literals and comments in Rust files:
 - Extract the string literals that have a line continuation (a backslash at the end of a line), and remove the line continuation from the key and source in the same way as rustc does.
 - Do not extract a commented-out call on the last line of a file without a trailing newline, and handle the line comments and `i18n` comments in files with CRLF line endings.
 - Attach an `i18n` comment only to the last call on the line, not to all the calls on the same line.
+- Remove only the leading colon and the comment markers from an `i18n` comment, so that a colon, slash or star in the middle of the comment (e.g. `Format: HH:MM`) is kept.
