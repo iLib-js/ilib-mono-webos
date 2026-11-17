@@ -252,6 +252,43 @@ describe("rustfile", function() {
         expect(set.getBySource("A").getComment()).toBeUndefined();
         expect(set.getBySource("B").getComment()).toBe("for B");
     });
+    test("RustFileParseI18nCommentOnlyForLastCallOnLine", function() {
+        expect.assertions(4);
+
+        var rf = new RustFile({
+            project: p,
+            pathName: undefined,
+            type: rft
+        });
+        expect(rf).toBeTruthy();
+
+        rf.parse('bundle.get_loc_string("X"); bundle.get_loc_string("Y"); // i18n for Y\n');
+
+        var set = rf.getTranslationSet();
+        expect(set.size()).toBe(2);
+        expect(set.getBySource("X").getComment()).toBeUndefined();
+        expect(set.getBySource("Y").getComment()).toBe("for Y");
+    });
+    test("RustFileParseI18nCommentOnlyForLastCallOnLineWithKey", function() {
+        expect.assertions(5);
+
+        var rf = new RustFile({
+            project: p,
+            pathName: undefined,
+            type: rft
+        });
+        expect(rf).toBeTruthy();
+
+        // the calls of the two methods are on the same line
+        rf.parse('bundle.get_loc_string_with_key("K", "S"); bundle.get_loc_string("Y"); // i18n for Y\n' +
+                 'bundle.get_loc_string("Z"); bundle.get_loc_string_with_key("K2", "S2"); // i18n for K2\n');
+
+        var set = rf.getTranslationSet();
+        expect(set.getBy({reskey: "K"})[0].getComment()).toBeUndefined();
+        expect(set.getBySource("Y").getComment()).toBe("for Y");
+        expect(set.getBySource("Z").getComment()).toBeUndefined();
+        expect(set.getBy({reskey: "K2"})[0].getComment()).toBe("for K2");
+    });
     test("RustFileParseCRLF", function() {
         expect.assertions(5);
 

@@ -223,6 +223,31 @@ RustFile.removeCommentLines = function(data) {
 var reGetLocString = new RegExp(/\.\s*get_loc_string\s*\(\s*"((?:\\[\s\S]|[^"\\])*)"\s*,?\s*\)/g);
 var reGetLocStringWithKey = new RegExp(/\.\s*get_loc_string_with_key\s*\(\s*"((?:\\[\s\S]|[^"\\])*)"\s*,\s*"((?:\\[\s\S]|[^"\\])*)"\s*,?\s*\)/g);
 var reI18nComment = new RegExp(/\/(\*|\/)\s*i18n\s*(.*)($|\*\/)/);
+var reGetLocStringCall = new RegExp(/\.\s*get_loc_string(?:_with_key)?\s*\(/);
+
+/**
+ * Find the i18n comment for the call that ends at the given index. The comment
+ * must be on the same line as the end of the call, and there must be no other
+ * get_loc_string() or get_loc_string_with_key() call between them, so that the
+ * comment is attached only to the last call on the line:
+ *
+ *     bundle.get_loc_string("X"); bundle.get_loc_string("Y"); // i18n for Y
+ *
+ * @private
+ * @param {String} data the data that is being parsed
+ * @param {Number} end the index just after the end of the call
+ * @returns {String|undefined} the comment, or undefined if there is none
+ */
+RustFile.getI18nComment = function(data, end) {
+    var last = data.indexOf('\n', end);
+    last = (last === -1) ? data.length : last;
+    // drop the "\r" of a CRLF line ending
+    var line = data.substring(end, last).replace(/\r$/, "");
+    var commentResult = reI18nComment.exec(line);
+    if (!commentResult || commentResult.length < 3) return undefined;
+    if (reGetLocStringCall.test(line.substring(0, commentResult.index))) return undefined;
+    return commentResult[2];
+};
 
 /**
  * Parse the data string looking for the localizable strings and add them to the
@@ -245,12 +270,7 @@ RustFile.prototype.parse = function(data) {
         if (match && match.length) {
             this.logger.trace("Found string key: " + this.makeKey(match) + ", string: '" + match + "'");
 
-            var last = data.indexOf('\n', reGetLocString.lastIndex);
-            last = (last === -1) ? data.length : last;
-            // drop the "\r" of a CRLF line ending
-            var line = data.substring(reGetLocString.lastIndex, last).replace(/\r$/, "");
-            var commentResult = reI18nComment.exec(line);
-            comment = (commentResult && commentResult.length > 1) ? commentResult[2] : undefined;
+            comment = RustFile.getI18nComment(data, reGetLocString.lastIndex);
 
             match = RustFile.unescapeString(match);
 
@@ -286,12 +306,7 @@ RustFile.prototype.parse = function(data) {
         if (match && match.length && key && key.length) {
             this.logger.trace("Found string key: " + this.makeKey(match) + ", string: '" + match + "'");
 
-            var last = data.indexOf('\n', reGetLocStringWithKey.lastIndex);
-            last = (last === -1) ? data.length : last;
-            // drop the "\r" of a CRLF line ending
-            var line = data.substring(reGetLocStringWithKey.lastIndex, last).replace(/\r$/, "");
-            var commentResult = reI18nComment.exec(line);
-            comment = (commentResult && commentResult.length > 1) ? commentResult[2] : undefined;
+            comment = RustFile.getI18nComment(data, reGetLocStringWithKey.lastIndex);
             match = RustFile.unescapeString(match);
             key = RustFile.unescapeString(key);
             var r = this.API.newResource({
