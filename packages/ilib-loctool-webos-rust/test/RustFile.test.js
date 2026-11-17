@@ -197,6 +197,81 @@ describe("rustfile", function() {
         expect(r.getSource()).toBe("Standard");
         expect(r.getKey()).toBe("Standard");
     });
+    test("RustFileParseCommentedOutCallOnLastLine", function() {
+        expect.assertions(3);
+
+        var rf = new RustFile({
+            project: p,
+            pathName: undefined,
+            type: rft
+        });
+        expect(rf).toBeTruthy();
+
+        // no newline at the end of the file
+        rf.parse('bundle.get_loc_string("A");\n' +
+                 '// bundle.get_loc_string("EOF")');
+
+        var set = rf.getTranslationSet();
+        expect(set.size()).toBe(1);
+        expect(set.getBySource("EOF")).toBeFalsy();
+    });
+    test("RustFileParseCommentedOutCallWithSlashOnLastLine", function() {
+        expect.assertions(3);
+
+        var rf = new RustFile({
+            project: p,
+            pathName: undefined,
+            type: rft
+        });
+        expect(rf).toBeTruthy();
+
+        // a slash in the comment must not end the comment
+        rf.parse('bundle.get_loc_string("A");\n' +
+                 '// see a/b bundle.get_loc_string("EOF")');
+
+        var set = rf.getTranslationSet();
+        expect(set.size()).toBe(1);
+        expect(set.getBySource("EOF")).toBeFalsy();
+    });
+    test("RustFileParseCommentDoesNotJoinLines", function() {
+        expect.assertions(4);
+
+        var rf = new RustFile({
+            project: p,
+            pathName: undefined,
+            type: rft
+        });
+        expect(rf).toBeTruthy();
+
+        // the i18n comment of the next line must not be attached to "A"
+        rf.parse('bundle.get_loc_string("A"); // not for translators\n' +
+                 'bundle.get_loc_string("B"); // i18n for B\n');
+
+        var set = rf.getTranslationSet();
+        expect(set.size()).toBe(2);
+        expect(set.getBySource("A").getComment()).toBeUndefined();
+        expect(set.getBySource("B").getComment()).toBe("for B");
+    });
+    test("RustFileParseCRLF", function() {
+        expect.assertions(5);
+
+        var rf = new RustFile({
+            project: p,
+            pathName: undefined,
+            type: rft
+        });
+        expect(rf).toBeTruthy();
+
+        rf.parse('bundle.get_loc_string("A"); // i18n note\r\n' +
+                 '// bundle.get_loc_string("C")\r\n' +
+                 'bundle.get_loc_string("B"); /* i18n block note */\r\n');
+
+        var set = rf.getTranslationSet();
+        expect(set.size()).toBe(2);
+        expect(set.getBySource("C")).toBeFalsy();
+        expect(set.getBySource("A").getComment()).toBe("note");
+        expect(set.getBySource("B").getComment()).toBe("block note");
+    });
     test("RustFileParseLineContinuation", function() {
         expect.assertions(4);
 

@@ -189,8 +189,11 @@ RustFile.removeCommentLines = function(data) {
     // Remove comments while preserving string and character literals.
     // Match char literals and string literals first to skip them,
     // then match // line comments (except i18n) and /* */ block comments.
+    // A line comment ends before the line break ("\n" or "\r\n") or at the end
+    // of the data, and the line break itself is kept, so that the lines are not
+    // joined.
     var trimData = data.replace(
-        /'(\\.|[^'\\])'|"(\\[\s\S]|[^"\\])*"|\/\/\s*((?!i18n).)*[$/\n]|\/\*(((?!i18n).)*)\*\/|\/\*+((?!i18n)[^*]|\*(?!\/))*\*+\//g,
+        /'(\\.|[^'\\])'|"(\\[\s\S]|[^"\\])*"|\/\/(?![ \t]*i18n)[^\r\n]*|\/\*(((?!i18n).)*)\*\/|\/\*+((?!i18n)[^*]|\*(?!\/))*\*+\//g,
         function(match) {
             if (match[0] === '"' || match[0] === "'") {
                 return match;
@@ -244,7 +247,8 @@ RustFile.prototype.parse = function(data) {
 
             var last = data.indexOf('\n', reGetLocString.lastIndex);
             last = (last === -1) ? data.length : last;
-            var line = data.substring(reGetLocString.lastIndex, last);
+            // drop the "\r" of a CRLF line ending
+            var line = data.substring(reGetLocString.lastIndex, last).replace(/\r$/, "");
             var commentResult = reI18nComment.exec(line);
             comment = (commentResult && commentResult.length > 1) ? commentResult[2] : undefined;
 
@@ -284,7 +288,8 @@ RustFile.prototype.parse = function(data) {
 
             var last = data.indexOf('\n', reGetLocStringWithKey.lastIndex);
             last = (last === -1) ? data.length : last;
-            var line = data.substring(reGetLocStringWithKey.lastIndex, last);
+            // drop the "\r" of a CRLF line ending
+            var line = data.substring(reGetLocStringWithKey.lastIndex, last).replace(/\r$/, "");
             var commentResult = reI18nComment.exec(line);
             comment = (commentResult && commentResult.length > 1) ? commentResult[2] : undefined;
             match = RustFile.unescapeString(match);
