@@ -40,15 +40,69 @@ var RustFile = function(props) {
 };
 
 /**
+ * Format a UTF-16 code unit as a JS style unicode escape (\uXXXX).
+ *
+ * @private
+ * @param {Number} unit the UTF-16 code unit
+ * @returns {String} the escape sequence
+ */
+function toJsEscape(unit) {
+    return "\\u" + ("0000" + unit.toString(16).toUpperCase()).slice(-4);
+}
+
+/**
+ * Convert the Rust unicode escapes (\u{X} .. \u{XXXXXX}) in the given string
+ * to the JS style escapes (\uXXXX) used by the other webOS plugins and in the
+ * existing xliff files, so that the same key is generated for the same string.
+ *
+ * - The hex digits are padded to 4 digits, keeping the case as written
+ *   (\u{28} -> \u0028, \u{201e} -> \u201e), because the keys are compared as
+ *   text and the existing xliff files mix upper and lower case.
+ * - Code points outside the BMP are converted to a surrogate pair
+ *   (\u{1F600} -> \uD83D\uDE00).
+ * - An escaped backslash followed by "u{...}" (\\u{41}) is literal text and
+ *   is left unchanged.
+ * - Invalid escapes (no hex digits, more than 6 digits, above U+10FFFF) are
+ *   left unchanged; they do not compile in Rust anyway.
+ *
+ * @static
+ * @param {String} string the string to convert
+ * @returns {String} the string with JS style unicode escapes
+ */
+RustFile.convertUnicodeEscapes = function(string) {
+    if (!string) return string;
+    return string.replace(/(\\*)\\u\{([0-9A-Fa-f]{1,6})\}/g, function(match, backslashes, hex) {
+        // an even number of preceding backslashes means this backslash is not escaped
+        if (backslashes.length % 2 !== 0) return match;
+        var codePoint = parseInt(hex, 16);
+        if (codePoint > 0x10FFFF) return match;
+        if (codePoint <= 0xFFFF) {
+            return backslashes + "\\u" + ("0000" + hex).slice(-4);
+        }
+        codePoint -= 0x10000;
+        return backslashes +
+            toJsEscape(0xD800 + (codePoint >> 10)) +
+            toJsEscape(0xDC00 + (codePoint & 0x3FF));
+    });
+};
+
+/**
  * Unescape the string to make the same string that would be
  * in memory in the target programming language.
+ *
+ * Rust unicode escapes (\u{XXXX}) are converted to the JS style escapes
+ * (\uXXXX) instead of the actual character, so that the keys match the
+ * ones in the existing xliff files. See {@link RustFile.convertUnicodeEscapes}.
  *
  * @static
  * @param {String} string the string to unescape
  * @returns {String} the unescaped string
  */
 RustFile.unescapeString = function(string) {
-    var unescaped = string;
+    // Convert Rust unicode escapes first, before the backslashes are unescaped,
+    // so that an escaped backslash ("\\u{...}") can still be told apart from a
+    // real escape.
+    var unescaped = RustFile.convertUnicodeEscapes(string);
     unescaped = unescaped.
         replace(/^\\\\/, "\\").             // unescape backslashes
         replace(/([^\\])\\\\/g, "$1\\").

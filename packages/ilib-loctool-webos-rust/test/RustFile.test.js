@@ -624,3 +624,174 @@ describe("rustfile", function() {
         expect(set.size()).toBe(0);
     });
 });
+
+/*
+ * Unicode escape sequences in Rust string literals.
+ *
+ * Rust only supports the `\u{XXXX}` form of unicode escapes (the JS/C style
+ * `\uXXXX` is a compile error in Rust). In xliff files, unicode escapes
+ * in the source strings are written with the JS style escapes, e.g.:
+ *   \u0028{num}\u0029 items selected
+ *   Press \u2018Enter\u2019 to continue.
+ * A Rust app that follows the same convention would write them as `\u{XXXX}`.
+ *
+ * The plugin converts them to the JS style `\uXXXX`, so that the key is the
+ * same as the one in the existing xliff files. These tests check that:
+ *   1. the Rust specific `\u{...}` form does not leak into the key/source, and
+ *   2. the generated JSON resource file is valid JSON and its key matches the
+ *      string that the Rust code has at runtime, so that the lookup succeeds.
+ */
+var JSONResourceFile = require("ilib-loctool-webos-json-resource/JSONResourceFile.js");
+
+var unicodeEscapeCases = [
+    {
+        name: "parentheses",
+        rust: '\\u{0028}{num}\\u{0029} items selected',
+        runtime: "\u0028{num}\u0029 items selected",
+        locale: "ko-KR",
+        // the target is written with the JS style escapes as well
+        target: "\\u0028{num}\\u0029개 항목 선택됨",
+        runtimeTarget: "\u0028{num}\u0029개 항목 선택됨"
+    },
+    {
+        name: "curly quotes",
+        rust: 'Press \\u{2018}Enter\\u{2019} to continue.',
+        runtime: "Press \u2018Enter\u2019 to continue.",
+        locale: "ko-KR",
+        target: "계속하려면 \\u2018Enter\\u2019를 누르세요.",
+        runtimeTarget: "계속하려면 \u2018Enter\u2019를 누르세요."
+    },
+    {
+        name: "low-9 quotes",
+        rust: 'Select \\u{201e}Save\\u{201f} to keep the changes.',
+        runtime: "Select \u201eSave\u201f to keep the changes.",
+        locale: "ko-KR",
+        target: "변경 사항을 유지하려면 \\u201e저장\\u201f을 선택하세요.",
+        runtimeTarget: "변경 사항을 유지하려면 \u201e저장\u201f을 선택하세요."
+    }
+];
+
+describe("rustfile unicode escapes", function() {
+    unicodeEscapeCases.forEach(function(tc) {
+        test("RustFileParseUnicodeEscapeNotLeaked: " + tc.name, function() {
+            expect.assertions(3);
+
+            var rf = new RustFile({
+                project: p,
+                pathName: undefined,
+                type: rft
+            });
+            rf.parse('res_bundle.get_loc_string("' + tc.rust + '");');
+
+            var resources = rf.getTranslationSet().getAll();
+            expect(resources.length).toBe(1);
+            expect(resources[0].getKey()).not.toContain("\\u{");
+            expect(resources[0].getSource()).not.toContain("\\u{");
+        });
+
+        test("RustFileUnicodeEscapeJsonResourceMatchesRuntime: " + tc.name, function() {
+            expect.assertions(2);
+
+            var rf = new RustFile({
+                project: p,
+                pathName: undefined,
+                type: rft
+            });
+            rf.parse('res_bundle.get_loc_string("' + tc.rust + '");');
+            var extracted = rf.getTranslationSet().getAll()[0];
+
+            var translated = p.getAPI().newResource({
+                resType: "string",
+                project: "app",
+                key: extracted.getKey(),
+                sourceLocale: "en-US",
+                source: extracted.getSource(),
+                targetLocale: tc.locale,
+                target: tc.target,
+                datatype: "x-rust"
+            });
+
+            var jrf = new JSONResourceFile({
+                project: p,
+                locale: tc.locale
+            });
+            jrf.addResource(translated);
+
+            // the generated resource file must be valid JSON ...
+            var json;
+            expect(function() {
+                json = JSON.parse(jrf.getContent());
+            }).not.toThrow();
+
+            // ... and the translation must be found with the runtime string
+            expect(json && json[tc.runtime]).toBe(tc.runtimeTarget);
+        });
+    });
+});
+
+describe("rustfile convertUnicodeEscapes", function() {
+    var cases = [
+        // [name, input (Rust source text), expected (JS style escape text)]
+        ["4 hex digits", 'Press \\u{2018}Enter\\u{2019} to continue.', 'Press \\u2018Enter\\u2019 to continue.'],
+        ["upper case is kept", '\\u{201E}Save\\u{201F}', '\\u201ESave\\u201F'],
+        ["lower case is kept", '\\u{201e}Save\\u{201f}', '\\u201eSave\\u201f'],
+        ["padded to 4 digits", '\\u{28}{num}\\u{29}', '\\u0028{num}\\u0029'],
+        ["single digit", '\\u{9}', '\\u0009'],
+        ["leading zeros", '\\u{0028}{num}\\u{0029}', '\\u0028{num}\\u0029'],
+        ["outside the BMP becomes a surrogate pair", 'Smile \\u{1F600}', 'Smile \\uD83D\\uDE00'],
+        ["highest code point", '\\u{10FFFF}', '\\uDBFF\\uDFFF'],
+        ["escaped backslash is literal text", 'a\\\\u{41}b', 'a\\\\u{41}b'],
+        ["escaped backslash followed by a real escape", 'a\\\\\\u{41}b', 'a\\\\\\u0041b'],
+        ["above U+10FFFF is left unchanged", '\\u{110000}', '\\u{110000}'],
+        ["more than 6 digits is left unchanged", '\\u{0000041}', '\\u{0000041}'],
+        ["no digits is left unchanged", '\\u{}', '\\u{}'],
+        ["JS style escape is left unchanged", 'Press \\u2018Enter\\u2019', 'Press \\u2018Enter\\u2019'],
+        ["no escape", 'This is a test', 'This is a test']
+    ];
+
+    cases.forEach(function(tc) {
+        test("RustFileConvertUnicodeEscapes: " + tc[0], function() {
+            expect.assertions(1);
+            expect(RustFile.convertUnicodeEscapes(tc[1])).toBe(tc[2]);
+        });
+    });
+
+    test("RustFileConvertUnicodeEscapesEmpty", function() {
+        expect.assertions(2);
+        expect(RustFile.convertUnicodeEscapes("")).toBe("");
+        expect(RustFile.convertUnicodeEscapes(undefined)).toBeUndefined();
+    });
+
+    test("RustFileParseUnicodeEscapeKeyMatchesXliff", function() {
+        expect.assertions(3);
+
+        var rf = new RustFile({
+            project: p,
+            pathName: undefined,
+            type: rft
+        });
+        // key as it is written in the xliff files
+        rf.parse('bundle.get_loc_string("Press \\u{2018}Enter\\u{2019} to continue.");');
+
+        var resources = rf.getTranslationSet().getAll();
+        expect(resources.length).toBe(1);
+        expect(resources[0].getKey()).toBe('Press \\u2018Enter\\u2019 to continue.');
+        expect(resources[0].getSource()).toBe('Press \\u2018Enter\\u2019 to continue.');
+    });
+
+    test("RustFileParseUnicodeEscapeWithKey", function() {
+        expect.assertions(3);
+
+        var rf = new RustFile({
+            project: p,
+            pathName: undefined,
+            type: rft
+        });
+        rf.parse('bundle.get_loc_string_with_key("Items.\\u{0028}Selected\\u{0029}", "\\u{0028}{num}\\u{0029} items selected");');
+
+        var resources = rf.getTranslationSet().getAll();
+        expect(resources.length).toBe(1);
+        expect(resources[0].getKey()).toBe('Items.\\u0028Selected\\u0029');
+        expect(resources[0].getSource()).toBe('\\u0028{num}\\u0029 items selected');
+    });
+});

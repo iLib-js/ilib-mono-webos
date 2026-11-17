@@ -42,7 +42,7 @@ describe('test the localization result of webos-rust app', () => {
         });
     }, 50000);
     test("rustsample_test_ko_KR", function() {
-        expect.assertions(5);
+        expect.assertions(6);
         filePath = path.join(resourcePath, 'ko', fileName);
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
@@ -52,6 +52,8 @@ describe('test the localization result of webos-rust app', () => {
         // keyed string (get_loc_string_with_key)
         expect(jsonData["PictureMode.Standard"]).toBe("표준");
         expect(jsonData["Do you want to change the settings from 'Digital Sound Output' to 'Pass Through' to minimize audio delay while playing game?"]).toBe("'디지털 음향 내보내기' 를 오디오 지연을 최소화하여 게임을 즐길 수 있는 'Pass Through'로 변경할까요?");
+        // unicode escapes (\u{28} in the Rust source -> \u0028 in the key)
+        expect(jsonData["\u0028{num}\u0029 items selected"]).toBe("\u0028{num}\u0029개 항목 선택됨");
     });
     test("rustsample_test_en_US", function() {
         expect.assertions(3);

@@ -15,6 +15,8 @@ pub fn list_strings(bundle: &ResBundle) -> Vec<String> {
         bundle.get_loc_string("HDMI Deep Color"),
         bundle.get_loc_string("Exit"),
         bundle.get_loc_string("Do you want to change the settings from 'Digital Sound Output' to 'Pass Through' to minimize audio delay while playing game?"),
+        // unicode escapes
+        bundle.get_loc_string("\u{28}{num}\u{29} items selected"),
         bundle.get_loc_string_with_key("PictureMode.Standard", "Standard"),
     ]
 }

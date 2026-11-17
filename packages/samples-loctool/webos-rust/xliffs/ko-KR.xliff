@@ -38,6 +38,12 @@
           <target>표준</target>
         </segment>
       </unit>
+      <unit id="7">
+        <segment>
+          <source>\u0028{num}\u0029 items selected</source>
+          <target>\u0028{num}\u0029개 항목 선택됨</target>
+        </segment>
+      </unit>
     </group>
   </file>
 </xliff>
