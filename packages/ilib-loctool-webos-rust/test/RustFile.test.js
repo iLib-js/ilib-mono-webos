@@ -197,6 +197,140 @@ describe("rustfile", function() {
         expect(r.getSource()).toBe("Standard");
         expect(r.getKey()).toBe("Standard");
     });
+    test("RustFileParseLineContinuation", function() {
+        expect.assertions(4);
+
+        var rf = new RustFile({
+            project: p,
+            pathName: undefined,
+            type: rft
+        });
+        expect(rf).toBeTruthy();
+
+        // a backslash at the end of a line removes the newline and the leading
+        // whitespace of the next line, so rustc makes "Connect a LAN cable to the TV."
+        rf.parse('let s = bundle.get_loc_string("Connect a LAN cable \\\n' +
+                 '        to the TV.");');
+
+        var set = rf.getTranslationSet();
+        expect(set.size()).toBe(1);
+
+        var r = set.getBySource("Connect a LAN cable to the TV.");
+        expect(r).toBeTruthy();
+        expect(r.getKey()).toBe("Connect a LAN cable to the TV.");
+    });
+    test("RustFileParseLineContinuationCRLF", function() {
+        expect.assertions(3);
+
+        var rf = new RustFile({
+            project: p,
+            pathName: undefined,
+            type: rft
+        });
+        expect(rf).toBeTruthy();
+
+        rf.parse('let s = bundle.get_loc_string("Connect a LAN cable \\\r\n' +
+                 '        to the TV.");\r\n');
+
+        var set = rf.getTranslationSet();
+        expect(set.size()).toBe(1);
+        expect(set.getBySource("Connect a LAN cable to the TV.")).toBeTruthy();
+    });
+    test("RustFileParseLineContinuationMultipleLines", function() {
+        expect.assertions(3);
+
+        var rf = new RustFile({
+            project: p,
+            pathName: undefined,
+            type: rft
+        });
+        expect(rf).toBeTruthy();
+
+        // the whitespace before the backslash is kept, blank lines after it are skipped
+        rf.parse('let s = bundle.get_loc_string("One, \\\n' +
+                 '    two,\\\n' +
+                 '\n' +
+                 '    three.");');
+
+        var set = rf.getTranslationSet();
+        expect(set.size()).toBe(1);
+        expect(set.getBySource("One, two,three.")).toBeTruthy();
+    });
+    test("RustFileParseWithKeyLineContinuation", function() {
+        expect.assertions(4);
+
+        var rf = new RustFile({
+            project: p,
+            pathName: undefined,
+            type: rft
+        });
+        expect(rf).toBeTruthy();
+
+        rf.parse('let s = bundle.get_loc_string_with_key(\n' +
+                 '    "Settings.Network.Wired.Description",\n' +
+                 '    "Connect a LAN cable to the TV \\\n' +
+                 '     to use a wired network connection.",\n' +
+                 ');');
+
+        var set = rf.getTranslationSet();
+        expect(set.size()).toBe(1);
+
+        var r = set.getBy({
+            reskey: "Settings.Network.Wired.Description"
+        });
+        expect(r.length).toBe(1);
+        expect(r[0].getSource()).toBe("Connect a LAN cable to the TV to use a wired network connection.");
+    });
+    test("RustFileParseLineContinuationWithCommentMarker", function() {
+        expect.assertions(3);
+
+        var rf = new RustFile({
+            project: p,
+            pathName: undefined,
+            type: rft
+        });
+        expect(rf).toBeTruthy();
+
+        // "//" after a line continuation is still inside the string literal
+        rf.parse('let s = bundle.get_loc_string("See \\\n' +
+                 '    http://www.lg.com for details.");');
+
+        var set = rf.getTranslationSet();
+        expect(set.size()).toBe(1);
+        expect(set.getBySource("See http://www.lg.com for details.")).toBeTruthy();
+    });
+    test("RustFileParseEscapedBackslashAtEndOfLine", function() {
+        expect.assertions(3);
+
+        var rf = new RustFile({
+            project: p,
+            pathName: undefined,
+            type: rft
+        });
+        expect(rf).toBeTruthy();
+
+        // "\\" + newline is an escaped backslash followed by a real newline,
+        // not a line continuation
+        rf.parse('let s = bundle.get_loc_string("C:\\\\\n' +
+                 'next");');
+
+        var set = rf.getTranslationSet();
+        expect(set.size()).toBe(1);
+        expect(set.getBySource("C:\\\nnext")).toBeTruthy();
+    });
+    test("RustFileRemoveLineContinuations", function() {
+        expect.assertions(7);
+
+        expect(RustFile.removeLineContinuations("a \\\n    b")).toBe("a b");
+        expect(RustFile.removeLineContinuations("a \\\r\n\tb")).toBe("a b");
+        // an escaped backslash at the end of a line is literal text
+        expect(RustFile.removeLineContinuations("a\\\\\nb")).toBe("a\\\\\nb");
+        // an escaped backslash followed by a line continuation
+        expect(RustFile.removeLineContinuations("a\\\\\\\n  b")).toBe("a\\\\b");
+        expect(RustFile.removeLineContinuations("no continuation")).toBe("no continuation");
+        expect(RustFile.removeLineContinuations("")).toBe("");
+        expect(RustFile.removeLineContinuations(undefined)).toBeUndefined();
+    });
     test("RustFileParseWithKeyMultiLineArguments", function() {
         expect.assertions(5);
 

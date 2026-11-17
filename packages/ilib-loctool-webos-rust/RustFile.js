@@ -87,8 +87,35 @@ RustFile.convertUnicodeEscapes = function(string) {
 };
 
 /**
+ * Remove the line continuations in the given string. In a Rust string literal,
+ * a backslash at the end of a line removes the newline and all the whitespace
+ * at the beginning of the next line:
+ *
+ *     "Connect a LAN cable \
+ *         to the TV."          ->  "Connect a LAN cable to the TV."
+ *
+ * An escaped backslash at the end of a line ("\\" + newline) is literal text
+ * followed by a real newline, and is left unchanged.
+ *
+ * @static
+ * @param {String} string the string to convert
+ * @returns {String} the string without line continuations
+ */
+RustFile.removeLineContinuations = function(string) {
+    if (!string) return string;
+    return string.replace(/(\\*)\\\r?\n[ \t\r\n]*/g, function(match, backslashes) {
+        // an even number of preceding backslashes means this backslash is not escaped
+        if (backslashes.length % 2 !== 0) return match;
+        return backslashes;
+    });
+};
+
+/**
  * Unescape the string to make the same string that would be
  * in memory in the target programming language.
+ *
+ * Line continuations (a backslash at the end of a line) are removed.
+ * See {@link RustFile.removeLineContinuations}.
  *
  * Rust unicode escapes (\u{XXXX}) are converted to the JS style escapes
  * (\uXXXX) instead of the actual character, so that the keys match the
@@ -102,7 +129,7 @@ RustFile.unescapeString = function(string) {
     // Convert Rust unicode escapes first, before the backslashes are unescaped,
     // so that an escaped backslash ("\\u{...}") can still be told apart from a
     // real escape.
-    var unescaped = RustFile.convertUnicodeEscapes(string);
+    var unescaped = RustFile.convertUnicodeEscapes(RustFile.removeLineContinuations(string));
     unescaped = unescaped.
         replace(/^\\\\/, "\\").             // unescape backslashes
         replace(/([^\\])\\\\/g, "$1\\").
@@ -163,7 +190,7 @@ RustFile.removeCommentLines = function(data) {
     // Match char literals and string literals first to skip them,
     // then match // line comments (except i18n) and /* */ block comments.
     var trimData = data.replace(
-        /'(\\.|[^'\\])'|"(\\.|[^"\\])*"|\/\/\s*((?!i18n).)*[$/\n]|\/\*(((?!i18n).)*)\*\/|\/\*+((?!i18n)[^*]|\*(?!\/))*\*+\//g,
+        /'(\\.|[^'\\])'|"(\\[\s\S]|[^"\\])*"|\/\/\s*((?!i18n).)*[$/\n]|\/\*(((?!i18n).)*)\*\/|\/\*+((?!i18n)[^*]|\*(?!\/))*\*+\//g,
         function(match) {
             if (match[0] === '"' || match[0] === "'") {
                 return match;
@@ -190,8 +217,8 @@ RustFile.removeCommentLines = function(data) {
  * reGetLocString: [1] source
  * reGetLocStringWithKey: [1] key, [2] source
  */
-var reGetLocString = new RegExp(/\.\s*get_loc_string\s*\(\s*"((?:\\.|[^"\\])*)"\s*,?\s*\)/g);
-var reGetLocStringWithKey = new RegExp(/\.\s*get_loc_string_with_key\s*\(\s*"((?:\\.|[^"\\])*)"\s*,\s*"((?:\\.|[^"\\])*)"\s*,?\s*\)/g);
+var reGetLocString = new RegExp(/\.\s*get_loc_string\s*\(\s*"((?:\\[\s\S]|[^"\\])*)"\s*,?\s*\)/g);
+var reGetLocStringWithKey = new RegExp(/\.\s*get_loc_string_with_key\s*\(\s*"((?:\\[\s\S]|[^"\\])*)"\s*,\s*"((?:\\[\s\S]|[^"\\])*)"\s*,?\s*\)/g);
 var reI18nComment = new RegExp(/\/(\*|\/)\s*i18n\s*(.*)($|\*\/)/);
 
 /**
