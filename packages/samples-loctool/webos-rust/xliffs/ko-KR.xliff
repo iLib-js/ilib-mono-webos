@@ -44,6 +44,24 @@
           <target>\u0028{num}\u0029개 항목 선택됨</target>
         </segment>
       </unit>
+      <unit id="8">
+        <segment>
+          <source>Press \u2018OK\u2019 to continue.</source>
+          <target>계속하려면 \u2018확인\u2019을 누르세요.</target>
+        </segment>
+      </unit>
+      <unit id="9">
+        <segment>
+          <source>\uD83C\uDFAE Game Mode</source>
+          <target>\uD83C\uDFAE 게임 모드</target>
+        </segment>
+      </unit>
+      <unit id="10">
+        <segment>
+          <source>Copyright \u00A9 2026</source>
+          <target>저작권 \u00A9 2026</target>
+        </segment>
+      </unit>
     </group>
   </file>
 </xliff>
