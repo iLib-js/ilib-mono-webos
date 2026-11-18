@@ -238,7 +238,8 @@ RustFile.removeCommentLines = function(data) {
  */
 var reGetLocString = new RegExp(/\.\s*get_loc_string\s*\(\s*"((?:\\[\s\S]|[^"\\])*)"\s*,?\s*\)/g);
 var reGetLocStringWithKey = new RegExp(/\.\s*get_loc_string_with_key\s*\(\s*"((?:\\[\s\S]|[^"\\])*)"\s*,\s*"((?:\\[\s\S]|[^"\\])*)"\s*,?\s*\)/g);
-var reI18nComment = new RegExp(/\/(\*|\/)\s*i18n\s*(.*)($|\*\/)/);
+// [1] line comment text, [2] block comment text (up to the first "*/")
+var reI18nComment = new RegExp(/\/\/\s*i18n\s*(.*)|\/\*\s*i18n\s*(.*?)(?:\*\/|$)/);
 var reGetLocStringCall = new RegExp(/\.\s*get_loc_string(?:_with_key)?\s*\(/);
 
 /**
@@ -260,9 +261,9 @@ RustFile.getI18nComment = function(data, end) {
     // drop the "\r" of a CRLF line ending
     var line = data.substring(end, last).replace(/\r$/, "");
     var commentResult = reI18nComment.exec(line);
-    if (!commentResult || commentResult.length < 3) return undefined;
+    if (!commentResult) return undefined;
     if (reGetLocStringCall.test(line.substring(0, commentResult.index))) return undefined;
-    return commentResult[2];
+    return commentResult[1] !== undefined ? commentResult[1] : commentResult[2];
 };
 
 /**

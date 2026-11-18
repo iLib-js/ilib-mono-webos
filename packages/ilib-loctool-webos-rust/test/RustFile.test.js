@@ -845,6 +845,24 @@ describe("rustfile", function() {
         expect(set.getBySource("Start time").getComment()).toBe("Format: HH:MM");
         expect(set.getBySource("End time").getComment()).toBe("ends at 10:30");
     });
+    test("RustFileParseI18nCommentAfterComma", function() {
+        expect.assertions(2);
+
+        var rf = new RustFile({
+            project: p,
+            pathName: undefined,
+            type: rft
+        });
+        expect(rf).toBeTruthy();
+
+        // the i18n comment comes after the comma that follows the call
+        rf.parse('vec![\n' +
+                 '    bundle.get_loc_string("A"), /* i18n: label */\n' +
+                 '];\n');
+
+        var set = rf.getTranslationSet();
+        expect(set.getBySource("A").getComment()).toBe("label");
+    });
     test("RustFileParseEmptyString", function() {
         expect.assertions(4);
 
