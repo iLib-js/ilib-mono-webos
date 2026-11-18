@@ -189,18 +189,26 @@ RustFile.trimComment = function(commentString) {
 RustFile.removeCommentLines = function(data) {
     if (!data) return;
     // Remove comments while preserving string and character literals.
-    // Match char literals and string literals first to skip them,
-    // then match // line comments (except i18n) and /* */ block comments.
+    // Match char literals, string literals, // line comments and /* */ block
+    // comments as whole tokens in one left-to-right scan. The literals and the
+    // i18n comments are kept, and the other comments are removed.
+    // The i18n comments must be matched as tokens too: otherwise the scan
+    // continues inside them, and a double quote in the comment text
+    // (e.g. `// i18n: 5" screen`) opens a fake string literal that runs
+    // across the following lines and hides the comments there.
     // A line comment ends before the line break ("\n" or "\r\n") or at the end
     // of the data, and the line break itself is kept, so that the lines are not
-    // joined.
+    // joined. A block comment ends at the first "*/".
     var trimData = data.replace(
-        /'(\\.|[^'\\])'|"(\\[\s\S]|[^"\\])*"|\/\/(?![ \t]*i18n)[^\r\n]*|\/\*(((?!i18n).)*)\*\/|\/\*+((?!i18n)[^*]|\*(?!\/))*\*+\//g,
+        /'(\\.|[^'\\])'|"(\\[\s\S]|[^"\\])*"|\/\/[^\r\n]*|\/\*[\s\S]*?\*\//g,
         function(match) {
             if (match[0] === '"' || match[0] === "'") {
                 return match;
             }
-            return "";
+            if (match[1] === "/") {
+                return /^\/\/[ \t]*i18n/.test(match) ? match : "";
+            }
+            return match.indexOf("i18n") !== -1 ? match : "";
         }
     );
     return trimData;

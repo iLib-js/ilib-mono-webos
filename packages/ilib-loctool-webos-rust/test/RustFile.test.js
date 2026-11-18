@@ -233,6 +233,50 @@ describe("rustfile", function() {
         expect(set.size()).toBe(1);
         expect(set.getBySource("EOF")).toBeFalsy();
     });
+    test("RustFileParseI18nCommentWithDoubleQuote", function() {
+        expect.assertions(5);
+
+        var rf = new RustFile({
+            project: p,
+            pathName: undefined,
+            type: rft
+        });
+        expect(rf).toBeTruthy();
+
+        // a double quote in the i18n comment must not open a string literal
+        // that hides the commented-out call on the next line
+        rf.parse('bundle.get_loc_string("Size"); // i18n: 5" screen\n' +
+                 '// bundle.get_loc_string("Z");\n' +
+                 'bundle.get_loc_string("OK");\n');
+
+        var set = rf.getTranslationSet();
+        expect(set.size()).toBe(2);
+        expect(set.getBySource("Z")).toBeFalsy();
+        expect(set.getBySource("Size").getComment()).toBe('5" screen');
+        expect(set.getBySource("OK")).toBeTruthy();
+    });
+    test("RustFileParseI18nBlockCommentWithDoubleQuote", function() {
+        expect.assertions(5);
+
+        var rf = new RustFile({
+            project: p,
+            pathName: undefined,
+            type: rft
+        });
+        expect(rf).toBeTruthy();
+
+        // a double quote in the i18n block comment must not open a string
+        // literal that hides the commented-out call on the next line
+        rf.parse('bundle.get_loc_string("Size"); /* i18n: 5" screen */\n' +
+                 '/* bundle.get_loc_string("Z"); */\n' +
+                 'bundle.get_loc_string("OK");\n');
+
+        var set = rf.getTranslationSet();
+        expect(set.size()).toBe(2);
+        expect(set.getBySource("Z")).toBeFalsy();
+        expect(set.getBySource("Size").getComment()).toBe('5" screen');
+        expect(set.getBySource("OK")).toBeTruthy();
+    });
     test("RustFileParseCommentDoesNotJoinLines", function() {
         expect.assertions(4);
 
