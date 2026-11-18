@@ -60,10 +60,12 @@ function toJsEscape(unit) {
  *   text and the existing xliff files mix upper and lower case.
  * - Code points outside the BMP are converted to a surrogate pair
  *   (\u{1F600} -> \uD83D\uDE00).
+ * - Underscores between the hex digits are removed, as rustc does
+ *   (\u{1F_600} -> \uD83D\uDE00, \u{00_E9} -> \u00E9).
  * - An escaped backslash followed by "u{...}" (\\u{41}) is literal text and
  *   is left unchanged.
- * - Invalid escapes (no hex digits, more than 6 digits, above U+10FFFF) are
- *   left unchanged; they do not compile in Rust anyway.
+ * - Invalid escapes (no hex digits, a leading underscore, more than 6 digits,
+ *   above U+10FFFF) are left unchanged; they do not compile in Rust anyway.
  *
  * @static
  * @param {String} string the string to convert
@@ -71,9 +73,13 @@ function toJsEscape(unit) {
  */
 RustFile.convertUnicodeEscapes = function(string) {
     if (!string) return string;
-    return string.replace(/(\\*)\\u\{([0-9A-Fa-f]{1,6})\}/g, function(match, backslashes, hex) {
+    return string.replace(/(\\*)\\u\{([0-9A-Fa-f][0-9A-Fa-f_]*)\}/g, function(match, backslashes, digits) {
         // an even number of preceding backslashes means this backslash is not escaped
         if (backslashes.length % 2 !== 0) return match;
+        // Rust allows underscores between the hex digits (\u{1F_600});
+        // they are not counted in the 6 digit limit
+        var hex = digits.replace(/_/g, "");
+        if (hex.length > 6) return match;
         var codePoint = parseInt(hex, 16);
         if (codePoint > 0x10FFFF) return match;
         if (codePoint <= 0xFFFF) {

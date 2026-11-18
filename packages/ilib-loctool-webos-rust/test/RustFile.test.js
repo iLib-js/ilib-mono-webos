@@ -1063,6 +1063,8 @@ describe("rustfile convertUnicodeEscapes", function() {
         ["leading zeros", '\\u{0028}{num}\\u{0029}', '\\u0028{num}\\u0029'],
         ["outside the BMP becomes a surrogate pair", 'Smile \\u{1F600}', 'Smile \\uD83D\\uDE00'],
         ["highest code point", '\\u{10FFFF}', '\\uDBFF\\uDFFF'],
+        ["underscores between the digits are removed", '\\u{00_E9} \\u{1F_600}', '\\u00E9 \\uD83D\\uDE00'],
+        ["leading underscore is left unchanged", '\\u{_41}', '\\u{_41}'],
         ["escaped backslash is literal text", 'a\\\\u{41}b', 'a\\\\u{41}b'],
         ["escaped backslash followed by a real escape", 'a\\\\\\u{41}b', 'a\\\\\\u0041b'],
         ["above U+10FFFF is left unchanged", '\\u{110000}', '\\u{110000}'],
