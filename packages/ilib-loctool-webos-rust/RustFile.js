@@ -214,7 +214,9 @@ RustFile.removeCommentLines = function(data) {
             if (match[1] === "/") {
                 return /^\/\/[ \t]*i18n/.test(match) ? match : "";
             }
-            return match.indexOf("i18n") !== -1 ? match : "";
+            // like a line comment, a block comment is an i18n comment only
+            // when it starts with "i18n" (not "TODO: i18n" etc.)
+            return /^\/\*[ \t]*i18n/.test(match) ? match : "";
         }
     );
     return trimData;

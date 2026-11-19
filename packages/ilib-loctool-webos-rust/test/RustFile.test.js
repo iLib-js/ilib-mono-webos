@@ -277,6 +277,27 @@ describe("rustfile", function() {
         expect(set.getBySource("Size").getComment()).toBe('5" screen');
         expect(set.getBySource("OK")).toBeTruthy();
     });
+    test("RustFileParseBlockCommentContainingI18nIsRemoved", function() {
+        expect.assertions(4);
+
+        var rf = new RustFile({
+            project: p,
+            pathName: undefined,
+            type: rft
+        });
+        expect(rf).toBeTruthy();
+
+        // a block comment is an i18n comment only when it starts with "i18n",
+        // so the call commented out here must not be extracted
+        rf.parse('/* TODO: i18n\n' +
+                 'bundle.get_loc_string("Hidden"); */\n' +
+                 'bundle.get_loc_string("A");\n');
+
+        var set = rf.getTranslationSet();
+        expect(set.size()).toBe(1);
+        expect(set.getBySource("Hidden")).toBeFalsy();
+        expect(set.getBySource("A")).toBeTruthy();
+    });
     test("RustFileParseCommentDoesNotJoinLines", function() {
         expect.assertions(4);
 
