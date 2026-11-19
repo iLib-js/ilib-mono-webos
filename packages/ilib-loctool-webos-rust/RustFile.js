@@ -55,11 +55,15 @@ function toJsEscape(unit) {
  * to the JS style escapes (\uXXXX) used by the other webOS plugins and in the
  * existing xliff files, so that the same key is generated for the same string.
  *
- * - The hex digits are padded to 4 digits, keeping the case as written
+ * - A code point in the BMP (up to U+FFFF) keeps the hex digits as written.
+ *   They are only padded to 4 digits, and the case is kept
  *   (\u{28} -> \u0028, \u{201e} -> \u201e), because the keys are compared as
  *   text and the existing xliff files mix upper and lower case.
- * - Code points outside the BMP are converted to a surrogate pair
- *   (\u{1F600} -> \uD83D\uDE00).
+ * - A code point outside the BMP does not fit in 4 hex digits, so it is
+ *   converted to a different value: a surrogate pair of two UTF-16 code units
+ *   (\u{1F600} -> \uD83D\uDE00). The hex digits of the pair are computed, not
+ *   copied, so they are always in upper case, whatever the case of the
+ *   original digits (\u{1f600} -> \uD83D\uDE00).
  * - Underscores between the hex digits are removed, as rustc does
  *   (\u{1F_600} -> \uD83D\uDE00, \u{00_E9} -> \u00E9).
  * - An escaped backslash followed by "u{...}" (\\u{41}) is literal text and
@@ -117,19 +121,21 @@ RustFile.removeLineContinuations = function(string) {
 };
 
 /**
- * Unescape the string to make the same string that would be
- * in memory in the target programming language.
+ * Make the key of the given string literal text. This does not make the same
+ * string that would be in memory in Rust: only some escapes are unescaped.
  *
- * Line continuations (a backslash at the end of a line) are removed.
- * See {@link RustFile.removeLineContinuations}.
- *
- * Rust unicode escapes (\u{XXXX}) are converted to the JS style escapes
- * (\uXXXX) instead of the actual character, so that the keys match the
- * ones in the existing xliff files. See {@link RustFile.convertUnicodeEscapes}.
+ * - The quotes and backslashes (\" \' \\) and \n, \t, \v are unescaped.
+ * - Line continuations (a backslash at the end of a line) are removed.
+ *   See {@link RustFile.removeLineContinuations}.
+ * - Rust unicode escapes (\u{XXXX}) are not decoded to the characters. They
+ *   are converted to the JS style escape text (\uXXXX), as in the existing
+ *   xliff files, so that the keys match them. The key is compared as text, so
+ *   "\u{AC00}" and the literal character U+AC00 give different keys.
+ *   See {@link RustFile.convertUnicodeEscapes}.
  *
  * @static
- * @param {String} string the string to unescape
- * @returns {String} the unescaped string
+ * @param {String} string the string literal text to make a key of
+ * @returns {String} the key
  */
 RustFile.unescapeString = function(string) {
     // Convert Rust unicode escapes first, before the backslashes are unescaped,

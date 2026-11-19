@@ -1185,6 +1185,7 @@ describe("rustfile convertUnicodeEscapes", function() {
         ["single digit", '\\u{9}', '\\u0009'],
         ["leading zeros", '\\u{0028}{num}\\u{0029}', '\\u0028{num}\\u0029'],
         ["outside the BMP becomes a surrogate pair", 'Smile \\u{1F600}', 'Smile \\uD83D\\uDE00'],
+        ["surrogate pair is always in upper case", 'Smile \\u{1f600}', 'Smile \\uD83D\\uDE00'],
         ["highest code point", '\\u{10FFFF}', '\\uDBFF\\uDFFF'],
         ["underscores between the digits are removed", '\\u{00_E9} \\u{1F_600}', '\\u00E9 \\uD83D\\uDE00'],
         ["leading underscore is left unchanged", '\\u{_41}', '\\u{_41}'],
