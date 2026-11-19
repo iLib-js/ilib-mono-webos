@@ -21,5 +21,11 @@ pub fn list_strings(bundle: &ResBundle) -> Vec<String> {
         bundle.get_loc_string("\u{1F3AE} Game Mode"),
         bundle.get_loc_string("Copyright \u{00_A9} 2026"),
         bundle.get_loc_string_with_key("PictureMode.Standard", "Standard"),
+        /* nested block comments: the call below is commented out
+        bundle.get_loc_string("Nested Hidden"); /* inner comment */
+        bundle.get_loc_string("Nested Hidden 2");
+        */
+        /* TODO: i18n
+        bundle.get_loc_string("Todo Hidden"); */
     ]
 }

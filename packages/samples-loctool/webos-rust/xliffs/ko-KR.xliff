@@ -62,6 +62,24 @@
           <target>저작권 \u00A9 2026</target>
         </segment>
       </unit>
+      <unit id="11">
+        <segment>
+          <source>Nested Hidden</source>
+          <target>숨김</target>
+        </segment>
+      </unit>
+      <unit id="12">
+        <segment>
+          <source>Nested Hidden 2</source>
+          <target>숨김 2</target>
+        </segment>
+      </unit>
+      <unit id="13">
+        <segment>
+          <source>Todo Hidden</source>
+          <target>숨김 TODO</target>
+        </segment>
+      </unit>
     </group>
   </file>
 </xliff>

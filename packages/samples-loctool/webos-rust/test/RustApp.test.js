@@ -42,7 +42,7 @@ describe('test the localization result of webos-rust app', () => {
         });
     }, 50000);
     test("rustsample_test_ko_KR", function() {
-        expect.assertions(9);
+        expect.assertions(12);
         filePath = path.join(resourcePath, 'ko', fileName);
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
@@ -60,6 +60,11 @@ describe('test the localization result of webos-rust app', () => {
         expect(jsonData["\uD83C\uDFAE Game Mode"]).toBe("\uD83C\uDFAE 게임 모드");
         // underscores between the hex digits (\u{00_A9} -> \u00A9)
         expect(jsonData["Copyright \u00A9 2026"]).toBe("저작권 \u00A9 2026");
+        // the calls in nested block comments are not extracted
+        expect(jsonData["Nested Hidden"]).toBeFalsy();
+        expect(jsonData["Nested Hidden 2"]).toBeFalsy();
+        // a block comment that does not start with "i18n" is removed
+        expect(jsonData["Todo Hidden"]).toBeFalsy();
     });
     test("rustsample_test_en_US", function() {
         expect.assertions(3);
