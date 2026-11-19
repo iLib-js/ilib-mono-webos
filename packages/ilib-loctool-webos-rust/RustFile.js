@@ -186,6 +186,37 @@ RustFile.trimComment = function(commentString) {
 };
 
 /**
+ * Find the end of the block comment that starts at the given index. Block
+ * comments can be nested in Rust, so each "/*" inside the comment needs its
+ * own "*\/":
+ *
+ *     /* outer /* inner *\/ still in the comment *\/
+ *
+ * @private
+ * @param {String} data the data that is being parsed
+ * @param {Number} start the index of the "/*" that opens the comment
+ * @returns {Number} the index just after the "*\/" that closes the comment,
+ * or the length of the data if the comment is not closed
+ */
+RustFile.findBlockCommentEnd = function(data, start) {
+    var depth = 0;
+    var i = start;
+    while (i < data.length - 1) {
+        if (data[i] === "/" && data[i + 1] === "*") {
+            depth++;
+            i += 2;
+        } else if (data[i] === "*" && data[i + 1] === "/") {
+            depth--;
+            i += 2;
+            if (depth === 0) return i;
+        } else {
+            i++;
+        }
+    }
+    return data.length;
+};
+
+/**
  * Remove single and multi-lines comments except for i18n comment style.
  *
  * @private
@@ -204,22 +235,32 @@ RustFile.removeCommentLines = function(data) {
     // across the following lines and hides the comments there.
     // A line comment ends before the line break ("\n" or "\r\n") or at the end
     // of the data, and the line break itself is kept, so that the lines are not
-    // joined. A block comment ends at the first "*/".
-    var trimData = data.replace(
-        /'(\\.|[^'\\])'|"(\\[\s\S]|[^"\\])*"|\/\/[^\r\n]*|\/\*[\s\S]*?\*\//g,
-        function(match) {
-            if (match[0] === '"' || match[0] === "'") {
-                return match;
-            }
-            if (match[1] === "/") {
-                return /^\/\/[ \t]*i18n/.test(match) ? match : "";
-            }
+    // joined. A block comment can be nested, which a regex cannot count, so the
+    // regex matches only its "/*" and RustFile.findBlockCommentEnd() finds the
+    // matching "*/".
+    var reToken = /'(\\.|[^'\\])'|"(\\[\s\S]|[^"\\])*"|\/\/[^\r\n]*|\/\*/g;
+    var result = "";
+    var last = 0;
+    var match, token;
+    while ((match = reToken.exec(data)) !== null) {
+        token = match[0];
+        if (token === "/*") {
+            reToken.lastIndex = RustFile.findBlockCommentEnd(data, match.index);
+            token = data.substring(match.index, reToken.lastIndex);
+        }
+        result += data.substring(last, match.index);
+        last = reToken.lastIndex;
+        if (token[0] === '"' || token[0] === "'") {
+            result += token;
+        } else if (token[1] === "/") {
+            if (/^\/\/[ \t]*i18n/.test(token)) result += token;
+        } else if (/^\/\*[ \t]*i18n/.test(token)) {
             // like a line comment, a block comment is an i18n comment only
             // when it starts with "i18n" (not "TODO: i18n" etc.)
-            return /^\/\*[ \t]*i18n/.test(match) ? match : "";
+            result += token;
         }
-    );
-    return trimData;
+    }
+    return result + data.substring(last);
 };
 
 /*

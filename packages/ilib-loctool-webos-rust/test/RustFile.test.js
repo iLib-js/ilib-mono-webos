@@ -277,6 +277,66 @@ describe("rustfile", function() {
         expect(set.getBySource("Size").getComment()).toBe('5" screen');
         expect(set.getBySource("OK")).toBeTruthy();
     });
+    test("RustFileParseNestedBlockComment", function() {
+        expect.assertions(4);
+
+        var rf = new RustFile({
+            project: p,
+            pathName: undefined,
+            type: rft
+        });
+        expect(rf).toBeTruthy();
+
+        // Rust block comments can be nested, so the comment does not end at
+        // the first "*/"
+        rf.parse('/* outer /* inner */ bundle.get_loc_string("Hidden"); */\n' +
+                 'bundle.get_loc_string("A");\n');
+
+        var set = rf.getTranslationSet();
+        expect(set.size()).toBe(1);
+        expect(set.getBySource("Hidden")).toBeFalsy();
+        expect(set.getBySource("A")).toBeTruthy();
+    });
+    test("RustFileParseNestedBlockCommentMultiLine", function() {
+        expect.assertions(4);
+
+        var rf = new RustFile({
+            project: p,
+            pathName: undefined,
+            type: rft
+        });
+        expect(rf).toBeTruthy();
+
+        // code that already has a block comment, commented out with /* */
+        rf.parse('/*\n' +
+                 'bundle.get_loc_string("Hidden1"); /* old */\n' +
+                 'bundle.get_loc_string("Hidden2");\n' +
+                 '*/\n' +
+                 'bundle.get_loc_string("A");\n');
+
+        var set = rf.getTranslationSet();
+        expect(set.size()).toBe(1);
+        expect(set.getBySource("Hidden2")).toBeFalsy();
+        expect(set.getBySource("A")).toBeTruthy();
+    });
+    test("RustFileParseUnclosedBlockComment", function() {
+        expect.assertions(3);
+
+        var rf = new RustFile({
+            project: p,
+            pathName: undefined,
+            type: rft
+        });
+        expect(rf).toBeTruthy();
+
+        // a block comment that is not closed runs to the end of the file
+        rf.parse('bundle.get_loc_string("A");\n' +
+                 '/* bundle.get_loc_string("Hidden");\n');
+
+        var set = rf.getTranslationSet();
+        expect(set.size()).toBe(1);
+        expect(set.getBySource("Hidden")).toBeFalsy();
+    });
     test("RustFileParseBlockCommentContainingI18nIsRemoved", function() {
         expect.assertions(4);
 
