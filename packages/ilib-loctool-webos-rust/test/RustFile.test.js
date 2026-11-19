@@ -197,6 +197,30 @@ describe("rustfile", function() {
         expect(r.getSource()).toBe("Standard");
         expect(r.getKey()).toBe("Standard");
     });
+    test("RustFileParseMultiLineArgumentsWithI18nCommentNotSupported", function() {
+        expect.assertions(4);
+
+        var rf = new RustFile({
+            project: p,
+            pathName: undefined,
+            type: rft
+        });
+        expect(rf).toBeTruthy();
+
+        // an i18n comment between the arguments is not supported (see README),
+        // while a normal comment there is removed and does not matter
+        rf.parse('bundle.get_loc_string(\n' +
+                 '    "A", // i18n note for A\n' +
+                 ');\n' +
+                 'bundle.get_loc_string(\n' +
+                 '    "B", // note for B\n' +
+                 ');\n');
+
+        var set = rf.getTranslationSet();
+        expect(set.size()).toBe(1);
+        expect(set.getBySource("A")).toBeFalsy();
+        expect(set.getBySource("B")).toBeTruthy();
+    });
     test("RustFileParseCommentedOutCallOnLastLine", function() {
         expect.assertions(3);
 
