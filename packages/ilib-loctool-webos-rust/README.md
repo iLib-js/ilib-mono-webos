@@ -13,6 +13,13 @@ Note: The following are valid Rust but are not extracted:
   (e.g. `bundle.get_loc_string(STANDARD)`).
 * Path calls such as `ResBundle::get_loc_string(&bundle, "Yes")`.
 * Raw string literals such as `r#"..."#`.
+* Calls with an `i18n` comment between the arguments. Put the `i18n` comment after the call instead
+  (see below).
+  ```rust
+  bundle.get_loc_string(
+      "Power", // i18n Power button
+  );
+  ```
 
 #### Comments for translators
 An `i18n` comment on the same line as the call is extracted as the comment of the resource, so that

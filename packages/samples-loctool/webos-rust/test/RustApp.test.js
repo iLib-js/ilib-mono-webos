@@ -42,7 +42,7 @@ describe('test the localization result of webos-rust app', () => {
         });
     }, 50000);
     test("rustsample_test_ko_KR", function() {
-        expect.assertions(5);
+        expect.assertions(12);
         filePath = path.join(resourcePath, 'ko', fileName);
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
@@ -52,6 +52,19 @@ describe('test the localization result of webos-rust app', () => {
         // keyed string (get_loc_string_with_key)
         expect(jsonData["PictureMode.Standard"]).toBe("표준");
         expect(jsonData["Do you want to change the settings from 'Digital Sound Output' to 'Pass Through' to minimize audio delay while playing game?"]).toBe("'디지털 음향 내보내기' 를 오디오 지연을 최소화하여 게임을 즐길 수 있는 'Pass Through'로 변경할까요?");
+        // unicode escapes (\u{28} in the Rust source -> \u0028 in the key)
+        expect(jsonData["\u0028{num}\u0029 items selected"]).toBe("\u0028{num}\u0029개 항목 선택됨");
+        // 4 hex digits (\u{2018} -> \u2018)
+        expect(jsonData["Press \u2018OK\u2019 to continue."]).toBe("계속하려면 \u2018확인\u2019을 누르세요.");
+        // outside the BMP (\u{1F3AE} -> surrogate pair \uD83C\uDFAE)
+        expect(jsonData["\uD83C\uDFAE Game Mode"]).toBe("\uD83C\uDFAE 게임 모드");
+        // underscores between the hex digits (\u{00_A9} -> \u00A9)
+        expect(jsonData["Copyright \u00A9 2026"]).toBe("저작권 \u00A9 2026");
+        // the calls in nested block comments are not extracted
+        expect(jsonData["Nested Hidden"]).toBeFalsy();
+        expect(jsonData["Nested Hidden 2"]).toBeFalsy();
+        // a block comment that does not start with "i18n" is removed
+        expect(jsonData["Todo Hidden"]).toBeFalsy();
     });
     test("rustsample_test_en_US", function() {
         expect.assertions(3);
