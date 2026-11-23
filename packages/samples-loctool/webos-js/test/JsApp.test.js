@@ -41,7 +41,7 @@ describe('test the localization result of webos-js app', () => {
         });
     }, 50000);
     test("jssample_test_ko_KR", function() {
-        expect.assertions(13);
+        expect.assertions(15);
         let rb = new ResBundle({
             locale:"ko-KR",
             basePath : defaultRSPath
@@ -62,6 +62,13 @@ describe('test the localization result of webos-js app', () => {
         expect(rb.getString("Please enter password.").toString()).toBe("[common] 비밀번호를 입력해 주세요.");
         // common-metadata
         expect(rb.getString("%deviceType% Speaker").toString()).toBe("모니터 스피커");
+
+        // unicode escapes: the key and the translation keep the escape text
+        // (\\u0028) in the xliff and are written as JSON escapes, so the
+        // resource file has the characters "(" and ")" at runtime
+        expect(rb.getString("\u0028{num}\u0029 Files Selected").toString()).toBe("({num})개 파일 선택됨");
+        const ko = JSON.parse(fs.readFileSync(path.join(defaultRSPath, "ko", "strings.json"), "utf-8"));
+        expect(ko["({num}) Files Selected"]).toBe("({num})개 파일 선택됨");
     });
     test("jssample_test_ko_US", function() {
         expect.assertions(2);

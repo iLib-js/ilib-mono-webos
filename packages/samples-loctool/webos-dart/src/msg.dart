@@ -25,6 +25,9 @@ static String sn_home_0016(tvModel) => translate(
 
 translate("Trailing commas", );
 
+// a unicode escape is kept as the escape text in the key (\u2013)
+translate("Monday\u2013Friday");
+
   String get doNotSellPrivacyPractices =>
       rtlCode +
       translate(
