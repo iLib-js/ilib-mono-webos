@@ -247,6 +247,106 @@ describe("jsonresourcefile", function() {
             '}'
         );
     });
+    // Note on the backslashes in the tests below: the keys, the translations
+    // and the expected output are written as JS string literals, so each
+    // backslash in a value is written as "\\" in this file. For example:
+    //   key: "Copyright \\u00A9 2026"
+    //     -> the key holds the text Copyright \u00A9 2026 (one backslash,
+    //        followed by "u00A9"), not the character U+00A9. It is the key the
+    //        Rust plugin makes from "Copyright \u{00A9} 2026" in the source code.
+    //   expect(content).toBe('"Copyright \\u00A9 2026"')
+    //     -> the JSON file holds "Copyright \u00A9 2026" (one backslash), which
+    //        is a JSON escape and becomes U+00A9 when the file is parsed.
+    // So divide the number of backslashes shown here by 2 to get the actual
+    // value. With String.raw the value would be written as it is, e.g.
+    // String.raw`Copyright \u00A9 2026` is the same key as above.
+    test("JSONResourceFileUnicodeEscapeText", function() {
+        expect.assertions(3);
+
+        var jsrf = new JSONResourceFile({
+            project: p,
+            locale: "de-DE"
+        });
+        expect(jsrf).toBeTruthy();
+
+        // The webOS plugins keep the unicode escapes in the source code as
+        // text (e.g. "\u00A9" is 6 characters) in the keys and translations.
+        // They are written to the JSON file as JSON escapes, so that they
+        // become the characters when the file is parsed at runtime.
+        jsrf.addResource(p.getAPI().newResource({
+            type: "string",
+            project: "webosApp",
+            targetLocale: "de-DE",
+            key: "Copyright \\u00A9 2026",
+            sourceLocale: "en-US",
+            source: "Copyright \\u00A9 2026",
+            target: "Urheberrecht \\u00a9 2026"
+        }));
+        var content = jsrf.getContent();
+        expect(content).toBe('{\n' +
+            '    "Copyright \\u00A9 2026": "Urheberrecht \\u00a9 2026"\n' +
+            '}'
+        );
+        expect(JSON.parse(content)).toStrictEqual({
+            "Copyright © 2026": "Urheberrecht © 2026"
+        });
+    });
+    test("JSONResourceFileUnicodeEscapeTextSurrogatePair", function() {
+        expect.assertions(3);
+
+        var jsrf = new JSONResourceFile({
+            project: p,
+            locale: "de-DE"
+        });
+        expect(jsrf).toBeTruthy();
+
+        // a character outside the BMP is kept as the escape text of a surrogate pair
+        jsrf.addResource(p.getAPI().newResource({
+            type: "string",
+            project: "webosApp",
+            targetLocale: "de-DE",
+            key: "\\uD83C\\uDFAE Game Mode",
+            sourceLocale: "en-US",
+            source: "\\uD83C\\uDFAE Game Mode",
+            target: "\\uD83C\\uDFAE Spielmodus"
+        }));
+        var content = jsrf.getContent();
+        expect(content).toBe('{\n' +
+            '    "\\uD83C\\uDFAE Game Mode": "\\uD83C\\uDFAE Spielmodus"\n' +
+            '}'
+        );
+        expect(JSON.parse(content)).toStrictEqual({
+            "🎮 Game Mode": "🎮 Spielmodus"
+        });
+    });
+    test("JSONResourceFileUnicodeCharacters", function() {
+        expect.assertions(3);
+
+        var jsrf = new JSONResourceFile({
+            project: p,
+            locale: "de-DE"
+        });
+        expect(jsrf).toBeTruthy();
+
+        // the characters themselves (not the escape text) are written as they are
+        jsrf.addResource(p.getAPI().newResource({
+            type: "string",
+            project: "webosApp",
+            targetLocale: "de-DE",
+            key: "Copyright © 🎮",
+            sourceLocale: "en-US",
+            source: "Copyright © 🎮",
+            target: "Urheberrecht © 🎮"
+        }));
+        var content = jsrf.getContent();
+        expect(content).toBe('{\n' +
+            '    "Copyright © 🎮": "Urheberrecht © 🎮"\n' +
+            '}'
+        );
+        expect(JSON.parse(content)).toStrictEqual({
+            "Copyright © 🎮": "Urheberrecht © 🎮"
+        });
+    });
     test("JSONResourceFileDontEscapeSingleQuotes", function() {
         expect.assertions(2);
 
