@@ -42,12 +42,12 @@ describe('test the localization result of webos-dart app', () => {
         });
     }, 50000);
     test("dartsample_test_ko_KR", function() {
-        expect.assertions(11);
+        expect.assertions(12);
         filePath = path.join(resourcePath, 'ko.json');
         expect(pluginUtils.isValidPath(filePath)).toBeTruthy();
 
         jsonData = pluginUtils.loadData(filePath);
-        expect(Object.keys(jsonData).length).toBe(9);
+        expect(Object.keys(jsonData).length).toBe(10);
         expect(jsonData["App List"]).toBe("앱 목록");
         expect(jsonData["App Rating"]).toBe("앱 등급");
         expect(jsonData["Back button"]).toBe("이전 버튼");
@@ -57,6 +57,10 @@ describe('test the localization result of webos-dart app', () => {
         expect(jsonData["The first option is {arg1}."]).toBe("첫 번째 옵션은 {arg1} 입니다.");
         expect(jsonData["Exclusive features for {%TV_model} are all gathered here."]).toBe("{%TV_model}에서만 제공하는 유용한 기능들이 모여 있어요.");
         expect(jsonData["For more information, please visit: https://www.example.foo/privacy"]).toBe("자세한 내용은 https://www.example.foo/privacy에서 확인하실 수 있습니다.");
+        // unicode escape: the key and the translation keep the escape text
+        // (\\u2013) in the xliff and are written as JSON escapes, so the
+        // resource file has the character U+2013 (en dash) at runtime
+        expect(jsonData["Monday\u2013Friday"]).toBe("월요일\u2013금요일");
     });
     test("dartsample_test_fr_CA", function() {
         expect.assertions(6);

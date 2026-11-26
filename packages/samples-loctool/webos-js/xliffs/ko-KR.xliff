@@ -86,6 +86,12 @@
           <target>IPv4 예시: {ip4Address}</target>
         </segment>
       </unit>
+      <unit id="201">
+        <segment>
+          <source>\u0028{num}\u0029 Files Selected</source>
+          <target>\u0028{num}\u0029개 파일 선택됨</target>
+        </segment>
+      </unit>
     </group>
     <group id="sample-webos-js_g2" name="x-json">
       <unit id="200">
