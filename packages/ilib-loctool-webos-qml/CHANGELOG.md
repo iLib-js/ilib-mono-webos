@@ -1,5 +1,15 @@
 # ilib-loctool-webos-qml
 
+## 1.10.5
+
+### Patch Changes
+
+- 5875507: Update dependencies (loctool: 2.34.1)
+- Updated dependencies [cf383ea]
+- Updated dependencies [5875507]
+  - ilib-loctool-webos-common@1.3.0
+  - ilib-loctool-webos-ts-resource@1.5.14
+
 ## 1.10.4
 
 ### Patch Changes
